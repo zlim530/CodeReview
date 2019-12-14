@@ -1,0 +1,14 @@
+C:\Users\Lim\source\repos\DelegateSample\bin\Debug\DelegateSample.exe.config
+C:\Users\Lim\source\repos\DelegateSample\bin\Debug\DelegateSample.exe
+C:\Users\Lim\source\repos\DelegateSample\bin\Debug\DelegateSample.pdb
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\MainWindow.g.cs
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\App.g.cs
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample_MarkupCompile.cache
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample_MarkupCompile.lref
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\MainWindow.baml
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample.g.resources
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample.Properties.Resources.resources
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample.csproj.GenerateResource.cache
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample.exe
+C:\Users\Lim\source\repos\DelegateSample\obj\Debug\DelegateSample.pdb

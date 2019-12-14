@@ -1,0 +1,7 @@
+F:\vs2019projects\ArithmeticExample\bin\Debug\ArithmeticExample.exe.config
+F:\vs2019projects\ArithmeticExample\bin\Debug\ArithmeticExample.exe
+F:\vs2019projects\ArithmeticExample\bin\Debug\ArithmeticExample.pdb
+F:\vs2019projects\ArithmeticExample\obj\Debug\ArithmeticExample.csproj.CoreCompileInputs.cache
+F:\vs2019projects\ArithmeticExample\obj\Debug\ArithmeticExample.exe
+F:\vs2019projects\ArithmeticExample\obj\Debug\ArithmeticExample.pdb
+F:\vs2019projects\ArithmeticExample\obj\Debug\ArithmeticExample.csprojAssemblyReference.cache

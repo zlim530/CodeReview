@@ -1,0 +1,5 @@
+C:\Users\Lim\Desktop\code\C#\ThisParameters\bin\Debug\ThisParameters.exe.config
+C:\Users\Lim\Desktop\code\C#\ThisParameters\bin\Debug\ThisParameters.exe
+C:\Users\Lim\Desktop\code\C#\ThisParameters\bin\Debug\ThisParameters.pdb
+C:\Users\Lim\Desktop\code\C#\ThisParameters\obj\Debug\ThisParameters.exe
+C:\Users\Lim\Desktop\code\C#\ThisParameters\obj\Debug\ThisParameters.pdb

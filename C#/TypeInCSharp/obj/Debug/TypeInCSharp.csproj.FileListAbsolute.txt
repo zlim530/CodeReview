@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\TypeInCSharp\bin\Debug\TypeInCSharp.exe.config
+C:\Users\Lim\Desktop\code\C#\TypeInCSharp\bin\Debug\TypeInCSharp.exe
+C:\Users\Lim\Desktop\code\C#\TypeInCSharp\bin\Debug\TypeInCSharp.pdb
+C:\Users\Lim\Desktop\code\C#\TypeInCSharp\obj\Debug\TypeInCSharp.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\TypeInCSharp\obj\Debug\TypeInCSharp.exe
+C:\Users\Lim\Desktop\code\C#\TypeInCSharp\obj\Debug\TypeInCSharp.pdb

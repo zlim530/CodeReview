@@ -1,0 +1,7 @@
+F:\vs2019projects\Factorial(n)\bin\Debug\Factorial(n).exe.config
+F:\vs2019projects\Factorial(n)\bin\Debug\Factorial(n).exe
+F:\vs2019projects\Factorial(n)\bin\Debug\Factorial(n).pdb
+F:\vs2019projects\Factorial(n)\obj\Debug\Factorial(n).csprojAssemblyReference.cache
+F:\vs2019projects\Factorial(n)\obj\Debug\Factorial(n).csproj.CoreCompileInputs.cache
+F:\vs2019projects\Factorial(n)\obj\Debug\Factorial(n).exe
+F:\vs2019projects\Factorial(n)\obj\Debug\Factorial(n).pdb

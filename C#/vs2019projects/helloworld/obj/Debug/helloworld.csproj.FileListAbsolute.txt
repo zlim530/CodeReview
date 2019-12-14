@@ -1,0 +1,15 @@
+F:\vs2019projects\helloworld\bin\Debug\helloworld.exe.config
+F:\vs2019projects\helloworld\bin\Debug\helloworld.exe
+F:\vs2019projects\helloworld\bin\Debug\helloworld.pdb
+F:\vs2019projects\helloworld\obj\Debug\helloworld.csprojAssemblyReference.cache
+F:\vs2019projects\helloworld\obj\Debug\MainWindow.g.cs
+F:\vs2019projects\helloworld\obj\Debug\App.g.cs
+F:\vs2019projects\helloworld\obj\Debug\helloworld_MarkupCompile.cache
+F:\vs2019projects\helloworld\obj\Debug\helloworld_MarkupCompile.lref
+F:\vs2019projects\helloworld\obj\Debug\MainWindow.baml
+F:\vs2019projects\helloworld\obj\Debug\helloworld.g.resources
+F:\vs2019projects\helloworld\obj\Debug\helloworld.Properties.Resources.resources
+F:\vs2019projects\helloworld\obj\Debug\helloworld.csproj.GenerateResource.cache
+F:\vs2019projects\helloworld\obj\Debug\helloworld.csproj.CoreCompileInputs.cache
+F:\vs2019projects\helloworld\obj\Debug\helloworld.exe
+F:\vs2019projects\helloworld\obj\Debug\helloworld.pdb

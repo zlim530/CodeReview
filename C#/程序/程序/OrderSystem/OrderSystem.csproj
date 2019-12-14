@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{67D38F16-B2F2-4F67-A068-D2A7A2E3C65F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OrderSystem</RootNamespace>
+    <AssemblyName>OrderSystem</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.Framework, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.InfoStore, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\assembly\GAC_MSIL\System.Web.Services\2.0.0.0__b03f5f7f11d50a3a\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="adminlogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminlogin.Designer.cs">
+      <DependentUpon>adminlogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Check.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Check.designer.cs">
+      <DependentUpon>Check.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Chuancai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Chuancai.Designer.cs">
+      <DependentUpon>Chuancai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\DataBase.cs" />
+    <Compile Include="liuyan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="liuyan.Designer.cs">
+      <DependentUpon>liuyan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="login.designer.cs">
+      <DependentUpon>login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order.designer.cs">
+      <DependentUpon>Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderCheck.Designer.cs">
+      <DependentUpon>OrderCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderReport1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OrderSystemDataSet.cs">
+      <DependentUpon>OrderSystemDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OrderSystemDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderSystemDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="register.designer.cs">
+      <DependentUpon>register.cs</DependentUpon>
+    </Compile>
+    <Compile Include="repass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="repass.designer.cs">
+      <DependentUpon>repass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Xiangcai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Xiangcai.Designer.cs">
+      <DependentUpon>Xiangcai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="adminlogin.resx">
+      <DependentUpon>adminlogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Check.resx">
+      <DependentUpon>Check.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Chuancai.resx">
+      <DependentUpon>Chuancai.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="liuyan.resx">
+      <DependentUpon>liuyan.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="login.resx">
+      <DependentUpon>login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order.resx">
+      <DependentUpon>Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderCheck.resx">
+      <DependentUpon>OrderCheck.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>OrderReport1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="register.resx">
+      <DependentUpon>register.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="repass.resx">
+      <DependentUpon>repass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xiangcai.resx">
+      <DependentUpon>Xiangcai.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dongbeicai.resx">
+      <DependentUpon>Dongbeicai.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Yuecai.resx">
+      <DependentUpon>Yuecai.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Dongbeicai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dongbeicai.Designer.cs">
+      <DependentUpon>Dongbeicai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Yuecai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Yuecai.Designer.cs">
+      <DependentUpon>Yuecai.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shang2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lunbo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\beijing.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chuancai.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dongbeicai.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xiangcai.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yuecai.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yue10.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yue9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yue8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yue7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yue6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yue5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="OrderSystemDataSet.xsc">
+      <DependentUpon>OrderSystemDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="OrderSystemDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>OrderSystemDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="OrderSystemDataSet.xss">
+      <DependentUpon>OrderSystemDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\db6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\t01475724ec51cbafcd_副本.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\红酒_副本_副本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lb.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

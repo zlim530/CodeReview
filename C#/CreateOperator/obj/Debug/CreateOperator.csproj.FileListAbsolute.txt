@@ -1,0 +1,6 @@
+C:\Users\Lim\source\repos\CreateOperator\bin\Debug\CreateOperator.exe.config
+C:\Users\Lim\source\repos\CreateOperator\bin\Debug\CreateOperator.exe
+C:\Users\Lim\source\repos\CreateOperator\bin\Debug\CreateOperator.pdb
+C:\Users\Lim\source\repos\CreateOperator\obj\Debug\CreateOperator.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\CreateOperator\obj\Debug\CreateOperator.exe
+C:\Users\Lim\source\repos\CreateOperator\obj\Debug\CreateOperator.pdb

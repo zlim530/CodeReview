@@ -1,0 +1,14 @@
+C:\Users\Lim\Desktop\code\C#\HeapSample\bin\Debug\HeapSample.exe.config
+C:\Users\Lim\Desktop\code\C#\HeapSample\bin\Debug\HeapSample.exe
+C:\Users\Lim\Desktop\code\C#\HeapSample\bin\Debug\HeapSample.pdb
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\MainWindow.g.cs
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\App.g.cs
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample_MarkupCompile.cache
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample_MarkupCompile.lref
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\MainWindow.baml
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample.g.resources
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample.Properties.Resources.resources
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample.csproj.GenerateResource.cache
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample.exe
+C:\Users\Lim\Desktop\code\C#\HeapSample\obj\Debug\HeapSample.pdb

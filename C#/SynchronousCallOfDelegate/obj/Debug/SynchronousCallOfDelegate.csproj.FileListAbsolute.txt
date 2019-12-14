@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\SynchronousCallOfDelegate\bin\Debug\SynchronousCallOfDelegate.exe.config
+C:\Users\Lim\Desktop\code\C#\SynchronousCallOfDelegate\bin\Debug\SynchronousCallOfDelegate.exe
+C:\Users\Lim\Desktop\code\C#\SynchronousCallOfDelegate\bin\Debug\SynchronousCallOfDelegate.pdb
+C:\Users\Lim\Desktop\code\C#\SynchronousCallOfDelegate\obj\Debug\SynchronousCallOfDelegate.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\SynchronousCallOfDelegate\obj\Debug\SynchronousCallOfDelegate.exe
+C:\Users\Lim\Desktop\code\C#\SynchronousCallOfDelegate\obj\Debug\SynchronousCallOfDelegate.pdb

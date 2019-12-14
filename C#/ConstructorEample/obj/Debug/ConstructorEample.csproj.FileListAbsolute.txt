@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\ConstructorEample\bin\Debug\ConstructorEample.exe.config
+C:\Users\Lim\Desktop\code\C#\ConstructorEample\bin\Debug\ConstructorEample.exe
+C:\Users\Lim\Desktop\code\C#\ConstructorEample\bin\Debug\ConstructorEample.pdb
+C:\Users\Lim\Desktop\code\C#\ConstructorEample\obj\Debug\ConstructorEample.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\ConstructorEample\obj\Debug\ConstructorEample.exe
+C:\Users\Lim\Desktop\code\C#\ConstructorEample\obj\Debug\ConstructorEample.pdb

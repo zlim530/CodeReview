@@ -1,0 +1,5 @@
+C:\Users\Lim\Desktop\code\C#\InterfaceReplaceDelegate\bin\Debug\InterfaceReplaceDelegate.exe.config
+C:\Users\Lim\Desktop\code\C#\InterfaceReplaceDelegate\bin\Debug\InterfaceReplaceDelegate.exe
+C:\Users\Lim\Desktop\code\C#\InterfaceReplaceDelegate\bin\Debug\InterfaceReplaceDelegate.pdb
+C:\Users\Lim\Desktop\code\C#\InterfaceReplaceDelegate\obj\Debug\InterfaceReplaceDelegate.exe
+C:\Users\Lim\Desktop\code\C#\InterfaceReplaceDelegate\obj\Debug\InterfaceReplaceDelegate.pdb

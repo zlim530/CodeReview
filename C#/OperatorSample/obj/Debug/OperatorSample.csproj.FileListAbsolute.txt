@@ -1,0 +1,6 @@
+C:\Users\Lim\source\repos\OperatorSample\bin\Debug\OperatorSample.exe.config
+C:\Users\Lim\source\repos\OperatorSample\bin\Debug\OperatorSample.exe
+C:\Users\Lim\source\repos\OperatorSample\bin\Debug\OperatorSample.pdb
+C:\Users\Lim\source\repos\OperatorSample\obj\Debug\OperatorSample.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\OperatorSample\obj\Debug\OperatorSample.exe
+C:\Users\Lim\source\repos\OperatorSample\obj\Debug\OperatorSample.pdb

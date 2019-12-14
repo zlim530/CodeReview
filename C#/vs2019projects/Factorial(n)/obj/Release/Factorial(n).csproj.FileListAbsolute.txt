@@ -1,0 +1,6 @@
+F:\vs2019projects\Factorial(n)\bin\Release\Factorial(n).exe.config
+F:\vs2019projects\Factorial(n)\bin\Release\Factorial(n).exe
+F:\vs2019projects\Factorial(n)\bin\Release\Factorial(n).pdb
+F:\vs2019projects\Factorial(n)\obj\Release\Factorial(n).csproj.CoreCompileInputs.cache
+F:\vs2019projects\Factorial(n)\obj\Release\Factorial(n).exe
+F:\vs2019projects\Factorial(n)\obj\Release\Factorial(n).pdb

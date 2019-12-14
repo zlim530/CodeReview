@@ -1,0 +1,14 @@
+C:\Users\Lim\source\repos\Convert\bin\Debug\Convert.exe.config
+C:\Users\Lim\source\repos\Convert\bin\Debug\Convert.exe
+C:\Users\Lim\source\repos\Convert\bin\Debug\Convert.pdb
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\Convert\obj\Debug\MainWindow.g.cs
+C:\Users\Lim\source\repos\Convert\obj\Debug\App.g.cs
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert_MarkupCompile.cache
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert_MarkupCompile.lref
+C:\Users\Lim\source\repos\Convert\obj\Debug\MainWindow.baml
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert.g.resources
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert.Properties.Resources.resources
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert.csproj.GenerateResource.cache
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert.exe
+C:\Users\Lim\source\repos\Convert\obj\Debug\Convert.pdb

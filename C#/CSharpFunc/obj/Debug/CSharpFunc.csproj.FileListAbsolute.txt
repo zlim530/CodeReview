@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\CSharpFunc\bin\Debug\CSharpFunc.exe.config
+C:\Users\Lim\Desktop\code\C#\CSharpFunc\bin\Debug\CSharpFunc.exe
+C:\Users\Lim\Desktop\code\C#\CSharpFunc\bin\Debug\CSharpFunc.pdb
+C:\Users\Lim\Desktop\code\C#\CSharpFunc\obj\Debug\CSharpFunc.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\CSharpFunc\obj\Debug\CSharpFunc.exe
+C:\Users\Lim\Desktop\code\C#\CSharpFunc\obj\Debug\CSharpFunc.pdb

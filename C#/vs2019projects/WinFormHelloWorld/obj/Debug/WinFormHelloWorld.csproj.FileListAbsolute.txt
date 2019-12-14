@@ -1,0 +1,10 @@
+F:\vs2019projects\WinFormHelloWorld\bin\Debug\WinFormHelloWorld.exe.config
+F:\vs2019projects\WinFormHelloWorld\bin\Debug\WinFormHelloWorld.exe
+F:\vs2019projects\WinFormHelloWorld\bin\Debug\WinFormHelloWorld.pdb
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.csprojAssemblyReference.cache
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.Form1.resources
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.Properties.Resources.resources
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.csproj.GenerateResource.cache
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.csproj.CoreCompileInputs.cache
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.exe
+F:\vs2019projects\WinFormHelloWorld\obj\Debug\WinFormHelloWorld.pdb

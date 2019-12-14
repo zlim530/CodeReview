@@ -1,0 +1,7 @@
+F:\vs2019projects\TowerOfHanoi\bin\Debug\TowerOfHanoi.exe.config
+F:\vs2019projects\TowerOfHanoi\bin\Debug\TowerOfHanoi.exe
+F:\vs2019projects\TowerOfHanoi\bin\Debug\TowerOfHanoi.pdb
+F:\vs2019projects\TowerOfHanoi\obj\Debug\TowerOfHanoi.csprojAssemblyReference.cache
+F:\vs2019projects\TowerOfHanoi\obj\Debug\TowerOfHanoi.csproj.CoreCompileInputs.cache
+F:\vs2019projects\TowerOfHanoi\obj\Debug\TowerOfHanoi.exe
+F:\vs2019projects\TowerOfHanoi\obj\Debug\TowerOfHanoi.pdb

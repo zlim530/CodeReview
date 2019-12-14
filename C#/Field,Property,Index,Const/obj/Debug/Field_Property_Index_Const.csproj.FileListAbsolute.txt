@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\Field,Property,Index,Const\bin\Debug\Field,Property,Index,Const.exe.config
+C:\Users\Lim\Desktop\code\C#\Field,Property,Index,Const\bin\Debug\Field,Property,Index,Const.exe
+C:\Users\Lim\Desktop\code\C#\Field,Property,Index,Const\bin\Debug\Field,Property,Index,Const.pdb
+C:\Users\Lim\Desktop\code\C#\Field,Property,Index,Const\obj\Debug\Field_Property_Index_Const.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\Field,Property,Index,Const\obj\Debug\Field,Property,Index,Const.exe
+C:\Users\Lim\Desktop\code\C#\Field,Property,Index,Const\obj\Debug\Field,Property,Index,Const.pdb

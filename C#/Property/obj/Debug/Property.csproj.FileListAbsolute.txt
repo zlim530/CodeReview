@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\Property\bin\Debug\Property.exe.config
+C:\Users\Lim\Desktop\code\C#\Property\bin\Debug\Property.exe
+C:\Users\Lim\Desktop\code\C#\Property\bin\Debug\Property.pdb
+C:\Users\Lim\Desktop\code\C#\Property\obj\Debug\Property.exe
+C:\Users\Lim\Desktop\code\C#\Property\obj\Debug\Property.pdb
+C:\Users\Lim\Desktop\code\C#\Property\obj\Debug\Property.csprojAssemblyReference.cache

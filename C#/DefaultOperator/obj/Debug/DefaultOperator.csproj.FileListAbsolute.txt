@@ -1,0 +1,5 @@
+C:\Users\Lim\source\repos\DefaultOperator\bin\Debug\DefaultOperator.exe.config
+C:\Users\Lim\source\repos\DefaultOperator\bin\Debug\DefaultOperator.exe
+C:\Users\Lim\source\repos\DefaultOperator\bin\Debug\DefaultOperator.pdb
+C:\Users\Lim\source\repos\DefaultOperator\obj\Debug\DefaultOperator.exe
+C:\Users\Lim\source\repos\DefaultOperator\obj\Debug\DefaultOperator.pdb

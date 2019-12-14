@@ -1,0 +1,9 @@
+C:\Users\Lim\source\repos\TestConnectSQL\obj\Debug\TestConnectSQL.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\TestConnectSQL\obj\Debug\TestConnectSQL.Form1.resources
+C:\Users\Lim\source\repos\TestConnectSQL\obj\Debug\TestConnectSQL.Properties.Resources.resources
+C:\Users\Lim\source\repos\TestConnectSQL\obj\Debug\TestConnectSQL.csproj.GenerateResource.cache
+C:\Users\Lim\source\repos\TestConnectSQL\bin\Debug\TestConnectSQL.exe.config
+C:\Users\Lim\source\repos\TestConnectSQL\bin\Debug\TestConnectSQL.exe
+C:\Users\Lim\source\repos\TestConnectSQL\bin\Debug\TestConnectSQL.pdb
+C:\Users\Lim\source\repos\TestConnectSQL\obj\Debug\TestConnectSQL.exe
+C:\Users\Lim\source\repos\TestConnectSQL\obj\Debug\TestConnectSQL.pdb

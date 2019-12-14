@@ -1,0 +1,5 @@
+C:\Users\Lim\source\repos\ArrayAndDictionaryOperator\bin\Debug\ArrayAndDictionaryOperator.exe.config
+C:\Users\Lim\source\repos\ArrayAndDictionaryOperator\bin\Debug\ArrayAndDictionaryOperator.exe
+C:\Users\Lim\source\repos\ArrayAndDictionaryOperator\bin\Debug\ArrayAndDictionaryOperator.pdb
+C:\Users\Lim\source\repos\ArrayAndDictionaryOperator\obj\Debug\ArrayAndDictionaryOperator.exe
+C:\Users\Lim\source\repos\ArrayAndDictionaryOperator\obj\Debug\ArrayAndDictionaryOperator.pdb

@@ -1,0 +1,7 @@
+F:\vs2019projects\HellowordlApplication\bin\Debug\HellowordlApplication.exe.config
+F:\vs2019projects\HellowordlApplication\bin\Debug\HellowordlApplication.exe
+F:\vs2019projects\HellowordlApplication\bin\Debug\HellowordlApplication.pdb
+F:\vs2019projects\HellowordlApplication\obj\Debug\HellowordlApplication.csprojAssemblyReference.cache
+F:\vs2019projects\HellowordlApplication\obj\Debug\HellowordlApplication.csproj.CoreCompileInputs.cache
+F:\vs2019projects\HellowordlApplication\obj\Debug\HellowordlApplication.exe
+F:\vs2019projects\HellowordlApplication\obj\Debug\HellowordlApplication.pdb

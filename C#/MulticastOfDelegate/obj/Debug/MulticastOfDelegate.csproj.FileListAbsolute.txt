@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\MulticastOfDelegate\bin\Debug\MulticastOfDelegate.exe.config
+C:\Users\Lim\Desktop\code\C#\MulticastOfDelegate\bin\Debug\MulticastOfDelegate.exe
+C:\Users\Lim\Desktop\code\C#\MulticastOfDelegate\bin\Debug\MulticastOfDelegate.pdb
+C:\Users\Lim\Desktop\code\C#\MulticastOfDelegate\obj\Debug\MulticastOfDelegate.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\MulticastOfDelegate\obj\Debug\MulticastOfDelegate.exe
+C:\Users\Lim\Desktop\code\C#\MulticastOfDelegate\obj\Debug\MulticastOfDelegate.pdb

@@ -1,0 +1,88 @@
+                <div class="layui-form-item">
+                    <label class="layui-form-label">大学</label>
+                    <div class="layui-input-block">
+                        <select name="uni_college_id" lay-verify="required">
+                            <option value="">请选择大学</option>
+                            {volist name='college' id='vo'}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+				
+				
+				                <div class="layui-form-item">
+                    <label class="layui-form-label">大学</label>
+                    <div class="layui-input-block">
+                        <select name="uni_college_id" lay-verify="required">
+                            <option value="">请选择大学</option>
+                            {volist name='college' id='vo'}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+				
+ <div class="layui-form-item">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-block">
+                        <select name="gol_plan_id">
+                            <option value="">pls select</option>
+                            {volist name='plan' id='vo'}
+                            <option value="{$vo.id}">{$vo.type_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+				
+
+<button class="active-button layui-btn" data-type="add">新增</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="layui-form-item">
+                <label class="layui-form-label">所属经销商</label>
+                <div class="layui-input-inline">
+                    <select name="parent_id" lay-search>
+                        <option value="">请选择</option>
+                        {volist name="chaDistributors" id="vo"}
+                        <option value="{$vo.mem_user_id}" {if $vo.mem_user_id===$model->parent_id}selected{/if}>[{$vo.cha_grade_name}]{$vo.mem_user_name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">推荐会员</label>
+                <div class="layui-input-inline">
+                    <select name="referer_id" lay-search>
+                        <option value="">请选择</option>
+                        {volist name="memUsers" id="vo"}
+                        <option value="{$vo.id}" {if $vo.id===$model->referer_id}selected{/if}>{$vo.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="{$model->name}" autocomplete="off" placeholder="请输入" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="mobile" value="{$model->mobile}" autocomplete="off" placeholder="请输入" class="layui-input">
+                </div>
+            </div>

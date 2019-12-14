@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\ParametersExample\bin\Debug\ParametersExample.exe.config
+C:\Users\Lim\Desktop\code\C#\ParametersExample\bin\Debug\ParametersExample.exe
+C:\Users\Lim\Desktop\code\C#\ParametersExample\bin\Debug\ParametersExample.pdb
+C:\Users\Lim\Desktop\code\C#\ParametersExample\obj\Debug\ParametersExample.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\ParametersExample\obj\Debug\ParametersExample.exe
+C:\Users\Lim\Desktop\code\C#\ParametersExample\obj\Debug\ParametersExample.pdb

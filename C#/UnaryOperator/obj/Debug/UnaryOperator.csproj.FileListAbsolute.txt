@@ -1,0 +1,6 @@
+C:\Users\Lim\source\repos\UnaryOperator\bin\Debug\UnaryOperator.exe.config
+C:\Users\Lim\source\repos\UnaryOperator\bin\Debug\UnaryOperator.exe
+C:\Users\Lim\source\repos\UnaryOperator\bin\Debug\UnaryOperator.pdb
+C:\Users\Lim\source\repos\UnaryOperator\obj\Debug\UnaryOperator.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\UnaryOperator\obj\Debug\UnaryOperator.exe
+C:\Users\Lim\source\repos\UnaryOperator\obj\Debug\UnaryOperator.pdb

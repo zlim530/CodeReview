@@ -1,0 +1,104 @@
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\bin\Debug\OrderSystem.pdb
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\ResolveAssemblyReference.cache
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.MainForm.resources
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Properties.Resources.resources
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.csproj.GenerateResource.Cache
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Chuancai.resources
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Dongbeicai.resources
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Xiangcai.resources
+D:\Documents\我的文档\Visual Studio 2008\Projects\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Yuecai.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb
+E:\10\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe.config
+E:\10\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe
+E:\10\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.pdb
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\ResolveAssemblyReference.cache
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Chuancai.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.OrderCheck.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Xiangcai.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.MainForm.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Properties.Resources.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Dongbeicai.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Yuecai.resources
+E:\10\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe.config
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Chuancai.resources
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Xiangcai.resources
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.MainForm.resources
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Properties.Resources.resources
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Dongbeicai.resources
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Yuecai.resources
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.OrderCheck.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe.config
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Check.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Chuancai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.login.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.OrderCheck.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.register.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.repass.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Xiangcai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.MainForm.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Properties.Resources.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Dongbeicai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Yuecai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.liuyan.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\%3DOrderSystem\=OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Order.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe.config
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Chuancai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.liuyan.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.login.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.OrderCheck.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.register.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.repass.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Xiangcai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.MainForm.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Properties.Resources.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Dongbeicai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Yuecai.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.adminlogin.resources
+C:\Users\Administrator\Desktop\%3DOrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Order.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe.config
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.pdb
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.adminlogin.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Chuancai.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.liuyan.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.login.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Order.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.OrderCheck.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.register.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.repass.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Xiangcai.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.MainForm.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Properties.Resources.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Dongbeicai.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Yuecai.resources
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.Check.resources
+E:\课程\实验\软件工程\OrderSystem\OrderSystem\OrderSystem\OrderSystem\OrderSystem\bin\Debug\OrderSystem.exe.config
+E:\课程\实验\软件工程\OrderSystem\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.exe
+E:\课程\实验\软件工程\OrderSystem\OrderSystem\OrderSystem\OrderSystem\OrderSystem\obj\Debug\OrderSystem.pdb

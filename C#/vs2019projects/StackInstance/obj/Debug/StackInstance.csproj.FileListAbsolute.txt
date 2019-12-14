@@ -1,0 +1,10 @@
+F:\vs2019projects\StackInstance\bin\Debug\StackInstance.exe.config
+F:\vs2019projects\StackInstance\bin\Debug\StackInstance.exe
+F:\vs2019projects\StackInstance\bin\Debug\StackInstance.pdb
+F:\vs2019projects\StackInstance\bin\Debug\Acme.collections.dll
+F:\vs2019projects\StackInstance\bin\Debug\Acme.collections.pdb
+F:\vs2019projects\StackInstance\obj\Debug\StackInstance.csprojAssemblyReference.cache
+F:\vs2019projects\StackInstance\obj\Debug\StackInstance.csproj.CoreCompileInputs.cache
+F:\vs2019projects\StackInstance\obj\Debug\StackInstance.csproj.CopyComplete
+F:\vs2019projects\StackInstance\obj\Debug\StackInstance.exe
+F:\vs2019projects\StackInstance\obj\Debug\StackInstance.pdb

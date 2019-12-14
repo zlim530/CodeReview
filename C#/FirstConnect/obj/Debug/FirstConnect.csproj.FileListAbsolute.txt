@@ -1,0 +1,6 @@
+C:\Users\Lim\source\repos\FirstConnect\bin\Debug\FirstConnect.exe.config
+C:\Users\Lim\source\repos\FirstConnect\bin\Debug\FirstConnect.exe
+C:\Users\Lim\source\repos\FirstConnect\bin\Debug\FirstConnect.pdb
+C:\Users\Lim\source\repos\FirstConnect\obj\Debug\FirstConnect.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\FirstConnect\obj\Debug\FirstConnect.exe
+C:\Users\Lim\source\repos\FirstConnect\obj\Debug\FirstConnect.pdb

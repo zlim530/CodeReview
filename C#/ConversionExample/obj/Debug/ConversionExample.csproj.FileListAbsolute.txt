@@ -1,0 +1,6 @@
+C:\Users\Lim\source\repos\ConversionExample\bin\Debug\ConversionExample.exe.config
+C:\Users\Lim\source\repos\ConversionExample\bin\Debug\ConversionExample.exe
+C:\Users\Lim\source\repos\ConversionExample\bin\Debug\ConversionExample.pdb
+C:\Users\Lim\source\repos\ConversionExample\obj\Debug\ConversionExample.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\ConversionExample\obj\Debug\ConversionExample.exe
+C:\Users\Lim\source\repos\ConversionExample\obj\Debug\ConversionExample.pdb

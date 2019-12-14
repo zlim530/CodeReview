@@ -1,0 +1,5 @@
+C:\Users\Lim\source\repos\BasicOperator\bin\Debug\BasicOperator.exe.config
+C:\Users\Lim\source\repos\BasicOperator\bin\Debug\BasicOperator.exe
+C:\Users\Lim\source\repos\BasicOperator\bin\Debug\BasicOperator.pdb
+C:\Users\Lim\source\repos\BasicOperator\obj\Debug\BasicOperator.exe
+C:\Users\Lim\source\repos\BasicOperator\obj\Debug\BasicOperator.pdb

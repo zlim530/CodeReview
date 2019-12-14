@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\C#\StackOverflow\bin\Debug\StackOverflow.exe.config
+C:\Users\Lim\Desktop\code\C#\StackOverflow\bin\Debug\StackOverflow.exe
+C:\Users\Lim\Desktop\code\C#\StackOverflow\bin\Debug\StackOverflow.pdb
+C:\Users\Lim\Desktop\code\C#\StackOverflow\obj\Debug\StackOverflow.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\C#\StackOverflow\obj\Debug\StackOverflow.exe
+C:\Users\Lim\Desktop\code\C#\StackOverflow\obj\Debug\StackOverflow.pdb
