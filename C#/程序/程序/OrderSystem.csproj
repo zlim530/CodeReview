@@ -474,6 +474,12 @@
   <ItemGroup>
     <None Include="Resources\lbindex.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repassindex.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loginindex.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

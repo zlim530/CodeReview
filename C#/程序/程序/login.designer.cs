@@ -41,9 +41,10 @@
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(329, 297);
+            this.button1.Location = new System.Drawing.Point(439, 371);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 34);
+            this.button1.Size = new System.Drawing.Size(105, 42);
             this.button1.TabIndex = 0;
             this.button1.Text = "用户登录";
             this.button1.UseVisualStyleBackColor = false;
@@ -52,9 +53,10 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.button2.Location = new System.Drawing.Point(517, 297);
+            this.button2.Location = new System.Drawing.Point(689, 371);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(84, 34);
+            this.button2.Size = new System.Drawing.Size(112, 42);
             this.button2.TabIndex = 1;
             this.button2.Text = "用户注册";
             this.button2.UseVisualStyleBackColor = false;
@@ -63,9 +65,10 @@
             // button3
             // 
             this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.button3.Location = new System.Drawing.Point(421, 297);
+            this.button3.Location = new System.Drawing.Point(561, 371);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(79, 34);
+            this.button3.Size = new System.Drawing.Size(105, 42);
             this.button3.TabIndex = 2;
             this.button3.Text = "管理员登录";
             this.button3.UseVisualStyleBackColor = false;
@@ -75,9 +78,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("幼圆", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(326, 152);
+            this.label1.Location = new System.Drawing.Point(435, 190);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 16);
+            this.label1.Size = new System.Drawing.Size(79, 20);
             this.label1.TabIndex = 3;
             this.label1.Text = "用户名:";
             // 
@@ -85,33 +89,36 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("幼圆", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(326, 223);
+            this.label2.Location = new System.Drawing.Point(435, 279);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 16);
+            this.label2.Size = new System.Drawing.Size(59, 20);
             this.label2.TabIndex = 4;
             this.label2.Text = "密码:";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(421, 149);
+            this.textBox1.Location = new System.Drawing.Point(561, 186);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(128, 21);
+            this.textBox1.Size = new System.Drawing.Size(169, 25);
             this.textBox1.TabIndex = 5;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(421, 220);
+            this.textBox2.Location = new System.Drawing.Point(561, 275);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(128, 21);
+            this.textBox2.Size = new System.Drawing.Size(169, 25);
             this.textBox2.TabIndex = 6;
             // 
             // login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::OrderSystem.Properties.Resources.t01475724ec51cbafcd_副本;
-            this.ClientSize = new System.Drawing.Size(623, 428);
+            this.BackgroundImage = global::OrderSystem.Properties.Resources.loginindex;
+            this.ClientSize = new System.Drawing.Size(831, 535);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
@@ -119,6 +126,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "用户登录";

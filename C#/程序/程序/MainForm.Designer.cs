@@ -192,19 +192,19 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(99, 20);
-            this.toolStripStatusLabel1.Text = "餐馆订餐系统";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(174, 20);
+            this.toolStripStatusLabel1.Text = "语音支持的订餐管理系统";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(504, 20);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(447, 20);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(504, 20);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(447, 20);
             this.toolStripStatusLabel3.Spring = true;
             // 
             // groupBox1
