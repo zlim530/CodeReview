@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\SelctionSort\bin\Debug\SelctionSort.exe.config
+C:\Users\Lim\Desktop\code\CodeReview\C#\SelctionSort\bin\Debug\SelctionSort.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\SelctionSort\bin\Debug\SelctionSort.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\SelctionSort\obj\Debug\SelctionSort.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\SelctionSort\obj\Debug\SelctionSort.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\SelctionSort\obj\Debug\SelctionSort.pdb

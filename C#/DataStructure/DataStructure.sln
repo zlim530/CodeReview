@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructure", "DataStruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSort", "..\QuickSort\QuickSort.csproj", "{7D439389-A6DB-430A-B8A2-EB2BD8974394}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelctionSort", "..\SelctionSort\SelctionSort.csproj", "{32CF523E-C2EE-480C-B5F7-C2866DF93561}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CocktailSort", "..\CocktailSort\CocktailSort.csproj", "{EB338C5B-0390-4AB8-8A1C-D2E8DBE7E71F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{7D439389-A6DB-430A-B8A2-EB2BD8974394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D439389-A6DB-430A-B8A2-EB2BD8974394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D439389-A6DB-430A-B8A2-EB2BD8974394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32CF523E-C2EE-480C-B5F7-C2866DF93561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32CF523E-C2EE-480C-B5F7-C2866DF93561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32CF523E-C2EE-480C-B5F7-C2866DF93561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32CF523E-C2EE-480C-B5F7-C2866DF93561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB338C5B-0390-4AB8-8A1C-D2E8DBE7E71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB338C5B-0390-4AB8-8A1C-D2E8DBE7E71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB338C5B-0390-4AB8-8A1C-D2E8DBE7E71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB338C5B-0390-4AB8-8A1C-D2E8DBE7E71F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
