@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<!--
+    	作者：offline
+    	时间：2019-12-23
+    	描述：内部样式：内联样式大于内联样式
+    -->
+	<style type="text/css">
+		a{
+			background: antiquewhite;
+			font-size: 25px;
+			font-family: "微软雅黑";
+			color: red;	
+		}
+		label{
+			color: red;
+		}
+		#index{
+			color: royalblue;
+			background-color: aquamarine;
+			font-size: 25px;
+			font-family: "comic sans ms";
+		}
+		.up{
+			background-color: darkgoldenrod;
+			width: 100px;
+			height: 100px;			
+		}
+		.up2{
+			background-color: chartreuse;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-12-23
+        	描述：内联样式
+        -->
+		<a style="color: black;" name="" href="http://www.baidu.com">新闻</a>
+		<a style="color: black;" href="http://www.baidu.com">Map</a>
+		<a style="color: black;" href="http://www.baidu.com">Video</a>
+		<a id="index" href="">设置百度为主页</a>
+		<label>Download BaiduAPP</label>
+		<div class="up">
+			<input type="" name="" id="" value="分区标签" />	
+			<input type="" name="" id="" value="容器标签" />
+		</div>
+		<div class="up2">
+			<input type="" name="" id="" value="盒子" />
+		</div>
+	</body>
+	<script type="text/javascript">
+		var a = null;// Null类型的值只有一个，就是null，null这个值专门用来表示一个为空的对象
+		console.log(typeof a);//object
+		
+		var b = undefined;// undefined类型的值也只有一个，就是undefined，当我们声明一个变量但是不给变量赋值时，它的默认值就是undefined
+		console.log(typeof b);//undefined
+		
+		a = String(a);
+		console.log(typeof a);//string
+		console.log(a);//null
+		
+		var s = "sadjas23213";
+		console.log(Number(s));//NaN
+		
+		s = "21312safkj";
+		console.log(Number(s));//NaN
+		console.log(Number(	null));//0
+		console.log(Number(undefined));//NaN
+		console.log(Number(''));
+		console.log(Number('       '));//0
+		
+	</script>
+</html>
