@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>时钟</title>
+	</head>
+	<style type="text/css">
+		*{
+			margin:0px;
+			padding: 0px;
+		}
+		/* 如果遇到有标签叠在一起了 那么所有的标签都一定有一个共同的属性 position:absolute*/
+		img{
+			position: absolute;
+			top: 0;
+			left: 0;
+			
+		}
+		.second{
+			position: absolute;
+			width: 1px;
+			height: 150px;
+			top: 73px;
+			left: 200px;
+			background-color: black;
+			animation: route 60s infinite linear;
+			transform-origin: 50% 84.7%;
+		}
+		@keyframes route{
+			from{}
+			to{
+				transform: rotate(360deg);
+			}
+		}
+		.min{
+			position: absolute;
+			top: 100px;
+			left: 200px;
+			width: 2px;
+			height: 115px;
+			background-color: #B8860B;
+			animation: route 36.00s infinite linear;
+			transform-origin: 50% 87%;
+		}
+		.hour{
+			position: absolute;
+			top: 105px;
+			left: 196px;
+			width: 3px;
+			height: 99px;
+			background-color: darkmagenta;
+			animation: route 216.000s infinite linear;
+			transform-origin:50% 90% ;
+		}
+	</style>
+	<body>
+		<img src="img/timg.jpeg"/>
+		<div class="hour">
+			
+		</div>
+		<div class="min">
+			
+		</div>
+		<div class="second">
+			
+		</div>
+	</body>
+</html>

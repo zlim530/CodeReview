@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>摩天轮</title>
+	</head>
+	<body>
+		<div class="bracksmall">
+			
+		</div>
+		<div class="fsw">
+			<img src="img/img/boy.png"/>
+			<img src="img/img/dog.png"/>
+			<img src="img/img/girl.png"/>
+			<img src="img/img/girls.png"/>
+			<img src="img/img/hairboy.png"/>
+			<img src="img/img/mimi.png"/>
+			<img src="img/img/shamegirl.png"/>
+		</div>
+		<div class="brack">
+			
+		</div>
+		<div class="big-title">
+			
+		</div>
+	</body>
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		body{
+			/* 背景图片的路径*/
+			background: url(img/img/2.jpg);
+		}
+		.fsw{
+			position: absolute;
+			width: 768px;
+			height: 768px;
+			background: url(img/img/fsw.png);
+			left: 50%;
+			margin-left: -384px;
+			animation: rotate 20s infinite linear;
+		}
+		@keyframes rotate{
+			from{}
+			to{
+				transform: rotate(360deg);
+			}
+		}
+		.fsw img{
+			width: 130px;
+			height: 170px;
+			position: absolute;
+			animation: imgRotate 20s infinite linear;
+		}
+		@keyframes imgRotate{
+			from{}
+			to{
+				transform: rotate(-360deg);
+			}
+		}
+		.fsw img:nth-child(1){
+			top: 85px;
+			left: 580px;
+		}
+		.fsw img:nth-child(2){
+			top: 100px;
+			left: 55px;
+		}
+		.fsw img:nth-child(3){
+			top: 0px;
+			left: 319px;
+		}
+		.fsw img:nth-child(4){
+			top: 540px;
+			left: 590px;
+		}
+		.fsw img:nth-child(5){
+			top: 350px;
+			left: 665px;
+		}
+		.fsw img:nth-child(6){
+			top: 350px;
+			left: 90px;
+		}
+		.fsw img:nth-child(7){
+			top: 590px;
+			left: 90px;
+		}
+		.bracksmall{
+			position: absolute;
+			width: 247px;
+			height: 490px;
+			background: url(img/img/bracketsmall.png);
+			top: 384px;
+			left: 50%;
+			margin-left: -123.5px;
+		}
+		.brack{
+			position: absolute;
+			width: 358px;
+			height: 529px;
+			background: url(img/img/bracket.png);
+			top: 384px;
+			left: 50%;
+			margin-left: -179px;
+		}
+		.big-title{
+			position: absolute;
+			width: 577px;
+			height: 257px;
+			background: url(img/img/big-title.png);
+			top: 200px;
+			left: 50%;
+			margin-left: -288.5px;
+		}
+	</style>
+</html>

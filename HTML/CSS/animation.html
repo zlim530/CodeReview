@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div class="box">
+			
+		</div>
+	</body>
+	<style type="text/css">
+		.box{
+			width: 50px;
+			height: 200px;
+			background-color: red;
+			position: absolute;
+			top: 200px;
+			left: 200px;
+			/* 改变2d 3d动画的中心点为左上角*/
+			transform-origin: 0 0;
+			animation: move3 1s 3;
+		}
+		@keyframes move{
+			from{}
+			to{
+				left: 700px;
+			}
+		}
+		@keyframes move1{
+			/* 0% == from 是动画的起始状态*/
+			0%{}
+			50%{
+							
+				left: 700px;
+				background-color: blue;
+			}
+			/* 100% == to 是动画的结束状态*/
+			100%{}
+		}
+		@keyframes move2{
+			from{}
+			to{
+				/* 2d 3d效果属性 scale缩放:大于1的放大 小与1的为缩小 有两个方向：x和y 0表示横向逐渐缩小为0 2表示纵向放大2倍*/
+				/*transform: scale(0,2);*/
+				/*rotate:旋转*/
+				/*transform: rotate(360deg);*/
+				transform: scale(2) rotate(360deg);
+			}
+		}		
+		@keyframes move3{
+			from{}
+			to{
+				transform: rotate(360deg);
+			}
+		}	
+	</style>
+</html>

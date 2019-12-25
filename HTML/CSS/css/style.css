@@ -1,0 +1,68 @@
+*{
+	margin: 0px 0px;
+	padding: 0px 0px;
+}
+.header{
+	width: 100%;
+	height: auto;
+	/*background-color: burlywood;*/
+	margin-top: 25px;
+}
+.header a, .header label{
+	float: right;
+	color: black;
+	margin: 0px 5px;
+	font-size: 15px
+}
+.header label{
+	color: white;
+	background-color: royalblue;
+}
+/* 鼠标悬停 也就是过渡*/
+.header a:hover{
+	color: blue;
+}
+.header label:hover{
+	color: red;
+}
+.logo{
+	width: 213px;
+	height: 69px;
+	margin: 103px auto;
+	/*让行级元素变成块状元素*/
+	display: block;
+	margin-bottom: 36px;
+	cursor: pointer;/* 设置鼠标变小手*/
+}
+.search{
+	width: 640px;
+	height: 36px;
+	margin: 0 auto;
+	display: block;
+}
+.erweima{
+	width: 120px;
+	height: 120px;
+	/* 这里的100px是设置了上下边距*/
+	margin: 100px auto;
+	display: block;
+	/* 这里取消了下边距*/
+	margin-bottom: 0px;
+}
+/* p标签本来就是块级元素*/
+.text1{
+	/*background-color: red;*/
+	text-align: center;
+	font-size: 16px;
+	font-family: "微软雅黑";
+	/* 文字的间距*/
+	letter-spacing: 3px;
+}
+.text2{
+	text-align: center;
+	color: lightgray;
+	/* 文字的高度就是文字的字体大小*/
+	font-size: 15px;
+	font-family: "微软雅黑";
+	letter-spacing: 3px;
+}

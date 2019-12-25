@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0px;
+				padding: 0px;
+			}
+			div{
+				/*background-color: #4169E1;*/
+				/*font-size: 30px;
+				font-family: "arial narrow";*/
+				width: 200px;
+				height: 200px;
+				/* 设置边框 第一个参数代表粗细 第二个参数代表线的格式 solid为实线 dashed表示虚线 线的颜色与当前标签的bgc一致 第三个参数为边框的颜色*/
+				/*border: 5px dashed yellow;*/
+			}
+			span{
+				width: 100px;
+				height: 50px;
+				/*span不支持设置宽高*/
+				color: #FAEBD7;
+			}
+			#top{
+				width: 200px;
+				height: 100px;
+				background-color: red;
+				float: left;
+			}
+			#bottom{
+				width: 200px;
+				height: 100px;
+				float: right;
+				background-color: yellow;
+			}
+			.box1{
+				width: 100px;
+				height: 100px;
+				background-color: #7FFFD4;
+				margin: 0px auto;
+			}
+			.box2{
+				background-color: #7FFFD4;
+				width: 100px;
+				height: 100px;
+			}
+			.box3{
+				background-color: antiquewhite;
+				width: 100px;
+				height: 100px;
+			}
+			.box4{
+				background-color: blueviolet;
+				width: 100px;
+				height: 100px;
+			}
+			.box1_p{
+				color: red;
+			}
+			.box2_p{
+				color: yellow;
+			}
+			/* 包含选择器 可以是标签名也可以是class类型名*/
+			.box2 p{
+				color: black;
+			}
+			/* 子代选择器：仅作用与第一级子代*/
+			.box1 > p{
+				color: brown;
+			}
+			/*伪类选择器 标签:操作  hover鼠标悬停 过渡 鼠标放过去颜色会变蓝*/
+			p:hover{
+				color: blue;
+			}
+			/* 悬停的标签:hover 待改变的标签*/
+			.box1:hover p{
+				color: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<!--<div id="">
+			<span id="">
+				Lorem
+			</span>ipsum dolor sit ame <a href="http://www.baidu.com">Baidu</a>
+			<p>Lorem dolor sit.</p>
+		</div>-->
+		<!--<div id="top">-->
+				
+		</div>
+		<!--<div id="bottom">-->
+			
+		</div>
+		
+		<div class="box1">
+			<p class="box1_p">box1</p>
+			<div class="box2">
+				<p class="box1_p">box2</p>
+			</div>
+		</div>
+		
+		<div class="box3">
+			<p class="box2_p">box3</p>
+			<div class="box4">
+				<p class="box2_p">box4</p>
+			</div>
+		</div>
+	</body>
+</html>
