@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>JavaScript</title>
+	</head>
+	<script type="text/javascript">
+		
+	</script>
+	<body>
+		<!--this代表当前被点击的标签本身 即id名为box的div标签-->
+		<div id="box" onclick="changecolor(this)">
+			
+		</div>
+		<div class="box1">
+			
+		</div>
+		<div class="box1">
+			
+		</div>
+		<!--<input type="输入框的类型" name="服务器获取此输入框内容所需要的形参" id="服务器获取此输入框内容所需要的形" value="输入框的默认值" />-->
+		<!--<img id="MyImg" src="xxx.png"/>-->
+	</body>
+	<script type="text/javascript">
+		
+//		var myImg = document.getElementById("MyImg");
+//		myImg.src = "aaa.png";
+		
+		/* document文档对象：包括标签的属性与函数*/
+		var div = document.getElementById("box");
+		console.log(div,typeof div);// object
+		div.style.width = "200px";
+		div.style.height = "200px";
+		div.style.backgroundColor = "red";
+		
+		var div1 = document.getElementsByClassName("box1");
+		console.log(div1,typeof div1)//HTMLCollection [div.box1]标签数组 "object" 
+		div1[0].style.width = "200px";
+		div1[0].style.height = "200px";
+		div1[0].style.backgroundColor = "yellow";
+		
+//		document.getElementsByTagName():通过标签名(种类)获取标签
+//		document.getElementsByName():多用于输入框标签的name（形如形参)名获取参数
+		
+		function changecolor(obj){
+			obj.style.backgroundColor = "black";
+		}
+		
+	</script>
+</html>

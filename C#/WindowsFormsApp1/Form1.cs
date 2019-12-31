@@ -15,7 +15,12 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
-            this.button3.Click += new EventHandler(this.ButtonClick);
+            // 这是比较老的一种写法 现在多写为this.button3.Click += this.ButtonClick;
+            //this.button3.Click += new EventHandler(this.ButtonClick);
+            this.button3.Click += (sender, e) =>
+             {
+                 this.textBox1.Text = "Hoho!";
+             };// 还可以使用现在很火的lambda表达式挂接事件处理器
         }
 
         private void ButtonClick(object sender, EventArgs e)

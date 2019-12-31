@@ -1,0 +1,6 @@
+C:\Users\Lim\source\repos\EventExample\bin\Debug\EventExample.exe.config
+C:\Users\Lim\source\repos\EventExample\bin\Debug\EventExample.exe
+C:\Users\Lim\source\repos\EventExample\bin\Debug\EventExample.pdb
+C:\Users\Lim\source\repos\EventExample\obj\Debug\EventExample.csprojAssemblyReference.cache
+C:\Users\Lim\source\repos\EventExample\obj\Debug\EventExample.exe
+C:\Users\Lim\source\repos\EventExample\obj\Debug\EventExample.pdb

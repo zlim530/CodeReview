@@ -1,0 +1,39 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+}
+.page4{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: tan;
+}
+.page4 img{
+	position: absolute;
+	/* 不显示*/
+	display: none;
+}
+.page4_bg{
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+.page4_yc{
+	width: 70%;
+	top: 10%;
+	right: 0;
+	height: auto;
+}
+.page4_xc{
+	width: 70%;
+	top: 60%;
+	left: 0;
+}
+
