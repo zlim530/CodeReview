@@ -1,0 +1,6 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\Inherit\bin\Debug\Inherit.exe.config
+C:\Users\Lim\Desktop\code\CodeReview\C#\Inherit\bin\Debug\Inherit.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\Inherit\bin\Debug\Inherit.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\Inherit\obj\Debug\Inherit.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\Inherit\obj\Debug\Inherit.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\Inherit\obj\Debug\Inherit.pdb

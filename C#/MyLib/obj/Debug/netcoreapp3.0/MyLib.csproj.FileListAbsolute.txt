@@ -1,0 +1,8 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\bin\Debug\netcoreapp3.0\MyLib.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\bin\Debug\netcoreapp3.0\MyLib.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\bin\Debug\netcoreapp3.0\MyLib.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\obj\Debug\netcoreapp3.0\MyLib.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\obj\Debug\netcoreapp3.0\MyLib.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\obj\Debug\netcoreapp3.0\MyLib.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\obj\Debug\netcoreapp3.0\MyLib.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\MyLib\obj\Debug\netcoreapp3.0\MyLib.pdb
