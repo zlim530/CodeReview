@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\bin\Debug\netcoreapp3.0\InterfaceOfContract.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\bin\Debug\netcoreapp3.0\InterfaceOfContract.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\bin\Debug\netcoreapp3.0\InterfaceOfContract.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\bin\Debug\netcoreapp3.0\InterfaceOfContract.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\bin\Debug\netcoreapp3.0\InterfaceOfContract.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\bin\Debug\netcoreapp3.0\InterfaceOfContract.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\obj\Debug\netcoreapp3.0\InterfaceOfContract.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\obj\Debug\netcoreapp3.0\InterfaceOfContract.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\obj\Debug\netcoreapp3.0\InterfaceOfContract.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\obj\Debug\netcoreapp3.0\InterfaceOfContract.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceOfContract\obj\Debug\netcoreapp3.0\InterfaceOfContract.pdb

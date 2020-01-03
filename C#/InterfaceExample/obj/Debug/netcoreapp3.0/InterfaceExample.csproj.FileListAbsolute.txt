@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\bin\Debug\netcoreapp3.0\InterfaceExample.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\bin\Debug\netcoreapp3.0\InterfaceExample.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\bin\Debug\netcoreapp3.0\InterfaceExample.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\bin\Debug\netcoreapp3.0\InterfaceExample.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\bin\Debug\netcoreapp3.0\InterfaceExample.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\bin\Debug\netcoreapp3.0\InterfaceExample.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\obj\Debug\netcoreapp3.0\InterfaceExample.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\obj\Debug\netcoreapp3.0\InterfaceExample.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\obj\Debug\netcoreapp3.0\InterfaceExample.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\obj\Debug\netcoreapp3.0\InterfaceExample.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample\obj\Debug\netcoreapp3.0\InterfaceExample.pdb
