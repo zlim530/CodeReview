@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\bin\Debug\netcoreapp3.0\DependencyInversionPrinciple.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\bin\Debug\netcoreapp3.0\DependencyInversionPrinciple.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\bin\Debug\netcoreapp3.0\DependencyInversionPrinciple.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\bin\Debug\netcoreapp3.0\DependencyInversionPrinciple.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\bin\Debug\netcoreapp3.0\DependencyInversionPrinciple.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\bin\Debug\netcoreapp3.0\DependencyInversionPrinciple.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\obj\Debug\netcoreapp3.0\DependencyInversionPrinciple.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\obj\Debug\netcoreapp3.0\DependencyInversionPrinciple.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\obj\Debug\netcoreapp3.0\DependencyInversionPrinciple.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\obj\Debug\netcoreapp3.0\DependencyInversionPrinciple.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\DependencyInversionPrinciple\obj\Debug\netcoreapp3.0\DependencyInversionPrinciple.csprojAssemblyReference.cache

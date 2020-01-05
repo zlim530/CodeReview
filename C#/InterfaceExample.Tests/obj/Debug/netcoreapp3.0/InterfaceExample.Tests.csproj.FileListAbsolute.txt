@@ -1,0 +1,3 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample.Tests\obj\Debug\netcoreapp3.0\InterfaceExample.Tests.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample.Tests\obj\Debug\netcoreapp3.0\InterfaceExample.Tests.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\InterfaceExample.Tests\obj\Debug\netcoreapp3.0\InterfaceExample.Tests.AssemblyInfo.cs

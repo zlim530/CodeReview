@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceOfContract", "..\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInversionPrinciple", "..\DependencyInversionPrinciple\DependencyInversionPrinciple.csproj", "{247F2E01-ACDA-4E8C-A13B-E4C25B6E9BB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{07715A7B-E6F0-4781-8731-9660943BE266}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Tests", "..\InterfaceExample.Tests\UnitTests.Tests.csproj", "{8845370A-8379-4D4D-ACE3-0871538B2498}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{247F2E01-ACDA-4E8C-A13B-E4C25B6E9BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{247F2E01-ACDA-4E8C-A13B-E4C25B6E9BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{247F2E01-ACDA-4E8C-A13B-E4C25B6E9BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07715A7B-E6F0-4781-8731-9660943BE266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07715A7B-E6F0-4781-8731-9660943BE266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07715A7B-E6F0-4781-8731-9660943BE266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07715A7B-E6F0-4781-8731-9660943BE266}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8845370A-8379-4D4D-ACE3-0871538B2498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8845370A-8379-4D4D-ACE3-0871538B2498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8845370A-8379-4D4D-ACE3-0871538B2498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8845370A-8379-4D4D-ACE3-0871538B2498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

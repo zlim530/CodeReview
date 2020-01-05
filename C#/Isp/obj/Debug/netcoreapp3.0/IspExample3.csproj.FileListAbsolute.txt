@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\bin\Debug\netcoreapp3.0\IspExample3.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\bin\Debug\netcoreapp3.0\IspExample3.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\bin\Debug\netcoreapp3.0\IspExample3.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\bin\Debug\netcoreapp3.0\IspExample3.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\bin\Debug\netcoreapp3.0\IspExample3.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\bin\Debug\netcoreapp3.0\IspExample3.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\obj\Debug\netcoreapp3.0\IspExample3.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\obj\Debug\netcoreapp3.0\IspExample3.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\obj\Debug\netcoreapp3.0\IspExample3.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\obj\Debug\netcoreapp3.0\IspExample3.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Isp\obj\Debug\netcoreapp3.0\IspExample3.pdb

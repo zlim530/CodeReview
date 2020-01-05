@@ -1,0 +1,7 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\bin\Debug\netcoreapp3.0\BabyStroller.SDK.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\bin\Debug\netcoreapp3.0\BabyStroller.SDK.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\bin\Debug\netcoreapp3.0\BabyStroller.SDK.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\obj\Debug\netcoreapp3.0\BabyStroller.SDK.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\obj\Debug\netcoreapp3.0\BabyStroller.SDK.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\obj\Debug\netcoreapp3.0\BabyStroller.SDK.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.SDK\obj\Debug\netcoreapp3.0\BabyStroller.SDK.pdb

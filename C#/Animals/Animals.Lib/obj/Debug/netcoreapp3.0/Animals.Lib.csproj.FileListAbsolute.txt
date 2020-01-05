@@ -1,0 +1,10 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\bin\Debug\netcoreapp3.0\Animals.Lib.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\bin\Debug\netcoreapp3.0\Animals.Lib.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\bin\Debug\netcoreapp3.0\Animals.Lib.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\obj\Debug\netcoreapp3.0\Animals.Lib.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\obj\Debug\netcoreapp3.0\Animals.Lib.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\obj\Debug\netcoreapp3.0\Animals.Lib.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\obj\Debug\netcoreapp3.0\Animals.Lib.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\bin\Debug\netcoreapp3.0\BabyStroller.SDK.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\bin\Debug\netcoreapp3.0\BabyStroller.SDK.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\Animals\Animals.Lib\obj\Debug\netcoreapp3.0\Animals.Lib.csproj.CopyComplete

@@ -1,0 +1,14 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.App.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.App.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.App.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.App.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.App.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.App.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\obj\Debug\netcoreapp3.0\BabyStroller.App.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\obj\Debug\netcoreapp3.0\BabyStroller.App.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\obj\Debug\netcoreapp3.0\BabyStroller.App.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\obj\Debug\netcoreapp3.0\BabyStroller.App.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\obj\Debug\netcoreapp3.0\BabyStroller.App.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.SDK.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\bin\Debug\netcoreapp3.0\BabyStroller.SDK.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\BabyStroller.App\obj\Debug\netcoreapp3.0\BabyStroller.App.csproj.CopyComplete
