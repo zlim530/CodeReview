@@ -50,6 +50,7 @@ namespace IspExample2
 
     }
 
+    // IEnumerable接口中只有一个返回值为IEnumerator接口类型的GetEnumerator方法
     class ReadOnlyCollection : IEnumerable
     {
         private int[] _array;
@@ -59,6 +60,10 @@ namespace IspExample2
             _array = array;
         }
 
+        // 而IEnumerator接口中的有一个object类型的Current字段
+        // 与一个返回值为bool类型的MoveNext方法与一个没有返回值的Reset方法
+        // 我们在ReadOnlyCollection类中实现GetEnumerator方法来实现IEnumerable接口
+        // 而GetEnumerator方法则在类成员（或者说嵌套类）Enumerator中实现：通过实现IEnumerator接口来实现GetEnumerator方法方法
         public IEnumerator GetEnumerator()
         {
             return new Enumerator(this);
