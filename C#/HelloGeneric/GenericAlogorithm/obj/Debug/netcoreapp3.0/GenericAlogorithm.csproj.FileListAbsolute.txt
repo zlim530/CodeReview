@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\bin\Debug\netcoreapp3.0\GenericAlogorithm.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\bin\Debug\netcoreapp3.0\GenericAlogorithm.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\bin\Debug\netcoreapp3.0\GenericAlogorithm.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\bin\Debug\netcoreapp3.0\GenericAlogorithm.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\bin\Debug\netcoreapp3.0\GenericAlogorithm.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\bin\Debug\netcoreapp3.0\GenericAlogorithm.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\obj\Debug\netcoreapp3.0\GenericAlogorithm.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\obj\Debug\netcoreapp3.0\GenericAlogorithm.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\obj\Debug\netcoreapp3.0\GenericAlogorithm.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\obj\Debug\netcoreapp3.0\GenericAlogorithm.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloGeneric\GenericAlogorithm\obj\Debug\netcoreapp3.0\GenericAlogorithm.pdb

@@ -1,0 +1,12 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\Bookstore.Client.exe.config
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\Bookstore.Client.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\Bookstore.Client.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\EntityFramework.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\EntityFramework.xml
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\bin\Debug\zh-Hans\EntityFramework.resources.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\obj\Debug\Bookstore.Client.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\obj\Debug\Bookstore.Client.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\obj\Debug\Bookstore.Client.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\Bookstore\Bookstore.Client\obj\Debug\Bookstore.Client.pdb

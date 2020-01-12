@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\bin\Debug\netcoreapp3.0\HelloEnum.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\bin\Debug\netcoreapp3.0\HelloEnum.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\bin\Debug\netcoreapp3.0\HelloEnum.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\bin\Debug\netcoreapp3.0\HelloEnum.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\bin\Debug\netcoreapp3.0\HelloEnum.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\bin\Debug\netcoreapp3.0\HelloEnum.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\obj\Debug\netcoreapp3.0\HelloEnum.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\obj\Debug\netcoreapp3.0\HelloEnum.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\obj\Debug\netcoreapp3.0\HelloEnum.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\obj\Debug\netcoreapp3.0\HelloEnum.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\HelloEnum\HelloEnum\obj\Debug\netcoreapp3.0\HelloEnum.pdb
