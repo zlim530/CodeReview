@@ -9,7 +9,7 @@ $res = sort($f);
 var_dump($res);
 
 foreach ($f as $key => $value) {
-	echo "fruits[" . $key . "] = " . $value . "\n";
+    echo "fruits[" . $key . "] = " . $value . "\n";
 }
 // fruits[0] = apple fruits[1] = banana fruits[2] = lemon fruits[3] = orange
 
