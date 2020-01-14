@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\bin\Debug\netcoreapp3.0\DynamicArray.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\bin\Debug\netcoreapp3.0\DynamicArray.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\bin\Debug\netcoreapp3.0\DynamicArray.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\bin\Debug\netcoreapp3.0\DynamicArray.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\bin\Debug\netcoreapp3.0\DynamicArray.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\bin\Debug\netcoreapp3.0\DynamicArray.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\obj\Debug\netcoreapp3.0\DynamicArray.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\obj\Debug\netcoreapp3.0\DynamicArray.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\obj\Debug\netcoreapp3.0\DynamicArray.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\obj\Debug\netcoreapp3.0\DynamicArray.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ArrayList\obj\Debug\netcoreapp3.0\DynamicArray.pdb
