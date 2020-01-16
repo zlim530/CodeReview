@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\obj\Debug\netcoreapp3.0\ReverseList.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\obj\Debug\netcoreapp3.0\ReverseList.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\obj\Debug\netcoreapp3.0\ReverseList.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\bin\Debug\netcoreapp3.0\ReverseList.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\bin\Debug\netcoreapp3.0\ReverseList.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\bin\Debug\netcoreapp3.0\ReverseList.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\bin\Debug\netcoreapp3.0\ReverseList.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\bin\Debug\netcoreapp3.0\ReverseList.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\bin\Debug\netcoreapp3.0\ReverseList.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\obj\Debug\netcoreapp3.0\ReverseList.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\ReverseList\obj\Debug\netcoreapp3.0\ReverseList.pdb

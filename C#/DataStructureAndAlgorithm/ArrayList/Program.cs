@@ -15,9 +15,10 @@ namespace DynamicArray
             Console.WriteLine(persons.Get(0));
             Console.WriteLine(persons.Set(3, new Person(17, "Timmy")));
             Console.WriteLine(persons.GetSize());
-            Console.WriteLine(persons.Remove(4));
+            Console.WriteLine(persons.Remove(3));
             Console.WriteLine(persons.GetSize());
             persons.Report();
+            System.Console.WriteLine("hello world!");
         }
 
 
@@ -39,7 +40,7 @@ namespace DynamicArray
             Console.WriteLine(array.Remove(0));
             Console.WriteLine(array.GetSize());
             array.Report();
-
+            
         }
     }
 
