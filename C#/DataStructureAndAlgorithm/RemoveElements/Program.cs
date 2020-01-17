@@ -35,7 +35,7 @@ namespace RemoveElements
             Report(head);
 
         }
-        
+
         static void Main1(string[] args)
         {
             ListNode head = new ListNode(1);
@@ -52,30 +52,32 @@ namespace RemoveElements
             ListNode list7 = new ListNode(6);
             list6.next = list7;
             list7.next = null;
-            RemoveElements(head,6);
+            RemoveElements(head, 6);
             Report(head);
-            
+
         }
 
-    
-        public static ListNode RemoveElements(ListNode head,int val)
+
+        public static ListNode RemoveElements(ListNode head, int val)
         {
             ListNode first = new ListNode(0);
             first.next = head;
             ListNode tmp = first;
-            while ( tmp.next != null)
+            while (tmp.next != null)
             {
-                if ( tmp.next.val == val)
+                if (tmp.next.val == val)
                 {
-                    if ( tmp.next.next != null)
+                    if (tmp.next.next != null)
                     {
                         tmp.next.val = tmp.next.next.val;
                         tmp.next = tmp.next.next;
-                    } else
+                    }
+                    else
                     {
                         tmp.next = null;
                     }
-                }else
+                }
+                else
                 {
                     tmp = tmp.next;
                 }
@@ -104,12 +106,13 @@ namespace RemoveElements
         public static ListNode DeleteDuplicates(ListNode head)
         {
             ListNode first = head;
-            while ( first != null && first.next != null)
+            while (first != null && first.next != null)
             {
-                if ( first.val == first.next.val )
+                if (first.val == first.next.val)
                 {
                     first.next = first.next.next;
-                } else
+                }
+                else
                 {
                     first = first.next;
                 }
@@ -132,14 +135,14 @@ namespace RemoveElements
             }
             return head;
             */
-        
+
         }
 
         public static ListNode MiddleNode(ListNode head)
         {
             ListNode slow = head;
             ListNode fast = head;
-            while ( fast != null && fast.next != null)
+            while (fast != null && fast.next != null)
             {
                 slow = slow.next;
                 fast = fast.next.next;
@@ -159,14 +162,14 @@ namespace RemoveElements
         public static void Report(ListNode node)
         {
             System.Console.WriteLine("Report listnode:");
-            while ( node != null)
+            while (node != null)
             {
                 System.Console.WriteLine(node.val);
                 node = node.next;
             }
         }
     }
-    
+
     class ListNode
     {
         public int val;
