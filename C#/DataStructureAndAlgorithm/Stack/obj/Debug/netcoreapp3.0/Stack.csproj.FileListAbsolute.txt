@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\obj\Debug\netcoreapp3.0\Stack.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\obj\Debug\netcoreapp3.0\Stack.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\obj\Debug\netcoreapp3.0\Stack.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\bin\Debug\netcoreapp3.0\Stack.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\bin\Debug\netcoreapp3.0\Stack.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\bin\Debug\netcoreapp3.0\Stack.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\bin\Debug\netcoreapp3.0\Stack.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\bin\Debug\netcoreapp3.0\Stack.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\bin\Debug\netcoreapp3.0\Stack.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\obj\Debug\netcoreapp3.0\Stack.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\DataStructureAndAlgorithm\Stack\obj\Debug\netcoreapp3.0\Stack.pdb

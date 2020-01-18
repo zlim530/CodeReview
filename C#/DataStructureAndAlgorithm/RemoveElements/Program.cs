@@ -57,7 +57,7 @@ namespace RemoveElements
 
         }
 
-
+        // 删除链表中的指定元素
         public static ListNode RemoveElements(ListNode head, int val)
         {
             ListNode first = new ListNode(0);
@@ -103,6 +103,7 @@ namespace RemoveElements
             */
         }
 
+        // 删除链表中值重复的结点
         public static ListNode DeleteDuplicates(ListNode head)
         {
             ListNode first = head;
@@ -138,6 +139,7 @@ namespace RemoveElements
 
         }
 
+        // 找到链表的中间结点并将其作为新的头结点返回
         public static ListNode MiddleNode(ListNode head)
         {
             ListNode slow = head;

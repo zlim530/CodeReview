@@ -19,7 +19,7 @@ namespace ReverseList
             Report(frh);
         }
 
-        // 递归实现
+        // 递归实现 反转链表
         static ListNode ReverseList(ListNode head)
         {
             if ( head == null || head.next == null )
@@ -33,7 +33,7 @@ namespace ReverseList
             
         }
 
-        // 非递归：迭代实现
+        // 非递归：迭代实现反转链表
         static ListNode ReverseListVersion2(ListNode head)
         {
             
