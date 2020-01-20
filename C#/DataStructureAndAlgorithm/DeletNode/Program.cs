@@ -1,5 +1,7 @@
 ﻿using System;
 
+// LeetCode：237.删除链表中的结点
+// https://leetcode-cn.com/problems/delete-node-in-a-linked-list/
 namespace DeleteNode
 {
     class Program

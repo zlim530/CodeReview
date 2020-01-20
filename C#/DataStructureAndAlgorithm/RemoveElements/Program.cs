@@ -57,7 +57,8 @@ namespace RemoveElements
 
         }
 
-        // 删除链表中的指定元素
+        // LeetCode：203.移除链表元素
+        // https://leetcode-cn.com/problems/remove-linked-list-elements/
         public static ListNode RemoveElements(ListNode head, int val)
         {
             ListNode first = new ListNode(0);
@@ -103,7 +104,8 @@ namespace RemoveElements
             */
         }
 
-        // 删除链表中值重复的结点
+        // LeetCode：83.删除排序链表中的重复元素
+        // https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/
         public static ListNode DeleteDuplicates(ListNode head)
         {
             ListNode first = head;
@@ -139,7 +141,8 @@ namespace RemoveElements
 
         }
 
-        // 找到链表的中间结点并将其作为新的头结点返回
+        // LeetCode：876.链表的中间结点
+        // https://leetcode-cn.com/problems/middle-of-the-linked-list/
         public static ListNode MiddleNode(ListNode head)
         {
             ListNode slow = head;

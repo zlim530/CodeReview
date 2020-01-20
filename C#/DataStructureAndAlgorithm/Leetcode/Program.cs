@@ -1,11 +1,123 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Leetcode
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
+        {
+            MyStack obj = new MyStack();
+            obj.Push(4);
+            obj.Push(3);
+            int param_1 = obj.Pop();
+            int param_2 = obj.Top();
+            bool param_3 = obj.Empty();
+            System.Console.WriteLine(param_1);
+            System.Console.WriteLine(param_2);
+            System.Console.WriteLine(param_3);
+        }
+
+
+        static void Main3()
+        {
+            System.Console.WriteLine("hello world!");
+            string[] tokens = {"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"};
+            var restult = EvalRPN(tokens);
+            System.Console.WriteLine(restult);
+            
+        }
+
+        // LeetCode：150.逆波兰表达式求值
+        // https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/
+        static int EvalRPN(string[] tokens)
+        {
+            Stack<int> stack = new Stack<int>();
+            string regularExpression = "[0-9]";
+            Regex rg = new Regex(regularExpression);
+            int restult;
+            int len = tokens.Length;
+            for (int i = 0; i < len; i++)
+            {
+                if ( rg.IsMatch(tokens[i].ToString()) )
+                {
+                    stack.Push(Convert.ToInt32(tokens[i].ToString(),10));
+                }else
+                {
+                    int first = stack.Pop();
+                    int sed = stack.Pop();
+                    if ( tokens[i] == "+")
+                    {
+                        restult = sed + first;
+                        stack.Push(restult);
+                    } else if ( tokens[i] == "-")
+                    {
+                        restult = sed - first;
+                        stack.Push(restult);
+                    } else if (tokens[i] == "*")
+                    {
+                        restult = sed * first;
+                        stack.Push(restult);
+                    } else
+                    {
+                        restult = sed / first;
+                        stack.Push(restult);
+                    }
+                }
+            }
+            return stack.Pop();
+        }
+//     public class Solution {
+//     public int EvalRPN(string[] tokens) {
+//         Stack<int> stack = new Stack<int>();
+        
+//         int result = 0;
+//         foreach (string s in tokens) {
+//             if (s == "+" || s == "-" || s == "*" || s == "/") {
+//                 int second = stack.Pop();
+//                 int first = stack.Pop();
+                
+//                 if (s == "+") {
+//                     result = first + second;
+//                 }
+//                 else if (s == "-") {
+//                     result = first - second;
+//                 }
+//                 else if (s == "*") {
+//                     result = first * second;
+//                 }
+//                 else {
+//                     result = first / second;
+//                 }
+                
+//                 stack.Push(result);
+//             }
+//             else {
+//                 stack.Push(int.Parse(s));
+//                 result = stack.Peek();
+//             }
+//         }
+        
+//         return result;
+//     }
+// }
+
+        static void Main2()
+        {
+            MyQueue queue = new MyQueue();
+            queue.Push(1);
+            queue.Push(2);
+            System.Console.WriteLine(queue.Peek());
+            System.Console.WriteLine(queue.Pop());
+            // queue.Peek();
+            // queue.Pop();
+            // queue.Empty();
+            System.Console.WriteLine(queue.Empty());
+        }
+
+
+        static void Main1(string[] args)
         {
             Console.WriteLine("Hello World!");
             string S = "(()(()))";
@@ -13,6 +125,8 @@ namespace Leetcode
 
         }
 
+        // LeetCode：856.括号的分数
+        // https://leetcode-cn.com/problems/score-of-parentheses/
         public static int ScoreOfParentheses(string S)
         {
             Stack<int> stack = new Stack<int>();
