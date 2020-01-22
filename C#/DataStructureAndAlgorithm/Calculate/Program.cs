@@ -23,7 +23,7 @@ namespace Calculate
             Stack<int> stack = new Stack<int>();
             int operand = 0;
             int result = 0; // For the on-going result
-            int sign = 1;  // 1 means positive, -1 means negative
+            int sign = 1;  // 1 means positive, -1 means negative 1表示加法 -1表示减法
             string regularExpressions = "[0-9]";
             Regex rg = new Regex(regularExpressions);
             int len = s.Length;
@@ -35,6 +35,7 @@ namespace Calculate
                 if ( rg.IsMatch( s[i].ToString()) ) {
 
                     // Forming operand, since it could be more than one digit
+                    // 操作数可以是多位的
                     int nums = Convert.ToInt32(s[i].ToString(),10);
                     operand = 10 * operand + nums;
 
@@ -42,7 +43,7 @@ namespace Calculate
 
                     // Evaluate the expression to the left,
                     // with result, sign, operand
-                    result += sign * operand;
+                    result += sign * operand;// result = restult + sign * operand;
 
                     // Save the recently encountered '+' sign
                     sign = 1;
