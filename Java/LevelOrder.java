@@ -2,9 +2,7 @@
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
-import javax.management.QueryEval;
 
 // leetcode：102.二叉树的层次遍历
 // https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
