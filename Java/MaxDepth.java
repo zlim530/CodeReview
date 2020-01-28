@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class MaxDepth {
@@ -6,6 +7,47 @@ public class MaxDepth {
         System.out.println("Hello,World!");
     }
 
+    // LeetCode：559. N叉树的最大高度
+    // https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/solution/559-ncha-shu-de-zui-da-shen-du-by-en-zhao/
+    public int MaxDepth3(Node root) {
+        int level = 0;
+        Queue<Node> q = new LinkedList<>();
+        if (root == null) {
+            return 0;
+        }
+        q.add(root);
+        while (!q.isEmpty()) {
+            int levelSize = q.size();
+            for (int i = 0; i < levelSize; i++) {
+                Node node = q.poll();
+                for (Node item : node.children) {
+                    q.add(item);
+                }
+            }
+            level++;
+        }
+
+        return level;
+    }
+
+    class Node {
+        public int val;
+        public List<Node> children;
+    
+        public Node() {}
+    
+        public Node(int _val) {
+            val = _val;
+        }
+    
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
+
+    // LeetCode：104.二叉树的最大深度
+    // https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
     public int MaxDepth2(TreeNode root) {
         int level = 0;
         Queue<TreeNode> q = new LinkedList<>();

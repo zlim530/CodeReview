@@ -3,7 +3,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+
 // LeetCode：144.二叉树的前序遍历
 // https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
 public class HelloWorld {
@@ -30,7 +30,7 @@ public class HelloWorld {
         // return list;
     }
 
-    private static void preorder(TreeNode root,LinkedList list) {
+    private static void preorder(TreeNode root,LinkedList<Integer> list) {
         // if ( root == null) {
         //     return ;
         // } else {
