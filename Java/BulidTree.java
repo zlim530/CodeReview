@@ -1,5 +1,6 @@
 public class BulidTree {
 
+    
     public TreeNdoe buildTree(int[] inorder, int[] postorder) {
         TreeNdoe root = new TreeNdoe(0);
         int size = postorder.length;
