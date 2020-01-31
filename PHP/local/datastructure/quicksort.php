@@ -75,5 +75,8 @@ function quick_sort($arr)
     return array_merge($left, array($middle), $right);
 }
  
-var_dump($arr);
-var_dump(quick_sort($arr));
+// var_dump($arr);
+// var_dump(quick_sort($arr));
+$a = [1,2,4,7,3,5,6,8];
+$b = count($a);
+var_dump($b);// 8
