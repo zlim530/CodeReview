@@ -39,9 +39,7 @@ public class BulidTree {
         return root;
     }
 
-    public static void main(String[] args) {
-        System.out.println("----------------------------------------------------------------------------");
-    }
+
 
     /*
      * 根据一棵树的中序遍历与后序遍历构造二叉树。
@@ -82,6 +80,29 @@ public class BulidTree {
         return root;
     }
 
+
+
+/*     返回与给定的前序和后序遍历匹配的任何二叉树。
+
+ pre 和 post 遍历中的值是不同的正整数。
+
+ 
+
+示例：
+
+输入：pre = [1,2,4,5,3,6,7], post = [4,5,2,6,7,3,1]
+输出：[1,2,3,4,5,6,7]
+ 
+
+提示：
+
+1 <= pre.length == post.length <= 30
+pre[] 和 post[] 都是 1, 2, ..., pre.length 的排列
+每个输入保证至少有一个答案。如果有多个答案，可以返回其中一个。
+ */
+
+    // LeetCode：889.从后序和前序遍历序列构造二叉树
+    // https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/
     private int preIndex = 0;
     private int postIndex = 0;
 
@@ -97,31 +118,31 @@ public class BulidTree {
         return root;
     }
 
-    public TreeNdoe buildTree889(int[] pre, int[] post) {
-        return buildTree889Helper(pre, 0, pre.length, post, 0, post.length);
-    }
+    // public TreeNdoe buildTree889(int[] pre, int[] post) {
+    //     return buildTree889Helper(pre, 0, pre.length, post, 0, post.length);
+    // }
 
-    private TreeNdoe buildTree889Helper(int[] pre, int pre_start, int pre_size, int[] post, int post_start,
-            int post_size) {
-        if (pre_start > pre_size || post_start > post_size) {
-            return null;
-        }
-        int root_val = pre[pre_start];
-        TreeNdoe root = new TreeNdoe(root_val);
-        int right_root_val = post[post_size - 2];
-        int right_root_index = 0;
-        for (int i = pre_start; i < pre_size; i++) {
-            if ( pre[i] == right_root_val) {
-                right_root_index = i;
-                break;
-            }
-        }
-        int leftSize = right_root_index - pre_start - 1;
-        // int postStRight = post_start + leftSize;
-        root.left = buildTree889Helper(pre, pre_start+1, right_root_index, post, post_start, post_start+leftSize);
-        root.right = buildTree889Helper(pre, right_root_index, pre_size, post, post_start+leftSize, post_size - 1);
-        return null;
-    }
+    // private TreeNdoe buildTree889Helper(int[] pre, int pre_start, int pre_size, int[] post, int post_start,
+    //         int post_size) {
+    //     if (pre_start > pre_size || post_start > post_size) {
+    //         return null;
+    //     }
+    //     int root_val = pre[pre_start];
+    //     TreeNdoe root = new TreeNdoe(root_val);
+    //     int right_root_val = post[post_size - 2];
+    //     int right_root_index = 0;
+    //     for (int i = pre_start; i < pre_size; i++) {
+    //         if ( pre[i] == right_root_val) {
+    //             right_root_index = i;
+    //             break;
+    //         }
+    //     }
+    //     int leftSize = right_root_index - pre_start - 1;
+    //     // int postStRight = post_start + leftSize;
+    //     root.left = buildTree889Helper(pre, pre_start+1, right_root_index, post, post_start, post_start+leftSize);
+    //     root.right = buildTree889Helper(pre, right_root_index, pre_size, post, post_start+leftSize, post_size - 1);
+    //     return null;
+    // }
 
     public class TreeNdoe {
 
