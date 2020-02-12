@@ -30,7 +30,7 @@ public class SevenComparisonSort{
 		}
 	}
 
-	public static void SelectionSort(String[] args) {
+	public static void SelectionSort(int[] array) {
 		for (int end = array.length - 1; end > 0; end --) {
 			int maxIndex = 0;
 			for (int begin = 1; begin <= end; begin++) {
@@ -42,7 +42,7 @@ public class SevenComparisonSort{
 		}
 	}
 
-	public static void InsertionSort(String[] args) {
+	public static void InsertionSort(int[] array) {
 		for (int begin = 1; begin < array.length; begin++) {
 			int cur = begin;
 			while( cur>0 && cmp(array[begin],array[begin - 1]) < 0 ){
@@ -54,3 +54,6 @@ public class SevenComparisonSort{
 	}
 
 }
+
+
+

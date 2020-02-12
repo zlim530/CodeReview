@@ -6,7 +6,7 @@ import java.util.List;
 
 // LeetCode：144.二叉树的前序遍历
 // https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
-public class HelloWorld {
+public class LT_144_HelloWorld {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
