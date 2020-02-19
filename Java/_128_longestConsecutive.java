@@ -11,6 +11,9 @@ import java.util.Map;
 // 输出: 4
 // 解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
 
+// LeetCode：128.最长连续序列
+// https://leetcode-cn.com/problems/longest-consecutive-sequence/
+
 public class _128_longestConsecutive {
 
     public static int longestConsecutive(int[] nums) {

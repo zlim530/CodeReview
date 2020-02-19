@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JAVA8_DEMO.iml" filepath="$PROJECT_DIR$/JAVA8_DEMO.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../../Linux/B-其他语言资料/Java/Java基础第一部分资料/day07/02_代码/day07-code/day07-code.iml" filepath="$PROJECT_DIR$/../../../../Linux/B-其他语言资料/Java/Java基础第一部分资料/day07/02_代码/day07-code/day07-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../Linux/B-其他语言资料/Java/Java基础第一部分资料/day10/02_代码/day10-code/day10-code.iml" filepath="$PROJECT_DIR$/../../../../Linux/B-其他语言资料/Java/Java基础第一部分资料/day10/02_代码/day10-code/day10-code.iml" />
     </modules>
   </component>
 </project>
