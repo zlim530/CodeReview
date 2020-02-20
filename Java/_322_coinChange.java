@@ -1,29 +1,23 @@
-package com.zlim;
+/* 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
 
-public class HelloWorld {
+示例 1:
 
-    public static void main(String[] args) {
-//        System.out.println("Hello,world!");
-//        Student stu = new Student();
-//        stu.setAge(22);
-//        stu.setName("ZLim");
-//
-//        Student stu2 = new Student(22,"YG");
-//        System.out.println("Name:" + stu.getName() + " Age:" + stu.getAge());
-//        System.out.println("Name:" + stu2.getName() + " Age:" + stu2.getAge());
-//
-//        for (int i = 0; i < 5; i++) {
-////          因为每次循环，都是一次新的变量c
-//            final int c = i;
-//            System.out.println(i);
-//        }
-//        System.out.println("======================");
-        int[] faces = new int[]{2};
-        int n = 3;
-        System.out.println(coinChange1(faces,n));
-    }
+输入: coins = [1, 2, 5], amount = 11
+输出: 3 
+解释: 11 = 5 + 5 + 1
+示例 2:
 
-    public static int coinChange1(int[] coins, int amount) {
+输入: coins = [2], amount = 3
+输出: -1
+说明:
+你可以认为每种硬币的数量是无限的。
+ */
+
+// LeetCode：322.零钱兑换
+// https://leetcode-cn.com/problems/coin-change/
+public class _322_coinChange {
+
+    public int coinChange1(int[] coins, int amount) {
         if ( amount < 1 || coins == null || coins.length == 0) {
             return -1;
         }
@@ -51,5 +45,4 @@ public class HelloWorld {
         }
         return dp[amount];
     }
-
 }
