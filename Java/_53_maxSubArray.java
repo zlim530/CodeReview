@@ -22,6 +22,47 @@
 
 public class _53_maxSubArray {
 
+    public int maxSubArray5(int[] nums){
+        if ( nums == null || nums.length == 0){
+            return -1;
+        }
+        int dp = nums[0];
+        int max = dp;
+        for (int i = 1; i < nums.length; i++) {
+            if ( dp < 0) {
+                dp = nums[i];
+            }else{
+                dp = nums[i] + dp;
+            }
+            max = Math.max(max, dp);
+        }
+
+        return max;
+    }
+
+    // 动态规划：
+    // 状态定义:dp[i]:以nums[i]作为结尾的最大连续子序列的和(nums是整个序列)
+    // 状态转移方程:dp[i] = nums[i] + Math.max(dp[i - 1],0);
+    // 状态初始状态：
+    public int maxSubArray4(int[] nums){
+        if ( nums == null || nums.length == 0){
+            return -1;
+        }
+        int[] dp = new int[nums.length];
+        int max = dp[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int prev = dp[i - 1];
+            if ( prev < 0) {
+                dp[i] = nums[i];
+            } else{
+                dp[i] = prev + nums[i];
+            }
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
+    }
+
     public int maxSubArray3(int[] nums){
         if ( nums == null || nums.length == 0) {
             return 0;
