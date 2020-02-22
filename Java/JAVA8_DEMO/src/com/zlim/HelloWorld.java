@@ -1,8 +1,23 @@
 package com.zlim;
 
+import javax.sound.midi.SysexMessage;
+import java.sql.Struct;
+import java.util.Scanner;
+
 public class HelloWorld {
 
     public static void main(String[] args) {
+        String s1 = "hello";
+        String s2 = "hello";
+        String s3 = new String("hello");
+        System.out.println(s1 == s2); // true
+        System.out.println(s1 == s3); // false
+        System.out.println(s2 == s3); // false
+//        ctrl + alt + v :快速自动补全新建对象右边左边部分
+        Scanner scanner = new Scanner(System.in);
+        String str = scanner.nextLine();
+        System.out.println(str);
+
 //        System.out.println("Hello,world!");
 //        Student stu = new Student();
 //        stu.setAge(22);
@@ -20,7 +35,14 @@ public class HelloWorld {
 //        System.out.println("======================");
         int[] faces = new int[]{2};
         int n = 3;
-        System.out.println(coinChange1(faces,n));
+//        System.out.println(coinChange1(faces,n));
+
+//        Double d = 10.0;
+//        if (d > 10)
+//            System.out.println("d > 10");
+//        else
+//            System.out.println("d <= 10");
+
     }
 
     public static int coinChange1(int[] coins, int amount) {
