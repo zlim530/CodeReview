@@ -11,10 +11,35 @@
 
 public class _300_lengthOfLIS {
 
+    public int lengthOfLIS(int[] nums) {
+        if ( nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = 0;
+        int[] top = new int[nums.length];
+        for (int num : nums) {
+            int begin = 0;
+            int end = len;
+            while ( begin < end) {
+                int mid = (begin + end) >> 1;
+                if (num <= top[mid]) {
+					end = mid;
+				} else {
+					begin = mid + 1;
+				}
+            }
+            top[begin] = num;
+            if ( begin == len) {
+                len++;
+            }
+        }
+        return len;
+    }
+
     // 动态规划
     // 时间复杂度：O(n^2)
     // 空间复杂度：O(n)
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLIS1(int[] nums) {
         if ( nums == null || nums.length == 0) {
             return 0;
         }
