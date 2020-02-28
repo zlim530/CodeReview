@@ -1,0 +1,4 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\ArcFace2Demo\obj\Debug\ArcFace2Demo.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\ArcFace2Demo\obj\Debug\ArcFace2Demo.Form1.resources
+C:\Users\Lim\Desktop\code\CodeReview\C#\ArcFace2Demo\obj\Debug\ArcFace2Demo.Properties.Resources.resources
+C:\Users\Lim\Desktop\code\CodeReview\C#\ArcFace2Demo\obj\Debug\ArcFace2Demo.csproj.GenerateResource.cache

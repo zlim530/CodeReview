@@ -124,14 +124,14 @@ namespace ArcSoftFace
             }
             Console.WriteLine("Activate Result:" + retCode);
 
-            //初始化引擎
+            //初始化引擎：选择图片检测模式
             uint detectMode = DetectionMode.ASF_DETECT_MODE_IMAGE;
             //检测脸部的角度优先值
             int detectFaceOrientPriority = ASF_OrientPriority.ASF_OP_0_HIGHER_EXT;
             //人脸在图片中所占比例，如果需要调整检测人脸尺寸请修改此值，有效数值为2-32
             int detectFaceScaleVal = 16;
             //最大需要检测的人脸个数
-            int detectFaceMaxNum = 5;
+            int detectFaceMaxNum = 25;
             //引擎初始化时需要初始化的检测功能组合
             int combinedMask = FaceEngineMask.ASF_FACE_DETECT | FaceEngineMask.ASF_FACERECOGNITION | FaceEngineMask.ASF_AGE | FaceEngineMask.ASF_GENDER | FaceEngineMask.ASF_FACE3DANGLE;
             //初始化引擎，正常值为0，其他返回值请参考http://ai.arcsoft.com.cn/bbs/forum.php?mod=viewthread&tid=19&_dsign=dbad527e

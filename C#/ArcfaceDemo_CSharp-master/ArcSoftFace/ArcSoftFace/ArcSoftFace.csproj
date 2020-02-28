@@ -197,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
+    <Folder Include="HAF_2.0\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
