@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/11-字符串/11-字符串.iml" filepath="$PROJECT_DIR$/11-字符串/11-字符串.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BeforeAll/BeforeAll.iml" filepath="$PROJECT_DIR$/BeforeAll/BeforeAll.iml" />
       <module fileurl="file://$PROJECT_DIR$/JAVA8_DEMO.iml" filepath="$PROJECT_DIR$/JAVA8_DEMO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThreadRelated/ThreadRelated.iml" filepath="$PROJECT_DIR$/ThreadRelated/ThreadRelated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThreadSafety/ThreadSafety.iml" filepath="$PROJECT_DIR$/ThreadSafety/ThreadSafety.iml" />
     </modules>
   </component>
 </project>

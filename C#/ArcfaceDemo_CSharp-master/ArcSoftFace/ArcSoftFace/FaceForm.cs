@@ -131,7 +131,7 @@ namespace ArcSoftFace
             //人脸在图片中所占比例，如果需要调整检测人脸尺寸请修改此值，有效数值为2-32
             int detectFaceScaleVal = 16;
             //最大需要检测的人脸个数
-            int detectFaceMaxNum = 25;
+            int detectFaceMaxNum = 10;
             //引擎初始化时需要初始化的检测功能组合
             int combinedMask = FaceEngineMask.ASF_FACE_DETECT | FaceEngineMask.ASF_FACERECOGNITION | FaceEngineMask.ASF_AGE | FaceEngineMask.ASF_GENDER | FaceEngineMask.ASF_FACE3DANGLE;
             //初始化引擎，正常值为0，其他返回值请参考http://ai.arcsoft.com.cn/bbs/forum.php?mod=viewthread&tid=19&_dsign=dbad527e
@@ -208,12 +208,12 @@ namespace ArcSoftFace
                 }
                 //调整图片数据，非常重要
                 ImageInfo imageInfo = ImageUtil.ReadBMP(srcImage);
-                //人脸检测
+                //人脸检测：返回值为ASF_MultiFaceInfo多人脸检测结构体
                 ASF_MultiFaceInfo multiFaceInfo = FaceUtil.DetectFace(pImageEngine, imageInfo);
                 //年龄检测
                 int retCode_Age = -1;
                 ASF_AgeInfo ageInfo = FaceUtil.AgeEstimation(pImageEngine, imageInfo, multiFaceInfo, out retCode_Age);
-                //性别检测
+                //性别检测：0表示男性，1表示女性，-1表示未知
                 int retCode_Gender = -1;
                 ASF_GenderInfo genderInfo = FaceUtil.GenderEstimation(pImageEngine, imageInfo, multiFaceInfo, out retCode_Gender);
 
@@ -242,6 +242,7 @@ namespace ArcSoftFace
                 //标记出检测到的人脸
                 for (int i = 0; i < multiFaceInfo.faceNum; i++)
                 {
+                    /// 人脸框信息结构体：有left、top、right、bottom
                     MRECT rect = MemoryUtil.PtrToStructure<MRECT>(multiFaceInfo.faceRects + MemoryUtil.SizeOf<MRECT>() * i);
                     int orient = MemoryUtil.PtrToStructure<int>(multiFaceInfo.faceOrients + MemoryUtil.SizeOf<int>() * i);
                     int age = 0;
