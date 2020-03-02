@@ -206,7 +206,7 @@ namespace ArcSoftFace
                     //srcImage = ImageUtil.ScaleImage(srcImage, picImageCompare.Width, picImageCompare.Height);
                     srcImage = ImageUtil.ScaleImage(srcImage, srcImage.Width - (srcImage.Width % 4), srcImage.Height);
                 }
-                //调整图片数据，非常重要
+                //调整图片数据，非常重要 ImageInfo：图片格式与图片像素信息
                 ImageInfo imageInfo = ImageUtil.ReadBMP(srcImage);
                 //人脸检测：返回值为ASF_MultiFaceInfo多人脸检测结构体
                 ASF_MultiFaceInfo multiFaceInfo = FaceUtil.DetectFace(pImageEngine, imageInfo);
@@ -221,6 +221,7 @@ namespace ArcSoftFace
                 int retCode_3DAngle = -1;
                 ASF_Face3DAngle face3DAngleInfo = FaceUtil.Face3DAngleDetection(pImageEngine, imageInfo, multiFaceInfo, out retCode_3DAngle);
 
+                /*释放图片占用的内存*/
                 MemoryUtil.Free(imageInfo.imgData);
 
                 if (multiFaceInfo.faceNum < 1)
@@ -327,6 +328,21 @@ namespace ArcSoftFace
                 //显示标记后的图像
                 picImageCompare.Image = srcImage;
             }
+
+            //for (int i = 0; i < imagesFeatureList.Count; i++)
+            //{
+            //    IntPtr feature = imagesFeatureList[i];
+            //    float similarity = 0f;
+            //    int ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, image1Feature, feature, ref similarity);
+            //    //增加异常值处理
+            //    if (similarity.ToString().IndexOf("E") > -1)
+            //    {
+            //        similarity = 0f;
+            //    }
+            //    AppendText(string.Format("与{0}号比对结果:{1}\r\n", i, similarity));
+            //    imageList.Items[i].Text = string.Format("{0}号({1})", i, similarity);
+            //}
+
         }
 
 
@@ -477,7 +493,7 @@ namespace ArcSoftFace
         }
 
         /// <summary>
-        /// 匹配事件
+        /// 匹配事件：开始匹配事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

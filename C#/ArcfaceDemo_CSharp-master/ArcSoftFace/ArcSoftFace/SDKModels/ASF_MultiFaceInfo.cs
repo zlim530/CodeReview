@@ -8,7 +8,7 @@ namespace ArcSoftFace.SDKModels
     public struct ASF_MultiFaceInfo
     {
         /// <summary>
-        /// 人脸Rect结果集
+        /// 人脸Rect结果集：人脸框数组
         /// </summary>
         public IntPtr faceRects;
 

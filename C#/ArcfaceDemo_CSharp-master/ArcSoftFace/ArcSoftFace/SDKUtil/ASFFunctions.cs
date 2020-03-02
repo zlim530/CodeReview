@@ -79,7 +79,7 @@ namespace ArcSoftFace.SDKUtil
         public static extern int ASFFaceFeatureExtract(IntPtr pEngine, int width, int height, int format, IntPtr imgData, IntPtr faceInfo, IntPtr faceFeature);
 
         /// <summary>
-        /// 人脸特征比对
+        /// 人脸特征比对：只支持单人脸比对
         /// </summary>
         /// <param name="pEngine">引擎handle</param>
         /// <param name="faceFeature1">待比较人脸特征1</param>

@@ -3,7 +3,7 @@
 namespace ArcSoftFace.SDKModels
 {
     /// <summary>
-    /// 人脸框信息结构体
+    /// 人脸框信息结构体：人脸框
     /// </summary>
     public struct MRECT
     {
