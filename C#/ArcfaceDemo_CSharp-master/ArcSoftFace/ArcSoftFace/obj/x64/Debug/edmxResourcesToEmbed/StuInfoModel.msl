@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FaceSignModelStoreContainer" CdmEntityContainer="FaceSignEntities">
+    <EntitySetMapping Name="CheckInfo">
+      <EntityTypeMapping TypeName="FaceSignModel.CheckInfo">
+        <MappingFragment StoreEntitySet="CheckInfo">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="create_time" ColumnName="create_time" />
+          <ScalarProperty Name="update_time" ColumnName="update_time" />
+          <ScalarProperty Name="feature" ColumnName="feature" />
+          <ScalarProperty Name="iamge" ColumnName="iamge" />
+          <ScalarProperty Name="stu_info_id" ColumnName="stu_info_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StuInfo">
+      <EntityTypeMapping TypeName="FaceSignModel.StuInfo">
+        <MappingFragment StoreEntitySet="StuInfo">
+          <ScalarProperty Name="is_checked" ColumnName="is_checked" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

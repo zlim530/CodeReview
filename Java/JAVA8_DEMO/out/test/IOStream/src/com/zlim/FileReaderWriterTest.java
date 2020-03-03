@@ -11,11 +11,15 @@ import java.io.*;
  * 按照流的角色：节点流、处理流
  *
  * 流的体系结构：
- * 四个抽象基类           节点流（或文件流）           缓冲流（处理流的一种）
- * InputStream            FileInputStream            BufferedInputStream
- * OutputStream           FileOutputStream           BufferedOutputStream
- * Reader                 FileReader                 BufferedReader
- * Writer                 FileWriter                 BufferedWriter
+ * 四个抽象基类      节点流（或文件流）                               缓冲流（处理流的一种）
+ * InputStream       FileInputStream  (read(byte[] buffer))        BufferedInputStream (read(byte[] buffer))
+ * OutputStream      FileOutputStream (write(byte[] buffer,0,len)) BufferedOutputStream (write(byte[] buffer,0,len))
+ * Reader            FileReader       (read(char[] cbuff))         BufferedReader (read(char[] cbuff)/ readLine())
+ * Writer            FileWriter       (write(char[] cbuff,0,len))  BufferedWriter (write(char[] cbuff,0,len))
+ *
+ * 字节流              字符流
+ * InputStream          Reader
+ * OutputSream          Writer
  *
  * @author zlim
  * @create 2020-03-02 20:38
@@ -127,9 +131,7 @@ public class FileReaderWriterTest {
 
             // 写出数据的操作
             fw.write("I hava a dream.\n");
-            // fw.flush();
             fw.write("You need to have a dream,too\n");
-            // fw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -166,6 +168,8 @@ public class FileReaderWriterTest {
         }
 
     }
+
+
 
 
 

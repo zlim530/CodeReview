@@ -95,9 +95,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -110,6 +119,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckInfo.cs">
+      <DependentUpon>StuInfoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DateBase.cs" />
     <Compile Include="Entity\FaceTrackUnit.cs" />
     <Compile Include="SDKModels\ASF_AgeInfo.cs" />
     <Compile Include="SDKModels\ASF_Face3DAngle.cs" />
@@ -139,6 +152,30 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SDKUtil\ASFFunctions.cs" />
+    <Compile Include="StuInfo.cs">
+      <DependentUpon>StuInfoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StuInfoManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StuInfoManage.Designer.cs">
+      <DependentUpon>StuInfoManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StuInfoModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StuInfoModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StuInfoModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StuInfoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StuInfoModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StuInfoModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\FaceUtil.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MemoryUtil.cs" />
@@ -150,6 +187,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="StuInfoManage.resx">
+      <DependentUpon>StuInfoManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -159,6 +200,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EntityDeploy Include="StuInfoModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StuInfoModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="StuInfoModel.edmx.diagram">
+      <DependentUpon>StuInfoModel.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -175,6 +223,16 @@
     <Content Include="lib\AForge.Video.DirectShow.dll" />
     <Content Include="lib\AForge.Video.dll" />
     <Content Include="Resources\favicon.ico" />
+    <Content Include="StuInfoModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StuInfoModel.Context.cs</LastGenOutput>
+      <DependentUpon>StuInfoModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="StuInfoModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StuInfoModel.edmx</DependentUpon>
+      <LastGenOutput>StuInfoModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxWMPLib">
@@ -209,6 +267,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

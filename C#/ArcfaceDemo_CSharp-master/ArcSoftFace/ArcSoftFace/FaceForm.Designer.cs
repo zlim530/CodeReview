@@ -45,6 +45,7 @@
             this.btnStartVideo = new System.Windows.Forms.Button();
             this.txtThreshold = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnViewLog = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picImageCompare)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +54,7 @@
             this.picImageCompare.BackColor = System.Drawing.Color.White;
             this.picImageCompare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picImageCompare.Location = new System.Drawing.Point(804, 46);
-            this.picImageCompare.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.picImageCompare.Margin = new System.Windows.Forms.Padding(4);
             this.picImageCompare.Name = "picImageCompare";
             this.picImageCompare.Size = new System.Drawing.Size(657, 452);
             this.picImageCompare.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -74,7 +75,7 @@
             // 
             this.chooseMultiImgBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chooseMultiImgBtn.Location = new System.Drawing.Point(19, 539);
-            this.chooseMultiImgBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chooseMultiImgBtn.Margin = new System.Windows.Forms.Padding(4);
             this.chooseMultiImgBtn.Name = "chooseMultiImgBtn";
             this.chooseMultiImgBtn.Size = new System.Drawing.Size(177, 32);
             this.chooseMultiImgBtn.TabIndex = 32;
@@ -86,7 +87,7 @@
             // 
             this.logBox.BackColor = System.Drawing.Color.White;
             this.logBox.Location = new System.Drawing.Point(19, 596);
-            this.logBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logBox.Margin = new System.Windows.Forms.Padding(4);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
@@ -98,7 +99,7 @@
             // 
             this.chooseImgBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chooseImgBtn.Location = new System.Drawing.Point(804, 539);
-            this.chooseImgBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chooseImgBtn.Margin = new System.Windows.Forms.Padding(4);
             this.chooseImgBtn.Name = "chooseImgBtn";
             this.chooseImgBtn.Size = new System.Drawing.Size(145, 32);
             this.chooseImgBtn.TabIndex = 30;
@@ -116,7 +117,7 @@
             // 
             this.imageList.LargeImageList = this.imageLists;
             this.imageList.Location = new System.Drawing.Point(19, 46);
-            this.imageList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.imageList.Margin = new System.Windows.Forms.Padding(4);
             this.imageList.Name = "imageList";
             this.imageList.Size = new System.Drawing.Size(701, 452);
             this.imageList.TabIndex = 33;
@@ -126,7 +127,7 @@
             // 
             this.matchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.matchBtn.Location = new System.Drawing.Point(997, 539);
-            this.matchBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.matchBtn.Margin = new System.Windows.Forms.Padding(4);
             this.matchBtn.Name = "matchBtn";
             this.matchBtn.Size = new System.Drawing.Size(139, 32);
             this.matchBtn.TabIndex = 34;
@@ -137,8 +138,8 @@
             // btnClearFaceList
             // 
             this.btnClearFaceList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearFaceList.Location = new System.Drawing.Point(555, 539);
-            this.btnClearFaceList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClearFaceList.Location = new System.Drawing.Point(301, 539);
+            this.btnClearFaceList.Margin = new System.Windows.Forms.Padding(4);
             this.btnClearFaceList.Name = "btnClearFaceList";
             this.btnClearFaceList.Size = new System.Drawing.Size(167, 32);
             this.btnClearFaceList.TabIndex = 35;
@@ -169,7 +170,7 @@
             // videoSource
             // 
             this.videoSource.Location = new System.Drawing.Point(804, 46);
-            this.videoSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.videoSource.Margin = new System.Windows.Forms.Padding(4);
             this.videoSource.Name = "videoSource";
             this.videoSource.Size = new System.Drawing.Size(659, 452);
             this.videoSource.TabIndex = 38;
@@ -181,7 +182,7 @@
             // 
             this.btnStartVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartVideo.Location = new System.Drawing.Point(1177, 539);
-            this.btnStartVideo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStartVideo.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartVideo.Name = "btnStartVideo";
             this.btnStartVideo.Size = new System.Drawing.Size(143, 32);
             this.btnStartVideo.TabIndex = 39;
@@ -195,7 +196,7 @@
             this.txtThreshold.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtThreshold.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtThreshold.Location = new System.Drawing.Point(1383, 539);
-            this.txtThreshold.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtThreshold.Margin = new System.Windows.Forms.Padding(4);
             this.txtThreshold.Name = "txtThreshold";
             this.txtThreshold.Size = new System.Drawing.Size(79, 29);
             this.txtThreshold.TabIndex = 40;
@@ -213,11 +214,23 @@
             this.label1.TabIndex = 41;
             this.label1.Text = "阈值：";
             // 
+            // btnViewLog
+            // 
+            this.btnViewLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnViewLog.Location = new System.Drawing.Point(551, 539);
+            this.btnViewLog.Name = "btnViewLog";
+            this.btnViewLog.Size = new System.Drawing.Size(169, 32);
+            this.btnViewLog.TabIndex = 42;
+            this.btnViewLog.Text = "查看记录";
+            this.btnViewLog.UseVisualStyleBackColor = true;
+            this.btnViewLog.Click += new System.EventHandler(this.btnViewLog_Click);
+            // 
             // FaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1487, 791);
+            this.Controls.Add(this.btnViewLog);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtThreshold);
             this.Controls.Add(this.btnStartVideo);
@@ -234,7 +247,7 @@
             this.Controls.Add(this.picImageCompare);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FaceForm";
@@ -264,6 +277,7 @@
         private System.Windows.Forms.Button btnStartVideo;
         private System.Windows.Forms.TextBox txtThreshold;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnViewLog;
     }
 }
 

@@ -788,5 +788,12 @@ namespace ArcSoftFace
         }
 
         #endregion
+
+        private void btnViewLog_Click(object sender, EventArgs e)
+        {
+            StuInfoManage sm = new StuInfoManage();
+            sm.Owner = this;
+            sm.Show();
+        }
     }
 }

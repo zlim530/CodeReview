@@ -1,0 +1,182 @@
+package com.zlim;
+
+import org.junit.Test;
+
+import javax.lang.model.SourceVersion;
+import java.io.*;
+
+/**
+ * 其他流的使用：
+ * 1.标准的输入、输出流
+ * 2.打印流
+ * 3.数据流
+ *
+ * @author zlim
+ * @create 2020-03-03 22:02
+ */
+public class OtherStreamTest {
+
+    /*
+    * 标准的输入、输出流：
+    * System.in：标准的输入流：默认从键盘输入
+    * System.out：标准的输出流：默认从显示器(控制台)输出
+    * System类的setIn(InputStream is) / setOut(PrintStream ps)的方法可以重定向输入输出流
+    *
+    * 练习：
+    * 从键盘输入字符串，要求将读取到的整行字符串转成大写输出。然后继续
+        进行输入操作，直至当输入“e”或者“exit”时，退出程序。
+    * 方式一：使用Scanner实现，调用next()返回一个字符串；
+    * 方式二：使用System.in实现：
+    *   通过 System.in 在键盘中读入字节流 ---> 通过InputStreamReader将其转换为字符流 ---> 通过字符输入缓冲流BufferedReader的readLine()方法读取
+    *                                                                                  经过InputStreamReader转换后的字符流：并最终在控制台输出
+    * */
+    public static void main(String[] args) {
+
+        BufferedReader br = null;
+        try {
+            InputStreamReader isr = new InputStreamReader(System.in);
+
+            br = new BufferedReader(isr);
+
+            while (true) {
+                System.out.println("请输入字符串：");
+                String date;
+                date = br.readLine();
+                if ("e".equalsIgnoreCase(date) || "exit".equalsIgnoreCase(date)) {
+                    System.out.println("程序结束。");
+                    break;
+                }
+                String s = date.toUpperCase();
+                System.out.println(s);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭资源：只需要关闭最外层处理流即可:在这里是字符缓冲输入流BufferedReader
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
+
+
+    // 打印流：PrintStream和PrintWriter
+    //     实现将 基本数据类型的数据格式转化为 字符串输出
+    //  提供了一系列重载的print()和println()方法，用于多种数据类型的输出
+    //  PrintStream和PrintWriter的输出不会抛出IOException异常
+    //  PrintStream和PrintWriter有自动flush功能
+    //  PrintStream 打印的所有字符都使用平台的默认字符编码转换为字节。
+    //     在需要写入字符而不是写入字节的情况下，应该使用 PrintWriter 类。
+    //  System.out返回的是PrintStream的实例
+    @Test
+    public void testPrintStreamWriter() {
+        PrintStream ps = null;
+        try {
+            FileOutputStream fos = new FileOutputStream(new File("text.txt"));
+// 创建打印输出流,设置为自动刷新模式(写入换行符或字节 '\n' 时都会刷新输出缓冲区)
+            ps = new PrintStream(fos, true);
+            if (ps != null) {// 把标准输出流(控制台输出)改成文件
+                System.setOut(ps);
+            }
+
+
+            for (int i = 0; i <= 255; i++) { // 输出ASCII字符
+                System.out.print((char) i);
+                if (i % 50 == 0) { // 每50个数据一行
+                    System.out.println(); // 换行
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+        }
+    }
+
+    
+    /*
+    * 数据流：
+    * DataInputStream 和 DataOutputStream
+    * 作用：用于读取或写出基本类型的变量或字符串
+    * */
+    @Test
+    public void testDataOutputStream() throws IOException {
+
+        // 1、创建数据输出字节处理流
+        DataOutputStream dos = new DataOutputStream(new FileOutputStream("data.txt"));
+
+        // 2.将内存中的字符串、基本数据类型的变量写出到指定文件中：在这里是当前module下的data.txt
+        dos.writeUTF("zlim");
+        // flush()方法：
+        //清空此数据输出流。这迫使所有缓冲的输出字节被写出流中也即写入到文件中。
+        dos.flush();    // 将内存中的数据写入文件中：刷新操作
+        dos.writeInt(22);
+        dos.flush();
+        dos.writeBoolean(false);
+        dos.flush();
+
+        // 3.关闭流
+        dos.close();
+
+    }
+    
+
+    /*
+    *将文件中的存储的基本数据类型变量和字符串读取到程序中（也即内存中），并保存在变量中
+    * 注意：
+    *   读取不同类型的数据的顺序要与当初写入文件保存时的数据顺序一致！
+    *   否则会报java.io.EOFException异常
+    * */
+    @Test
+    public void testDataInputStream() throws Exception {
+        // 1.创建数据输入字符处理流
+        DataInputStream dis = new DataInputStream(new FileInputStream("data.txt"));
+
+        // 2.读取数据
+        String name = dis.readUTF();
+        System.out.println("name = " + name);
+
+        int age = dis.readInt();
+        System.out.println("age = " + age);
+
+        boolean isMale = dis.readBoolean();
+        System.out.println("isMale = " + isMale);
+
+        // 3.关闭资源
+        dis.close();
+
+    }
+    
+    
+    
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
