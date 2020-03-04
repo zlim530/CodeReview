@@ -221,7 +221,7 @@
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(169, 32);
             this.btnViewLog.TabIndex = 42;
-            this.btnViewLog.Text = "查看记录";
+            this.btnViewLog.Text = "管理学生信息";
             this.btnViewLog.UseVisualStyleBackColor = true;
             this.btnViewLog.Click += new System.EventHandler(this.btnViewLog_Click);
             // 

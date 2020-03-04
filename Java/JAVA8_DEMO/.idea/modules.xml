@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/MixUp/MixUp.iml" filepath="$PROJECT_DIR$/MixUp/MixUp.iml" />
       <module fileurl="file://$PROJECT_DIR$/ThreadRelated/ThreadRelated.iml" filepath="$PROJECT_DIR$/ThreadRelated/ThreadRelated.iml" />
       <module fileurl="file://$PROJECT_DIR$/ThreadSafety/ThreadSafety.iml" filepath="$PROJECT_DIR$/ThreadSafety/ThreadSafety.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebSocket/WebSocket.iml" filepath="$PROJECT_DIR$/WebSocket/WebSocket.iml" />
     </modules>
   </component>
 </project>

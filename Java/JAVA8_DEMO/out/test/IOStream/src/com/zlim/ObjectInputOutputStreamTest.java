@@ -49,6 +49,11 @@ public class ObjectInputOutputStreamTest {
         // oos.writeObject("i want make money.");
         oos.flush();
 
+        oos.writeObject(new Person("zlim",22,160,new Account(4000)));
+        oos.flush();
+
+        System.out.println("数据序列化成功。");
+
         oos.close();
 
     }
@@ -64,7 +69,13 @@ public class ObjectInputOutputStreamTest {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.dat"));
 
         Object o = ois.readObject();
-        System.out.println("o = " + o);
+        System.out.println( o);
+
+        Object o1 = ois.readObject();
+        Person  p1 = (Person) o1;
+        System.out.println("p1 = " + p1);
+
+        System.out.println("数据反序列化成功。");
 
         ois.close();
 

@@ -31,7 +31,7 @@ public class FileInputOutputStreamTest {
             fos = new FileOutputStream(destFile);
 
             byte[] buffer = new byte[5];
-            int len ;
+            int len ;   // 每次读取文件时数据的真实长度：也即每次读入到cbuf数组中的字符的个数
             while ( ( len = fis.read(buffer)) != -1){
                 fos.write(buffer,0,len);
             }

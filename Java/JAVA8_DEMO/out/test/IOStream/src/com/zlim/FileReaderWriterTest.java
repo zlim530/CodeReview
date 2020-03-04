@@ -95,7 +95,7 @@ public class FileReaderWriterTest {
                 // String str = new String(cbuff);
                 // System.out.print(str);  // HelloWorld123ld:错误的
 
-                String str = new String(cbuff,0,len);
+                String str = new String(cbuff,0,len);   // 每次写出len个字符：因为每次实际写入也只写入len个字符
                 System.out.print(str);  // HelloWorld123:正确的
                 len = fr.read(cbuff);
             }
