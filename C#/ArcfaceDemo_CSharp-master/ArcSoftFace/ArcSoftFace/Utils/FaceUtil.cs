@@ -3,6 +3,8 @@ using ArcSoftFace.SDKModels;
 using ArcSoftFace.SDKUtil;
 using ArcSoftFace.Entity;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace ArcSoftFace.Utils
 {
@@ -437,5 +439,56 @@ namespace ArcSoftFace.Utils
             }
             return singleFaceInfo;
         }
+
+
+        public static Bitmap CutFace(Bitmap srcImage, int StartX, int StartY, int iWidth, int iHeight)
+        {
+            if (srcImage == null)
+            {
+                return null;
+            }
+            int w = srcImage.Width;
+            int h = srcImage.Height;
+            if (StartX >= w || StartY >= h)
+            {
+                return null;
+            }
+            if (StartX + iWidth > w)
+            {
+                iWidth = w - StartX;
+            }
+            if (StartY + iHeight > h)
+            {
+                iHeight = h - StartY;
+            }
+            try
+            {
+                Bitmap bmpOut = new Bitmap(iWidth, iHeight, PixelFormat.Format24bppRgb);
+                Graphics g = Graphics.FromImage(bmpOut);
+                g.DrawImage(srcImage, new Rectangle(0, 0, iWidth, iHeight), new Rectangle(StartX, StartY, iWidth, iHeight), GraphicsUnit.Pixel);
+                g.Dispose();
+                return bmpOut;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private static Image DrawRectangleInPicture(Image bmp, Point p0, Point p1, Color RectColor, int LineWidth, DashStyle ds)
+        {
+            if (bmp == null) return null;
+            Graphics g = Graphics.FromImage(bmp);
+            Brush brush = new SolidBrush(RectColor);
+            Pen pen = new Pen(brush, LineWidth);
+            pen.DashStyle = ds;
+            g.DrawRectangle(pen, new Rectangle(p0.X, p0.Y, Math.Abs(p0.X - p1.X), Math.Abs(p0.Y - p1.Y)));
+            g.Dispose();
+            return bmp;
+        }
+
+
+
+
+
     }
 }

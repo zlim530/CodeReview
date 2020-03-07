@@ -248,6 +248,14 @@ namespace ArcSoftFace
                     int orient = MemoryUtil.PtrToStructure<int>(multiFaceInfo.faceOrients + MemoryUtil.SizeOf<int>() * i);
                     int age = 0;
 
+
+                    Bitmap bitmap = new Bitmap(srcImage);
+                    Image image = FaceUtil.CutFace(bitmap,rect.left,rect.top,rect.right - rect.left,rect.bottom - rect.top);
+                    if ( i == 0) { 
+                        
+                    }
+
+
                     if (retCode_Age != 0)
                     {
                         AppendText(string.Format("年龄检测失败，返回{0}!\n\n", retCode_Age));

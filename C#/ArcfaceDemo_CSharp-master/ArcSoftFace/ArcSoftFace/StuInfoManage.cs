@@ -21,6 +21,8 @@ namespace ArcSoftFace
         DateBase db = new DateBase();
         SqlConnection conn;
         DataTable dt;
+
+        // 查找按钮事件
         private void btnSearch_Click(object sender, EventArgs e)
         {
             conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
@@ -32,9 +34,20 @@ namespace ArcSoftFace
             }
             db.RunNonSelect(strSQL);
             DataSet ds = db.getDataSet(strSQL, "stuInfo");
+
+            // 绑定性别
+            strSQL = "SELECT DISTINCT sex FROM stuInfo;";
+            SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
+            //DataSet ds2 = db.getDataSet(strSQL, "table");
+            da.Fill(ds, "table");
+            sex.DataSource = ds.Tables["table"];
+            sex.ValueMember = "sex";
+            sex.DisplayMember = "sex";
+
             dt = ds.Tables["stuInfo"];
             dataGridView1Stu.DataSource = ds;
             dataGridView1Stu.DataMember = "stuInfo";
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -43,29 +56,10 @@ namespace ArcSoftFace
             DateTime dtime = DateTime.Now.ToLocalTime();
             string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            string txtname = txtName.ToString().Trim();
-            string txtnumber = txtNumberS.ToString().Trim();
-            string txtsex = ComboBoxSex.ToString().Trim();
-            string txtcheck = ComboBoxCheck.ToString().Trim();
-            //if (txtname.Length != 0 && txtnumber.Length != 0 && txtsex.Length != 0 && txtcheck.Length != 0)
-            //{
-            //    string sqlstr1 = @"INSERT INTO [dbo].[StuInfo]([id],[create_time],[update_time],[sex],[name],[is_checked])
-            //                 VALUES('" + Convert.ToInt32(txtnumber) + @"'
-            //                       ,'" + time + @"'
-            //                       ,'" + time + @"'
-            //                       ,'" + txtsex + @"'
-            //                       ,'" + txtname + @"'
-            //                       ,'" + txtcheck + @"')";
-            //    SqlCommand comm = new SqlCommand(sqlstr1, conn);
-            //    comm.ExecuteNonQuery();
-            //    save();
-            //}
-
             if (changeDt == null){
-
                 MessageBox.Show("没有执行任何操作.");
             }
-            else if(txtname.Length == 0 && txtnumber.Length == 0 && txtsex.Length == 0 && txtcheck.Length == 0 && changeDt != null) {
+            else {
                 foreach (DataRow dr in changeDt.Rows)
                 {
                     string strSQL = string.Empty;
@@ -97,7 +91,14 @@ namespace ArcSoftFace
                     }
 
                     SqlCommand comm = new SqlCommand(strSQL, conn);
-                    comm.ExecuteNonQuery();
+                    try
+                    {
+                        comm.ExecuteNonQuery();
+                    }
+                    catch (Exception o)
+                    {
+                        MessageBox.Show(o.Message, "操作失败。");
+                    }
                     save();
 
 
@@ -118,7 +119,29 @@ namespace ArcSoftFace
             }
         }
 
-
+        private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string txtname = txtName.ToString().Trim();
+            string txtnumber = txtNumberS.ToString().Trim();
+            string txtsex = ComboBoxSex.ToString().Trim();
+            string txtcheck = ComboBoxCheck.ToString().Trim();
+            //txtName.Text = dataGridView1Stu[e.ColumnIndex, e.RowIndex].Value.ToString();
+            //txtNumberS.Text = dataGridView1Stu[e.ColumnIndex, e.RowIndex].Value.ToString();
+            //if (txtname.Length != 0 && txtnumber.Length != 0 && txtsex.Length != 0 && txtcheck.Length != 0)
+            //{
+            //    string sqlstr1 = @"INSERT INTO [dbo].[StuInfo]([id],[create_time],[update_time],[sex],[name],[is_checked])
+            //                 VALUES('" + Convert.ToInt32(txtnumber) + @"'
+            //                       ,'" + time + @"'
+            //                       ,'" + time + @"'
+            //                       ,'" + txtsex + @"'
+            //                       ,'" + txtname + @"'
+            //                       ,'" + txtcheck + @"')";
+            //    SqlCommand comm = new SqlCommand(sqlstr1, conn);
+            //    comm.ExecuteNonQuery();
+            //    save();
+            //}
+            //if (txtname.Length == 0 && txtnumber.Length == 0 && txtsex.Length == 0 && txtcheck.Length == 0 && changeDt != null)
+        }
     }
 
 
