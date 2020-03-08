@@ -1,10 +1,13 @@
 package com.zlim;
 
+import javax.swing.*;
+
 /**
  * @author zlim
  * @create 2020-03-07 21:11
  */
-public class Person {
+@MyAnnotation("PersonClassAnnotatin")
+public class Person  extends Creature<String> implements Comparable<String>{
 
     private String name;
 
@@ -17,6 +20,9 @@ public class Person {
 
     private Person(String name){
         this.name = name;
+    }
+
+    public Person() {
     }
 
     @Override
@@ -47,8 +53,20 @@ public class Person {
         System.out.println("Hi,there.");
     }
 
+    @MyAnnotation
     private String  showNation(String nation){
         System.out.println("My nation is " + nation);
         return nation;
     }
+
+    @Override
+    public int compareTo(String o) {
+        return 0;
+    }
+
+    private static void showDesc(){
+        System.out.println("I am a cute person.");
+    }
+
+
 }
