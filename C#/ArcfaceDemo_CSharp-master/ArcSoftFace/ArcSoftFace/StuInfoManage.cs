@@ -121,10 +121,16 @@ namespace ArcSoftFace
 
         private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string txtname = txtName.ToString().Trim();
-            string txtnumber = txtNumberS.ToString().Trim();
-            string txtsex = ComboBoxSex.ToString().Trim();
-            string txtcheck = ComboBoxCheck.ToString().Trim();
+            //string txtname = txtName.ToString().Trim();
+            //string txtnumber = txtNumberS.ToString().Trim();
+            //string txtsex = ComboBoxSex.ToString().Trim();
+            //string txtcheck = ComboBoxCheck.ToString().Trim();
+            txtNumberS.Text = dataGridView1Stu.CurrentRow.Cells[0].Value.ToString();
+            txtCtime.Text = dataGridView1Stu.CurrentRow.Cells[1].Value.ToString();
+            txtUtime.Text = dataGridView1Stu.CurrentRow.Cells[2].Value.ToString();
+            ComboBoxSex.Text = dataGridView1Stu.CurrentRow.Cells[3].Value.ToString();
+            txtName.Text = dataGridView1Stu.CurrentRow.Cells[4].Value.ToString();
+            ComboBoxCheck.Text = dataGridView1Stu.CurrentRow.Cells[5].Value.ToString();
             //txtName.Text = dataGridView1Stu[e.ColumnIndex, e.RowIndex].Value.ToString();
             //txtNumberS.Text = dataGridView1Stu[e.ColumnIndex, e.RowIndex].Value.ToString();
             //if (txtname.Length != 0 && txtnumber.Length != 0 && txtsex.Length != 0 && txtcheck.Length != 0)

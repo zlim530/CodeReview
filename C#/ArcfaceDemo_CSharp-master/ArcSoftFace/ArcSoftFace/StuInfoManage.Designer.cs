@@ -33,12 +33,22 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1Stu = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sex = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtUtime = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtCtime = new System.Windows.Forms.TextBox();
             this.ComboBoxSex = new System.Windows.Forms.ComboBox();
             this.ComboBoxCheck = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -47,16 +57,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtCtime = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtUtime = new System.Windows.Forms.TextBox();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sex = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,7 +64,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(778, 33);
+            this.btnSearch.Location = new System.Drawing.Point(683, 28);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(101, 40);
             this.btnSearch.TabIndex = 1;
@@ -100,6 +100,61 @@
             this.dataGridView1Stu.TabIndex = 0;
             this.dataGridView1Stu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1Stu_CellClick);
             // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.id.DefaultCellStyle = dataGridViewCellStyle1;
+            this.id.HeaderText = "学号";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.id.Width = 125;
+            // 
+            // create_time
+            // 
+            this.create_time.DataPropertyName = "create_time";
+            this.create_time.HeaderText = "创建时间";
+            this.create_time.MinimumWidth = 6;
+            this.create_time.Name = "create_time";
+            this.create_time.Width = 125;
+            // 
+            // update_time
+            // 
+            this.update_time.DataPropertyName = "update_time";
+            this.update_time.HeaderText = "更新时间";
+            this.update_time.MinimumWidth = 6;
+            this.update_time.Name = "update_time";
+            this.update_time.Width = 125;
+            // 
+            // sex
+            // 
+            this.sex.DataPropertyName = "sex";
+            this.sex.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.sex.HeaderText = "性别";
+            this.sex.MinimumWidth = 6;
+            this.sex.Name = "sex";
+            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.sex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.sex.Width = 125;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "姓名";
+            this.name.MinimumWidth = 6;
+            this.name.Name = "name";
+            this.name.Width = 125;
+            // 
+            // is_checked
+            // 
+            this.is_checked.DataPropertyName = "is_checked";
+            this.is_checked.HeaderText = "是否签到";
+            this.is_checked.MinimumWidth = 6;
+            this.is_checked.Name = "is_checked";
+            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.is_checked.Width = 125;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.txtNumber);
@@ -109,7 +164,7 @@
             this.groupBox1.Controls.Add(this.txtSearch);
             this.groupBox1.Location = new System.Drawing.Point(50, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(885, 98);
+            this.groupBox1.Size = new System.Drawing.Size(981, 121);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查找";
@@ -141,7 +196,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(778, 31);
+            this.btnSave.Location = new System.Drawing.Point(835, 42);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(101, 36);
             this.btnSave.TabIndex = 4;
@@ -166,10 +221,42 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(50, 153);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(885, 113);
+            this.groupBox2.Size = new System.Drawing.Size(981, 111);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "学生信息";
+            // 
+            // txtUtime
+            // 
+            this.txtUtime.Location = new System.Drawing.Point(625, 73);
+            this.txtUtime.Name = "txtUtime";
+            this.txtUtime.Size = new System.Drawing.Size(185, 25);
+            this.txtUtime.TabIndex = 16;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(537, 78);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(82, 15);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "更新时间：";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(537, 37);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(82, 15);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "创建时间：";
+            // 
+            // txtCtime
+            // 
+            this.txtCtime.Location = new System.Drawing.Point(625, 32);
+            this.txtCtime.Name = "txtCtime";
+            this.txtCtime.Size = new System.Drawing.Size(185, 25);
+            this.txtCtime.TabIndex = 13;
             // 
             // ComboBoxSex
             // 
@@ -244,93 +331,6 @@
             this.label3.Size = new System.Drawing.Size(52, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
-            // 
-            // txtCtime
-            // 
-            this.txtCtime.Location = new System.Drawing.Point(625, 32);
-            this.txtCtime.Name = "txtCtime";
-            this.txtCtime.Size = new System.Drawing.Size(147, 25);
-            this.txtCtime.TabIndex = 13;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(537, 37);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(82, 15);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "创建时间：";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(537, 78);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(82, 15);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "更新时间：";
-            // 
-            // txtUtime
-            // 
-            this.txtUtime.Location = new System.Drawing.Point(625, 73);
-            this.txtUtime.Name = "txtUtime";
-            this.txtUtime.Size = new System.Drawing.Size(147, 25);
-            this.txtUtime.TabIndex = 16;
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.id.DefaultCellStyle = dataGridViewCellStyle1;
-            this.id.HeaderText = "学号";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.id.Width = 125;
-            // 
-            // create_time
-            // 
-            this.create_time.DataPropertyName = "create_time";
-            this.create_time.HeaderText = "创建时间";
-            this.create_time.MinimumWidth = 6;
-            this.create_time.Name = "create_time";
-            this.create_time.Width = 125;
-            // 
-            // update_time
-            // 
-            this.update_time.DataPropertyName = "update_time";
-            this.update_time.HeaderText = "更新时间";
-            this.update_time.MinimumWidth = 6;
-            this.update_time.Name = "update_time";
-            this.update_time.Width = 125;
-            // 
-            // sex
-            // 
-            this.sex.DataPropertyName = "sex";
-            this.sex.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.sex.HeaderText = "性别";
-            this.sex.MinimumWidth = 6;
-            this.sex.Name = "sex";
-            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.sex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.sex.Width = 125;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "姓名";
-            this.name.MinimumWidth = 6;
-            this.name.Name = "name";
-            this.name.Width = 125;
-            // 
-            // is_checked
-            // 
-            this.is_checked.DataPropertyName = "is_checked";
-            this.is_checked.HeaderText = "是否签到";
-            this.is_checked.MinimumWidth = 6;
-            this.is_checked.Name = "is_checked";
-            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.is_checked.Width = 125;
             // 
             // StuInfoManage
             // 
