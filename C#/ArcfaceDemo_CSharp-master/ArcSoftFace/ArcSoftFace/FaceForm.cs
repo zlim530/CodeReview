@@ -322,6 +322,8 @@ namespace ArcSoftFace
                 //提取人脸特征
                 image1Feature = FaceUtil.ExtractFeature(pImageEngine, srcImage, out singleFaceInfo);
 
+                
+
                 //清空上次的匹配结果
                 for (int i = 0; i < imagesFeatureList.Count; i++)
                 {
@@ -448,6 +450,14 @@ namespace ArcSoftFace
                                     imagesFeatureList.Add(feature);
                                 }
                             }));
+
+                            //保存人脸特征到文件
+                            ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
+                            byte[] featureSave = new byte[faceFeatureSave.featureSize];
+                            MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
+                            string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
+                            System.IO.File.WriteAllBytes(DataPath, featureSave);
+                        
                         }
                         //允许点击按钮
                         Invoke(new Action(delegate

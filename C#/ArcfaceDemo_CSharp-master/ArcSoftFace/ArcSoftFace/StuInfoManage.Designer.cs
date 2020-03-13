@@ -57,6 +57,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.buttonOpen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,7 +65,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(683, 28);
+            this.btnSearch.Location = new System.Drawing.Point(669, 33);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(101, 40);
             this.btnSearch.TabIndex = 1;
@@ -157,6 +158,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonOpen);
             this.groupBox1.Controls.Add(this.txtNumber);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.btnSearch);
@@ -332,6 +334,16 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
             // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Location = new System.Drawing.Point(797, 33);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(129, 40);
+            this.buttonOpen.TabIndex = 6;
+            this.buttonOpen.Text = "查看人脸库信息";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
             // StuInfoManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -383,5 +395,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn sex;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn is_checked;
+        private System.Windows.Forms.Button buttonOpen;
     }
 }

@@ -1,7 +1,6 @@
 package com.zlim;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,27 @@ import java.util.List;
 public class FileTest {
 
     public static void main(String[] args) {
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                pong();
+            }
+        };
+        t.run();
+        System.out.println("ping");
+        // pong
+        // ping
+    }
+
+    static void pong() {
+        System.out.println("pong");
+    }
+
+
+
+
+
+    public static void main1(String[] args) {
         File dir = new File("C:\\Users\\Lim\\Desktop\\Linux\\B-其他资料\\Java\\宋红康-Java-尚硅谷\\尚硅谷_宋红康_第13章_IO流");
         FilenameFilter filter = new FilenameFilter() {
             @Override

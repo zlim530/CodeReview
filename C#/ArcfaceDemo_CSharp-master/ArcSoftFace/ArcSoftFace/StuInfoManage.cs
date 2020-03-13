@@ -119,6 +119,7 @@ namespace ArcSoftFace
             }
         }
 
+        // 单击dataGridView1Stu显示当前行的数据
         private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //string txtname = txtName.ToString().Trim();
@@ -147,6 +148,13 @@ namespace ArcSoftFace
             //    save();
             //}
             //if (txtname.Length == 0 && txtnumber.Length == 0 && txtsex.Length == 0 && txtcheck.Length == 0 && changeDt != null)
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            CheckInfoManage cm = new CheckInfoManage();
+            cm.Owner = this;
+            cm.Show();
         }
     }
 
