@@ -18,7 +18,8 @@ namespace ArcSoftFace
         public string create_time { get; set; }
         public string update_time { get; set; }
         public byte[] feature { get; set; }
-        public byte[] iamge { get; set; }
+        public byte[] image { get; set; }
         public string stu_info_id { get; set; }
+        public string name { get; set; }
     }
 }

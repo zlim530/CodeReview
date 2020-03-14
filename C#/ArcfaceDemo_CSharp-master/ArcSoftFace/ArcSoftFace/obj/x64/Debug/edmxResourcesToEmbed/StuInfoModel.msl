@@ -4,11 +4,12 @@
     <EntitySetMapping Name="CheckInfo">
       <EntityTypeMapping TypeName="FaceSignModel.CheckInfo">
         <MappingFragment StoreEntitySet="CheckInfo">
+          <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="create_time" ColumnName="create_time" />
           <ScalarProperty Name="update_time" ColumnName="update_time" />
           <ScalarProperty Name="feature" ColumnName="feature" />
-          <ScalarProperty Name="iamge" ColumnName="iamge" />
+          <ScalarProperty Name="image" ColumnName="iamge" />
           <ScalarProperty Name="stu_info_id" ColumnName="stu_info_id" />
         </MappingFragment>
       </EntityTypeMapping>

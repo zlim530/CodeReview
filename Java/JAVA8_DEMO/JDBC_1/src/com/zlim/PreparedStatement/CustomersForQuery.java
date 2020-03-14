@@ -20,17 +20,17 @@ public class CustomersForQuery {
         Customer customer = queryForCustomers(sql, 13);
         System.out.println("customer = " + customer);
 
-        // 测试不通过？
+        // 测试结果不正确：null:无法使用name查询：其他列均可正确查询：只要涉及到name字段查询就为null
         // sql = "select * from customers where name = ? ";
-        sql = "select name,email from customers where name = ?";
-        Customer customer1 = queryForCustomers(sql, "周杰伦");
-        System.out.println("customer1 = " + customer1);// null
+        sql = "select id ,name ,birth,email from customers where birth = ? and name = ?";
+        Customer customer1 = queryForCustomers(sql, "1999-09-09","周杰伦");
+        System.out.println("customer1 = " + customer1);
 
     }
 
 
     //针对于customers表的通用的查询操作：通过结果集的元数据与反射实现
-    public Customer queryForCustomers(String sql,Object ...args) {
+    public Customer queryForCustomers(String sql,Object... args) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

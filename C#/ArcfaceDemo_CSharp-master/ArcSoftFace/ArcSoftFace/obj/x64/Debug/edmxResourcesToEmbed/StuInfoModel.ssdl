@@ -7,9 +7,10 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="create_time" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="update_time" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="feature" Type="varbinary" MaxLength="50" Nullable="false" />
-    <Property Name="iamge" Type="image" Nullable="false" />
+    <Property Name="feature" Type="varbinary" MaxLength="50" />
+    <Property Name="iamge" Type="image" />
     <Property Name="stu_info_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="StuInfo">
     <Key>

@@ -41,6 +41,7 @@ namespace OrderSystem
 
         }
 
+        // 查找按钮事件
         private void button1_Click(object sender, EventArgs e)
         {
             string conditionStr = "";
@@ -81,6 +82,7 @@ namespace OrderSystem
             }
         }
 
+        // 选择照片按钮点击事件
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -91,6 +93,7 @@ namespace OrderSystem
             }
         }
 
+        // 删除照片按钮点击事件
         private void button3_Click(object sender, EventArgs e)
         {
             图片PictureBox.Image = null;

@@ -12,9 +12,10 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="create_time" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="update_time" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="feature" Type="varbinary" MaxLength="50" Nullable="false" />
-          <Property Name="iamge" Type="image" Nullable="false" />
+          <Property Name="feature" Type="varbinary" MaxLength="50" />
+          <Property Name="iamge" Type="image" />
           <Property Name="stu_info_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StuInfo">
           <Key>
@@ -42,9 +43,10 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="create_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="update_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="feature" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
-          <Property Name="iamge" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="feature" Type="Binary" MaxLength="50" FixedLength="false" />
+          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="stu_info_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="StuInfo">
           <Key>
@@ -70,11 +72,12 @@
           <EntitySetMapping Name="CheckInfo">
             <EntityTypeMapping TypeName="FaceSignModel.CheckInfo">
               <MappingFragment StoreEntitySet="CheckInfo">
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="create_time" ColumnName="create_time" />
                 <ScalarProperty Name="update_time" ColumnName="update_time" />
                 <ScalarProperty Name="feature" ColumnName="feature" />
-                <ScalarProperty Name="iamge" ColumnName="iamge" />
+                <ScalarProperty Name="image" ColumnName="iamge" />
                 <ScalarProperty Name="stu_info_id" ColumnName="stu_info_id" />
               </MappingFragment>
             </EntityTypeMapping>

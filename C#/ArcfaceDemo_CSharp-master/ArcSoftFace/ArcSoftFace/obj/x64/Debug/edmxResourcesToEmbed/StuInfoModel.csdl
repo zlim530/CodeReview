@@ -7,9 +7,10 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="create_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="update_time" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="feature" Type="Binary" MaxLength="50" FixedLength="false" Nullable="false" />
-    <Property Name="iamge" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="feature" Type="Binary" MaxLength="50" FixedLength="false" />
+    <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
     <Property Name="stu_info_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="StuInfo">
     <Key>

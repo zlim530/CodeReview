@@ -40,6 +40,7 @@
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonOpen = new System.Windows.Forms.Button();
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,7 +58,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.buttonOpen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -170,6 +170,16 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查找";
+            // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Location = new System.Drawing.Point(797, 33);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(129, 40);
+            this.buttonOpen.TabIndex = 6;
+            this.buttonOpen.Text = "查看人脸库信息";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // txtNumber
             // 
@@ -333,16 +343,6 @@
             this.label3.Size = new System.Drawing.Size(52, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
-            // 
-            // buttonOpen
-            // 
-            this.buttonOpen.Location = new System.Drawing.Point(797, 33);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(129, 40);
-            this.buttonOpen.TabIndex = 6;
-            this.buttonOpen.Text = "查看人脸库信息";
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // StuInfoManage
             // 
