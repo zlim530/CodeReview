@@ -25,7 +25,8 @@ public class PreparedStatementTest {
     /**
      * 使用main方法进行测试，但如果是在main()方法中测试，则相对路径即为当前的project下
      * 故在getInstance()方法中无法使用JDBCUtils.getConnection()方法获得数据库连接
-     * 而是手动获取连接
+     * 而是手动获取连接,将JDBCUtils.getConnection()方法中的读取配置文件的路径换成绝对路径也不可以
+     * 仍让报空指针异常
      * @param args
      */
     public static void main(String[] args) {

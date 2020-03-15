@@ -1,7 +1,9 @@
 package com.zlim.PreparedStatement.util;
 
 import com.zlim.connection.ConnectionTest;
+import org.junit.Test;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -14,11 +16,17 @@ import java.util.Properties;
  */
 public class JDBCUtils {
 
+    // @Test
+    // public void test() throws Exception {
+    //     Connection connection = getConnection();
+    //     System.out.println("connection = " + connection);
+    // }
+
     //获取数据库的连接
     public static Connection getConnection() throws Exception {
         //1.读取配置文件中的4个基本信息：通过类的加载器来读取
-        InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("src\\jdbc.properties");
-
+        // InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("C:\\Users\\Lim\\Desktop\\code\\CodeReview\\Java\\JAVA8_DEMO\\JDBC_1\\src\\jdbc.properties");
+        FileInputStream is = new FileInputStream("C:\\Users\\Lim\\Desktop\\code\\CodeReview\\Java\\JAVA8_DEMO\\JDBC_1\\src\\jdbc.properties");
         Properties properties = new Properties();
         properties.load(is);
 

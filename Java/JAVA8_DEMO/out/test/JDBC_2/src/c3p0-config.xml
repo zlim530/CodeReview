@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<c3p0-config>
+
+    <named-config name="helloc3p0">
+        <!-- 提供获取连接的4个基本信息 -->
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <!-- 如果连接的是本机的3306端口号的数据库,可以省略不写,通常为:jdbc:mysql://localhost:3306/test -->
+        <property name="jdbcUrl">jdbc:mysql:///test</property>
+        <property name="user">root</property>
+        <property name="password"></property>
+
+        <!-- 进行数据库连接池管理的基本信息 -->
+        <!-- 当数据库连接池中的连接数不够时，c3p0一次性向数据库服务器申请的连接数 -->
+        <property name="acquireIncrement">5</property>
+        <!-- c3p0数据库连接池中初始化时的连接数 -->
+        <property name="initialPoolSize">10</property>
+        <!-- c3p0数据库连接池维护的最少连接数 -->
+        <property name="minPoolSize">10</property>
+        <!-- c3p0数据库连接池维护的最多的连接数:表示如果当前100个连接都被使用时,再来连接请求此时就需要等待数据库连接池出现空闲的连接才可以 -->
+        <property name="maxPoolSize">100</property>
+        <!-- c3p0数据库连接池最多维护的Statement的个数:包括PreparedStatement -->
+        <property name="maxStatements">50</property>
+        <!-- 每个连接中可以最多使用的Statement的个数 -->
+        <property name="maxStatementsPerConnection">2</property>
+
+    </named-config>
+
+</c3p0-config>

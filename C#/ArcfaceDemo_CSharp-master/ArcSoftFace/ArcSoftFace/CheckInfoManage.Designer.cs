@@ -29,10 +29,14 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtCIName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnCMSearch = new System.Windows.Forms.Button();
             this.txtCMNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnSelect = new System.Windows.Forms.Button();
             this.pictureBox图像 = new System.Windows.Forms.PictureBox();
             this.txtCMUtime = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -41,10 +45,6 @@
             this.txtCMId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1CI = new System.Windows.Forms.DataGridView();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtCIName = new System.Windows.Forms.TextBox();
-            this.btnSelect = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,6 +71,22 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查找";
+            // 
+            // txtCIName
+            // 
+            this.txtCIName.Location = new System.Drawing.Point(383, 33);
+            this.txtCIName.Name = "txtCIName";
+            this.txtCIName.Size = new System.Drawing.Size(179, 25);
+            this.txtCIName.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(325, 40);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 15);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "姓名：";
             // 
             // btnCMSearch
             // 
@@ -115,6 +131,28 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "人脸信息";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(190, 205);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(100, 29);
+            this.btnSave.TabIndex = 21;
+            this.btnSave.Text = "保存";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnSelect
+            // 
+            this.btnSelect.Location = new System.Drawing.Point(532, 205);
+            this.btnSelect.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(100, 29);
+            this.btnSelect.TabIndex = 20;
+            this.btnSelect.Text = "选择相片";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
             // pictureBox图像
             // 
@@ -175,6 +213,8 @@
             // 
             // dataGridView1CI
             // 
+            this.dataGridView1CI.AllowUserToResizeColumns = false;
+            this.dataGridView1CI.AllowUserToResizeRows = false;
             this.dataGridView1CI.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1CI.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1CI.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -189,46 +229,12 @@
             this.dataGridView1CI.Name = "dataGridView1CI";
             this.dataGridView1CI.RowHeadersWidth = 51;
             this.dataGridView1CI.RowTemplate.Height = 27;
+            this.dataGridView1CI.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1CI.Size = new System.Drawing.Size(1072, 346);
-            this.dataGridView1CI.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(325, 40);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 15);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "姓名：";
-            // 
-            // txtCIName
-            // 
-            this.txtCIName.Location = new System.Drawing.Point(383, 33);
-            this.txtCIName.Name = "txtCIName";
-            this.txtCIName.Size = new System.Drawing.Size(179, 25);
-            this.txtCIName.TabIndex = 9;
-            // 
-            // btnSelect
-            // 
-            this.btnSelect.Location = new System.Drawing.Point(480, 205);
-            this.btnSelect.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(100, 29);
-            this.btnSelect.TabIndex = 20;
-            this.btnSelect.Text = "选择相片";
-            this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(598, 205);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(100, 29);
-            this.btnSave.TabIndex = 21;
-            this.btnSave.Text = "保存相片";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.dataGridView1CI.TabIndex = 0;
+            this.dataGridView1CI.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1CI_CellClick);
+            this.dataGridView1CI.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1CI_CellFormatting);
+            this.dataGridView1CI.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1CI_DataError);
             // 
             // id
             // 
@@ -263,6 +269,7 @@
             this.feature.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.feature.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.feature.Visible = false;
+            this.feature.Width = 125;
             // 
             // dataGridViewImageColumn1
             // 
@@ -270,6 +277,7 @@
             this.dataGridViewImageColumn1.HeaderText = "图像";
             this.dataGridViewImageColumn1.MinimumWidth = 6;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Width = 125;
             // 
             // stu_info_id
             // 
@@ -277,6 +285,7 @@
             this.stu_info_id.HeaderText = "学号";
             this.stu_info_id.MinimumWidth = 6;
             this.stu_info_id.Name = "stu_info_id";
+            this.stu_info_id.Width = 125;
             // 
             // name
             // 
@@ -284,6 +293,7 @@
             this.name.HeaderText = "姓名";
             this.name.MinimumWidth = 6;
             this.name.Name = "name";
+            this.name.Width = 125;
             // 
             // CheckInfoManage
             // 

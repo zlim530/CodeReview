@@ -8,13 +8,15 @@ public class User {
 
     private String user;
     private String password;
+    private  int balance;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user='" + user + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public String getUser() {
@@ -33,9 +35,19 @@ public class User {
         this.password = password;
     }
 
-    public User(String user, String password) {
+    @Override
+    public String toString() {
+        return "User{" +
+                "user='" + user + '\'' +
+                ", password='" + password + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
+
+    public User(String user, String password, int balance) {
         this.user = user;
         this.password = password;
+        this.balance = balance;
     }
 
     public User() {
