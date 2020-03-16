@@ -2,8 +2,8 @@ package com.zlim.util;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.mchange.v2.c3p0.DataSources;
 import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.apache.commons.dbutils.DbUtils;
 import org.junit.Test;
 
 import javax.sql.DataSource;
@@ -138,4 +138,38 @@ public class JDBCUtils {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * 使用dbutils.jar中提供的DbUtils工具类，实现资源的关闭
+     * @param conn
+     * @param ps
+     * @param rs
+     */
+    public static void closeResourceByDbUtils(Connection conn,Statement ps,ResultSet rs){
+        // try {
+        //     DbUtils.close(conn);
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        // }
+        // try {
+        //     DbUtils.close(ps);
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        // }
+        // try {
+        //     DbUtils.close(rs);
+        // } catch (SQLException e) {
+        //     e.printStackTrace();
+        // }
+        DbUtils.closeQuietly(conn);
+        DbUtils.closeQuietly(ps);
+        DbUtils.closeQuietly(rs);
+
+    }
+
+
+
+
+
 }
