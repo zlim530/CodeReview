@@ -474,7 +474,7 @@ namespace ArcSoftFace.Utils
                 return null;
             }
         }
-        private static Image DrawRectangleInPicture(Image bmp, Point p0, Point p1, Color RectColor, int LineWidth, DashStyle ds)
+        public static Image DrawRectangleInPicture(Image bmp, Point p0, Point p1, Color RectColor, int LineWidth, DashStyle ds)
         {
             if (bmp == null) return null;
             Graphics g = Graphics.FromImage(bmp);

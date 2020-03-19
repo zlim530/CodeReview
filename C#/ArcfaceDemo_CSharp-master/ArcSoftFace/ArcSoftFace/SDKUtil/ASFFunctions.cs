@@ -126,7 +126,7 @@ namespace ArcSoftFace.SDKUtil
         public static extern int ASFUninitEngine(IntPtr pEngine);
 
         /// <summary>
-        /// 获取版本信息
+        /// 获取版本信息：参数就是Engine的引用，其返回值为Version结构体
         /// </summary>
         /// <param name="pEngine">引擎handle</param>
         /// <returns>调用结果</returns>

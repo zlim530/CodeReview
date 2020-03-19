@@ -3,7 +3,7 @@
 namespace ArcSoftFace.SDKModels
 {
     /// <summary>
-    /// 人脸角度结构体
+    /// 人脸角度结构体:定义人脸检查结果中人脸的角度
     /// </summary>
     public struct ASF_OrientCode
     {

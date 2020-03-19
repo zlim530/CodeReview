@@ -3,7 +3,7 @@
 namespace ArcSoftFace.SDKModels
 {
     /// <summary>
-    /// 人脸检测优先角度结构体，推荐ASF_OP_0_HIGHER_EXT
+    /// 人脸检测优先角度结构体，推荐ASF_OP_0_HIGHER_EXT：定义脸部角度的检测范围
     /// </summary>
     public struct ASF_OrientPriority
     {

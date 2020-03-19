@@ -116,37 +116,37 @@ namespace ArcSoftFace
 
             // ========================================================================================
 
-            if (changeDt == null)
-            {
-                MessageBox.Show("没有执行任何操作.");
-            }
-            else
-            {
-                foreach (DataRow dr in changeDt.Rows)
-                {
+            //if (changeDt == null)
+            //{
+            //    MessageBox.Show("没有执行任何操作.");
+            //}
+            //else
+            //{
+            //    foreach (DataRow dr in changeDt.Rows)
+            //    {
 
-                    string strSQL = string.Empty;
-                    if (dr.RowState == System.Data.DataRowState.Modified) {
-                        strSQL = @"UPDATE [dbo].[CheckInfo] SET [update_time] = '" + time + @"'
-                                          ,[image] = '" + bt + @"'
-                                          WHERE id = '" + Convert.ToInt32(dr["id"]) + @"' ";
+            //        string strSQL = string.Empty;
+            //        if (dr.RowState == System.Data.DataRowState.Modified) {
+            //            strSQL = @"UPDATE [dbo].[CheckInfo] SET [update_time] = '" + time + @"'
+            //                              ,[image] = '" + bt + @"'
+            //                              WHERE id = '" + Convert.ToInt32(dr["id"]) + @"' ";
 
-                    }
+            //        }
 
-                    SqlCommand comm = new SqlCommand(strSQL, conn);
-                    try
-                    {
-                        comm.ExecuteNonQuery();
-                    }
-                    catch (Exception o)
-                    {
-                        MessageBox.Show(o.Message, "操作失败。");
-                    }
-                    save();
+            //        SqlCommand comm = new SqlCommand(strSQL, conn);
+            //        try
+            //        {
+            //            comm.ExecuteNonQuery();
+            //        }
+            //        catch (Exception o)
+            //        {
+            //            MessageBox.Show(o.Message, "操作失败。");
+            //        }
+            //        save();
 
-                }
+            //    }
 
-            }
+            //}
 
                     
 
