@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <img id="checkCode" src="/date320/checkCodeServlet"/>
+    <a id="change" href="">看不清楚换一张？</a>
+</body>
+<script>
+    window.onload = function () {
+        var img = document.getElementById("checkCode");
+        img.onclick = function () {
+            var time = new Date().getTime();
+            img.src = "/date320/checkCodeServlet?" + time;
+        }
+
+        var img2 = document.getElementById("change");
+        img2.onclick = function () {
+            var time = new Date().getTime();
+            img2.src = "/date320/checkCodeServlet?" + time;
+        }
+    }
+
+</script>
+
+</html>
