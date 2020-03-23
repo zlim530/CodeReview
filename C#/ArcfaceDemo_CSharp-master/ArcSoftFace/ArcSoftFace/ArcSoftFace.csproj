@@ -122,6 +122,17 @@
     <Compile Include="CheckInfo.cs">
       <DependentUpon>StuInfoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CheckInfoAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckInfoAdd.Designer.cs">
+      <DependentUpon>CheckInfoAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckInfoDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckInfoDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="CheckInfoManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +196,9 @@
     <Compile Include="Utils\FaceUtil.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MemoryUtil.cs" />
+    <EmbeddedResource Include="CheckInfoAdd.resx">
+      <DependentUpon>CheckInfoAdd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CheckInfoManage.resx">
       <DependentUpon>CheckInfoManage.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,6 +213,17 @@
     <EmbeddedResource Include="StuInfoManage.resx">
       <DependentUpon>StuInfoManage.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="CheckInfoDataSet.xsc">
+      <DependentUpon>CheckInfoDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="CheckInfoDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CheckInfoDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CheckInfoDataSet.xss">
+      <DependentUpon>CheckInfoDataSet.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

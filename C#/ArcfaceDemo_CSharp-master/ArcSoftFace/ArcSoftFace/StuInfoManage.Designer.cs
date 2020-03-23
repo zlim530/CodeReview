@@ -33,12 +33,6 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1Stu = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sex = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.txtNumber = new System.Windows.Forms.TextBox();
@@ -58,6 +52,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnDeleted = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -65,7 +67,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(669, 33);
+            this.btnSearch.Location = new System.Drawing.Point(669, 24);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(101, 40);
             this.btnSearch.TabIndex = 1;
@@ -82,6 +84,8 @@
             // 
             // dataGridView1Stu
             // 
+            this.dataGridView1Stu.AllowUserToAddRows = false;
+            this.dataGridView1Stu.AllowUserToDeleteRows = false;
             this.dataGridView1Stu.AllowUserToResizeColumns = false;
             this.dataGridView1Stu.AllowUserToResizeRows = false;
             this.dataGridView1Stu.BackgroundColor = System.Drawing.Color.White;
@@ -97,67 +101,15 @@
             this.dataGridView1Stu.Name = "dataGridView1Stu";
             this.dataGridView1Stu.RowHeadersWidth = 51;
             this.dataGridView1Stu.RowTemplate.Height = 27;
-            this.dataGridView1Stu.Size = new System.Drawing.Size(1079, 379);
+            this.dataGridView1Stu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1Stu.Size = new System.Drawing.Size(1107, 401);
             this.dataGridView1Stu.TabIndex = 0;
             this.dataGridView1Stu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1Stu_CellClick);
             // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.id.DefaultCellStyle = dataGridViewCellStyle1;
-            this.id.HeaderText = "学号";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.id.Width = 125;
-            // 
-            // create_time
-            // 
-            this.create_time.DataPropertyName = "create_time";
-            this.create_time.HeaderText = "创建时间";
-            this.create_time.MinimumWidth = 6;
-            this.create_time.Name = "create_time";
-            this.create_time.Width = 125;
-            // 
-            // update_time
-            // 
-            this.update_time.DataPropertyName = "update_time";
-            this.update_time.HeaderText = "更新时间";
-            this.update_time.MinimumWidth = 6;
-            this.update_time.Name = "update_time";
-            this.update_time.Width = 125;
-            // 
-            // sex
-            // 
-            this.sex.DataPropertyName = "sex";
-            this.sex.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.sex.HeaderText = "性别";
-            this.sex.MinimumWidth = 6;
-            this.sex.Name = "sex";
-            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.sex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.sex.Width = 125;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "姓名";
-            this.name.MinimumWidth = 6;
-            this.name.Name = "name";
-            this.name.Width = 125;
-            // 
-            // is_checked
-            // 
-            this.is_checked.DataPropertyName = "is_checked";
-            this.is_checked.HeaderText = "是否签到";
-            this.is_checked.MinimumWidth = 6;
-            this.is_checked.Name = "is_checked";
-            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.is_checked.Width = 125;
-            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnAdd);
+            this.groupBox1.Controls.Add(this.btnDeleted);
             this.groupBox1.Controls.Add(this.buttonOpen);
             this.groupBox1.Controls.Add(this.txtNumber);
             this.groupBox1.Controls.Add(this.label2);
@@ -173,7 +125,7 @@
             // 
             // buttonOpen
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(797, 33);
+            this.buttonOpen.Location = new System.Drawing.Point(807, 24);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(129, 40);
             this.buttonOpen.TabIndex = 6;
@@ -344,11 +296,84 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
             // 
+            // btnDeleted
+            // 
+            this.btnDeleted.Location = new System.Drawing.Point(807, 75);
+            this.btnDeleted.Name = "btnDeleted";
+            this.btnDeleted.Size = new System.Drawing.Size(101, 40);
+            this.btnDeleted.TabIndex = 7;
+            this.btnDeleted.Text = "删除行";
+            this.btnDeleted.UseVisualStyleBackColor = true;
+            this.btnDeleted.Click += new System.EventHandler(this.btnDeleted_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(669, 75);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(101, 40);
+            this.btnAdd.TabIndex = 8;
+            this.btnAdd.Text = "添加行";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.id.DefaultCellStyle = dataGridViewCellStyle1;
+            this.id.HeaderText = "学号";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.id.Width = 125;
+            // 
+            // create_time
+            // 
+            this.create_time.DataPropertyName = "create_time";
+            this.create_time.HeaderText = "创建时间";
+            this.create_time.MinimumWidth = 6;
+            this.create_time.Name = "create_time";
+            this.create_time.Width = 125;
+            // 
+            // update_time
+            // 
+            this.update_time.DataPropertyName = "update_time";
+            this.update_time.HeaderText = "更新时间";
+            this.update_time.MinimumWidth = 6;
+            this.update_time.Name = "update_time";
+            this.update_time.Width = 125;
+            // 
+            // sex
+            // 
+            this.sex.DataPropertyName = "sex";
+            this.sex.HeaderText = "性别";
+            this.sex.MinimumWidth = 6;
+            this.sex.Name = "sex";
+            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.sex.Width = 125;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "姓名";
+            this.name.MinimumWidth = 6;
+            this.name.Name = "name";
+            this.name.Width = 125;
+            // 
+            // is_checked
+            // 
+            this.is_checked.DataPropertyName = "is_checked";
+            this.is_checked.HeaderText = "是否签到";
+            this.is_checked.MinimumWidth = 6;
+            this.is_checked.Name = "is_checked";
+            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.is_checked.Width = 125;
+            // 
             // StuInfoManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1103, 676);
+            this.ClientSize = new System.Drawing.Size(1131, 698);
             this.Controls.Add(this.dataGridView1Stu);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
@@ -389,12 +414,14 @@
         private System.Windows.Forms.TextBox txtCtime;
         private System.Windows.Forms.TextBox txtUtime;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button btnDeleted;
+        private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn create_time;
         private System.Windows.Forms.DataGridViewTextBoxColumn update_time;
-        private System.Windows.Forms.DataGridViewComboBoxColumn sex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sex;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn is_checked;
-        private System.Windows.Forms.Button buttonOpen;
     }
 }

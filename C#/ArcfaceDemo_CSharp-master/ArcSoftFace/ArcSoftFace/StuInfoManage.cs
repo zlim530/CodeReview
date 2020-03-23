@@ -36,13 +36,13 @@ namespace ArcSoftFace
             DataSet ds = db.getDataSet(strSQL, "stuInfo");
 
             // 绑定性别
-            strSQL = "SELECT DISTINCT sex FROM stuInfo;";
-            SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
-            //DataSet ds2 = db.getDataSet(strSQL, "table");
-            da.Fill(ds, "table");
-            sex.DataSource = ds.Tables["table"];
-            sex.ValueMember = "sex";
-            sex.DisplayMember = "sex";
+            //strSQL = "SELECT DISTINCT sex FROM stuInfo;";
+            //SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
+            ////DataSet ds2 = db.getDataSet(strSQL, "table");
+            //da.Fill(ds, "table");
+            //sex.DataSource = ds.Tables["table"];
+            //sex.ValueMember = "sex";
+            //sex.DisplayMember = "sex";
 
             dt = ds.Tables["stuInfo"];
             dataGridView1Stu.DataSource = ds;
@@ -74,13 +74,6 @@ namespace ArcSoftFace
                                    ,'" + dr["is_checked"].ToString() + @"')";
 
                     }
-                    else if (dr.RowState == System.Data.DataRowState.Deleted)
-                    {
-                        int id = Convert.ToInt32(dr["id", DataRowVersion.Original].ToString());
-                        string name = dr["name", DataRowVersion.Original].ToString();
-                        strSQL = @"DELETE FROM [dbo].[StuInfo] WHERE id = '" + id + @"' AND name = '" + name + @"'";
-
-                    }
                     else if (dr.RowState == System.Data.DataRowState.Modified)
                     {
                         strSQL = @"UPDATE [dbo].[StuInfo] SET [update_time] = '" + time + @"'
@@ -100,8 +93,7 @@ namespace ArcSoftFace
                         MessageBox.Show(o.Message, "操作失败。");
                     }
                     save();
-
-
+                    FindAll();
                 }
             }
 
@@ -156,6 +148,72 @@ namespace ArcSoftFace
             cm.Owner = this;
             cm.Show();
         }
+
+        // 删除行按钮事件
+        private void btnDeleted_Click(object sender, EventArgs e)
+        {
+            DialogResult dr =  MessageBox.Show("您真的要删除吗？","系统提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            if (dr == DialogResult.No) {
+                return;
+            }
+
+            int id = (int)dataGridView1Stu.CurrentRow.Cells[0].Value;
+
+            string dbstr = "Data Source=.;Initial Catalog=FaceSign;Integrated Security=True";
+            conn = new SqlConnection(dbstr);
+            conn.Open();
+
+            string sql = "delete from stuInfo where id = @id";
+            SqlParameter sp = new SqlParameter("@id",id);
+
+            SqlCommand cmd = new SqlCommand(sql,conn);
+            cmd.Parameters.Add(sp);
+
+            int r = cmd.ExecuteNonQuery();
+            if (r == 1)
+            {
+                MessageBox.Show("删除成功");
+            }
+            else {
+                MessageBox.Show("删除失败");
+            }
+            FindAll();
+            //conn.Close();
+
+        }
+
+        private void FindAll() {
+            conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
+            conn.Open();
+            string strSQL = "select * FROM stuInfo";
+            
+            db.RunNonSelect(strSQL);
+            DataSet ds = db.getDataSet(strSQL, "stuInfo");
+
+            dt = ds.Tables["stuInfo"];
+            dataGridView1Stu.DataSource = ds;
+            dataGridView1Stu.DataMember = "stuInfo";
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (dt == null)
+            {
+                // 没有绑定数据的时候添加行
+                dataGridView1Stu.Rows.Add();
+                int rc = dataGridView1Stu.Rows.Count - 1;
+                dataGridView1Stu.Rows[rc].HeaderCell.Value = "N";
+            }
+            else { 
+                DataRow dr = dt.NewRow();
+                int index = dataGridView1Stu.RowCount == 0 ? 0 : dataGridView1Stu.CurrentRow.Index + 1;
+                dt.Rows.InsertAt(dr,index);
+                dataGridView1Stu.Rows[index].HeaderCell.Value = "N";
+            }
+        }
+
+
+
     }
 
 

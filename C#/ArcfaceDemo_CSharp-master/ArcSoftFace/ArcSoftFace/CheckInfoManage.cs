@@ -14,7 +14,7 @@ namespace ArcSoftFace
             InitializeComponent();
         }
 
-        private String FaceLibraryPath = "C://Users//Lim//Desktop//code//人脸库/";
+        //private String FaceLibraryPath = "C://Users//Lim//Desktop//code//人脸库/";
 
         Bitmap image;
         DateBase db = new DateBase();
@@ -35,6 +35,24 @@ namespace ArcSoftFace
             DataRow row = dt.Rows[0];
             string s = row[1].ToString();
             string s1 = row["stu_info_id"].ToString();
+
+        }
+
+        private void checkInfoBindingNavigator1SaveItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Validate();
+                this.checkInfobindingSource1.EndEdit();
+                //this.menuBindingSource.EndEdit();
+                //this.tableAdapterManager.UpdateAll(this.orderSystemDataSet);
+                this.checkInfoTableAdapter.Update(this.checkInfoDataSet);
+                MessageBox.Show("保存成功", "提示");
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
 
         }
 
@@ -146,13 +164,7 @@ namespace ArcSoftFace
 
             //    }
 
-            //}
-
-                    
-
-
-            
-
+            //}  
 
         }
 
@@ -172,11 +184,11 @@ namespace ArcSoftFace
 
         private void dataGridView1CI_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView1CI.Columns[e.ColumnIndex].Name.Equals("image"))
-            {
-                string path = e.Value.ToString();
-                e.Value = GetImage(path);
-            }
+            //if (dataGridView1CI.Columns[e.ColumnIndex].Name.Equals("image"))
+            //{
+            //    string path = e.Value.ToString();
+            //    e.Value = GetImage(path);
+            //}
 
         }
 
@@ -202,26 +214,26 @@ namespace ArcSoftFace
             //BytesToImage((byte[])dataGridView1CI.CurrentRow.Cells[4].Value);
             //GetImage(fileName);
 
-            DataTable changeDt = dt.GetChanges();
-            //DataRow dr = changeDt.AsEnumerable();
-            DataRow dr;
-            try
-            {
-                foreach (DataRow dr1 in changeDt.Rows)
-                {
-                    if (e.RowIndex < dt.Rows.Count)
-                    {
-                        dr = dt.Rows[e.RowIndex];
-                        byte[] bt = (byte[])dr["image"];
-                        MemoryStream ms = new MemoryStream(bt);
-                        pictureBox图像.Image = new Bitmap(ms);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //DataTable changeDt = dt.GetChanges();
+            ////DataRow dr = changeDt.AsEnumerable();
+            //DataRow dr;
+            //try
+            //{
+            //    foreach (DataRow dr1 in changeDt.Rows)
+            //    {
+            //        if (e.RowIndex < dt.Rows.Count)
+            //        {
+            //            dr = dt.Rows[e.RowIndex];
+            //            byte[] bt = (byte[])dr["image"];
+            //            MemoryStream ms = new MemoryStream(bt);
+            //            pictureBox图像.Image = new Bitmap(ms);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
 
         }
 
@@ -254,6 +266,60 @@ namespace ArcSoftFace
             Image img = System.Drawing.Image.FromStream(ms);
             return img;
         }
+
+        private void CheckInfoManage_Load(object sender, EventArgs e)
+        {
+            // TODO: 这行代码将数据加载到表“checkInfoDataSet.CheckInfo”中。您可以根据需要移动或删除它。
+            this.checkInfoTableAdapter.Fill(this.checkInfoDataSet.CheckInfo);
+
+        }
+
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1CI.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("请先单击最左边的空白处，选择要删除的行，" + "按住CTRL或Shift键可同时选择多行");
+            }
+            else
+            {
+                if (MessageBox.Show("确定要删除选定的行吗？", "小心", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    for (int i = 0; i < dataGridView1CI.SelectedRows.Count; i++)
+                    {
+                        //menuBindingSource.RemoveAt(menuDataGridView.SelectedRows[i].Index);
+                        checkInfobindingSource1.RemoveAt(dataGridView1CI.SelectedRows[i].Index);
+                    }
+                    this.Validate();
+                    //this.menuBindingSource.EndEdit();
+                    //this.tableAdapterManager.UpdateAll(this.orderSystemDataSet);
+                    this.checkInfobindingSource1.EndEdit();
+                    this.checkInfoTableAdapter.Update(this.checkInfoDataSet);
+                }
+
+            }
+        }
+
+        //private void FindAll()
+        //{
+        //    conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
+        //    conn.Open();
+        //    string strSQL = "select * FROM checkInfo";
+
+        //    db.RunNonSelect(strSQL);
+        //    DataSet ds = db.getDataSet(strSQL, "stuInfo");
+
+        //    dt = ds.Tables["checkInfo"];
+        //    dataGridView1CI.DataSource = ds;
+        //    dataGridView1CI.DataMember = "checkInfo";
+        //}
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            CheckInfoAdd cfa = new CheckInfoAdd();
+            cfa.ShowDialog();
+            //FindAll();
+        }
+
 
     }
 }

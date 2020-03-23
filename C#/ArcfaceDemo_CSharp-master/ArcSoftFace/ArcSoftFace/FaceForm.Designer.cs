@@ -53,10 +53,10 @@
             // 
             this.picImageCompare.BackColor = System.Drawing.Color.White;
             this.picImageCompare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picImageCompare.Location = new System.Drawing.Point(804, 46);
+            this.picImageCompare.Location = new System.Drawing.Point(729, 38);
             this.picImageCompare.Margin = new System.Windows.Forms.Padding(4);
             this.picImageCompare.Name = "picImageCompare";
-            this.picImageCompare.Size = new System.Drawing.Size(657, 452);
+            this.picImageCompare.Size = new System.Drawing.Size(709, 396);
             this.picImageCompare.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.picImageCompare.TabIndex = 1;
             this.picImageCompare.TabStop = false;
@@ -74,7 +74,7 @@
             // chooseMultiImgBtn
             // 
             this.chooseMultiImgBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chooseMultiImgBtn.Location = new System.Drawing.Point(19, 539);
+            this.chooseMultiImgBtn.Location = new System.Drawing.Point(19, 457);
             this.chooseMultiImgBtn.Margin = new System.Windows.Forms.Padding(4);
             this.chooseMultiImgBtn.Name = "chooseMultiImgBtn";
             this.chooseMultiImgBtn.Size = new System.Drawing.Size(177, 32);
@@ -86,19 +86,19 @@
             // logBox
             // 
             this.logBox.BackColor = System.Drawing.Color.White;
-            this.logBox.Location = new System.Drawing.Point(19, 596);
+            this.logBox.Location = new System.Drawing.Point(19, 519);
             this.logBox.Margin = new System.Windows.Forms.Padding(4);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(1443, 173);
+            this.logBox.Size = new System.Drawing.Size(1443, 250);
             this.logBox.TabIndex = 31;
             // 
             // chooseImgBtn
             // 
             this.chooseImgBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chooseImgBtn.Location = new System.Drawing.Point(804, 539);
+            this.chooseImgBtn.Location = new System.Drawing.Point(769, 457);
             this.chooseImgBtn.Margin = new System.Windows.Forms.Padding(4);
             this.chooseImgBtn.Name = "chooseImgBtn";
             this.chooseImgBtn.Size = new System.Drawing.Size(145, 32);
@@ -116,17 +116,17 @@
             // imageList
             // 
             this.imageList.LargeImageList = this.imageLists;
-            this.imageList.Location = new System.Drawing.Point(19, 46);
+            this.imageList.Location = new System.Drawing.Point(19, 38);
             this.imageList.Margin = new System.Windows.Forms.Padding(4);
             this.imageList.Name = "imageList";
-            this.imageList.Size = new System.Drawing.Size(701, 452);
+            this.imageList.Size = new System.Drawing.Size(690, 396);
             this.imageList.TabIndex = 33;
             this.imageList.UseCompatibleStateImageBehavior = false;
             // 
             // matchBtn
             // 
             this.matchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.matchBtn.Location = new System.Drawing.Point(997, 539);
+            this.matchBtn.Location = new System.Drawing.Point(971, 457);
             this.matchBtn.Margin = new System.Windows.Forms.Padding(4);
             this.matchBtn.Name = "matchBtn";
             this.matchBtn.Size = new System.Drawing.Size(139, 32);
@@ -138,7 +138,7 @@
             // btnClearFaceList
             // 
             this.btnClearFaceList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearFaceList.Location = new System.Drawing.Point(301, 539);
+            this.btnClearFaceList.Location = new System.Drawing.Point(247, 459);
             this.btnClearFaceList.Margin = new System.Windows.Forms.Padding(4);
             this.btnClearFaceList.Name = "btnClearFaceList";
             this.btnClearFaceList.Size = new System.Drawing.Size(167, 32);
@@ -150,7 +150,7 @@
             // lblCompareImage
             // 
             this.lblCompareImage.AutoSize = true;
-            this.lblCompareImage.Location = new System.Drawing.Point(801, 14);
+            this.lblCompareImage.Location = new System.Drawing.Point(739, 14);
             this.lblCompareImage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCompareImage.Name = "lblCompareImage";
             this.lblCompareImage.Size = new System.Drawing.Size(75, 15);
@@ -169,10 +169,10 @@
             // 
             // videoSource
             // 
-            this.videoSource.Location = new System.Drawing.Point(804, 46);
+            this.videoSource.Location = new System.Drawing.Point(729, 38);
             this.videoSource.Margin = new System.Windows.Forms.Padding(4);
             this.videoSource.Name = "videoSource";
-            this.videoSource.Size = new System.Drawing.Size(659, 452);
+            this.videoSource.Size = new System.Drawing.Size(709, 396);
             this.videoSource.TabIndex = 38;
             this.videoSource.Text = "videoSource";
             this.videoSource.VideoSource = null;
@@ -181,7 +181,7 @@
             // btnStartVideo
             // 
             this.btnStartVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartVideo.Location = new System.Drawing.Point(1177, 539);
+            this.btnStartVideo.Location = new System.Drawing.Point(1154, 456);
             this.btnStartVideo.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartVideo.Name = "btnStartVideo";
             this.btnStartVideo.Size = new System.Drawing.Size(143, 32);
@@ -195,7 +195,7 @@
             this.txtThreshold.BackColor = System.Drawing.SystemColors.Window;
             this.txtThreshold.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtThreshold.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtThreshold.Location = new System.Drawing.Point(1383, 539);
+            this.txtThreshold.Location = new System.Drawing.Point(1383, 459);
             this.txtThreshold.Margin = new System.Windows.Forms.Padding(4);
             this.txtThreshold.Name = "txtThreshold";
             this.txtThreshold.Size = new System.Drawing.Size(79, 29);
@@ -207,7 +207,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1328, 545);
+            this.label1.Location = new System.Drawing.Point(1324, 468);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 15);
@@ -217,7 +217,7 @@
             // btnViewLog
             // 
             this.btnViewLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnViewLog.Location = new System.Drawing.Point(551, 539);
+            this.btnViewLog.Location = new System.Drawing.Point(498, 459);
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(169, 32);
             this.btnViewLog.TabIndex = 42;
