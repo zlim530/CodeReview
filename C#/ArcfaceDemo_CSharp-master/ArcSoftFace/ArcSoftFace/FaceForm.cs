@@ -43,7 +43,7 @@ namespace ArcSoftFace
         private bool isCompare = false;
 
         // 定义人脸特征值目录的存储位置
-        //private String FaceLibraryPath = "C://Users//Lim//Desktop//code//feature/";
+        private String FaceLibraryPath = "C://Users//Lim//Desktop//code//feature/";
 
         #region 视频模式下相关
 
@@ -534,7 +534,7 @@ namespace ArcSoftFace
                             //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
                             //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
                             //System.IO.File.WriteAllBytes(DataPath, featureSave);
-                        
+
                         }
                         //允许点击按钮
                         Invoke(new Action(delegate
