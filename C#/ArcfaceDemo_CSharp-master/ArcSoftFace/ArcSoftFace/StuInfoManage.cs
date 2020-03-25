@@ -212,6 +212,31 @@ namespace ArcSoftFace
             }
         }
 
+        // 重置签到信息
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
+            conn.Open();
+
+            string is_checked = "否";
+            string sql = "update stuInfo set is_checked = @is_checked";
+            SqlParameter ps = new SqlParameter("@is_checked", is_checked);
+
+            SqlCommand cmd = new SqlCommand(sql,conn);
+
+            cmd.Parameters.Add(ps);
+            int r = cmd.ExecuteNonQuery();
+            if (r != 0)
+            {
+                MessageBox.Show("重置成功");
+            }
+            else {
+                MessageBox.Show("重置失败");    
+            }
+            FindAll();
+
+        }
+
 
 
     }

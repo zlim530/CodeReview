@@ -33,7 +33,15 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1Stu = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnDeleted = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,14 +60,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnDeleted = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -67,7 +68,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(669, 24);
+            this.btnSearch.Location = new System.Drawing.Point(342, 46);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(101, 40);
             this.btnSearch.TabIndex = 1;
@@ -106,12 +107,66 @@
             this.dataGridView1Stu.TabIndex = 0;
             this.dataGridView1Stu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1Stu_CellClick);
             // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.id.DefaultCellStyle = dataGridViewCellStyle1;
+            this.id.HeaderText = "学号";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.id.Width = 125;
+            // 
+            // create_time
+            // 
+            this.create_time.DataPropertyName = "create_time";
+            this.create_time.HeaderText = "创建时间";
+            this.create_time.MinimumWidth = 6;
+            this.create_time.Name = "create_time";
+            this.create_time.Width = 125;
+            // 
+            // update_time
+            // 
+            this.update_time.DataPropertyName = "update_time";
+            this.update_time.HeaderText = "更新时间";
+            this.update_time.MinimumWidth = 6;
+            this.update_time.Name = "update_time";
+            this.update_time.Width = 125;
+            // 
+            // sex
+            // 
+            this.sex.DataPropertyName = "sex";
+            this.sex.HeaderText = "性别";
+            this.sex.MinimumWidth = 6;
+            this.sex.Name = "sex";
+            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.sex.Width = 125;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "姓名";
+            this.name.MinimumWidth = 6;
+            this.name.Name = "name";
+            this.name.Width = 125;
+            // 
+            // is_checked
+            // 
+            this.is_checked.DataPropertyName = "is_checked";
+            this.is_checked.HeaderText = "是否签到";
+            this.is_checked.MinimumWidth = 6;
+            this.is_checked.Name = "is_checked";
+            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.is_checked.Width = 125;
+            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnReset);
             this.groupBox1.Controls.Add(this.btnAdd);
             this.groupBox1.Controls.Add(this.btnDeleted);
-            this.groupBox1.Controls.Add(this.buttonOpen);
             this.groupBox1.Controls.Add(this.txtNumber);
+            this.groupBox1.Controls.Add(this.btnSave);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Controls.Add(this.label1);
@@ -123,9 +178,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查找";
             // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(476, 46);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(101, 40);
+            this.btnAdd.TabIndex = 8;
+            this.btnAdd.Text = "添加行";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnDeleted
+            // 
+            this.btnDeleted.Location = new System.Drawing.Point(598, 46);
+            this.btnDeleted.Name = "btnDeleted";
+            this.btnDeleted.Size = new System.Drawing.Size(101, 40);
+            this.btnDeleted.TabIndex = 7;
+            this.btnDeleted.Text = "删除行";
+            this.btnDeleted.UseVisualStyleBackColor = true;
+            this.btnDeleted.Click += new System.EventHandler(this.btnDeleted_Click);
+            // 
             // buttonOpen
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(807, 24);
+            this.buttonOpen.Location = new System.Drawing.Point(833, 42);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(129, 40);
             this.buttonOpen.TabIndex = 6;
@@ -135,7 +210,7 @@
             // 
             // txtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(419, 43);
+            this.txtNumber.Location = new System.Drawing.Point(101, 85);
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(179, 25);
             this.txtNumber.TabIndex = 5;
@@ -143,7 +218,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(361, 46);
+            this.label2.Location = new System.Drawing.Point(43, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 15);
             this.label2.TabIndex = 4;
@@ -160,11 +235,11 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(835, 42);
+            this.btnSave.Location = new System.Drawing.Point(709, 48);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(101, 36);
             this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "保存";
+            this.btnSave.Text = "保存修改";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -172,8 +247,8 @@
             // 
             this.groupBox2.Controls.Add(this.txtUtime);
             this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.buttonOpen);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.btnSave);
             this.groupBox2.Controls.Add(this.txtCtime);
             this.groupBox2.Controls.Add(this.ComboBoxSex);
             this.groupBox2.Controls.Add(this.ComboBoxCheck);
@@ -296,78 +371,15 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
             // 
-            // btnDeleted
+            // btnReset
             // 
-            this.btnDeleted.Location = new System.Drawing.Point(807, 75);
-            this.btnDeleted.Name = "btnDeleted";
-            this.btnDeleted.Size = new System.Drawing.Size(101, 40);
-            this.btnDeleted.TabIndex = 7;
-            this.btnDeleted.Text = "删除行";
-            this.btnDeleted.UseVisualStyleBackColor = true;
-            this.btnDeleted.Click += new System.EventHandler(this.btnDeleted_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(669, 75);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(101, 40);
-            this.btnAdd.TabIndex = 8;
-            this.btnAdd.Text = "添加行";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.id.DefaultCellStyle = dataGridViewCellStyle1;
-            this.id.HeaderText = "学号";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.id.Width = 125;
-            // 
-            // create_time
-            // 
-            this.create_time.DataPropertyName = "create_time";
-            this.create_time.HeaderText = "创建时间";
-            this.create_time.MinimumWidth = 6;
-            this.create_time.Name = "create_time";
-            this.create_time.Width = 125;
-            // 
-            // update_time
-            // 
-            this.update_time.DataPropertyName = "update_time";
-            this.update_time.HeaderText = "更新时间";
-            this.update_time.MinimumWidth = 6;
-            this.update_time.Name = "update_time";
-            this.update_time.Width = 125;
-            // 
-            // sex
-            // 
-            this.sex.DataPropertyName = "sex";
-            this.sex.HeaderText = "性别";
-            this.sex.MinimumWidth = 6;
-            this.sex.Name = "sex";
-            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.sex.Width = 125;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "姓名";
-            this.name.MinimumWidth = 6;
-            this.name.Name = "name";
-            this.name.Width = 125;
-            // 
-            // is_checked
-            // 
-            this.is_checked.DataPropertyName = "is_checked";
-            this.is_checked.HeaderText = "是否签到";
-            this.is_checked.MinimumWidth = 6;
-            this.is_checked.Name = "is_checked";
-            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.is_checked.Width = 125;
+            this.btnReset.Location = new System.Drawing.Point(833, 46);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(101, 40);
+            this.btnReset.TabIndex = 9;
+            this.btnReset.Text = "重置";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // StuInfoManage
             // 
@@ -423,5 +435,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sex;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn is_checked;
+        private System.Windows.Forms.Button btnReset;
     }
 }

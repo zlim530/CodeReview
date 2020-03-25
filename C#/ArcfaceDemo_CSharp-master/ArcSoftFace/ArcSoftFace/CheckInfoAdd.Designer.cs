@@ -35,12 +35,13 @@
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.btnSelect = new System.Windows.Forms.Button();
+            this.btnSaveTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(154, 196);
+            this.btnSave.Location = new System.Drawing.Point(174, 504);
             this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 29);
@@ -51,7 +52,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(154, 111);
+            this.txtName.Location = new System.Drawing.Point(174, 437);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(185, 25);
             this.txtName.TabIndex = 25;
@@ -59,7 +60,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(66, 121);
+            this.label8.Location = new System.Drawing.Point(86, 447);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(52, 15);
             this.label8.TabIndex = 24;
@@ -67,7 +68,7 @@
             // 
             // txtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(154, 72);
+            this.txtNumber.Location = new System.Drawing.Point(174, 398);
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(185, 25);
             this.txtNumber.TabIndex = 23;
@@ -75,7 +76,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(66, 82);
+            this.label7.Location = new System.Drawing.Point(86, 408);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(52, 15);
             this.label7.TabIndex = 22;
@@ -101,11 +102,23 @@
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
+            // btnSaveTest
+            // 
+            this.btnSaveTest.Location = new System.Drawing.Point(165, 228);
+            this.btnSaveTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveTest.Name = "btnSaveTest";
+            this.btnSaveTest.Size = new System.Drawing.Size(100, 29);
+            this.btnSaveTest.TabIndex = 29;
+            this.btnSaveTest.Text = "保存";
+            this.btnSaveTest.UseVisualStyleBackColor = true;
+            this.btnSaveTest.Click += new System.EventHandler(this.btnSaveTest_Click);
+            // 
             // CheckInfoAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 328);
+            this.ClientSize = new System.Drawing.Size(645, 278);
+            this.Controls.Add(this.btnSaveTest);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.btnSave);
@@ -130,5 +143,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button btnSelect;
+        private System.Windows.Forms.Button btnSaveTest;
     }
 }

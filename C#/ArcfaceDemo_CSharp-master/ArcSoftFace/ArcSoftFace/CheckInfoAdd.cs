@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,6 +76,75 @@ namespace ArcSoftFace
                 pictureBox.ImageLocation = fileName;
 
             }
+
+            //OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            //if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    Bitmap image = new Bitmap(openFileDialog1.FileName);
+            //    图片PictureBox.Image = image;
+            //}
+        }
+
+        private void btnSaveTest_Click(object sender, EventArgs e)
+        {
+
+
+            //string dbstr = "Data Source=.;Initial Catalog=FaceSign;Integrated Security=True";
+            //conn = new SqlConnection(dbstr);
+            //conn.Open();
+            //string sql = "insert into image(image) values(@image)";
+
+            ////cmd.CommandText = "insert into T_Img(imgfile) values(@imgfile)";
+            //SqlParameter par = new SqlParameter("@image", SqlDbType.Image);
+
+
+            ////SqlParameter ps = new SqlParameter("@image", image);
+            //SqlCommand cmd = new SqlCommand(sql, conn);
+            ////cmd.Parameters.Add(ps);
+            //cmd.Parameters.Add(par);
+
+            //int r = cmd.ExecuteNonQuery();
+            //if (r != 0)
+            //{
+            //    MessageBox.Show("保存成功");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("保存失败");
+            //}
+
+
+            //conn.Close();
+
+            //将需要存储的图片读取为数据流
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            Byte[] btye2 = new byte[fs.Length];
+            fs.Read(btye2, 0, Convert.ToInt32(fs.Length));
+            fs.Close();
+
+            string sqlconnstr = "Data Source=.;Initial Catalog=FaceSign;Integrated Security=True";
+            using (SqlConnection conn = new SqlConnection(sqlconnstr))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "insert into image(image) values(@imgfile)";
+                SqlParameter par = new SqlParameter("@imgfile", SqlDbType.Image);
+                par.Value = btye2;
+                cmd.Parameters.Add(par);
+
+                int r = cmd.ExecuteNonQuery();
+                if (r != 0)
+                {
+                    MessageBox.Show("保存成功");
+                }
+                else
+                {
+                    MessageBox.Show("保存失败");
+                }
+                conn.Close();
+            }
+
         }
 
 
