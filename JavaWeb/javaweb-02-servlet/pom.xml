@@ -11,6 +11,7 @@
     <modules>
         <module>servlet-01</module>
         <module>servletContext</module>
+        <module>Session</module>
     </modules>
 
     <dependencies>

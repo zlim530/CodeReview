@@ -6,9 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Session" />
-        <module name="servlet-01" />
-        <module name="servletContext" />
+        <module name="MyBatisPrimer" />
       </profile>
     </annotationProcessing>
   </component>
