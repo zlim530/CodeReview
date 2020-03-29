@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     
-<!--    <filter>-->
-<!--        <filter-name>SysFilter</filter-name>-->
-<!--        <filter-class>com.zlim.filter.SysFilter</filter-class>-->
-<!--    </filter>-->
-<!--    <filter-mapping>-->
-<!--        <filter-name>SysFilter</filter-name>-->
-<!--        <url-pattern>/filter/sys/*</url-pattern>-->
-<!--    </filter-mapping>-->
+    <filter>
+        <filter-name>SysFilter</filter-name>
+        <filter-class>com.zlim.filter.SysFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SysFilter</filter-name>
+        <url-pattern>/sys/*</url-pattern>
+    </filter-mapping>
     
 </web-app>

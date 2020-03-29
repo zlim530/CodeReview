@@ -1,12 +1,6 @@
 package com.zlim.filter;
 
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
-import com.zlim.util.Constant;
-
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,7 +9,7 @@ import java.io.IOException;
  * @author zlim
  * @create 2020-03-28 22:01
  */
-@WebFilter("/sys/*")
+// @WebFilter("/sys/*")
 public class SysFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -29,9 +23,12 @@ public class SysFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
 
         if( request.getSession().getAttribute("USER_SESSION") == null){
+            System.out.println(request.getContextPath());// 就是项目的虚拟目录，在这里就是/filter
             response.sendRedirect("/filter/error.jsp");
+        }else {
+            // 一定不要传错了，要传送ServletRequest对象和ServletResponse对象
+            filterChain.doFilter(req,resp);
         }
-        filterChain.doFilter(request,response);
     }
 
     @Override

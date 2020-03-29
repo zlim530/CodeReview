@@ -13,6 +13,7 @@
         <module>servletContext</module>
         <module>Session</module>
         <module>filter</module>
+        <module>AJAX_JSON</module>
     </modules>
 
     <dependencies>
