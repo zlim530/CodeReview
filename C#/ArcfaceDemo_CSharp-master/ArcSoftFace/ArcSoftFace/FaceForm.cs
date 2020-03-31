@@ -505,7 +505,7 @@ namespace ArcSoftFace
                                 imageLists.Images.Add(imagePathListTemp[i], image);
                                 imageList.Items.Add((numStart + isGoodImage) + "号", imagePathListTemp[i]);
                                 isGoodImage += 1;
-                                image = null;
+                                image = null;  
                             }));
                         }
 
@@ -528,12 +528,14 @@ namespace ArcSoftFace
                                 }
                             }));
 
-                            ////保存人脸特征到文件
-                            ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
-                            byte[] featureSave = new byte[faceFeatureSave.featureSize];
-                            MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
-                            string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
-                            System.IO.File.WriteAllBytes(DataPath, featureSave);
+                            //保存人脸特征到文件
+                            //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
+                            //byte[] featureSave = new byte[faceFeatureSave.featureSize];
+                            //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
+                            //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
+                            //// @"C:\Users\Lim\Desktop\code\feature\feature.data"
+                            //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
+                            //System.IO.File.WriteAllBytes(filename, featureSave);
 
                         }
                         //允许点击按钮
@@ -619,10 +621,28 @@ namespace ArcSoftFace
             AppendText("\n");
             AppendText(string.Format("------------------------------开始比对，时间:{0}------------------------------\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
 
-
+            BinaryReader br;
             for (int i = 0; i < imagesFeatureList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
             {
                 IntPtr feature = imagesFeatureList[i];
+                //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
+
+                //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
+                //byte[] featureSave = new byte[faceFeatureSave.featureSize];
+                //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
+                //// @"C:\Users\Lim\Desktop\code\feature\feature.data"
+
+
+                //try
+                //{
+                //    br = new BinaryReader(new FileStream(filename, FileMode.Open));
+                //    feature = br.ReadBytes();
+                //}
+                //catch (IOException ex)
+                //{
+                //    Console.WriteLine(ex.Message + "\n Cannot read from file.");
+                //    return;
+                //}
                 float similarity = 0f;
 
                 int ret = 0;
@@ -664,6 +684,7 @@ namespace ArcSoftFace
                 //    compareNum = i;
                 //}
             }
+            br.Close();
             if (compareSimilarity > 0)
             {
                 lblCompareInfo.Text = " " + compareNum + "号," + compareSimilarity;
