@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace ArcSoftFace
 {
+    // partial表示部分类; ":" 表示类与类之间的继承关系
     public partial class StuInfoManage : Form
     {
         public StuInfoManage()
@@ -96,7 +97,6 @@ namespace ArcSoftFace
                     FindAll();
                 }
             }
-
             
 
         }

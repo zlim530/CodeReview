@@ -16,5 +16,34 @@ namespace OrderSystem
 
             InitializeComponent();
         }
+
+        static void Main(string[] args)
+        {
+            var stu = new Student();
+            stu.Report();
+            var csStu = new CsStudent();
+            csStu.Report();
+        }
+
+
+        class Student
+        {
+            public void Report()
+            {
+                Console.WriteLine("I'm a student.");
+            }
+        }
+
+        class CsStudent:Student
+        {
+            // new 修饰符
+            // 显示隐藏继承于基类的继承成员
+            new public void Report()
+            {
+                Console.WriteLine("I'm CS student.");
+            }
+        }
+
+
     }
 }

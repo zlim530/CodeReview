@@ -26,6 +26,7 @@ namespace ArcSoftFace
             Application.SetCompatibleTextRenderingDefault(false);  //控件（包括窗体）显示出来，false使用GDI方式显示文本.
             Application.Run(new CheckInfoManage());
             //Application.Run(new StuInfoManage());
+            
         }
     }
 }

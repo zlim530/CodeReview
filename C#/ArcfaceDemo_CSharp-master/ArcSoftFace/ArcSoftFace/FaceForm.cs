@@ -533,7 +533,7 @@ namespace ArcSoftFace
                             //byte[] featureSave = new byte[faceFeatureSave.featureSize];
                             //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
                             //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
-                            //// @"C:\Users\Lim\Desktop\code\feature\feature.data"
+                            //@"C:\Users\Lim\Desktop\code\feature\feature.data"
                             //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
                             //System.IO.File.WriteAllBytes(filename, featureSave);
 
@@ -684,7 +684,7 @@ namespace ArcSoftFace
                 //    compareNum = i;
                 //}
             }
-            br.Close();
+            //br.Close();
             if (compareSimilarity > 0)
             {
                 lblCompareInfo.Text = " " + compareNum + "号," + compareSimilarity;
