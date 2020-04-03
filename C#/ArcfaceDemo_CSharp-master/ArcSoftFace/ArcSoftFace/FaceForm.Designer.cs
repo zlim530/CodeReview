@@ -98,7 +98,7 @@
             // chooseImgBtn
             // 
             this.chooseImgBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chooseImgBtn.Location = new System.Drawing.Point(769, 457);
+            this.chooseImgBtn.Location = new System.Drawing.Point(736, 457);
             this.chooseImgBtn.Margin = new System.Windows.Forms.Padding(4);
             this.chooseImgBtn.Name = "chooseImgBtn";
             this.chooseImgBtn.Size = new System.Drawing.Size(145, 32);
@@ -126,7 +126,7 @@
             // matchBtn
             // 
             this.matchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.matchBtn.Location = new System.Drawing.Point(971, 457);
+            this.matchBtn.Location = new System.Drawing.Point(938, 457);
             this.matchBtn.Margin = new System.Windows.Forms.Padding(4);
             this.matchBtn.Name = "matchBtn";
             this.matchBtn.Size = new System.Drawing.Size(139, 32);
@@ -181,7 +181,7 @@
             // btnStartVideo
             // 
             this.btnStartVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartVideo.Location = new System.Drawing.Point(1154, 456);
+            this.btnStartVideo.Location = new System.Drawing.Point(1121, 456);
             this.btnStartVideo.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartVideo.Name = "btnStartVideo";
             this.btnStartVideo.Size = new System.Drawing.Size(143, 32);
@@ -195,7 +195,7 @@
             this.txtThreshold.BackColor = System.Drawing.SystemColors.Window;
             this.txtThreshold.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtThreshold.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtThreshold.Location = new System.Drawing.Point(1383, 459);
+            this.txtThreshold.Location = new System.Drawing.Point(1350, 459);
             this.txtThreshold.Margin = new System.Windows.Forms.Padding(4);
             this.txtThreshold.Name = "txtThreshold";
             this.txtThreshold.Size = new System.Drawing.Size(79, 29);
@@ -207,7 +207,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1324, 468);
+            this.label1.Location = new System.Drawing.Point(1291, 468);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 15);

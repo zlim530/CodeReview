@@ -519,10 +519,12 @@ namespace ArcSoftFace
                             {
                                 if (singleFaceInfo.faceRect.left == 0 && singleFaceInfo.faceRect.right == 0)
                                 {
+                                    AppendText("\n");
                                     AppendText(string.Format("{0}号未检测到人脸\r\n", i));
                                 }
                                 else
                                 {
+                                    AppendText("\n");
                                     AppendText(string.Format("已提取{0}号人脸特征值，[left:{1},right:{2},top:{3},bottom:{4},orient:{5}]\r\n", i, singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));
                                     imagesFeatureList.Add(feature);
                                 }
@@ -589,6 +591,8 @@ namespace ArcSoftFace
             logBox.AppendText(message);
         }
 
+
+        public List<int> matchNum = new List<int>();
         /// <summary>
         /// 匹配事件：开始匹配按钮点击事件
         /// </summary>
@@ -621,43 +625,26 @@ namespace ArcSoftFace
             AppendText("\n");
             AppendText(string.Format("------------------------------开始比对，时间:{0}------------------------------\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
 
-            BinaryReader br;
+
             for (int i = 0; i < imagesFeatureList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
             {
                 IntPtr feature = imagesFeatureList[i];
-                //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
-
-                //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
-                //byte[] featureSave = new byte[faceFeatureSave.featureSize];
-                //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
-                //// @"C:\Users\Lim\Desktop\code\feature\feature.data"
-
-
-                //try
-                //{
-                //    br = new BinaryReader(new FileStream(filename, FileMode.Open));
-                //    feature = br.ReadBytes();
-                //}
-                //catch (IOException ex)
-                //{
-                //    Console.WriteLine(ex.Message + "\n Cannot read from file.");
-                //    return;
-                //}
                 float similarity = 0f;
-
                 int ret = 0;
                 //int ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, image1Feature, feature, ref similarity);
 
                 for (int j = 0; j < image1FeatureList.Count; j++){// 循环右侧识别图中每一张人脸特征值信息:j < i
                     IntPtr feature1 = image1FeatureList[j];
                     ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, feature, feature1, ref similarity);
-                    //ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, feature, feature1, ref similarity);
-
 
                     //增加异常值处理
                     if (similarity.ToString().IndexOf("E") > -1)
                     {
                         similarity = 0f;
+                    }
+                    if (similarity > 0.4)
+                    {
+                        matchNum.Add(i);
                     }
                     AppendText("\n");
                     AppendText(string.Format("右侧识别图中的{0}号人脸与左侧人脸库中{1}号比对结果:{2}\r\n", j, i, similarity));
@@ -667,7 +654,6 @@ namespace ArcSoftFace
                         compareSimilarity = similarity;
                         compareNum = i;
                     }
-
 
                 }
 
@@ -693,6 +679,13 @@ namespace ArcSoftFace
             image1FeatureList.Clear();
         }
 
+        private void btnViewLog_Click(object sender, EventArgs e)
+        {
+            StuInfoManage sm = new StuInfoManage(matchNum);
+            sm.Owner = this;
+            sm.Show();
+        }
+
         /// <summary>
         /// 清除人脸库事件
         /// </summary>
@@ -707,6 +700,7 @@ namespace ArcSoftFace
             imagePathList.Clear();
 
             image1FeatureList.Clear();
+            matchNum.Clear();
         }
         
         #region 视频检测相关
@@ -937,11 +931,6 @@ namespace ArcSoftFace
 
         #endregion
 
-        private void btnViewLog_Click(object sender, EventArgs e)
-        {
-            StuInfoManage sm = new StuInfoManage();
-            sm.Owner = this;
-            sm.Show();
-        }
+        
     }
 }

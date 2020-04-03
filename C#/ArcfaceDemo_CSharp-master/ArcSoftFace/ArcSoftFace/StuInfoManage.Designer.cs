@@ -34,19 +34,20 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1Stu = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stu_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnReset = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDeleted = new System.Windows.Forms.Button();
-            this.buttonOpen = new System.Windows.Forms.Button();
             this.txtNumber = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnSave = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtUtime = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -60,7 +61,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -89,10 +89,12 @@
             this.dataGridView1Stu.AllowUserToDeleteRows = false;
             this.dataGridView1Stu.AllowUserToResizeColumns = false;
             this.dataGridView1Stu.AllowUserToResizeRows = false;
+            this.dataGridView1Stu.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1Stu.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1Stu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1Stu.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
+            this.stu_number,
             this.create_time,
             this.update_time,
             this.sex,
@@ -103,7 +105,7 @@
             this.dataGridView1Stu.RowHeadersWidth = 51;
             this.dataGridView1Stu.RowTemplate.Height = 27;
             this.dataGridView1Stu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1Stu.Size = new System.Drawing.Size(1107, 401);
+            this.dataGridView1Stu.Size = new System.Drawing.Size(1243, 401);
             this.dataGridView1Stu.TabIndex = 0;
             this.dataGridView1Stu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1Stu_CellClick);
             // 
@@ -112,11 +114,17 @@
             this.id.DataPropertyName = "id";
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.id.DefaultCellStyle = dataGridViewCellStyle1;
-            this.id.HeaderText = "学号";
+            this.id.HeaderText = "标号";
             this.id.MinimumWidth = 6;
             this.id.Name = "id";
             this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.id.Width = 125;
+            // 
+            // stu_number
+            // 
+            this.stu_number.DataPropertyName = "stu_number";
+            this.stu_number.HeaderText = "学号";
+            this.stu_number.MinimumWidth = 6;
+            this.stu_number.Name = "stu_number";
             // 
             // create_time
             // 
@@ -124,7 +132,6 @@
             this.create_time.HeaderText = "创建时间";
             this.create_time.MinimumWidth = 6;
             this.create_time.Name = "create_time";
-            this.create_time.Width = 125;
             // 
             // update_time
             // 
@@ -132,7 +139,6 @@
             this.update_time.HeaderText = "更新时间";
             this.update_time.MinimumWidth = 6;
             this.update_time.Name = "update_time";
-            this.update_time.Width = 125;
             // 
             // sex
             // 
@@ -141,7 +147,6 @@
             this.sex.MinimumWidth = 6;
             this.sex.Name = "sex";
             this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.sex.Width = 125;
             // 
             // name
             // 
@@ -149,7 +154,6 @@
             this.name.HeaderText = "姓名";
             this.name.MinimumWidth = 6;
             this.name.Name = "name";
-            this.name.Width = 125;
             // 
             // is_checked
             // 
@@ -158,7 +162,6 @@
             this.is_checked.MinimumWidth = 6;
             this.is_checked.Name = "is_checked";
             this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.is_checked.Width = 125;
             // 
             // groupBox1
             // 
@@ -171,12 +174,22 @@
             this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtSearch);
-            this.groupBox1.Location = new System.Drawing.Point(50, 26);
+            this.groupBox1.Location = new System.Drawing.Point(133, 31);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(981, 121);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查找";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(833, 46);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(101, 40);
+            this.btnReset.TabIndex = 9;
+            this.btnReset.Text = "重置";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnAdd
             // 
@@ -198,22 +211,22 @@
             this.btnDeleted.UseVisualStyleBackColor = true;
             this.btnDeleted.Click += new System.EventHandler(this.btnDeleted_Click);
             // 
-            // buttonOpen
-            // 
-            this.buttonOpen.Location = new System.Drawing.Point(833, 42);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(129, 40);
-            this.buttonOpen.TabIndex = 6;
-            this.buttonOpen.Text = "查看人脸库信息";
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
-            // 
             // txtNumber
             // 
             this.txtNumber.Location = new System.Drawing.Point(101, 85);
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(179, 25);
             this.txtNumber.TabIndex = 5;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(709, 48);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(101, 36);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "保存修改";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label2
             // 
@@ -233,21 +246,10 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "姓名：";
             // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(709, 48);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(101, 36);
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "保存修改";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtUtime);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.buttonOpen);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCtime);
             this.groupBox2.Controls.Add(this.ComboBoxSex);
@@ -258,7 +260,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.txtName);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(50, 153);
+            this.groupBox2.Location = new System.Drawing.Point(133, 158);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(981, 111);
             this.groupBox2.TabIndex = 5;
@@ -267,7 +269,7 @@
             // 
             // txtUtime
             // 
-            this.txtUtime.Location = new System.Drawing.Point(625, 73);
+            this.txtUtime.Location = new System.Drawing.Point(683, 70);
             this.txtUtime.Name = "txtUtime";
             this.txtUtime.Size = new System.Drawing.Size(185, 25);
             this.txtUtime.TabIndex = 16;
@@ -275,7 +277,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(537, 78);
+            this.label8.Location = new System.Drawing.Point(595, 75);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(82, 15);
             this.label8.TabIndex = 15;
@@ -284,7 +286,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(537, 37);
+            this.label7.Location = new System.Drawing.Point(595, 34);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(82, 15);
             this.label7.TabIndex = 14;
@@ -292,7 +294,7 @@
             // 
             // txtCtime
             // 
-            this.txtCtime.Location = new System.Drawing.Point(625, 32);
+            this.txtCtime.Location = new System.Drawing.Point(683, 29);
             this.txtCtime.Name = "txtCtime";
             this.txtCtime.Size = new System.Drawing.Size(185, 25);
             this.txtCtime.TabIndex = 13;
@@ -304,7 +306,7 @@
             "",
             "男",
             "女"});
-            this.ComboBoxSex.Location = new System.Drawing.Point(101, 75);
+            this.ComboBoxSex.Location = new System.Drawing.Point(159, 72);
             this.ComboBoxSex.Name = "ComboBoxSex";
             this.ComboBoxSex.Size = new System.Drawing.Size(147, 23);
             this.ComboBoxSex.TabIndex = 12;
@@ -316,7 +318,7 @@
             "",
             "否",
             "是"});
-            this.ComboBoxCheck.Location = new System.Drawing.Point(342, 75);
+            this.ComboBoxCheck.Location = new System.Drawing.Point(400, 72);
             this.ComboBoxCheck.Name = "ComboBoxCheck";
             this.ComboBoxCheck.Size = new System.Drawing.Size(179, 23);
             this.ComboBoxCheck.TabIndex = 11;
@@ -324,7 +326,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(254, 78);
+            this.label6.Location = new System.Drawing.Point(312, 75);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(82, 15);
             this.label6.TabIndex = 9;
@@ -333,7 +335,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(43, 78);
+            this.label5.Location = new System.Drawing.Point(101, 75);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 15);
             this.label5.TabIndex = 7;
@@ -341,7 +343,7 @@
             // 
             // txtNumberS
             // 
-            this.txtNumberS.Location = new System.Drawing.Point(342, 34);
+            this.txtNumberS.Location = new System.Drawing.Point(400, 31);
             this.txtNumberS.Name = "txtNumberS";
             this.txtNumberS.Size = new System.Drawing.Size(179, 25);
             this.txtNumberS.TabIndex = 6;
@@ -349,7 +351,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(284, 37);
+            this.label4.Location = new System.Drawing.Point(342, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 15);
             this.label4.TabIndex = 6;
@@ -357,7 +359,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(101, 34);
+            this.txtName.Location = new System.Drawing.Point(159, 31);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(147, 25);
             this.txtName.TabIndex = 5;
@@ -365,27 +367,17 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(43, 42);
+            this.label3.Location = new System.Drawing.Point(101, 39);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
             // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(833, 46);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(101, 40);
-            this.btnReset.TabIndex = 9;
-            this.btnReset.Text = "重置";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
             // StuInfoManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1131, 698);
+            this.ClientSize = new System.Drawing.Size(1267, 698);
             this.Controls.Add(this.dataGridView1Stu);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
@@ -395,6 +387,7 @@
             this.Name = "StuInfoManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "学生信息管理";
+            this.Load += new System.EventHandler(this.StuInfoManage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -426,15 +419,15 @@
         private System.Windows.Forms.TextBox txtCtime;
         private System.Windows.Forms.TextBox txtUtime;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button btnDeleted;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stu_number;
         private System.Windows.Forms.DataGridViewTextBoxColumn create_time;
         private System.Windows.Forms.DataGridViewTextBoxColumn update_time;
         private System.Windows.Forms.DataGridViewTextBoxColumn sex;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn is_checked;
-        private System.Windows.Forms.Button btnReset;
     }
 }

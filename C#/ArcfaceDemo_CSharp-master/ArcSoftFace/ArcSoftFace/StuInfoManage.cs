@@ -3,22 +3,51 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ArcSoftFace
 {
-    // partial表示部分类; ":" 表示类与类之间的继承关系
     public partial class StuInfoManage : Form
     {
+
+        static List<int> matchNum;
         public StuInfoManage()
         {
             InitializeComponent();
+            FindAll();
         }
-        
+
+        public StuInfoManage(List<int> list)
+        {
+            InitializeComponent();
+            matchNum = list;
+            FindAll();
+        }
+
+        private void StuInfoManage_Load(object sender,EventArgs e) {
+            for (int i = 0; i < matchNum.Count; i++)
+            {
+                int id = matchNum[i];
+                conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
+                conn.Open();
+
+                string is_checked = "是";
+                DateTime dtime = DateTime.Now.ToLocalTime();
+                string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
+                string sql = "update stuInfo set update_time = @time and is_checked = @is_checked where id = @id";
+                SqlParameter[] ps = {
+                    new SqlParameter("@time",time),
+                    new SqlParameter("@is_checked",is_checked),
+                    new SqlParameter("@id",id)
+                };
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddRange(ps);
+
+            }
+            FindAll();
+
+        }
+
         DateBase db = new DateBase();
         SqlConnection conn;
         DataTable dt;
@@ -30,7 +59,7 @@ namespace ArcSoftFace
             conn.Open();
             string strSQL = "select * FROM stuInfo WHERE name LIKE'" + txtSearch.Text.Trim() + "%'";
             if ( txtNumber.Text.Trim() != "") {
-                String str = "AND id LIKE'" + txtNumber.Text.Trim() + "%'";
+                String str = "AND stu_number LIKE'" + txtNumber.Text.Trim() + "%'";
                 strSQL += str;
             }
             db.RunNonSelect(strSQL);
@@ -51,6 +80,7 @@ namespace ArcSoftFace
 
         }
 
+        // 保存修改按钮单击事件
         private void btnSave_Click(object sender, EventArgs e)
         {
             DataTable changeDt = dt.GetChanges();
@@ -66,13 +96,14 @@ namespace ArcSoftFace
                     string strSQL = string.Empty;
                     if (dr.RowState == System.Data.DataRowState.Added)
                     {
-                        strSQL = @"INSERT INTO [dbo].[StuInfo]([id],[create_time],[update_time],[sex],[name],[is_checked])
+                        strSQL = @"INSERT INTO [dbo].[StuInfo]([id],[create_time],[update_time],[sex],[name],[is_checked],[stu_number])
                              VALUES('" + Convert.ToInt32(dr["id"]) + @"'
                                    ,'" + time + @"'
                                    ,'" + time + @"'
                                    ,'" + dr["sex"].ToString() + @"'
                                    ,'" + dr["name"].ToString() + @"'
-                                   ,'" + dr["is_checked"].ToString() + @"')";
+                                   ,'" + dr["is_checked"].ToString() + @"'
+                                   ,'" + Convert.ToInt32(dr["stu_number"]) + @"')";
 
                     }
                     else if (dr.RowState == System.Data.DataRowState.Modified)
@@ -114,40 +145,14 @@ namespace ArcSoftFace
         // 单击dataGridView1Stu显示当前行的数据
         private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //string txtname = txtName.ToString().Trim();
-            //string txtnumber = txtNumberS.ToString().Trim();
-            //string txtsex = ComboBoxSex.ToString().Trim();
-            //string txtcheck = ComboBoxCheck.ToString().Trim();
-            txtNumberS.Text = dataGridView1Stu.CurrentRow.Cells[0].Value.ToString();
+            txtNumberS.Text = dataGridView1Stu.CurrentRow.Cells[6].Value.ToString();
             txtCtime.Text = dataGridView1Stu.CurrentRow.Cells[1].Value.ToString();
             txtUtime.Text = dataGridView1Stu.CurrentRow.Cells[2].Value.ToString();
             ComboBoxSex.Text = dataGridView1Stu.CurrentRow.Cells[3].Value.ToString();
             txtName.Text = dataGridView1Stu.CurrentRow.Cells[4].Value.ToString();
             ComboBoxCheck.Text = dataGridView1Stu.CurrentRow.Cells[5].Value.ToString();
-            //txtName.Text = dataGridView1Stu[e.ColumnIndex, e.RowIndex].Value.ToString();
-            //txtNumberS.Text = dataGridView1Stu[e.ColumnIndex, e.RowIndex].Value.ToString();
-            //if (txtname.Length != 0 && txtnumber.Length != 0 && txtsex.Length != 0 && txtcheck.Length != 0)
-            //{
-            //    string sqlstr1 = @"INSERT INTO [dbo].[StuInfo]([id],[create_time],[update_time],[sex],[name],[is_checked])
-            //                 VALUES('" + Convert.ToInt32(txtnumber) + @"'
-            //                       ,'" + time + @"'
-            //                       ,'" + time + @"'
-            //                       ,'" + txtsex + @"'
-            //                       ,'" + txtname + @"'
-            //                       ,'" + txtcheck + @"')";
-            //    SqlCommand comm = new SqlCommand(sqlstr1, conn);
-            //    comm.ExecuteNonQuery();
-            //    save();
-            //}
-            //if (txtname.Length == 0 && txtnumber.Length == 0 && txtsex.Length == 0 && txtcheck.Length == 0 && changeDt != null)
         }
 
-        private void buttonOpen_Click(object sender, EventArgs e)
-        {
-            CheckInfoManage cm = new CheckInfoManage();
-            cm.Owner = this;
-            cm.Show();
-        }
 
         // 删除行按钮事件
         private void btnDeleted_Click(object sender, EventArgs e)
@@ -195,6 +200,7 @@ namespace ArcSoftFace
             dataGridView1Stu.DataMember = "stuInfo";
         }
 
+        // 添加行按钮单击事件
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (dt == null)
@@ -234,10 +240,7 @@ namespace ArcSoftFace
                 MessageBox.Show("重置失败");    
             }
             FindAll();
-
         }
-
-
 
     }
 
