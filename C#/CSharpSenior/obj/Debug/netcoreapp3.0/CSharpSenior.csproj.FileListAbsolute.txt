@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\CSharpSenior.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\CSharpSenior.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\CSharpSenior.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\CSharpSenior.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\CSharpSenior.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\CSharpSenior.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.pdb

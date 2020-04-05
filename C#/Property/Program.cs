@@ -33,6 +33,10 @@ namespace Property
             {
                 Console.WriteLine(ex.Message);
             }
+
+            var stu = new Student();
+            stu.Age = 21;
+            Console.WriteLine(stu.Age);
         }
     }
 
