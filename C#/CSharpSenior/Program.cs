@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace CSharpSenior
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             // 正则表达式
             string s = "I am blue cat.";
@@ -14,22 +16,18 @@ namespace CSharpSenior
             res = Regex.Replace(s,"$","End");
             System.Console.WriteLine(res);// Start:I am blue cat.End
 
-            string s = Console.ReadLine();
+            s = Console.ReadLine();
             string pattern = @"^\d*$";// * 0个或多个：即任意个
             bool isMatch = Regex.IsMatch(s,pattern);
             System.Console.WriteLine(isMatch);
 
-            string s = "213 *(&(*^((*十大绝对是";
+            s = "213 *(&(*^((*十大绝对是";
             pattern = @"\d|[a-z]";
             MatchCollection col = Regex.Matches(s,pattern);
             foreach (Match match in col)
             {
                 System.Console.WriteLine(match);// 相当于调用match的ToString()方法,会输出match所匹配到的字符串
             }
-
-            
-
-
 
         }
 
@@ -77,6 +75,7 @@ namespace CSharpSenior
                     System.Console.WriteLine("A");
                     break;
                 default:
+                    break;
             }
         }
 
@@ -87,8 +86,8 @@ namespace CSharpSenior
             for (int i = 0; i < 100; i++)
             {
                 var stu = new Student{
-                    Age = 21;
-                    Score = i;
+                    Age = 21,
+                    Score = i
                 };// 实例初始化器
                 stuList.Add(stu);
             }
@@ -191,7 +190,7 @@ namespace CSharpSenior
         // 遍历元素，因为该类实现了IEnumerable接口，所以可以使用foreach语句，注意字典对象中每个元素的类型为 KeyValuePair<TKey, TValue> 类型
         foreach (KeyValuePair<string,string> kvp in openWith)
         {
-            System.Console.WriteLine("Key={0},Value={1}",kvp.Key,kvp.Valeu);
+            System.Console.WriteLine("Key={0},Value={1}",kvp.Key,kvp.Value);
         }
         System.Console.WriteLine("遍历元素完成！");
         Console.ReadLine();
@@ -239,7 +238,190 @@ namespace CSharpSenior
     }
 
 
+// ======================通用的排序方法==========================
+
+        public static void Sort<T>(List<T> sortArray ,Func<T,T,int> comparision) {
+            for (int end = sortArray.Count - 1; end > 0; end--)
+            {
+                bool flag = true;
+                for (int begin = 1; begin <= end; begin++)
+                {
+                    // 默认按照从小到大的自然顺序进行排序
+                    if ( comparision(sortArray[begin],sortArray[begin - 1]) < 0)
+                    {
+                        T temp = sortArray[begin];
+                        sortArray[begin] = sortArray[begin - 1];
+                        sortArray[begin - 1] = temp;
+                        flag = false;
+                    }
+                }
+                if ( flag)
+                {
+                    break;
+                }
+            }
+        }
+
+
+        static void Main5(string[] args) {
+            
+            List<Employee> employees = new List<Employee>();
+            employees.Add(new Employee("Lily", 7000));
+            employees.Add(new Employee("jack", 4000));
+            employees.Add(new Employee("Mary", 6000));
+            employees.Add(new Employee("Tom", 5000));
+
+            Sort<Employee>(employees, Employee.CompareTo);
+
+            foreach (Employee employee in employees)
+            {
+                Console.WriteLine(employee);
+            }
+
+            List<Goods> arr = new List<Goods>();
+            arr.Add(new Goods("lenovoMouse", 34));
+            arr.Add(new Goods("dellMouse", 43));
+            arr.Add(new Goods("xiaomiMouse", 12));
+            arr.Add(new Goods("huaweiMouse", 65));
+            arr.Add(new Goods("microsoftMouse", 43));
+
+            Sort<Goods>(arr, Goods.compareTo);
+
+            foreach (Goods good in arr)
+            {
+                Console.WriteLine(good);
+            }
+
+            ArrayList arr1 = new ArrayList();
+
+        }
+
+
+        // ======================输出形参out 的基本使用==========================
+
+        static void Main(string[] args) {
+            double x = 0;
+            if (DoubleParser.TryParse("123",out x)) {
+                Console.WriteLine(x);// 123
+            }
+                        
+        }
+
+        class DoubleParser
+        {
+            public static bool TryParse(string input , out double result) {
+                try
+                {
+                    result = double.Parse(input);
+                    return true;
+                }
+                catch 
+                {
+                    result = 0;
+                    return false;
+                }
+            }
+        }
 
 
     }
+
+
+    class Employee
+    {
+        public string Name { get; set; }
+        public int Salary { get; set; }
+
+        public Employee(string name,int salary)
+        {
+            this.Name = name;
+            this.Salary = salary;
+        }
+
+        public static int CompareTo(Employee e1,Employee e2) {
+            if (e1.Salary > e2.Salary)
+            {
+                return 1;
+            }
+            else if( e1.Salary < e2.Salary)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public override string ToString()
+        {
+            return "Employee{" +
+                "Name='" + Name + '\'' +
+                ", Salary=" + Salary +
+                '}';
+        }
+    }
+
+    public class Goods
+    {
+
+    private String name;
+    private double price;
+
+    public Goods()
+    {
+    }
+
+    public Goods(String name, double price)
+    {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public double getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(double price)
+    {
+        this.price = price;
+    }
+
+    public override String ToString()
+    {
+        return "Goods{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
+
+    //指明商品比较大小的方式:按照价格从低到高排序,再按照产品名称从高到低排序
+    public static int compareTo(Goods e1, Goods e2)
+    {
+        if (e1.price > e2.price)
+        {
+            return 1;
+        }
+        else if (e1.price < e2.price)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
+
 }

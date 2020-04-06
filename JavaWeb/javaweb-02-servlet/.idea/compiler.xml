@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="filter" />
-        <module name="servletContext" />
+        <module name="servlet-01" />
         <module name="Session" />
         <module name="AJAX_JSON" />
-        <module name="servlet-01" />
+        <module name="servletContext" />
       </profile>
     </annotationProcessing>
   </component>
