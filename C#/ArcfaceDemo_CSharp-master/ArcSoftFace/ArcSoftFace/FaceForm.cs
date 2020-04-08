@@ -511,35 +511,31 @@ namespace ArcSoftFace
 
 
                         //提取人脸特征
-                        for (int i = numStart; i < imagePathList.Count; i++)
-                        {
-                            ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
-                            IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
-                            this.Invoke(new Action(delegate
-                            {
-                                if (singleFaceInfo.faceRect.left == 0 && singleFaceInfo.faceRect.right == 0)
-                                {
-                                    AppendText("\n");
-                                    AppendText(string.Format("{0}号未检测到人脸\r\n", i));
-                                }
-                                else
-                                {
-                                    AppendText("\n");
-                                    AppendText(string.Format("已提取{0}号人脸特征值，[left:{1},right:{2},top:{3},bottom:{4},orient:{5}]\r\n", i, singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));
-                                    imagesFeatureList.Add(feature);
-                                }
-                            }));
+                        //for (int i = numStart; i < imagePathList.Count; i++) {
+                        //    ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
+                        //    IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
+                        //    this.Invoke(new Action(delegate {
+                        //        if (singleFaceInfo.faceRect.left == 0 && singleFaceInfo.faceRect.right == 0) {
+                        //            AppendText("\n");
+                        //            AppendText(string.Format("{0}号未检测到人脸\r\n", i));
+                        //        } else {
+                        //            AppendText("\n");
+                        //            AppendText(string.Format("已提取{0}号人脸特征值，[left:{1},right:{2},top:{3},bottom:{4},orient:{5}]\r\n", i, singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));
+                        //            imagesFeatureList.Add(feature);
+                        //        }
+                        //    }));
 
-                            //保存人脸特征到文件
-                            //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
-                            //byte[] featureSave = new byte[faceFeatureSave.featureSize];
-                            //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
-                            //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
-                            //@"C:\Users\Lim\Desktop\code\feature\feature.data"
-                            //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
-                            //System.IO.File.WriteAllBytes(filename, featureSave);
 
-                        }
+                        //    //保存人脸特征到文件
+                        //    //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
+                        //    //byte[] featureSave = new byte[faceFeatureSave.featureSize];
+                        //    //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
+                        //    //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
+                        //    ////@"C:\Users\Lim\Desktop\code\feature\feature.data"
+                        //    //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
+                        //    //System.IO.File.WriteAllBytes(filename, featureSave);
+
+                        //}
                         //允许点击按钮
                         Invoke(new Action(delegate
                         {
@@ -600,24 +596,24 @@ namespace ArcSoftFace
         /// <param name="e"></param>
         private void matchBtn_Click(object sender, EventArgs e)
         {
-            if (imagesFeatureList.Count == 0)
-            {
-                MessageBox.Show("请注册人脸!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //if (imagesFeatureList.Count == 0)
+            //{
+            //    MessageBox.Show("请注册人脸!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
-            if (image1Feature == IntPtr.Zero)
-            {
-                if (picImageCompare.Image == null)
-                {
-                    MessageBox.Show("请选择识别图!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show("比对失败，识别图未提取到特征值!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                return;
-            }
+            //if (image1Feature == IntPtr.Zero)
+            //{
+            //    if (picImageCompare.Image == null)
+            //    {
+            //        MessageBox.Show("请选择识别图!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("比对失败，识别图未提取到特征值!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    return;
+            //}
             //标记已经做了匹配比对，在开启视频的时候要清除比对结果
             isCompare = true;
             float compareSimilarity = 0f;
@@ -626,16 +622,34 @@ namespace ArcSoftFace
             AppendText(string.Format("------------------------------开始比对，时间:{0}------------------------------\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
 
 
-            for (int i = 0; i < imagesFeatureList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
+            //for (int i = 0; i < imagesFeatureList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
+            for (int i = 0; i < imagePathList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
             {
-                IntPtr feature = imagesFeatureList[i];
+                //IntPtr feature = imagesFeatureList[i];
+
+                // 从本地的特征文件中读取人脸特征值
+                string filename = "C://Users//Lim//Desktop//code//feature//feature" + i + ".data";
+                FileInfo fi = new FileInfo(filename);
+                FileStream stream = fi.OpenRead();
+                byte[] tempPtrArr = new byte[1032];
+                stream.Read(tempPtrArr,0,tempPtrArr.Length);
+                ASF_FaceFeature localFeature = new ASF_FaceFeature();
+                localFeature.feature = MemoryUtil.Malloc(1032);
+                MemoryUtil.Copy(tempPtrArr,0,localFeature.feature,1032);
+                localFeature.featureSize = tempPtrArr.Length;
+                IntPtr tempPtr = MemoryUtil.Malloc(MemoryUtil.SizeOf<ASF_FaceFeature>());
+                MemoryUtil.StructureToPtr(localFeature, tempPtr);
+
                 float similarity = 0f;
                 int ret = 0;
                 //int ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, image1Feature, feature, ref similarity);
 
                 for (int j = 0; j < image1FeatureList.Count; j++){// 循环右侧识别图中每一张人脸特征值信息:j < i
+                    
                     IntPtr feature1 = image1FeatureList[j];
-                    ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, feature, feature1, ref similarity);
+                    //ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, feature, feature1, ref similarity);
+                    ret = ASFFunctions.ASFFaceFeatureCompare(pImageEngine, tempPtr, feature1, ref similarity);
+
 
                     //增加异常值处理
                     if (similarity.ToString().IndexOf("E") > -1)
