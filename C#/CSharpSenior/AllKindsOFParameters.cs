@@ -2,11 +2,31 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 
 namespace CSharpSenior {
     class AllKindsOFParameters {
 
-        static void Main(string[] args) {
+        static void Main1(string[] args) {
+            var myList = new List<int>() { 12,11,9,14,15};
+            bool result = AllGreaterThanTen(myList);
+            Console.WriteLine(result);
+            bool result2 = myList.All(i => i > 10);
+            Console.WriteLine(result2);
+
+        }
+
+        static bool AllGreaterThanTen(List<int> intList) {
+            foreach (var item in intList) {
+                if (item <= 10) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        static void Main0(string[] args) {
             //Student stu = null;
 
             //if (StudentFactory.Create("Tim",33,out stu)) {
