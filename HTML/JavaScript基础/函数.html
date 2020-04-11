@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        function zlim() {
+            var x = 1;
+            
+            function zlim2() {
+                var x = 'A';
+                console.log('inner :'+x);// inner :A
+            }
+            console.log('outer : '+x);// outer : 1
+            zlim2();
+        }
+        zlim();
+
+    </script>
+</body>
+</html>
