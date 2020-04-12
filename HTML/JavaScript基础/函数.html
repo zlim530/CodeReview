@@ -9,17 +9,224 @@
     
     <script>
 
-        function zlim() {
-            var x = 1;
+        // var msg = `
+        //     elrea
+        //     asjkda s
+        //     wordl
+        //     hello
+        //     你好
+        //     呀
+        // `;
+
+        let name = "zlim";
+        let age = 3;
+
+        let msg = `你好呀，${name}`;
+
+        var array = [12,3,4,5,6,12,31,23,123];
+        
+        // array.forEach(function(value){
+        //     console.log(value);
+        // });
+
+        // for(const index in object){}
+        // for (const key in array) {
+        //     if (array.hasOwnProperty(key)) {
+        //         console.log(array[key]);
+        //     }
+        // }
+
+        // for ... of ... 
+        // var arr1 = [3,4,5];
+        // for (let element of arr1) {
+        //     console.log(element);
+        // }
+        
+        // var map = new Map([['tim',100],['tom',90],['lily',80]]);
+        // for (const x of map) {
+        //     console.log(x);
+        // }
+
+        // var set1 = new Set([5,6,7]);
+        // for (const x of set1) {
+        //     console.log(x);
+        // }
+
+
+
+        // function zlim() {
+        //     var x = 1;
             
-            function zlim2() {
-                var x = 'A';
-                console.log('inner :'+x);// inner :A
-            }
-            console.log('outer : '+x);// outer : 1
-            zlim2();
+        //     function zlim2() {
+        //         var x = 'A';
+        //         console.log('inner :'+x);// inner :A
+        //     }
+        //     console.log('outer : '+x);// outer : 1
+        //     zlim2();
+        // }
+        // zlim();
+
+        function zlim() {
+            var x = "x" + y;
+            console.log(x);
+            var y = 'y';
         }
-        zlim();
+
+        function zlim2() {
+            var y;
+
+            var x = "x" + y;
+            console.log(x);
+            y = 'y';
+        }
+
+        function zlim3() {
+            var x = 1,
+                y = x + 1,
+                z,i,a;// undefined
+
+            // 之后随意后在头部声明的变量
+        }
+
+        x = 1;
+
+        function f() {
+            console.log(x);
+        }
+        f();
+        console.log(x);
+
+        // 唯一的全局变量
+        var zlim = {};
+
+        // 定义全局变量
+        zlim.name = 'zlim';
+        zlim.add = function (a,b) {
+            return a + b;
+        }
+
+        // var PI = '3.14';
+
+        // console.log(PI);
+
+        // PI = '213';// 可以改变这个值
+
+        // console.log(PI);
+
+        const PI = '3.14';// 只读变量
+        console.log(PI);
+        // PI = '123';// Uncaught TypeError: Assignment to constant variable.
+        console.log(PI);
+
+        // var person = {
+        //     name:'zlim',
+        //     birth:1998,
+        //     age:function(){
+        //         let now = new Date().getFullYear();
+        //         return now - this.birth;
+        //     }
+        // };
+
+        function getAge() {
+            let now = new Date().getFullYear();
+            return now - this.birth;
+        };
+
+        var person = {
+            name:'zlim',
+            birth:2000,
+            age:getAge
+        };
+
+        var now = new Date();
+        now.getFullYear();// 年
+        now.getMonth();// 月 0 ~ 11 月
+        now.getDate();// 日
+        now.getDay();// 星期几  0 ~ 6 0：表示星期日
+        now.getHours();// 时
+        now.getMinutes();// 分
+        now.getSeconds();// 秒
+
+        now.getTime();// 时间戳 全世界统一 从 1970.1.1 00:00:00 到现在的毫秒数
+
+        console.log(new Date(1586689796897));// 将时间戳转为时间
+        // Sun Apr 12 2020 19:09:56 GMT+0800 (中国标准时间)
+
+        now = new Date(1586689796897);
+
+        let user = {
+            name:'zlim',
+            age:22,
+            sex:'女'
+        };
+
+        // 对象转换为 json 字符串："{"name":"zlim","age":22,"sex":"女"}"
+        var jsonUser = JSON.stringify(user);
+
+        // json 字符串转化为对象，参数为 (json) 字符串
+        var obj = JSON.parse('{"name":"zlim","age":22,"sex":"女"}');
+        
+        // var Student = {
+        //     name:'zlim',
+        //     age:22,
+        //     run:function () {
+        //         console.log(this.name + " is running ...");
+        //     },
+        //     hi:Student
+        // };
+
+        // var xiaoming = {
+        //     name:"xiaoming"
+        // };
+
+        // let bird = {
+        //     fly:function () {
+        //         console.log(this.name + " is flying ... ");
+        //     }
+        // };
+
+        // // 原型对象
+        // xiaoming.__proto__ = bird;
+
+        
+        // function Student(name) {
+        //     this.name = name;
+        //     console.log(this.name);
+        // };
+
+        // Student.hello = function () {
+        //     alert('Hello');
+        // };
+
+        // ES6 之后 ===========
+        // 定义一个学生的类
+        class Student{
+
+            constructor(name){
+                this.name = name;
+            };
+
+            hello(){
+                alert('hello ' + this.name);
+            };
+        }
+
+        class XiaoStudent extends Student {
+            constructor(name,grade){
+                super(name);
+                this.grade = grade;
+            };
+
+            mygrade(){
+                alert('我是一名小学生。');
+            };
+        }
+
+        var xiaohong = new Student("xiaohong");
+        var zhangsan = new Student("zhangsan");
+        var xiaoxuesheng = new XiaoStudent("xiaoxuesheng",1);
+        // xiaohong.hello();
+        xiaoxuesheng.hello();
 
     </script>
 </body>

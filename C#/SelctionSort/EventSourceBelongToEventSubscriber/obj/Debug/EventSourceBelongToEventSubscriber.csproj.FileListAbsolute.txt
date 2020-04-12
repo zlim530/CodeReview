@@ -1,5 +1,0 @@
-C:\Users\Lim\source\repos\EventSourceBelongToEventSubscriber\bin\Debug\EventSourceBelongToEventSubscriber.exe.config
-C:\Users\Lim\source\repos\EventSourceBelongToEventSubscriber\bin\Debug\EventSourceBelongToEventSubscriber.exe
-C:\Users\Lim\source\repos\EventSourceBelongToEventSubscriber\bin\Debug\EventSourceBelongToEventSubscriber.pdb
-C:\Users\Lim\source\repos\EventSourceBelongToEventSubscriber\obj\Debug\EventSourceBelongToEventSubscriber.exe
-C:\Users\Lim\source\repos\EventSourceBelongToEventSubscriber\obj\Debug\EventSourceBelongToEventSubscriber.pdb

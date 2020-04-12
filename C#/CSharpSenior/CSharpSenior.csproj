@@ -13,6 +13,7 @@
     <Compile Remove="_002_Lambda运算符.cs" />
     <Compile Remove="_003_0x01委托模板方法的使用.cs" />
     <Compile Remove="_003_0x02委托回调方法的使用.cs" />
+    <Compile Remove="_003_0x03使用接口取代委托.cs" />
     <Compile Remove="_003_委托.cs" />
   </ItemGroup>
 
