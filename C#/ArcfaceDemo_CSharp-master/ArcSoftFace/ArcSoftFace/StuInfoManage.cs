@@ -10,7 +10,7 @@ namespace ArcSoftFace
     public partial class StuInfoManage : Form
     {
 
-        static List<int> matchNum;
+        static List<int> matchNum = new List<int>();
         public StuInfoManage()
         {
             InitializeComponent();
@@ -25,8 +25,7 @@ namespace ArcSoftFace
         }
 
         private void StuInfoManage_Load(object sender,EventArgs e) {
-            for (int i = 0; i < matchNum.Count; i++)
-            {
+            for (int i = 0; i < matchNum.Count; i++) {
                 int id = matchNum[i];
                 conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
                 conn.Open();
@@ -34,7 +33,7 @@ namespace ArcSoftFace
                 string is_checked = "是";
                 DateTime dtime = DateTime.Now.ToLocalTime();
                 string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
-                string sql = "update stuInfo set update_time = @time and is_checked = @is_checked where id = @id";
+                string sql = "update stuInfo set update_time = @time,is_checked = @is_checked where id = @id";
                 SqlParameter[] ps = {
                     new SqlParameter("@time",time),
                     new SqlParameter("@is_checked",is_checked),
@@ -42,10 +41,9 @@ namespace ArcSoftFace
                 };
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddRange(ps);
-
+                cmd.ExecuteNonQuery();
             }
             FindAll();
-
         }
 
         DateBase db = new DateBase();

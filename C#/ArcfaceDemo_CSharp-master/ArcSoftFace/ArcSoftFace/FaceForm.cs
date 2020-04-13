@@ -10,11 +10,7 @@ using System.IO;
 using System.Configuration;
 using System.Threading;
 using AForge.Video.DirectShow;
-using System.Text.RegularExpressions;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
 
 namespace ArcSoftFace
@@ -43,7 +39,7 @@ namespace ArcSoftFace
         private bool isCompare = false;
 
         // 定义人脸特征值目录的存储位置
-        private String FaceLibraryPath = "C://Users//Lim//Desktop//code//feature/";
+        //private String FaceLibraryPath = "C://Users//Lim//Desktop//code//feature/";
 
         #region 视频模式下相关
 
@@ -137,14 +133,15 @@ namespace ArcSoftFace
             //人脸在图片中所占比例，如果需要调整检测人脸尺寸请修改此值，有效数值为2-32
             int detectFaceScaleVal = 16;
             //最大需要检测的人脸个数
-            int detectFaceMaxNum = 30;
+            int detectFaceMaxNum = 35;
             //引擎初始化时需要初始化的检测功能组合
             int combinedMask = FaceEngineMask.ASF_FACE_DETECT | FaceEngineMask.ASF_FACERECOGNITION | FaceEngineMask.ASF_AGE | FaceEngineMask.ASF_GENDER | FaceEngineMask.ASF_FACE3DANGLE;
             //初始化引擎，正常值为0，其他返回值请参考http://ai.arcsoft.com.cn/bbs/forum.php?mod=viewthread&tid=19&_dsign=dbad527e
             retCode = ASFFunctions.ASFInitEngine(detectMode, detectFaceOrientPriority, detectFaceScaleVal, detectFaceMaxNum, combinedMask, ref pImageEngine);
             Console.WriteLine("InitEngine Result:" + retCode);
             AppendText((retCode == 0) ? "引擎初始化成功!\n" : string.Format("引擎初始化失败!错误码为:{0}\n", retCode));
-     
+            AppendText("\n");
+
             if (retCode != 0)
             {
                 chooseMultiImgBtn.Enabled = false;
@@ -238,6 +235,7 @@ namespace ArcSoftFace
                     srcImage = ImageUtil.ScaleImage(srcImage, picImageCompare.Width, picImageCompare.Height);
                     image1Feature = IntPtr.Zero;
                     picImageCompare.Image = srcImage;
+                    AppendText("\n");
                     AppendText(string.Format("{0} - 未检测出人脸!\n\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")));
                     AppendText(string.Format("------------------------------检测结束，时间:{0}------------------------------\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
                     AppendText("\n");
@@ -258,7 +256,7 @@ namespace ArcSoftFace
                     int orient = MemoryUtil.PtrToStructure<int>(multiFaceInfo.faceOrients + MemoryUtil.SizeOf<int>() * i);
                     int age = 0;
 
-                    // 提取人脸特征
+                    // 提取右侧多人脸识别图中的人脸特征
                     //Image image = ImageUtil.CutImage(srcImage, rect.left, rect.top, rect.right, rect.bottom);
                     Bitmap bitmap = new Bitmap(srcImage);
                     Image image = CutFace(bitmap, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
@@ -273,6 +271,7 @@ namespace ArcSoftFace
                         i, singleFaceInfo1.faceRect.left, singleFaceInfo1.faceRect.right, singleFaceInfo1.faceRect.top,
                         singleFaceInfo1.faceRect.bottom, singleFaceInfo1.faceOrient));
                     image1FeatureList.Add(feature1);
+                    AppendText("\n");
 
 
                     if (retCode_Age != 0)
@@ -326,7 +325,7 @@ namespace ArcSoftFace
                     //    genderTemp = gender;
                     //}
 
-                    ////显示标记后的图像
+                    // 显示标记后的图像
                     srcImage = DrawRectangleInPicture(i, srcImage, new Point(rect.left, rect.top), new Point(rect.right, rect.bottom),
                         Color.Red, srcImage.Width / 300, DashStyle.Dash);
                     picImageCompare.Image = srcImage;
@@ -342,9 +341,11 @@ namespace ArcSoftFace
 
                 AppendText("\n");
                 AppendText(string.Format("{0} - 人脸数量:{1}\n\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), multiFaceInfo.faceNum));
+                AppendText("\n");
 
 
                 DateTime detectEndTime = DateTime.Now;
+                AppendText("\n");
                 AppendText(string.Format("------------------------------检测结束，时间:{0}------------------------------\n", detectEndTime.ToString("yyyy-MM-dd HH:mm:ss:ms")));
                 AppendText("\n");
                 ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
@@ -371,6 +372,7 @@ namespace ArcSoftFace
 
         }
 
+        // 剪裁图片
         private static Bitmap CutFace(Bitmap srcImage, int StartX, int StartY, int iWidth, int iHeight)
         {
             if (srcImage == null)
@@ -413,6 +415,7 @@ namespace ArcSoftFace
         }
 
 
+        // 用矩形框标记图片指定区域
         private Image DrawRectangleInPicture(int faceIndex, Image bmp, Point p0, Point p1, Color RectColor, int LineWidth, DashStyle ds)
         {
             if (bmp == null) return null;
@@ -460,7 +463,6 @@ namespace ArcSoftFace
                         imagePathListTemp.Add(fileNames[i]);
                     }
 
-                 
 
                     //人脸检测以及提取人脸特征
                     ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
@@ -514,29 +516,31 @@ namespace ArcSoftFace
                         //for (int i = numStart; i < imagePathList.Count; i++) {
                         //    ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
                         //    IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
-                        //    this.Invoke(new Action(delegate {
-                        //        if (singleFaceInfo.faceRect.left == 0 && singleFaceInfo.faceRect.right == 0) {
-                        //            AppendText("\n");
-                        //            AppendText(string.Format("{0}号未检测到人脸\r\n", i));
-                        //        } else {
-                        //            AppendText("\n");
-                        //            AppendText(string.Format("已提取{0}号人脸特征值，[left:{1},right:{2},top:{3},bottom:{4},orient:{5}]\r\n", i, singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));
-                        //            imagesFeatureList.Add(feature);
-                        //        }
-                        //    }));
+                            //this.Invoke(new Action(delegate {
+                            //    if (singleFaceInfo.faceRect.left == 0 && singleFaceInfo.faceRect.right == 0) {
+                            //        AppendText("\n");
+                            //        AppendText(string.Format("{0}号未检测到人脸\r\n", i));
+                            //    } else {
+                            //        AppendText("\n");
+                            //        AppendText(string.Format("已提取{0}号人脸特征值，[left:{1},right:{2},top:{3},bottom:{4},orient:{5}]\r\n", i, singleFaceInfo.faceRect.left, singleFaceInfo.faceRect.right, singleFaceInfo.faceRect.top, singleFaceInfo.faceRect.bottom, singleFaceInfo.faceOrient));
+                            //        imagesFeatureList.Add(feature);
+                            //    }
+                            //}));
 
 
-                        //    //保存人脸特征到文件
-                        //    //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
-                        //    //byte[] featureSave = new byte[faceFeatureSave.featureSize];
-                        //    //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
-                        //    //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
-                        //    ////@"C:\Users\Lim\Desktop\code\feature\feature.data"
-                        //    //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
-                        //    //System.IO.File.WriteAllBytes(filename, featureSave);
+                            //保存人脸特征到文件
+                            //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
+                            //byte[] featureSave = new byte[faceFeatureSave.featureSize];
+                            //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
+                            //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
+                            ////@"C:\Users\Lim\Desktop\code\feature\feature.data"
+                            //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
+                            //System.IO.File.WriteAllBytes(filename, featureSave);
 
                         //}
+
                         //允许点击按钮
+
                         Invoke(new Action(delegate
                         {
                             chooseMultiImgBtn.Enabled = true;
@@ -620,7 +624,7 @@ namespace ArcSoftFace
             int compareNum = 0;
             AppendText("\n");
             AppendText(string.Format("------------------------------开始比对，时间:{0}------------------------------\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
-
+            AppendText("\n");
 
             //for (int i = 0; i < imagesFeatureList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
             for (int i = 0; i < imagePathList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
@@ -656,12 +660,13 @@ namespace ArcSoftFace
                     {
                         similarity = 0f;
                     }
-                    if (similarity > 0.4)
+                    if (similarity > 0.5)
                     {
                         matchNum.Add(i);
                     }
                     AppendText("\n");
                     AppendText(string.Format("右侧识别图中的{0}号人脸与左侧人脸库中{1}号比对结果:{2}\r\n", j, i, similarity));
+                    AppendText("\n");
                     //imageList.Items[i].Text = string.Format("{0}号({1})", i, similarity);
                     if (similarity > compareSimilarity)
                     {
@@ -689,8 +694,10 @@ namespace ArcSoftFace
             {
                 lblCompareInfo.Text = " " + compareNum + "号," + compareSimilarity;
             }
+            AppendText("\n");
             AppendText(string.Format("------------------------------比对结束，时间:{0}------------------------------\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
             image1FeatureList.Clear();
+            AppendText("\n");
         }
 
         private void btnViewLog_Click(object sender, EventArgs e)
