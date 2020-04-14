@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- MD5 工具类 https://www.bootcdn.cn/blueimp-md5/ -->
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.13.0/js/md5.js"></script>
+</head>
+<body>
+
+<!-- 
+    表单层面的绑定提交事件
+    onsubmit= 绑定一个提交函数，返回值为 true 或者 false
+    将这个提交函数的结果返回给表单，使用 onsubmit 进行接收，只有为 true 时，表单才可以成功提交
+    onsubmit="return aaa()"
+ -->
+<form action="https://www.baidu.com/" method="POST" onsubmit="return aaa()"> 
+    <p>
+        <span>用户名：</span> <input type="text" id="username" name="username">
+    </p>
+
+    <p>
+        <!-- <button type="submit">提交</button> -->
+        <span>密码：</span> <input type="password" id="input-password" >
+    </p>
+
+    <input type="hidden" id="md5-password" name="password">
+
+    <input type="submit" onclick="aaa()">
+    <!-- 绑定事件 onclick 被点击 -->
+    <!-- <button type="submit" onclick="aaa()">提交</button> -->
+
+</form>
+
+<script>
+    function aaa() {
+        // alert(1);
+        var uname = document.getElementById('username');
+        var pwd = document.getElementById('input-password');
+        var md5pwd = document.getElementById('md5-password');
+        
+        // pwd.value = md5(pwd.value);// 不要这么写：这样写在用户点击提交的一瞬间 password 输入框中会被填满
+
+        // MD5 算法
+        md5pwd.value = md5(pwd.value);
+        // 可以检验判断表单内容，true 就是通过提交，false 就是阻止提交
+        // 需要在 form 标签中加入 onsubmit 属性才可以实现
+        return false;        
+    }
+</script>
+<!-- 
+
+    // var input_text = document.getElementById('username');
+    // var boy_radio = document.getElementById('boy');
+    // var girl_radio = document.getElementById('girl'); -->
+        <!-- 多选框的值，就是定义好的 value 属性 -->
+    <!-- <p>
+        <span>性别</span>
+        <input type="radio" name="sex" value="man" id="boy"> 男
+        <input type="radio" name="sex" value="women" id="girl"> 女
+    </p> -->
+
+    <!-- <script>
+
+        var js = document.getElementById('js');// 已经存在的结点
+        var list = document.getElementById('list');
+        
+        // 通过 JS 创建一个新的结点
+        var newP = document.createElement('p');// 创建了一个 p 标签
+        newP.id = "newP";
+        newP.innerText = "Hello,ZLim";
+        list.appendChild(newP);
+        
+        // 创建一个标签结点
+        var myScript = document.createElement('script');
+        myScript.setAttribute('type','text/javascript');
+
+        // 创建一个 style 标签
+        var myStyle = document.createElement('style');// 创建了一个空的 style 标签
+        myStyle.setAttribute('type','text/css');
+        myStyle.innerHTML = 'body{background-color: chartreuse;}';// 设置标签内容
+
+        document.getElementsByTagName('head')[0].appendChild(myStyle);
+
+
+    </script> -->
+
+    <!-- <div id = "id1">
+        
+    </div> -->
+
+    <!-- <script>
+
+        var self = document.getElementById('p1');
+        var father = document.getElementById('father');
+        father.removeChild(self);
+
+        
+
+
+        // var id1 = document.getElementById('id1');
+
+        // 对应 css 中的选择器
+        // var h1 = document.getElementsByTagName('h1');
+        // var p1 = document.getElementById('p1');
+        // var p2 = document.getElementsByClassName('p2');
+        // var father = document.getElementById('father');
+
+        // var childrens = father.children;// 获取父节点下的所有子节点
+        // father.firstChild;
+        // father.lastChild;
+
+    </script> -->
+
+</body>
+</html>

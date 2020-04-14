@@ -1,32 +1,86 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="{CHARSET}">
-		<title>jQuery</title>
-	</head>
-	<body>
-		<div id="box">
-			
-		</div>
-		<div class="box1">
-			
-		</div>
-		<div class="box1">
-			
-		</div>
-	</body>
-	<script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript">
-//		调用jQuery来实现对标签的操作 
-		$ == jQuery;
-//		$("选择器").action(); //形如$(obj).action()
-		var div = $("#box");
-		console.log(div,typeof div);//object
-		div.css({
-			width:100,
-			height:100,
-			backgroundColor:"red"
-		});
+<head>
+	<meta charset="{CHARSET}">
+	<title>jQuery</title>
+	<!-- CDN 引入 jQuery -->
+	<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.js"></script>
+	<!-- 或者本地引入 -->
+	<!-- <script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script> -->
+	<style>
+		#divMove{
+			width: 500px;
+			height: 500px;
+			border: 1px solid rebeccapurple;
+		}
+
+	</style>
+</head>
+<body>
+
+<!-- <a href="" id="test-jquery">点我</a> -->
+	
+<!-- 要求：获取鼠标当前的一个坐标  -->
+<!-- mouse:<span id="mouseMove"></span>
+<div id="divMove">
+在这里移动鼠标试试
+</div> -->
+
+<ul id="test-ul">
+	<li class="js">JavaScript</li>
+	<li name="python">Python</li>
+</ul>
+
+<script >
+
+	$('#test-ul li[name=python]').text();
+	$('#test-ul').html();
+
+	// jQuery 中的选择器就是 CSS 中的选择器
+	// $('#test-jquery').click(function () {
+	// 	alert('hello,jQuery');
+	// });
+
+	// 当网页元素加载完毕之后，响应的事件
+	// $(document).ready(function () {
 		
-	</script>
+	// });
+	// 由于这个事件十分常用，因此将写法简化为了：
+	// $(function () {
+	// 	$('#divMove').mousemove(function (e) {
+	// 		$('#mouseMove').text('x:' + e.pageX + 'y:' + e.pageY)
+	// 	})
+	// })
+
+	// 原生 JS，选择器少
+	// 标签选择器
+	// document.getElementsByTagName();
+	// // id 选择器
+	// document.getElementById();
+	// // 类选择器
+	// document.getElementsByClassName();
+
+	// // jQuery 选择器：CSS 中的选择器都可以用！
+	// $('p').click();	// 标签选择器
+	// $('#id1').click(); // id 选择器
+	// $('.class1').click(); // 类选择器
+
+
+
+</script>
+
+</body>
+
 </html>
+
+
+<!-- // //		调用jQuery来实现对标签的操作 
+// 	$ == jQuery;
+// //		$("选择器").action(); //形如$(obj).action()
+// 	var div = $("#box");
+// 	console.log(div,typeof div);//object
+// 	div.css({
+// 		width:100,
+// 		height:100,
+// 		backgroundColor:"red"
+// 	}); -->
