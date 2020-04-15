@@ -4,6 +4,9 @@ using System.Text;
 using System.Linq;
 
 namespace CSharpSenior {
+
+    public delegate void MyDel(string arg1,string arg2);
+
     class _002_Lambda运算符 {
 
         static void Main(string[] args) {
@@ -22,6 +25,9 @@ namespace CSharpSenior {
             // 在没有输入参数的情况下定义lambda表达式：
             Func<string> greet = () => "Hello,World!";
             Console.WriteLine(greet());// Hello,World!
+
+            //创建委托，使用lambda表达式代替匿名方法
+            MyDel myDel = (arg1,arg2) => System.Console.WriteLine(string.Format("arg1:{0},arg2:{1}",arg1,arg2));;
 
         }
 

@@ -140,7 +140,7 @@ namespace ArcSoftFace
             }
         }
 
-        // 单击dataGridView1Stu显示当前行的数据
+        // 单击 dataGridView1Stu 显示当前行的数据
         private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             txtNumberS.Text = dataGridView1Stu.CurrentRow.Cells[6].Value.ToString();

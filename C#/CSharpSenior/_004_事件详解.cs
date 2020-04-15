@@ -5,7 +5,6 @@ using System.Threading;
 
 namespace CSharpSenior {
     class _004_事件详解 {
-
         static void Main(string[] args) {
             var customer = new Customer();
             var waiter = new Waiter();

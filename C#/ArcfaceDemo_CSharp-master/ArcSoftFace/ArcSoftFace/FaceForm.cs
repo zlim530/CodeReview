@@ -415,7 +415,7 @@ namespace ArcSoftFace
         }
 
 
-        // 用矩形框标记图片指定区域
+        // 用矩形框标记图片指定区域 
         private Image DrawRectangleInPicture(int faceIndex, Image bmp, Point p0, Point p1, Color RectColor, int LineWidth, DashStyle ds)
         {
             if (bmp == null) return null;
