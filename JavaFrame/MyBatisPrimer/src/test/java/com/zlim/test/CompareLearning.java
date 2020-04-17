@@ -8,7 +8,6 @@ public class CompareLearning {
 
     public static void main(String[] args) {
         // 在JAVA中没有委托类型，所有委托均使用接口代替
-        // 1 个引用
         ProductFactroy pizzaFactory = new PizzaFactory();
         ProductFactroy toyCarFactroy = new ToyCarFactory();
 

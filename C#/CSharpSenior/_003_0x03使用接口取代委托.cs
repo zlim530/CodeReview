@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System;
 
 namespace CSharpSenior {
     class _003_0x03使用接口取代委托 {
