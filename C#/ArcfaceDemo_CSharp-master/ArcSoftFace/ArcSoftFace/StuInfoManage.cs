@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,39 +10,57 @@ namespace ArcSoftFace
     public partial class StuInfoManage : Form
     {
 
-        static List<int> matchNum = new List<int>();
+        //static List<int> matchNum = new List<int>();
+        Dictionary<int, string> matched = new Dictionary<int, string>();
         public StuInfoManage()
         {
             InitializeComponent();
             FindAll();
         }
 
-        public StuInfoManage(List<int> list)
+        public StuInfoManage(Dictionary<int, string> matched)
         {
             InitializeComponent();
-            matchNum = list;
+            this.matched = matched;
             FindAll();
+
         }
 
         private void StuInfoManage_Load(object sender,EventArgs e) {
-            for (int i = 0; i < matchNum.Count; i++) {
-                int id = matchNum[i];
+            foreach (KeyValuePair<int, string> kvp in matched) {
+                int id = kvp.Key;
                 conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
                 conn.Open();
-
                 string is_checked = "是";
-                DateTime dtime = DateTime.Now.ToLocalTime();
-                string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
+                string time = kvp.Value;
                 string sql = "update stuInfo set update_time = @time,is_checked = @is_checked where id = @id";
                 SqlParameter[] ps = {
-                    new SqlParameter("@time",time),
-                    new SqlParameter("@is_checked",is_checked),
-                    new SqlParameter("@id",id)
-                };
+                        new SqlParameter("@time",time),
+                        new SqlParameter("@is_checked",is_checked),
+                        new SqlParameter("@id",id)
+                    };
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddRange(ps);
                 cmd.ExecuteNonQuery();
             }
+            //for (int i = 0; i < matchNum.Count; i++) {
+            //    int id = matchNum[i];
+            //    conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
+            //    conn.Open();
+
+            //    string is_checked = "是";
+            //    DateTime dtime = DateTime.Now.ToLocalTime();
+            //    string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
+            //    string sql = "update stuInfo set update_time = @time,is_checked = @is_checked where id = @id";
+            //    SqlParameter[] ps = {
+            //        new SqlParameter("@time",time),
+            //        new SqlParameter("@is_checked",is_checked),
+            //        new SqlParameter("@id",id)
+            //    };
+            //    SqlCommand cmd = new SqlCommand(sql, conn);
+            //    cmd.Parameters.AddRange(ps);
+            //    cmd.ExecuteNonQuery();
+            //}
             FindAll();
         }
 
@@ -101,7 +119,7 @@ namespace ArcSoftFace
                                    ,'" + dr["sex"].ToString() + @"'
                                    ,'" + dr["name"].ToString() + @"'
                                    ,'" + dr["is_checked"].ToString() + @"'
-                                   ,'" + Convert.ToInt32(dr["stu_number"]) + @"')";
+                                   ,'" + /*Convert.ToInt32(dr["stu_number"])*/dr["stu_number"].ToString() + @"')";
 
                     }
                     else if (dr.RowState == System.Data.DataRowState.Modified)
@@ -140,7 +158,7 @@ namespace ArcSoftFace
             }
         }
 
-        // 单击 dataGridView1Stu 显示当前行的数据
+        // 单击 dataGridView1Stu 显示当前行的数据：datagridview 的单击事件
         private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             txtNumberS.Text = dataGridView1Stu.CurrentRow.Cells[6].Value.ToString();
@@ -185,6 +203,9 @@ namespace ArcSoftFace
 
         }
 
+        /// <summary>
+        /// 查找表中的所有数据
+        /// </summary>
         private void FindAll() {
             conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
             conn.Open();

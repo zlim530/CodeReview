@@ -17,9 +17,12 @@
     <Compile Remove="_003_委托.cs" />
     <Compile Remove="_004_0x01委托与事件 .cs" />
     <Compile Remove="_004_事件详解.cs" />
+    <Compile Remove="_005_0x01多线程之ThreadPool.cs" />
     <Compile Remove="_005_多线程.cs" />
     <Compile Remove="_006_表达式主体定义.cs" />
+    <Compile Remove="_007_0x01_接口中的索引器.cs" />
     <Compile Remove="_007_索引器.cs" />
+    <Compile Remove="_008_泛型.cs" />
   </ItemGroup>
 
 

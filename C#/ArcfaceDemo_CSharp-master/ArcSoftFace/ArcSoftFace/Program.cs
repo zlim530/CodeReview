@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,13 +20,12 @@ namespace ArcSoftFace
             //Application.Run(new CheckInfoAdd());
 
         }
-        [STAThread]
-        static void Main1() {
-            Application.EnableVisualStyles();               //启用可视化样式
-            Application.SetCompatibleTextRenderingDefault(false);  //控件（包括窗体）显示出来，false使用GDI方式显示文本.
-            Application.Run(new CheckInfoManage());
-            //Application.Run(new StuInfoManage());
+        //static void Main1() {
+        //    Application.EnableVisualStyles();               //启用可视化样式
+        //    Application.SetCompatibleTextRenderingDefault(false);  //控件（包括窗体）显示出来，false使用GDI方式显示文本.
+        //    //Application.Run(new CheckInfoManage());
+        //    //Application.Run(new StuInfoManage());
             
-        }
+        //}
     }
 }

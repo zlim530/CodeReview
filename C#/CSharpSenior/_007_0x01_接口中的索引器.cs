@@ -6,6 +6,7 @@ namespace CSharpSenior {
     class _007_0x01_接口中的索引器 {
 
         static void Main(string[] args){
+            List<int> list = new List<int>();
             IndexerClass test = new IndexerClass();
             Random rand = new Random();
             for(int i = 0;i < 10;i++){

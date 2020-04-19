@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -436,6 +436,7 @@ namespace ArcSoftFace
         }
 
 
+        #region 人脸库图片选择按钮事件：注册人脸按钮事件
         private object locker = new object();
         /// <summary>
         /// 人脸库图片选择按钮事件：注册人脸按钮事件
@@ -451,7 +452,7 @@ namespace ArcSoftFace
                 openFileDialog.FileName = string.Empty;
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-
+                    // 保存每一张人脸图片的路径名
                     List<string> imagePathListTemp = new List<string>();
                     var numStart = imagePathList.Count;
                     int isGoodImage = 0;
@@ -480,6 +481,7 @@ namespace ArcSoftFace
                         //人脸检测和剪裁
                         for (int i = 0; i < imagePathListTemp.Count; i++)
                         {
+                            // 从指定文件中创建 Image
                             Image image = Image.FromFile(imagePathListTemp[i]);
                             if (image.Width % 4 != 0)
                             {
@@ -513,9 +515,9 @@ namespace ArcSoftFace
 
 
                         //提取人脸特征
-                        //for (int i = numStart; i < imagePathList.Count; i++) {
-                        //    ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
-                        //    IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
+                        for (int i = numStart; i < imagePathList.Count; i++) {
+                            ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
+                            IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
                             //this.Invoke(new Action(delegate {
                             //    if (singleFaceInfo.faceRect.left == 0 && singleFaceInfo.faceRect.right == 0) {
                             //        AppendText("\n");
@@ -527,8 +529,19 @@ namespace ArcSoftFace
                             //    }
                             //}));
 
-
-                            //保存人脸特征到文件
+                            // 如果本地不存在人脸特征值
+                            string filePath = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
+                            if (!File.Exists(filePath)) {
+                                //保存人脸特征到文件
+                                ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
+                                byte[] featureSave = new byte[faceFeatureSave.featureSize];
+                                MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
+                                //string DataPath = Path.GetDirectoryName(imagePathListTemp[i]);
+                                //@"C:\Users\Lim\Desktop\code\feature\feature.data"
+                                string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
+                                System.IO.File.WriteAllBytes(filename, featureSave);
+                            }
+                            ////保存人脸特征到文件
                             //ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
                             //byte[] featureSave = new byte[faceFeatureSave.featureSize];
                             //MemoryUtil.Copy(faceFeatureSave.feature, featureSave, 0, faceFeatureSave.featureSize);
@@ -537,7 +550,7 @@ namespace ArcSoftFace
                             //string filename = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
                             //System.IO.File.WriteAllBytes(filename, featureSave);
 
-                        //}
+                        }
 
                         //允许点击按钮
 
@@ -563,6 +576,9 @@ namespace ArcSoftFace
                 }
             }
         }
+        #endregion
+
+
 
         /// <summary>
         /// 窗体关闭事件
@@ -583,16 +599,17 @@ namespace ArcSoftFace
         }
 
         /// <summary>
-        /// 追加公用方法
+        /// 追加文字的公用方法
         /// </summary>
         /// <param name="message"></param>
         private void AppendText(string message)
         {
-            logBox.AppendText(message);
+            logBox.AppendText(message + "\n");
         }
 
 
-        public List<int> matchNum = new List<int>();
+        //public List<int> matchNum = new List<int>();
+        Dictionary<int, string> matched = new Dictionary<int, string>();
         /// <summary>
         /// 匹配事件：开始匹配按钮点击事件
         /// </summary>
@@ -660,10 +677,15 @@ namespace ArcSoftFace
                     {
                         similarity = 0f;
                     }
-                    if (similarity > 0.5)
+                    // 增减元素，注意增加前必须检查要增加的键是否存在
+                    // 使用ContainsKey()方法
+                    if (similarity > 0.5 && !matched.ContainsKey(i))
                     {
-                        matchNum.Add(i);
+                        //matchNum.Add(i);
+                        string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        matched.Add(i, dateTime);
                     }
+                    
                     AppendText("\n");
                     AppendText(string.Format("右侧识别图中的{0}号人脸与左侧人脸库中{1}号比对结果:{2}\r\n", j, i, similarity));
                     AppendText("\n");
@@ -702,7 +724,7 @@ namespace ArcSoftFace
 
         private void btnViewLog_Click(object sender, EventArgs e)
         {
-            StuInfoManage sm = new StuInfoManage(matchNum);
+            StuInfoManage sm = new StuInfoManage(matched);
             sm.Owner = this;
             sm.Show();
         }
@@ -721,7 +743,8 @@ namespace ArcSoftFace
             imagePathList.Clear();
 
             image1FeatureList.Clear();
-            matchNum.Clear();
+            //matchNum.Clear();
+            matched.Clear();
         }
         
         #region 视频检测相关
