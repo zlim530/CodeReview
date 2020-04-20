@@ -1,4 +1,4 @@
-﻿namespace ArcSoftFace
+namespace ArcSoftFace
 {
     partial class StuInfoManage
     {
@@ -224,7 +224,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(101, 36);
             this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "保存修改";
+            this.btnSave.Text = "保存";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -381,6 +381,7 @@
             this.Controls.Add(this.dataGridView1Stu);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

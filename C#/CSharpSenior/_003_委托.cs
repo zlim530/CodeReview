@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +17,15 @@ namespace CSharpSenior {
             2.3 Tracy.Proxy 接口代理组件
     */
     class _003_委托 {
+
+        public delegate void MyDelegate();
+
+        static void Main1(string[] args) {
+            MyDelegate myDelegate = new MyDelegate(() => {
+                Console.WriteLine("Hello,World!");
+            });
+        }
+
         static void Main0(string[] args) {
             Calculator calculator = new Calculator();
             // Action只能委托用于无形参无返回值的方法

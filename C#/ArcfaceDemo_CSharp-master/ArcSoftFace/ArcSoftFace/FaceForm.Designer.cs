@@ -1,4 +1,4 @@
-﻿namespace ArcSoftFace
+namespace ArcSoftFace
 {
     partial class FaceForm
     {

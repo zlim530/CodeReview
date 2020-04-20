@@ -62,6 +62,8 @@ namespace ArcSoftFace
             InitEngines();
             videoSource.Hide();
             txtThreshold.Enabled = false;
+            //this.TopMost = true;
+            //this.TopLevel = true;
         }
 
         /// <summary>
@@ -722,10 +724,17 @@ namespace ArcSoftFace
             AppendText("\n");
         }
 
+
+        /// <summary>
+        /// 查看学生信息事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnViewLog_Click(object sender, EventArgs e)
         {
             StuInfoManage sm = new StuInfoManage(matched);
             sm.Owner = this;
+            //sm.ShowInTaskbar = false;
             sm.Show();
         }
 
