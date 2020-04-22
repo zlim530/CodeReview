@@ -10,7 +10,6 @@ namespace ArcSoftFace
     public partial class StuInfoManage : Form
     {
 
-        //static List<int> matchNum = new List<int>();
         Dictionary<int, string> matched = new Dictionary<int, string>();
         public StuInfoManage()
         {
@@ -23,7 +22,6 @@ namespace ArcSoftFace
             InitializeComponent();
             this.matched = matched;
             FindAll();
-
         }
 
         private void StuInfoManage_Load(object sender,EventArgs e) {
@@ -43,24 +41,6 @@ namespace ArcSoftFace
                 cmd.Parameters.AddRange(ps);
                 cmd.ExecuteNonQuery();
             }
-            //for (int i = 0; i < matchNum.Count; i++) {
-            //    int id = matchNum[i];
-            //    conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
-            //    conn.Open();
-
-            //    string is_checked = "是";
-            //    DateTime dtime = DateTime.Now.ToLocalTime();
-            //    string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
-            //    string sql = "update stuInfo set update_time = @time,is_checked = @is_checked where id = @id";
-            //    SqlParameter[] ps = {
-            //        new SqlParameter("@time",time),
-            //        new SqlParameter("@is_checked",is_checked),
-            //        new SqlParameter("@id",id)
-            //    };
-            //    SqlCommand cmd = new SqlCommand(sql, conn);
-            //    cmd.Parameters.AddRange(ps);
-            //    cmd.ExecuteNonQuery();
-            //}
             FindAll();
         }
 
@@ -80,15 +60,6 @@ namespace ArcSoftFace
             }
             db.RunNonSelect(strSQL);
             DataSet ds = db.getDataSet(strSQL, "stuInfo");
-
-            // 绑定性别
-            //strSQL = "SELECT DISTINCT sex FROM stuInfo;";
-            //SqlDataAdapter da = new SqlDataAdapter(strSQL, conn);
-            ////DataSet ds2 = db.getDataSet(strSQL, "table");
-            //da.Fill(ds, "table");
-            //sex.DataSource = ds.Tables["table"];
-            //sex.ValueMember = "sex";
-            //sex.DisplayMember = "sex";
 
             dt = ds.Tables["stuInfo"];
             dataGridView1Stu.DataSource = ds;
@@ -140,9 +111,9 @@ namespace ArcSoftFace
                     {
                         MessageBox.Show(o.Message, "操作失败。");
                     }
-                    save();
                     FindAll();
                 }
+                save();
             }
             
 

@@ -119,9 +119,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckInfo.cs">
-      <DependentUpon>StuInfoModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DateBase.cs" />
     <Compile Include="Entity\FaceTrackUnit.cs" />
     <Compile Include="SDKModels\ASF_AgeInfo.cs" />
@@ -152,30 +149,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SDKUtil\ASFFunctions.cs" />
-    <Compile Include="StuInfo.cs">
-      <DependentUpon>StuInfoModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="StuInfoManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="StuInfoManage.Designer.cs">
       <DependentUpon>StuInfoManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="StuInfoModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StuInfoModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StuInfoModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StuInfoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="StuInfoModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StuInfoModel.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="StuInfoModel.cs" />
     <Compile Include="Utils\FaceUtil.cs" />
     <Compile Include="Utils\ImageUtil.cs" />
     <Compile Include="Utils\MemoryUtil.cs" />
@@ -200,13 +180,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EntityDeploy Include="StuInfoModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>StuInfoModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="StuInfoModel.edmx.diagram">
-      <DependentUpon>StuInfoModel.edmx</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -223,16 +196,6 @@
     <Content Include="lib\AForge.Video.DirectShow.dll" />
     <Content Include="lib\AForge.Video.dll" />
     <Content Include="Resources\favicon.ico" />
-    <Content Include="StuInfoModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StuInfoModel.Context.cs</LastGenOutput>
-      <DependentUpon>StuInfoModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="StuInfoModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>StuInfoModel.edmx</DependentUpon>
-      <LastGenOutput>StuInfoModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxWMPLib">

@@ -46,6 +46,10 @@ namespace ArcSoftFace
             this.txtThreshold = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnViewLog = new System.Windows.Forms.Button();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnConfirm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picImageCompare)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,13 +90,13 @@ namespace ArcSoftFace
             // logBox
             // 
             this.logBox.BackColor = System.Drawing.Color.White;
-            this.logBox.Location = new System.Drawing.Point(19, 519);
+            this.logBox.Location = new System.Drawing.Point(729, 531);
             this.logBox.Margin = new System.Windows.Forms.Padding(4);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ReadOnly = true;
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(1443, 250);
+            this.logBox.Size = new System.Drawing.Size(709, 237);
             this.logBox.TabIndex = 31;
             // 
             // chooseImgBtn
@@ -181,7 +185,7 @@ namespace ArcSoftFace
             // btnStartVideo
             // 
             this.btnStartVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartVideo.Location = new System.Drawing.Point(1121, 456);
+            this.btnStartVideo.Location = new System.Drawing.Point(1114, 549);
             this.btnStartVideo.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartVideo.Name = "btnStartVideo";
             this.btnStartVideo.Size = new System.Drawing.Size(143, 32);
@@ -200,7 +204,7 @@ namespace ArcSoftFace
             this.txtThreshold.Name = "txtThreshold";
             this.txtThreshold.Size = new System.Drawing.Size(79, 29);
             this.txtThreshold.TabIndex = 40;
-            this.txtThreshold.Text = "0.8";
+            this.txtThreshold.Text = "0.5";
             this.txtThreshold.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtThreshold_KeyPress);
             this.txtThreshold.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtThreshold_KeyUp);
             // 
@@ -225,15 +229,55 @@ namespace ArcSoftFace
             this.btnViewLog.UseVisualStyleBackColor = true;
             this.btnViewLog.Click += new System.EventHandler(this.btnViewLog_Click);
             // 
+            // listView1
+            // 
+            this.listView1.LargeImageList = this.imageList1;
+            this.listView1.Location = new System.Drawing.Point(13, 531);
+            this.listView1.Margin = new System.Windows.Forms.Padding(4);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(696, 237);
+            this.listView1.TabIndex = 43;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(60, 60);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 512);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(165, 15);
+            this.label2.TabIndex = 44;
+            this.label2.Text = "多人脸识别图中的人脸:";
+            // 
+            // btnConfirm
+            // 
+            this.btnConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfirm.Location = new System.Drawing.Point(1114, 459);
+            this.btnConfirm.Margin = new System.Windows.Forms.Padding(4);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(143, 32);
+            this.btnConfirm.TabIndex = 45;
+            this.btnConfirm.Text = "确认签到信息";
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
+            // 
             // FaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1487, 791);
+            this.Controls.Add(this.btnConfirm);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.listView1);
             this.Controls.Add(this.btnViewLog);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtThreshold);
-            this.Controls.Add(this.btnStartVideo);
             this.Controls.Add(this.videoSource);
             this.Controls.Add(this.lblCompareInfo);
             this.Controls.Add(this.lblCompareImage);
@@ -241,10 +285,11 @@ namespace ArcSoftFace
             this.Controls.Add(this.matchBtn);
             this.Controls.Add(this.imageList);
             this.Controls.Add(this.chooseMultiImgBtn);
-            this.Controls.Add(this.logBox);
             this.Controls.Add(this.chooseImgBtn);
             this.Controls.Add(this.lblImageList);
             this.Controls.Add(this.picImageCompare);
+            this.Controls.Add(this.logBox);
+            this.Controls.Add(this.btnStartVideo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -278,6 +323,10 @@ namespace ArcSoftFace
         private System.Windows.Forms.TextBox txtThreshold;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnViewLog;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnConfirm;
     }
 }
 
