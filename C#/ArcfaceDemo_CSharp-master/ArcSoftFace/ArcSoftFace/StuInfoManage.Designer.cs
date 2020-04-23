@@ -101,6 +101,7 @@ namespace ArcSoftFace
             this.name,
             this.is_checked});
             this.dataGridView1Stu.Location = new System.Drawing.Point(12, 285);
+            this.dataGridView1Stu.MultiSelect = false;
             this.dataGridView1Stu.Name = "dataGridView1Stu";
             this.dataGridView1Stu.RowHeadersWidth = 51;
             this.dataGridView1Stu.RowTemplate.Height = 27;

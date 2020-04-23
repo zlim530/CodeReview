@@ -25,6 +25,7 @@ namespace ArcSoftFace
         }
 
         private void StuInfoManage_Load(object sender,EventArgs e) {
+            // 更新签到信息
             foreach (KeyValuePair<int, string> kvp in matched) {
                 int id = kvp.Key;
                 conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
@@ -74,15 +75,12 @@ namespace ArcSoftFace
             DateTime dtime = DateTime.Now.ToLocalTime();
             string time = dtime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            if (changeDt == null){
+            if (changeDt == null) {
                 MessageBox.Show("没有执行任何操作.");
-            }
-            else {
-                foreach (DataRow dr in changeDt.Rows)
-                {
+            } else {
+                foreach (DataRow dr in changeDt.Rows) {
                     string strSQL = string.Empty;
-                    if (dr.RowState == System.Data.DataRowState.Added)
-                    {
+                    if (dr.RowState == System.Data.DataRowState.Added) {
                         strSQL = @"INSERT INTO [dbo].[StuInfo]([id],[create_time],[update_time],[sex],[name],[is_checked],[stu_number])
                              VALUES('" + Convert.ToInt32(dr["id"]) + @"'
                                    ,'" + time + @"'
@@ -92,30 +90,26 @@ namespace ArcSoftFace
                                    ,'" + dr["is_checked"].ToString() + @"'
                                    ,'" + /*Convert.ToInt32(dr["stu_number"])*/dr["stu_number"].ToString() + @"')";
 
-                    }
-                    else if (dr.RowState == System.Data.DataRowState.Modified)
-                    {
+                    } else if (dr.RowState == System.Data.DataRowState.Modified) {
                         strSQL = @"UPDATE [dbo].[StuInfo] SET [update_time] = '" + time + @"'
                               ,[sex] = '" + dr["sex"].ToString() + @"'
                               ,[name] = '" + dr["name"].ToString() + @"'
                               ,[is_checked] = '" + dr["is_checked"].ToString() + @"'
                               WHERE id = '" + Convert.ToInt32(dr["id"]) + @"' ";
+
                     }
 
                     SqlCommand comm = new SqlCommand(strSQL, conn);
-                    try
-                    {
+                    try {
                         comm.ExecuteNonQuery();
-                    }
-                    catch (Exception o)
-                    {
+                    } catch (Exception o) {
                         MessageBox.Show(o.Message, "操作失败。");
                     }
                     FindAll();
                 }
                 save();
             }
-            
+
 
         }
 
@@ -130,14 +124,15 @@ namespace ArcSoftFace
         }
 
         // 单击 dataGridView1Stu 显示当前行的数据：datagridview 的单击事件
-        private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
+        private void dataGridView1Stu_CellClick(object sender, DataGridViewCellEventArgs e) {
+
             txtNumberS.Text = dataGridView1Stu.CurrentRow.Cells[6].Value.ToString();
             txtCtime.Text = dataGridView1Stu.CurrentRow.Cells[1].Value.ToString();
             txtUtime.Text = dataGridView1Stu.CurrentRow.Cells[2].Value.ToString();
             ComboBoxSex.Text = dataGridView1Stu.CurrentRow.Cells[3].Value.ToString();
             txtName.Text = dataGridView1Stu.CurrentRow.Cells[4].Value.ToString();
             ComboBoxCheck.Text = dataGridView1Stu.CurrentRow.Cells[5].Value.ToString();
+
         }
 
 
@@ -232,6 +227,7 @@ namespace ArcSoftFace
             FindAll();
         }
 
+       
     }
 
 
