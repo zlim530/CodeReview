@@ -7,6 +7,10 @@ using System.Threading;
 namespace CSharpSenior {
     class _005_多线程 {
         /*
+        程序最小执行单元是线程，最小资源分配单位是进程。进程里必然至少有一个线程，而一个程序也必然至少有一个进程。
+        对于单核 CPU 而言，多线程和多进程一样，都不会产生并行的效果；对于多核 CPU 而言，多进程必然是并行的，但是多线程则不一定是
+        并行。所以 C#中，线程更多的用作异步处理上，而不是并行计算上。
+            所谓并行就是多任务同时执行，这里的任务指的是程序需要完成的事，而不是 C#中的任务机制
         前台线程和后台线程的区别
         1.前台线程和后台线程的区别在于，应用程序必须运行完所有的前台线程才可以退出，而对于后台线程，可以不考虑其是否运行完而直接退出并且不会抛出异常，所有的后台线程在应用程序退出时就自动结束了。
 
@@ -15,20 +19,35 @@ namespace CSharpSenior {
         1.多线程和异步在很多时候被认为是同一个东西，都是为了让主线程不需要等待而继续执行。
         2.但是从辩证关系上来看，两者还是有区别的，可以用一句话来概括。
         3.异步是目的，多线程是实现异步的其中的一种方式(比如还可以通过创建另一个进程实现异步)。
+            异步通俗的将就是不暂停也不等待当前耗时的流程执行完成，继续执行后续的流程。
 
         线程是低级别的抽象，线程池虽然高级一点，但同样很低，而现在C#给我们提供了很多高级的并发编程技术工具，
         所以原则上我们不建议直接操作Thread对象。但是为了让大家很好的理解C#多线程的来龙去脉，这里介绍C#最初操作多线程的方法。
+
+        线程的状态，一般情况下线程分为五个阶段，也就是五种状态，分别为：准备、就绪、运行、阻塞、死亡。
+        各状态之间的切换如下：
+            线程 ---> 准备/创建 ---> 就绪 ---> 运行 ---> 销毁 ---> 结束
+                                    |         |         |
+                                    |         |--->阻塞 --
+                                    --------------------|   
+        线程状态之间的切换顺序有着严格的限制，而且只能从就绪状态由 CPU 切换为运行状态，无法从其他状态切换为运行状态，并且这一步的切换
+        开发者不能控制。
         */
 
         static void Main0(string[] args) {
             Thread thread = new Thread(new ThreadStart(DoWork));
-            thread.Start();
+            // public delegate void ThreadStart();
+            
+            thread.Start();// 线程此时为就绪状态
+            // 注意：线程不能直接进入运行态，该状态只能由CPU决定
 
             Thread.Sleep(10);
             thread.Abort();
 
             Thread parameterizedThread = new Thread(new ParameterizedThreadStart(DoWorkWithParam));
-            parameterizedThread.Start();
+            // public delegate void ParameterizedThreadStart(object obj);
+
+            parameterizedThread.Start();// 等于 parameterizedThread.Start(null); 
 
         }
 
