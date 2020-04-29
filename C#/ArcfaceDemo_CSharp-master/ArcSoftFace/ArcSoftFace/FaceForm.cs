@@ -366,7 +366,15 @@ namespace ArcSoftFace
 
         }
 
-        // 剪裁图片
+        /// <summary>
+        /// 剪裁图片
+        /// </summary>
+        /// <param name="srcImage"></param>
+        /// <param name="StartX"></param>
+        /// <param name="StartY"></param>
+        /// <param name="iWidth"></param>
+        /// <param name="iHeight"></param>
+        /// <returns></returns>
         private static Bitmap CutFace(Bitmap srcImage, int StartX, int StartY, int iWidth, int iHeight)
         {
             if (srcImage == null)
@@ -409,7 +417,17 @@ namespace ArcSoftFace
         }
 
 
-        // 用矩形框标记图片指定区域 
+        /// <summary>
+        /// 用矩形框标记图片指定区域
+        /// </summary>
+        /// <param name="faceIndex"></param>
+        /// <param name="bmp"></param>
+        /// <param name="p0"></param>
+        /// <param name="p1"></param>
+        /// <param name="RectColor"></param>
+        /// <param name="LineWidth"></param>
+        /// <param name="ds"></param>
+        /// <returns></returns>        
         private Image DrawRectangleInPicture(int faceIndex, Image bmp, Point p0, Point p1, Color RectColor, int LineWidth, DashStyle ds)
         {
             if (bmp == null) return null;
@@ -510,12 +528,14 @@ namespace ArcSoftFace
 
                         //提取人脸特征
                         for (int i = numStart; i < imagePathList.Count; i++) {
-                            ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
-                            IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
+                            //ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
+                            //IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
 
                             // 如果本地不存在人脸特征值
                             string filePath = @"C:\Users\Lim\Desktop\code\feature\feature" + i + ".data";
                             if (!File.Exists(filePath)) {
+                                ASF_SingleFaceInfo singleFaceInfo = new ASF_SingleFaceInfo();
+                                IntPtr feature = FaceUtil.ExtractFeature(pImageEngine, Image.FromFile(imagePathList[i]), out singleFaceInfo);
                                 //保存人脸特征到文件
                                 ASF_FaceFeature faceFeatureSave = MemoryUtil.PtrToStructure<ASF_FaceFeature>(feature);
                                 byte[] featureSave = new byte[faceFeatureSave.featureSize];
@@ -598,7 +618,6 @@ namespace ArcSoftFace
             int compareNum = 0;
             AppendText("\r\n");
             AppendText(string.Format("----------------------开始对比，时间:{0}----------------------\r\n", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ms")));
-
 
             //for (int i = 0; i < imagesFeatureList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
             for (int i = 0; i < imagePathList.Count; i++)// 循环左侧人脸库中每一张人脸特征值信息
@@ -709,20 +728,13 @@ namespace ArcSoftFace
                     using (SqlCommand cmd = new SqlCommand(strSQL, con)) {
                         con.Open();
                         cmd.Parameters.Add(ps);
-                        // 通过调用 SqlCommand 对象的 ExecuteReader() 方法，在数据库服务端执行给定的 sql 查询语句
-                        // 执行完毕后，数据库服务器端就已经查询出了对应的数据，但是此时查询出来的数据保存在数据库服务器的内存中，并没有返回给应用程序
-                        // 只是返回了一个 SqlDataReader 对象，这个对象是用来获取数据的对象
                         using (SqlDataReader reader = cmd.ExecuteReader()) {
-                            // 接下来就要通过 reader 对象一条一条的获取数据
-                            // 1.在获取数据之前，先判断本次执行结果是否查询到了数据
                             if (reader.HasRows) {
-                                // 2.每次获取数据之前，都要先调用 Read() 方法，使其先后移动一条数据，
-                                // 如果成功移动到了某条数据上，则返回 true，否则返回 false
                                 while (reader.Read()) {
                                     string name = (string)reader["name"];
-                                    string updateTime = (string)reader["update_time"];
+                                    //string updateTime = (string)reader["update_time"];
                                     if (!stuInfoLists.ContainsKey(name)) {
-                                        stuInfoLists.Add(name,updateTime);
+                                        stuInfoLists.Add(name,kvp.Value);
                                     }
                                 }
                             }
@@ -732,7 +744,6 @@ namespace ArcSoftFace
                     
                 }
             }
-            
             return stuInfoLists;
         }
 
@@ -744,7 +755,7 @@ namespace ArcSoftFace
         /// <param name="e"></param>
         private void btnConfirm_Click(object sender, EventArgs e) {
             Dictionary<string, string> stuInfoModels = FindStuInfoById(matched);
-            using (StreamWriter sw = new StreamWriter("CheckInResult.txt",true)) {
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Lim\Desktop\CheckInResult.txt", true)) {
                 foreach (KeyValuePair<string, string> kvp in stuInfoModels) {
 
                     // xxx 于 xxx时间 签到成功
@@ -778,6 +789,7 @@ namespace ArcSoftFace
             imageList.Items.Clear();
             imagesFeatureList.Clear();
             imagePathList.Clear();
+            DelectDir(@"C:\Users\Lim\Desktop\code\feature");
 
             image1FeatureList.Clear();
             matched.Clear();
@@ -785,9 +797,32 @@ namespace ArcSoftFace
             imageList1.Images.Clear();
             listView1.Items.Clear();
         }
-        
+
+        /// <summary>
+        /// 删除指定文件夹下的所有文件
+        /// </summary>
+        /// <param name="srcPath"></param>
+        private static void DelectDir(string srcPath) {
+            try {
+                DirectoryInfo dir = new DirectoryInfo(srcPath);
+                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //返回目录中所有文件和子目录
+                foreach (FileSystemInfo i in fileinfo) {
+                    if (i is DirectoryInfo)            //判断是否文件夹
+                    {
+                        DirectoryInfo subdir = new DirectoryInfo(i.FullName);
+                        subdir.Delete(true);          //删除子目录和文件
+                    } else {
+                        //如果 使用了 streamreader 在删除前 必须先关闭流 ，否则无法删除 sr.close();
+                        File.Delete(i.FullName);      //删除指定文件
+                    }
+                }
+            } catch (Exception e) {
+                throw;
+            }
+        }
+
         #region 视频检测相关
-        
+
         /// <summary>
         /// 摄像头初始化
         /// </summary>

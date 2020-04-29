@@ -467,66 +467,64 @@ namespace CSharpSenior
         }
     }
 
-    public class Goods
-    {
+    public class Goods{
 
-    private String name;
-    private double price;
+        private String name;
+        private double price;
 
-    public Goods()
-    {
-    }
-
-    public Goods(String name, double price)
-    {
-        this.name = name;
-        this.price = price;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public double getPrice()
-    {
-        return price;
-    }
-
-    public void setPrice(double price)
-    {
-        this.price = price;
-    }
-
-    public override String ToString()
-    {
-        return "Goods{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                '}';
-    }
-
-    //指明商品比较大小的方式:按照价格从低到高排序,再按照产品名称从高到低排序
-    public static int compareTo(Goods e1, Goods e2)
-    {
-        if (e1.price > e2.price)
-        {
-            return 1;
+        public Goods(){
         }
-        else if (e1.price < e2.price)
+
+        public Goods(String name, double price)
         {
-            return -1;
+            this.name = name;
+            this.price = price;
         }
-        else
+
+        public String getName()
         {
-            return 0;
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+
+        public double getPrice()
+        {
+            return price;
+        }
+
+        public void setPrice(double price)
+        {
+            this.price = price;
+        }
+
+        public override String ToString()
+        {
+            return "Goods{" +
+                    "name='" + name + '\'' +
+                    ", price=" + price +
+                    '}';
+        }
+
+        //指明商品比较大小的方式:按照价格从低到高排序,再按照产品名称从高到低排序
+        public static int compareTo(Goods e1, Goods e2)
+        {
+            if (e1.price > e2.price)
+            {
+                return 1;
+            }
+            else if (e1.price < e2.price)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
-}
 
 }
