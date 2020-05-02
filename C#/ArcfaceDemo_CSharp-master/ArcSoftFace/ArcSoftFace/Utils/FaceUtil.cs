@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using ArcSoftFace.SDKModels;
 using ArcSoftFace.SDKUtil;
 using ArcSoftFace.Entity;

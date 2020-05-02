@@ -755,7 +755,8 @@ namespace ArcSoftFace
         /// <param name="e"></param>
         private void btnConfirm_Click(object sender, EventArgs e) {
             Dictionary<string, string> stuInfoModels = FindStuInfoById(matched);
-            using (StreamWriter sw = new StreamWriter(@"C:\Users\Lim\Desktop\CheckInResult.txt", true)) {
+            string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Lim\Desktop\CheckInResult"+ dateTime +".txt", true)) {
                 foreach (KeyValuePair<string, string> kvp in stuInfoModels) {
 
                     // xxx 于 xxx时间 签到成功

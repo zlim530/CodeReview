@@ -4,7 +4,104 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Linq;
 
+
+namespace N{
+    class A{
+        public class B{}
+
+        // static void Main(){new A.B();} // N.A.B
+
+        static void Main0(){new global::A.B();} // A.B
+
+    }
+}
+
+namespace A{
+    class B{}
+}
+
+
 namespace CSharpSenior {
+
+    public class A{
+    public int Counter = 1;
+    }
+
+    public class B : A{
+        public new int Counter = 2;
+        // '“B.Counter”隐藏 继承的成员“A.Counter”。如果是有意隐藏，请使用关键字 new。
+        // 这里的 new 修饰符只是消除运行时的 warning 
+    }
+
+    class Program{
+        static void Main0(){
+            A a = new A();
+            System.Console.WriteLine(a.Counter);// 1
+            
+            B b = new B();
+            System.Console.WriteLine(b.Counter);// 2
+            
+            A x = new B();
+            System.Console.WriteLine(x.Counter);// 1
+            // 虽然 x 引用着一个 B 类型的对象
+            // 但是引用变量 x 的类型是 A 类型的
+            // 故输出为 1 
+            System.Console.WriteLine(x.GetType());// CSharpSenior.B
+            System.Console.WriteLine(x.GetType().BaseType);// CSharpSenior.A
+            System.Console.WriteLine();
+
+        }
+    }
+
+    interface IDo{
+        void Do();
+    }
+
+    // 当父类中的 Do 没有使用 virtual 修饰，子类中的 Do 没有使用 override 修饰时
+    // public class Parent : IDo{
+    //     public void Do() => System.Console.WriteLine("Parent");
+    // }
+
+    // public class Child : Parent{
+    //     public void Do() => System.Console.WriteLine("Child");
+    // }
+
+    public class Parent : IDo{
+        public virtual void Do() => System.Console.WriteLine("Parent");
+    }
+
+    public class Child : Parent{
+        public override void Do() => System.Console.WriteLine("Child");
+    }
+
+    class Program1 {
+        static void Main(){
+            
+            // 当父类中的 Do 没有使用 virtual 修饰，子类中的 Do 没有使用 override 修饰时
+            // Child c = new Child();
+            // c.Do();// Child
+
+            // ((Parent)c).Do();// Parent
+            // ((IDo)c).Do();// Parent 
+            // // 因为 Parent 中的 Do 方法才是对 IDo 接口的直接实现
+            // // 故这里访问的是 Parent 中的 Do 方法
+
+            Child c = new Child();
+            c.Do();// Child
+            ((Parent)c).Do();// Child
+            ((IDo)c).Do();// Child 
+            // 此时虽然将 c 变量分别转换为了 Parent 和 IDo
+            // 但是由于子类 Child 中重写了 Parent 中的 Do 方法
+            // 相当于进行了覆盖，不管是哪个类型变量实际上都只能看到
+            // 一个 Do 方法，那就是子类 Child 中的 Do 方法
+
+            Parent p = new Parent();
+            p.Do();// Parent
+            ((IDo)p).Do();// Parent
+            // 此时只有 Parent 中的 Do 是 IDo 接口唯一知道的实现方法
+            // 故只会输出 Parent 
+        }
+    }
 
     class FirstCSharp{
         static void Main0(string[] args){
@@ -117,7 +214,7 @@ namespace CSharpSenior {
 
         // static int x;
 
-        static void Main(string[] args){
+        static void Main1(string[] args){
             // Foo(out x);
 
             // int total = Sum(1,2,3,4);
@@ -190,7 +287,107 @@ namespace CSharpSenior {
             lastName = name.Substring(i+1);
         }
 
+        static void Main2(string[] args){
+            // string s1 = "something";
+            // string s2 = s1 ?? "nothing";
+            // System.Console.WriteLine(s2);// something
+            
+            // System.Text.StringBuilder sb = null;
+            // // string s = sb.ToString();// 抛出了 System.NullReferenecException
+            // string s = sb?.ToString();// No error: s instead evaluates to null
+            // string s3 = sb == null ? null : sb.ToString();
+            // System.Console.WriteLine(s);
+            // System.Console.WriteLine(s3);
 
+            // System.Text.StringBuilder sb = null;
+            // string s =  sb?.ToString() ?? "nothing";// s evaluates to "nothing"
+            // System.Console.WriteLine(s);// nothing
+
+            // // Declare variables with declaration statements:
+            // string s;
+            // int x,y;
+            // System.Text.StringBuilder stringBuilder;
+
+            // // Expression statements
+            // x = 1 + 2;// Assignment expression
+            // x++;      // Increment expression  
+            // y = Math.Max(x,5);// Assignment expression 
+            // Console.WriteLine(y);// Method call expression 
+            // stringBuilder = new StringBuilder();// Assignment expression
+            // new StringBuilder();// Object instantiation expres
+
+            // new StringBuilder();// Legal,but useless
+            // new string('c',3);  // Legal,but useless
+            // x.Equals(y);        // Legal,but useless
+            
+            
+
+
+
+
+
+
+
+
+
+        }
+
+        static void TellMeTheType(object x){
+            switch(x){
+                case bool b when b == true:
+                    System.Console.WriteLine("True!");
+                    break;
+                case bool b:
+                    System.Console.WriteLine("False!");
+                    break;
+                case null:
+                    System.Console.WriteLine("Nothing here");
+                    break;
+            }
+
+            // switch(x){
+            //     case int i :
+            //         System.Console.WriteLine("It's an int!");
+            //         System.Console.WriteLine($"The square of {i} is {i * i}");
+            //         break;
+            //     case string s:
+            //         System.Console.WriteLine("It's a string");
+            //         System.Console.WriteLine($"The length of {s} is {s.Length}");
+            //         break;
+            //     default:
+            //         System.Console.WriteLine("I don't know what x is");
+            //         break;
+            // }
+        }
+
+        static void ShowCard(int cardNumber){
+            switch (cardNumber){
+                case 13:
+                case 12:
+                case 11:
+                    System.Console.WriteLine("Face card");
+                    break;
+                default:
+                    System.Console.WriteLine("Plain card");
+                    break;
+            }
+            // switch(cardNumber){
+            //     case 13:
+            //         System.Console.WriteLine("King");
+            //         break;
+            //     case 12:
+            //         System.Console.WriteLine("Queen");
+            //         break;
+            //     case 11:
+            //         System.Console.WriteLine("Jack");
+            //         break;
+            //     case -1:
+            //         goto case 12;
+            //     default:
+            //         System.Console.WriteLine(cardNumber);
+            //         break;
+            // }
+        }
 
 
     }
