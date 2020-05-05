@@ -204,8 +204,7 @@ namespace ArcSoftFace
         }
 
         // 重置签到信息
-        private void btnReset_Click(object sender, EventArgs e)
-        {
+        private void btnReset_Click(object sender, EventArgs e){
             conn = new SqlConnection("Data Source=.;Initial Catalog=FaceSign;Integrated Security=True");
             conn.Open();
 
@@ -226,6 +225,9 @@ namespace ArcSoftFace
             }
             FindAll();
         }
+
+
+        
 
        
     }

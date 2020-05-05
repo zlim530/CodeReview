@@ -4,10 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <StartupObject></StartupObject>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- <Compile Remove="AllKindsOFParameters.cs" /> -->
+     <Compile Remove="AllKindsOFParameters.cs" />
+     <Compile Remove="ItCast.NETPractice.cs" /> 
     <Compile Remove="Program.cs" />
     <Compile Remove="_001_属性详解.cs" />
     <Compile Remove="_002_Lambda运算符.cs" />
