@@ -33,13 +33,6 @@ namespace ArcSoftFace
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1Stu = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stu_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -61,6 +54,13 @@ namespace ArcSoftFace
             this.label4 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stu_number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.create_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.update_time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.is_checked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1Stu)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -109,60 +109,6 @@ namespace ArcSoftFace
             this.dataGridView1Stu.Size = new System.Drawing.Size(1243, 401);
             this.dataGridView1Stu.TabIndex = 0;
             this.dataGridView1Stu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1Stu_CellClick);
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.id.DefaultCellStyle = dataGridViewCellStyle1;
-            this.id.HeaderText = "标号";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // stu_number
-            // 
-            this.stu_number.DataPropertyName = "stu_number";
-            this.stu_number.HeaderText = "学号";
-            this.stu_number.MinimumWidth = 6;
-            this.stu_number.Name = "stu_number";
-            // 
-            // create_time
-            // 
-            this.create_time.DataPropertyName = "create_time";
-            this.create_time.HeaderText = "创建时间";
-            this.create_time.MinimumWidth = 6;
-            this.create_time.Name = "create_time";
-            // 
-            // update_time
-            // 
-            this.update_time.DataPropertyName = "update_time";
-            this.update_time.HeaderText = "更新时间";
-            this.update_time.MinimumWidth = 6;
-            this.update_time.Name = "update_time";
-            // 
-            // sex
-            // 
-            this.sex.DataPropertyName = "sex";
-            this.sex.HeaderText = "性别";
-            this.sex.MinimumWidth = 6;
-            this.sex.Name = "sex";
-            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // name
-            // 
-            this.name.DataPropertyName = "name";
-            this.name.HeaderText = "姓名";
-            this.name.MinimumWidth = 6;
-            this.name.Name = "name";
-            // 
-            // is_checked
-            // 
-            this.is_checked.DataPropertyName = "is_checked";
-            this.is_checked.HeaderText = "是否签到";
-            this.is_checked.MinimumWidth = 6;
-            this.is_checked.Name = "is_checked";
-            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // groupBox1
             // 
@@ -282,7 +228,7 @@ namespace ArcSoftFace
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(82, 15);
             this.label8.TabIndex = 15;
-            this.label8.Text = "更新时间：";
+            this.label8.Text = "签到时间：";
             // 
             // label7
             // 
@@ -373,6 +319,60 @@ namespace ArcSoftFace
             this.label3.Size = new System.Drawing.Size(52, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "姓名：";
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.id.DefaultCellStyle = dataGridViewCellStyle1;
+            this.id.HeaderText = "标号";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // stu_number
+            // 
+            this.stu_number.DataPropertyName = "stu_number";
+            this.stu_number.HeaderText = "学号";
+            this.stu_number.MinimumWidth = 6;
+            this.stu_number.Name = "stu_number";
+            // 
+            // create_time
+            // 
+            this.create_time.DataPropertyName = "create_time";
+            this.create_time.HeaderText = "创建时间";
+            this.create_time.MinimumWidth = 6;
+            this.create_time.Name = "create_time";
+            // 
+            // update_time
+            // 
+            this.update_time.DataPropertyName = "update_time";
+            this.update_time.HeaderText = "签到时间";
+            this.update_time.MinimumWidth = 6;
+            this.update_time.Name = "update_time";
+            // 
+            // sex
+            // 
+            this.sex.DataPropertyName = "sex";
+            this.sex.HeaderText = "性别";
+            this.sex.MinimumWidth = 6;
+            this.sex.Name = "sex";
+            this.sex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // name
+            // 
+            this.name.DataPropertyName = "name";
+            this.name.HeaderText = "姓名";
+            this.name.MinimumWidth = 6;
+            this.name.Name = "name";
+            // 
+            // is_checked
+            // 
+            this.is_checked.DataPropertyName = "is_checked";
+            this.is_checked.HeaderText = "是否签到";
+            this.is_checked.MinimumWidth = 6;
+            this.is_checked.Name = "is_checked";
+            this.is_checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // StuInfoManage
             // 

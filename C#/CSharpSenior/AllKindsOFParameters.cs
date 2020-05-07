@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -33,7 +33,7 @@ namespace CSharpSenior {
         // 这里的 new 修饰符只是消除运行时的 warning 
     }
 
-    class Program{
+    class Program0{
         static void Main0(){
             A a = new A();
             System.Console.WriteLine(a.Counter);// 1

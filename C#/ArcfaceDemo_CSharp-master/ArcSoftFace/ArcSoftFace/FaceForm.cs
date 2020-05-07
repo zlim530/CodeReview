@@ -723,7 +723,7 @@ namespace ArcSoftFace
             using (SqlConnection con = new SqlConnection(sqlStr)) {
                 foreach (KeyValuePair<int, string> kvp in matched) {
                     int id = kvp.Key;
-                    string strSQL = "select * FROM stuInfo WHERE id = @id";
+                    string strSQL = "select * FROM stuInfo WHERE id = @id AND is_checked = '是'";
                     SqlParameter ps = new SqlParameter("@id", id) ;
                     using (SqlCommand cmd = new SqlCommand(strSQL, con)) {
                         con.Open();
@@ -755,8 +755,8 @@ namespace ArcSoftFace
         /// <param name="e"></param>
         private void btnConfirm_Click(object sender, EventArgs e) {
             Dictionary<string, string> stuInfoModels = FindStuInfoById(matched);
-            string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            using (StreamWriter sw = new StreamWriter(@"C:\Users\Lim\Desktop\CheckInResult"+ dateTime +".txt", true)) {
+            string dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");// "+ dateTime +"
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Lim\Desktop\CheckInResult.txt", true)) {
                 foreach (KeyValuePair<string, string> kvp in stuInfoModels) {
 
                     // xxx 于 xxx时间 签到成功
