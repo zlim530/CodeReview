@@ -30,6 +30,7 @@
     <Compile Remove="_009_CSharp常见类库介绍之Console与Math类.cs" />
     <Compile Remove="_010_CSharp常见类库介绍之日期时间类.cs" />
     <Compile Remove="_011_CSharp常见类库之Guid和Nullable.cs" />
+    <Compile Remove="_012_CSharpIO篇之入门IO.cs" />
   </ItemGroup>
 
 

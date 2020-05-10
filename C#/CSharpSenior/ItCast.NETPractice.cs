@@ -1,5 +1,259 @@
 using System;
 
+// 因此如果可以的话，尽量用抽象类去实现多态，而不用虚方法实现
+// 那么什么情况下用虚方法实现多态而不用抽象类呢？
+// 当父类需要实例化的时候，或者方法需要有默认实现的时候
+// 虚方法可以有默认实现，而抽象方法不可以有
+namespace 抽象类练习{
+    
+    class Program{
+        static void Main0(){
+            Animal dog = new Dog();
+            dog.Eat();
+            dog.Bark();
+
+            Animal cat = new Cat();
+            cat.Eat();
+            cat.Bark();
+
+            Shape shape = new Cirle(5);
+            Console.WriteLine(shape.GetArea());
+            Console.WriteLine(shape.GetGirth());
+        }
+    }
+
+    public abstract class Shape {
+        public abstract double GetArea();
+
+        public abstract double GetGirth();
+    }
+
+    public class Cirle : Shape {
+        public Cirle(double r) {
+            this.R = r;
+        }
+
+        public Cirle() {
+
+        }
+
+        public double R { get; set; }
+        public override double GetArea() {
+            return Math.PI * R * R;
+        }
+
+        public override double GetGirth() {
+            return 2 * Math.PI * R;
+        }
+
+    }
+
+    public class Rectangle : Shape {
+
+        public Rectangle(double length,double width) {
+            this.Length = length;
+            this.Width = width;
+        }
+
+        public double Width { get; set; }
+
+        public double Length { get; set; }
+
+        public override double GetArea() {
+            return this.Length * this.Width;
+        }
+
+        public override double GetGirth() {
+            return 2 * (this.Length + this.Width);
+        }
+    }
+
+    public abstract class Animal{
+        public abstract void Eat();
+        
+        public abstract void Bark();
+
+    }
+
+    public class Dog : Animal{
+        public override void Eat(){
+            System.Console.WriteLine("Dog eats bones.");
+        }
+
+        public override void Bark(){
+            System.Console.WriteLine("Wang Wang Wang !!!");
+        }
+    }
+
+    public class Cat : Animal{
+        public override void Eat(){
+            System.Console.WriteLine("Cat eat fish.");
+        }
+
+        public override void Bark(){
+            System.Console.WriteLine("Miao Miao Miao !!!");
+        }
+    }
+}
+
+// 以后尽量用父类，不用子类，用父类去调用子类，用高级类
+// 抽象类是更高级的，以后开发中有抽象类或者能定义抽象类的地方，都尽量用抽象类
+// 以后开发当中，尽可能用抽象，不要用具体，能用父类就不要用子类，能有抽象的父类就不要用实例的父类，能用接口就不要用抽象类，尽量用向上转型的，越抽象越好
+// 在方法的参数类型与返回值类型中，尽量用父类比较好
+namespace 多态2_通过抽象类实现多态 {
+    class Program{
+        static void Main0(){
+            // 利用抽象类实现多态
+            MyClass mc = new MyClass1();
+            mc.SayHi();
+        }
+
+
+
+
+
+
+
+    }
+
+    // 3.抽象成员必须包含在抽象类中
+    // 4.抽象类不能用来实例化对象，既然抽象类不能被实例化，那么抽象类的作用就是用来被继承的，继承的主要目的就是用来实现多态
+    abstract class MyClass{
+        // 1.抽象类中可以有实例成员，也可以有抽象实现
+        public int Age{
+            get;
+            set;
+        }
+
+        // 2.抽象成员不能有任何实现
+        // 即方法成员只能有声明语句，不能有实现语句，也不可以有花括号
+        // 抽象成员子类继承之后必须进行重写：使用 override 关键字，除非子类也是抽象类
+        public abstract void SayHi();
+    }
+
+    class MyClass1 : MyClass{
+        public override void SayHi(){
+            System.Console.WriteLine("MyClass1 is saying hi.");
+        }
+    }
+
+    abstract class MyClass2 : MyClass{
+
+    }
+
+}
+
+/*
+实现多态的三种方法：
+    1.通过虚方法 virtual 实现多态；
+    2.通过抽象类（抽象方法）实现多态；
+    3.通过接口实现多态；
+多态的作用：
+    把不同的子类对象都当做父类来看，可以屏蔽不同子类对象之间的差异，写出通用的代码，做出通用的编程，以适应
+    需求的不断变化
+里氏替换原则：
+    ·父类引用指向子类对象 Person p = new Chinese();// 隐式类型转换
+    ·父类对象不能替换子类 Chinese c = (Chinese)new Person();// 不可以实现，错误，除非父类变量中本来就存储着子类对象的引用
+is-a：可以用来验证继承关系中是否合理（can do，则是验证接口是否合理）
+if(obj is 类型A)：obj 是父类类型对象，“类型A”是子类类型
+关键字as（类型转换），is（通常类型转换前需要通过 is 来判断一下类型）
+*/
+namespace 多态1_使用as实现类型转换 {
+    class Program {
+        static void Main0(string[] args) {
+            object o = new object();
+            Console.WriteLine(o.ToString());
+            //System.Object：命名空间.类名
+
+            Person per = new Person();
+            Console.WriteLine(per.ToString());
+            // 静态构造函数.Person：命名空间.类名
+
+            string msg = "你好哇！";
+            Console.WriteLine(msg.ToString());
+            // 你好哇！
+
+        }
+
+        static void Main1(string[] args) {
+            Person p = new Person();
+
+            // 通过这种方法进行类型转换，如果转换失败则直接报异常
+            // Student s = (Student)p;
+
+            // 进行类型转换的另一种方法
+            // 通过 as 的方式进行类型转换，即便转换失败也不会报异常，而是返回一个 null
+            Student s = p as Student;
+            Console.WriteLine("OK!");    
+            Console.WriteLine(s == null);// True
+            Student stu = new Student();
+            Console.WriteLine(stu);
+        }
+    }
+
+    class Person {
+    }
+    class Student : Person {
+    }
+}
+
+
+//少使用静态类、静态成员，因为静态类和静态成员所分配的内存在程序退出时才会释放
+namespace 静态构造函数 {
+
+    class Program {
+        static void Main0(string[] args) {
+            MyClass.n1 = 1000;
+            Console.WriteLine("$$$$$$$$$$$$$$$$$$");
+            MyClass mc = new MyClass();
+            MyClass.name = "Tim";
+            Console.WriteLine(MyClass.n1);
+        }
+    }
+
+    public class Person {
+        public int Age { get; set; }
+
+        public string Name { get; set; }
+
+        // 只要在类中声明了静态字段并且对它进行了初始化操作，则在编译之后编译器会自动为这个类生成一个无参静态构造函数
+        //static Person() {
+        //    SId = "101";
+        //}
+        public static string SId = "101";
+
+        // 如果仅仅是声明了一个静态字段，但没有对它进行赋值，则编译器不会为这个类自动生成无参静态构造函数
+        public static int Weight;
+
+    }
+
+    public class MyClass {
+
+        /*
+        静态构造函数的特点：
+            1.不允许出现访问修饰符，即不能够手动来调用，而是在第一次使用静态成员（如果是静态类就是静态类）的时候自动调用，
+            所以不能为静态构造函数添加访问修饰符，默认为private
+            2.因为静态构造函数时系统自动调用的，所以也不需要（不能）添加任何参数
+            3.静态构造函数只会被执行一次，在第一次使用静态类或者静态成员之前执行
+        */
+        static MyClass() {
+            Console.WriteLine("=====MyClass静态构造函数被执行=====");
+            n1 = 101;
+            name = "Tim";
+        }
+
+        
+        // 类中的静态成员，在第一次使用静态成员之前会进行初始化，即调用静态构造函数
+        public static int n1;
+
+        public static string name;
+    }
+}
+
+/*
+子类重写父类的方法时，必须与父类保持一致的方法签名与返回值类型。即：方法名、返回值类型、参数列表、可访问修饰符都必须保持一致。
+方法签名：是指方法的名称与方法的参数类型，不包含方法返回值类型。
+*/ 
 namespace 通过虚方法实现方法重写_多态 {
     class Program {
         static void Main0(string[] args) {
@@ -34,6 +288,7 @@ namespace 通过虚方法实现方法重写_多态 {
         // 虚方法：即表示子类可以对此方法进行重写
         // 不仅方法可以重写，属性也可以重写
         public virtual void SayNationality() => Console.WriteLine("The Earth.");
+
     }
 
     public class American : Person {
@@ -421,7 +676,7 @@ namespace CSharpSenior {
         }
     }
 
-    class Program {
+    class Program0 {
         static void Main0() {
             ParentClass a = new A();
             a.Method1();// Parent Class 中的 Method1 如果在子类 A 中，没有使用 new 关键字而是使用 override 关键字，则此时通过父类引用变量的去调用 Method1 方法，会调用子类中重写的那个 Method1 方法，而不是父类中的那个 Method1 方法
