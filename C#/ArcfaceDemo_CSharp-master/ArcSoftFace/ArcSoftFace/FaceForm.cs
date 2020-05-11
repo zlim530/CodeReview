@@ -716,7 +716,11 @@ namespace ArcSoftFace
         }
 
 
-        // 根据 Id 查找学生信息
+        /// <summary>
+        /// 根据 Id 查找学生信息
+        /// </summary>
+        /// <param name="matched"></param>
+        /// <returns></returns>
         private Dictionary<string, string> FindStuInfoById(Dictionary<int,string> matched) {
             Dictionary<string,string> stuInfoLists = new Dictionary<string, string>();
             string sqlStr = "Data Source=.;Initial Catalog=FaceSign;Integrated Security=True";
@@ -822,7 +826,7 @@ namespace ArcSoftFace
             }
         }
 
-        #region 视频检测相关
+        #region 非人脸检测相关
 
         /// <summary>
         /// 摄像头初始化

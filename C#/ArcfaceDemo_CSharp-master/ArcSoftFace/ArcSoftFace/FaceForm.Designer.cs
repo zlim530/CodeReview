@@ -185,7 +185,7 @@ namespace ArcSoftFace
             // btnStartVideo
             // 
             this.btnStartVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStartVideo.Location = new System.Drawing.Point(1114, 549);
+            this.btnStartVideo.Location = new System.Drawing.Point(911, 596);
             this.btnStartVideo.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartVideo.Name = "btnStartVideo";
             this.btnStartVideo.Size = new System.Drawing.Size(143, 32);
