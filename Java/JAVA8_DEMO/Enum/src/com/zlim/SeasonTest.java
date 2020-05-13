@@ -16,6 +16,25 @@ public class SeasonTest {
         Season spring = Season.SPRING;
         System.out.println(spring);
     }
+
+    public static void main1(String[] args) {
+        int n = m1();// 101
+        System.out.println("n = " + n);
+    }
+
+    public static int m1(){
+        int result = 100;
+        try {
+            result = result + 1;
+            return result;
+        } catch (Exception e){
+            System.out.println("Exception happening ...");
+        } finally{
+            result = result + 1;
+        }
+        return result;
+
+    }
 }
 
 class Season{

@@ -5,10 +5,70 @@ using System;
  * @create 2020/5/12 18:16:41
  */
 
-namespace 显式实现接口 {
+namespace 显式实现接口 { 
     public class Program {
-        static void Main(string[] args) {
+        static void Main0(string[] args) {
 
+            Teather teather = new Teather();
+            // 会调用正常实现接口的 Fly 方法，显式实现的调不到，因为默认是 private
+            teather.Fly();// Implement IInteraface1's Fly.
+
+            IInterface1 i1 = new Teather();
+            i1.Fly();// Implement IInteraface1's Fly.
+
+
+            IInterface2 i2 = new Teather();
+            i2.Fly();// Implement IInteraface2's Fly.
+            // 虽然 Teather 类中显式实现了 IInterface2 中的 Fly 方法，但是对于接口 IInterface2 本身来说，Fly 方法是 public
+            // 因此通过 IInterface2 变量可以调用到显式实现的 Fly 方法 
+
+            // 如果两个接口都使用显式实现，那么使用 MyClass 对象在外界都无法访问到这个两个方法 
+            // 但是可以通过 IInterface1 和 IInterface2 变量进行访问
+            IInterface1 interface1 = new MyClass();
+            interface1.Fly();// Implement IInteraface1's Fly.
+            IInterface2 interface2 = new MyClass();
+            interface2.Fly();// Implement IInteraface2's Fly.
+
+        }
+    }
+
+    public interface ISwim {
+        void Swim();
+    }
+
+    public class Perosn : ISwim {
+
+        public int Age {
+            get { return _Age; }
+            set { _Age = value; }
+        }
+        private int _Age;
+
+
+        public string Name {
+            get { return _Name; }
+            set { _Name = value; }
+        }
+        private string _Name;
+
+
+        public void Swim() {
+            Console.WriteLine("Person is swimming ... ");
+        }
+    }
+
+    /*
+    此时 Women 类中就已经有了 Swim() 方法，也即相当于 Women 类也实现了 ISwim 接口
+    因此我们可以显式的在 Person 类后面再加上一个 ISwim 接口，这样在利用接口实现多态进行向上转型/换时效率更高
+        ISwim swim = new Women();    
+    即就不需要先将 ISwim 转换成 Person，再将 Person 转换为 Women，而是可以直接将 ISwim 转换为 Women，因为 Women
+    实现了接口
+    */
+    public class Women : Perosn,ISwim {
+        // 此时如果 Women 类想再次实现接口，则只能显式实现，因为它继承了 Person 类，就相当于已经有一个 Swim() 方法了
+        // 因此只能使用显式实现接口的方法进行 ISwim 接口的重新实现
+        void ISwim.Swim() { 
+            Console.WriteLine("Women is swimming ... ");
         }
     }
 
@@ -33,6 +93,18 @@ namespace 显式实现接口 {
         }
 
         // 显式实现接口
+        // 显式实现接口没有访问修饰符，默认是私有的，并且方法名称前面加了“接口名”，例如：接口名.方法名
+        void IInterface2.Fly() {
+            Console.WriteLine("Implement IInteraface2's Fly.");
+        }
+    }
+
+    // 如果两个接口都使用显式实现，那么使用 MyClass 对象在外界都无法访问到这个两个方法 
+    public class MyClass : IInterface1, IInterface2 {
+        void IInterface1.Fly() {
+            Console.WriteLine("Implement IInteraface1's Fly.");
+        }
+
         void IInterface2.Fly() {
             Console.WriteLine("Implement IInteraface2's Fly.");
         }
@@ -51,6 +123,12 @@ namespace 显式实现接口 {
 在 U盘插在电脑的 USB 接口上 这个例子中，USB3.0 协议就是接口，U盘就是接口的具体实现类
 而 USB3.0 接口的多态就是体现在电脑上，就不管是哪个 U盘厂商生产的 U盘，只要你实现了 
 USB3.0 接口那就可以插在有 USB3.0 接口的电脑上使用这个 U盘
+
+接口不能实例化
+接口就是让子类来实现的
+接口里面只能包含方法：而方法、属性、事件、索引器都是方法；不能有委托，委托是一个字段
+接口中的所有的成员都不能显式的写任何的访问修饰符，默认是 public 的访问修饰符
+接口中的成员不能有任何实现
 
 1.接口可以实现“多继承”（多实现），一个类智能继承自一个父类，但是可以实现多个接口；
 2.接口解决了不同类型之间进行多态的问题，比如鱼和船不是同一个类型，但是都能在水里“游泳”，
@@ -239,7 +317,7 @@ namespace 接口 {
 引用传递：ref 传递的是栈内存中变量本身的地址：也即栈内存中的地址
     此时形参与实参其实就是同一个的内存地址（变量）的两个不同的变量名/别名（变量名本身其实就是内存地址的别名）
     注意：ref 关键字在方法声明时要加在形参前面，在方法调用时也要加在实参前面
-    此时就是想显示的告诉程序员使用 ref 就是对同一变量的的两个不同的别名
+    此时就是想显式的告诉程序员使用 ref 就是对同一变量的的两个不同的别名
 引用传递就好比 C 语言中的指针变量，只要我获得你的内存地址，那我就可以通过地址/我去操作你。
 而值传递则是传递的栈内存变量中的内容，只不过是值类型变量直接在栈内存中存储数据内容
     而引用类型变量在栈内存中则是存储实例对象在堆内存中的地址
