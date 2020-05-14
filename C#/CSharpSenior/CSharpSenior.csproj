@@ -9,6 +9,7 @@
 
   <ItemGroup>
      <Compile Remove="AllKindsOFParameters.cs" />
+     <Compile Remove="FileFinder.cs" />
      <!--<Compile Remove="ItCast.NETPractice.cs" />--> 
     <Compile Remove="Program.cs" /> 
     <Compile Remove="WhatIs.NET.cs" />
