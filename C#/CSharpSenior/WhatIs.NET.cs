@@ -98,7 +98,7 @@ namespace CSharpSenior {
 
 
     class Program {
-        static void Main() {
+        static void Main0() {
             string rootDirectory = Environment.CurrentDirectory;
             Console.WriteLine("开始连接，端口号：8090");
             Socket socket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);

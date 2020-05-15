@@ -10,9 +10,8 @@
   <ItemGroup>
      <Compile Remove="AllKindsOFParameters.cs" />
      <Compile Remove="FileFinder.cs" />
-     <!--<Compile Remove="ItCast.NETPractice.cs" />--> 
-    <Compile Remove="Program.cs" /> 
-    <Compile Remove="WhatIs.NET.cs" />
+    <Compile Remove="Program.cs" />
+    <Compile Remove="WhatIs.NET.cs" /> 
     <Compile Remove="_001_属性详解.cs" />
     <Compile Remove="_002_Lambda运算符.cs" />
     <Compile Remove="_003_0x01委托模板方法的使用.cs" />
