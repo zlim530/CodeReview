@@ -9,7 +9,7 @@ using 集合ArrayList;
 * @create 2020/5/15 18:26:05
 */
 
-namespace 泛型集合 {
+namespace 泛型集合练习 {
 
     public class Program {
         static void Main0(string[] args) {
@@ -34,6 +34,74 @@ namespace 泛型集合 {
                 Console.WriteLine(pair.Value);
             }
         }
+
+        static void Main1(string[] args) {
+
+            int[] arrInt = new int[] { 1,2,3,4,5,6,7,8,9};
+            List<int> oddList = new List<int>();
+            for (int i = 0; i < arrInt.Length; i++) {
+                if (arrInt[i] % 2 != 0) {
+                    oddList.Add(arrInt[i]);
+                }
+            }
+            int[] newArray = oddList.ToArray();
+            for (int i = 0; i < newArray.Length; i++) {
+                Console.WriteLine(newArray[i]);
+            }
+
+
+        }
+
+        static void Main2(string[] args) {
+
+            string str = "1壹 2贰 3叁 4肆 5伍 6陆 7柒 8捌 9玖 0零";
+            Dictionary<char, char> dict = new Dictionary<char, char>();
+            string[] parts = str.Split(' ');
+            for (int i = 0; i < parts.Length; i++) {
+                dict.Add(parts[i][0],parts[i][1]);
+                // parts[i] 是字符串 string 类型
+                // 而 string 类型可以通过索引值获得每一个字符
+            }
+            Console.WriteLine("pls input an number:");
+            string num = Console.ReadLine();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < num.Length; i++) {
+                sb.Append(dict[num[i]]);
+            }
+            Console.WriteLine(sb);
+
+        }
+
+        static void Main3(string[] args) {
+
+            string msg = "Hello,World!";
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            for (int i = 0; i < msg.Length; i++) {
+                if (char.IsLetter(msg[i])) {
+                    // 如果字典中不存在该“键”，则通过键获取值时会报异常
+                    if (dict.ContainsKey(msg[i])) {
+                        dict[msg[i]]++;
+                    } else {
+                        dict.Add(msg[i], 1);
+                    }
+                }
+                }
+            foreach (KeyValuePair<char,int> pair in dict) {
+                Console.WriteLine($"字母 {pair.Key} 出现了{pair.Value}次");
+            }
+
+            // 字典还可以使用集合初始化器进行添加操作
+            Dictionary<string, int> dict1 = new Dictionary<string, int>() { { "Tim",22},{ "Zlim",21} };
+            foreach (KeyValuePair<string,int> pair in dict1) {
+                Console.WriteLine($"{pair.Key} ---> {pair.Value}");
+            }
+
+        }
+
+        static void Main(string[] args) {
+            
+        }
+
     }
 
 }
