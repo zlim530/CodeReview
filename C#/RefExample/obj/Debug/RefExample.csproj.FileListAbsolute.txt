@@ -1,6 +1,0 @@
-C:\Users\Lim\Desktop\code\C#\RefExample\bin\Debug\RefExample.exe.config
-C:\Users\Lim\Desktop\code\C#\RefExample\bin\Debug\RefExample.exe
-C:\Users\Lim\Desktop\code\C#\RefExample\bin\Debug\RefExample.pdb
-C:\Users\Lim\Desktop\code\C#\RefExample\obj\Debug\RefExample.csprojAssemblyReference.cache
-C:\Users\Lim\Desktop\code\C#\RefExample\obj\Debug\RefExample.exe
-C:\Users\Lim\Desktop\code\C#\RefExample\obj\Debug\RefExample.pdb

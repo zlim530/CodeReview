@@ -1,7 +1,0 @@
-F:\vs2019projects\DataType\bin\Debug\DataType.exe.config
-F:\vs2019projects\DataType\bin\Debug\DataType.exe
-F:\vs2019projects\DataType\bin\Debug\DataType.pdb
-F:\vs2019projects\DataType\obj\Debug\DataType.csprojAssemblyReference.cache
-F:\vs2019projects\DataType\obj\Debug\DataType.csproj.CoreCompileInputs.cache
-F:\vs2019projects\DataType\obj\Debug\DataType.exe
-F:\vs2019projects\DataType\obj\Debug\DataType.pdb

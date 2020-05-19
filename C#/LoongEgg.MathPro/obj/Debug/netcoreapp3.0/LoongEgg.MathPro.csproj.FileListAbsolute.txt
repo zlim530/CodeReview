@@ -1,0 +1,3 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\LoongEgg.MathPro\obj\Debug\netcoreapp3.0\LoongEgg.MathPro.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\LoongEgg.MathPro\obj\Debug\netcoreapp3.0\LoongEgg.MathPro.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\LoongEgg.MathPro\obj\Debug\netcoreapp3.0\LoongEgg.MathPro.AssemblyInfo.cs

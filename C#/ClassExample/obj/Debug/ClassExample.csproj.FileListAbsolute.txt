@@ -1,6 +1,0 @@
-C:\Users\Lim\Desktop\code\CodeReview\C#\ClassExample\bin\Debug\ClassExample.exe.config
-C:\Users\Lim\Desktop\code\CodeReview\C#\ClassExample\bin\Debug\ClassExample.exe
-C:\Users\Lim\Desktop\code\CodeReview\C#\ClassExample\bin\Debug\ClassExample.pdb
-C:\Users\Lim\Desktop\code\CodeReview\C#\ClassExample\obj\Debug\ClassExample.exe
-C:\Users\Lim\Desktop\code\CodeReview\C#\ClassExample\obj\Debug\ClassExample.pdb
-C:\Users\Lim\Desktop\code\CodeReview\C#\ClassExample\obj\Debug\ClassExample.csprojAssemblyReference.cache

@@ -1,6 +1,0 @@
-C:\Users\Lim\Desktop\code\C#\Statements\bin\Release\Statements.exe.config
-C:\Users\Lim\Desktop\code\C#\Statements\bin\Release\Statements.exe
-C:\Users\Lim\Desktop\code\C#\Statements\bin\Release\Statements.pdb
-C:\Users\Lim\Desktop\code\C#\Statements\obj\Release\Statements.csprojAssemblyReference.cache
-C:\Users\Lim\Desktop\code\C#\Statements\obj\Release\Statements.exe
-C:\Users\Lim\Desktop\code\C#\Statements\obj\Release\Statements.pdb

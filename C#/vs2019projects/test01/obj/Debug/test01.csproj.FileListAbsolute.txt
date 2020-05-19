@@ -1,7 +1,0 @@
-F:\vs2019projects\test01\bin\Debug\test01.exe.config
-F:\vs2019projects\test01\bin\Debug\test01.exe
-F:\vs2019projects\test01\bin\Debug\test01.pdb
-F:\vs2019projects\test01\obj\Debug\test01.csprojAssemblyReference.cache
-F:\vs2019projects\test01\obj\Debug\test01.csproj.CoreCompileInputs.cache
-F:\vs2019projects\test01\obj\Debug\test01.exe
-F:\vs2019projects\test01\obj\Debug\test01.pdb

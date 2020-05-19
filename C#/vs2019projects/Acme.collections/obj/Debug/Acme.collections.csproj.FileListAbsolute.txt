@@ -1,6 +1,0 @@
-F:\vs2019projects\Acme.collections\bin\Debug\Acme.collections.dll
-F:\vs2019projects\Acme.collections\bin\Debug\Acme.collections.pdb
-F:\vs2019projects\Acme.collections\obj\Debug\Acme.collections.csprojAssemblyReference.cache
-F:\vs2019projects\Acme.collections\obj\Debug\Acme.collections.csproj.CoreCompileInputs.cache
-F:\vs2019projects\Acme.collections\obj\Debug\Acme.collections.dll
-F:\vs2019projects\Acme.collections\obj\Debug\Acme.collections.pdb

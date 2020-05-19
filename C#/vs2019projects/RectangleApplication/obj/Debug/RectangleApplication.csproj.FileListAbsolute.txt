@@ -1,7 +1,0 @@
-F:\vs2019projects\RectangleApplication\bin\Debug\RectangleApplication.exe.config
-F:\vs2019projects\RectangleApplication\bin\Debug\RectangleApplication.exe
-F:\vs2019projects\RectangleApplication\bin\Debug\RectangleApplication.pdb
-F:\vs2019projects\RectangleApplication\obj\Debug\RectangleApplication.csproj.CoreCompileInputs.cache
-F:\vs2019projects\RectangleApplication\obj\Debug\RectangleApplication.exe
-F:\vs2019projects\RectangleApplication\obj\Debug\RectangleApplication.pdb
-F:\vs2019projects\RectangleApplication\obj\Debug\RectangleApplication.csprojAssemblyReference.cache

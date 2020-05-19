@@ -1,6 +1,0 @@
-C:\Users\Lim\Desktop\code\C#\RectangleApp\bin\Debug\RectangleApp.exe.config
-C:\Users\Lim\Desktop\code\C#\RectangleApp\bin\Debug\RectangleApp.exe
-C:\Users\Lim\Desktop\code\C#\RectangleApp\bin\Debug\RectangleApp.pdb
-C:\Users\Lim\Desktop\code\C#\RectangleApp\obj\Debug\RectangleApp.csprojAssemblyReference.cache
-C:\Users\Lim\Desktop\code\C#\RectangleApp\obj\Debug\RectangleApp.exe
-C:\Users\Lim\Desktop\code\C#\RectangleApp\obj\Debug\RectangleApp.pdb

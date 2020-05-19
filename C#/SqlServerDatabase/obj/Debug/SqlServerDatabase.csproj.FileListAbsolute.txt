@@ -1,6 +1,0 @@
-C:\Users\Lim\source\repos\SqlServerDatabase\bin\Debug\SqlServerDatabase.exe.config
-C:\Users\Lim\source\repos\SqlServerDatabase\bin\Debug\SqlServerDatabase.exe
-C:\Users\Lim\source\repos\SqlServerDatabase\bin\Debug\SqlServerDatabase.pdb
-C:\Users\Lim\source\repos\SqlServerDatabase\obj\Debug\SqlServerDatabase.csprojAssemblyReference.cache
-C:\Users\Lim\source\repos\SqlServerDatabase\obj\Debug\SqlServerDatabase.exe
-C:\Users\Lim\source\repos\SqlServerDatabase\obj\Debug\SqlServerDatabase.pdb
