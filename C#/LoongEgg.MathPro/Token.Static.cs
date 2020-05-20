@@ -6,9 +6,9 @@ using System.Text;
  * @author zlim
  * @create 2020/5/19 23:31:32
  */
+
 namespace LoongEgg.MathPro {
     public partial class Token {
-
 
         // TODO：31-1 优先级
         /// <summary>
@@ -18,7 +18,7 @@ namespace LoongEgg.MathPro {
         /// <param name="token"> ToLower 后的 token 字符串</param>
         /// <returns>运算级数字越大的优先</returns>
         public static int GetTokenPriority(TokenType type, string token) {
-
+            
             int priority = -1;
             switch (type) {
                 case TokenType.Operator: {
@@ -91,7 +91,65 @@ namespace LoongEgg.MathPro {
 
         }
 
-        
+        // TODO：32-1 转译字符串到 Token
+        /// <summary>
+        /// 将字符串转译成<see cref="Token"/>的集合
+        /// </summary>
+        /// <param name="inp">待转译的字符串</param>
+        /// <returns></returns>
+        public static List<Token> Tokenize(string inp) {
+
+            var ret = new List<Token>();
+
+            string str = inp.RemoveSpace();
+
+            int i = 0;
+            int cnt = str.Length;
+            StringBuilder token = new StringBuilder();
+            char c;
+
+            while ( i < cnt) {
+                c = str[i];
+                token = new StringBuilder(c.ToString());
+
+                if ( c.IsDigit()) { // 如果是数字
+                    while ( i + 1 < cnt && str[i+1].IsDigit()) {
+                        token.Append(str[i + 1]);
+                        i += 1;
+                    }
+                } else if (c.IsLetter()) {// 如果是字母
+                    while (i + 1 < cnt && str[i+1].IsLetter() ) {
+                        token.Append(str[i + 1]);
+                        i += 1;
+                    }
+                } else if (c.IsOperator()) {
+                    if ( c == '-' && (i == 0 || (i > 0 && str[i - 1].IsLeftBracket()))) {
+                        while (i + 1 < cnt && str[i + 1].IsDigit()) {
+                            token.Append(str[i + 1]);
+                            i += 1;
+                        }
+                    }
+                } else if ( c.IsLeftBracket() || c.IsRightBracket()) {
+                    // do nothing
+                } else {
+                    throw new ArgumentException($"Undefine char : {c}");
+                }
+
+                ret.Add(new Token(token.ToString()));
+                i += 1;
+            }
+            return ret;
+        }
+
+
+        // TODO：32-1 转译字符串到 Token 
+        /// <summary>
+        /// 将字符串转译成 Token 的集合
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() {
+            return NormalizeString;
+        }
 
     }
 }

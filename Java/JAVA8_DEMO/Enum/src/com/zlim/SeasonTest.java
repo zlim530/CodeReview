@@ -11,10 +11,12 @@ package com.zlim;
  * @author zlim
  * @create 2020-03-01 20:10
  */
+
 public class SeasonTest {
     public static void main(String[] args) {
         Season spring = Season.SPRING;
         System.out.println(spring);
+        
     }
 
     public static void main1(String[] args) {

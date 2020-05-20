@@ -36,6 +36,8 @@ namespace LoongEgg.MathPro {
             this.Type = GetTokenType(this.NormalizeString);
             this.Priority = GetTokenPriority(this.Type, this.NormalizeString);
         }
+
+        public Token(char token) : this(token.ToString()) { }
         
     }
 }

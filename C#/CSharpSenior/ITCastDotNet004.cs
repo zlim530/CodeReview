@@ -1,13 +1,235 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Text;
 using 集合ArrayList;
 /**
 * @author zlim
 * @create 2020/5/15 18:26:05
 */
+
+
+namespace foreach循环_枚举器 {
+    public class Program {
+        static void Main0(string[] args) {
+            int[] arr = { 1, 2, 3, 4, 5, 6 };
+            // 凡是实现 GetEnumerator() 方法的类型都可以使用 foreach 进行遍历
+            // 实际上 foreach 遍历数据是通过“枚举器”来实现的，和 foreach 本身一点关系都没有，foreach 实际上只是一个语法简化而已
+            // 类似于属性实际上都被编译为 Getter 和 Setter 方法，并不具有属性这种东西
+            // 但是在程序中用使用属性可以方便我们代码的编写
+            foreach (var item in arr) {
+                Console.WriteLine(item);
+            }
+
+            ArrayList arr2 = new ArrayList();
+            foreach (var item in arr2) {
+                Console.WriteLine(item);
+            }
+
+            List<int> arr3 = new List<int>();
+            foreach (var item in arr3) {
+                Console.WriteLine(item);
+            }
+
+
+        }
+
+        static void Main1(string[] args) {
+            Person p = new Person();
+            IEnumerator enumerator = p.GetEnumerator();
+            while (enumerator.MoveNext()) {
+                Console.WriteLine(enumerator.Current);
+            }
+            enumerator.Reset();
+            Console.WriteLine("============");
+            foreach (string item in p) {
+                Console.WriteLine(item);
+            }
+        }
+        
+    }
+
+    // 自定义类实现 foreach 循环
+    // 1.需要让该类型实现 IEnumerable 接口，实现该接口的主要目的是为了让当前类型中增加 GetEnumerator() 方法
+    public class Person : IEnumerable {
+        private string[] name = { "cvbc","kjk","gf","wqe","sad"};
+    
+        //public int Count {
+        //    get {
+        //        return name.Length;
+        //    }
+        //}
+
+        //public string this[int index] {
+        //    get {
+        //        return name[index];
+        //    }
+        //}
+
+        public string Name { get; set; }
+
+        // 这个方法的作用就是返回一个“枚举器”：也即实现了 IEnumerator 接口的子类
+        public IEnumerator GetEnumerator() {
+            return new PersonEnumerator(this.name);
+        }
+
+    }
+
+    // 这个类型就是一个“枚举器”
+    // 希望一个类型可以被“枚举”/“遍历”，就要实现 IEnumerator 接口，此时 PersonEnumerator 就是一个“枚举器”，也可以让 Person 既实现 IEnumerable 接口也实现 IEnumerator 接口
+    public class PersonEnumerator : IEnumerator {
+        private string[] _name;
+
+        public PersonEnumerator(string[] name) {
+            this._name = name;
+        }
+
+        // 自己维护一个下标字段，并且初始值通常设置为 -1
+        private int index = -1;
+
+        public object Current {
+            get {
+                if (index  >= 0  && index < _name.Length) {
+                    return _name[index];
+                } else {
+                    throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        public bool MoveNext() {
+            if (index + 1 < _name.Length) {
+                index++;
+                return true;
+            }
+            return false;
+        }
+
+        public void Reset() {
+            index = -1;
+        }
+    }
+}
+
+
+namespace 自定义泛型 {
+
+    public class Program {
+        static void Main0(string[] args) {
+            MyClass0<string> mc = new MyClass0<string>();
+            mc[0] = "Tim";
+            mc[1] = "Tom";
+            Console.WriteLine(mc[0]);
+            Console.WriteLine(mc[1]);
+
+            MyClass0<int> mc2 = new MyClass0<int>();
+            mc2[0] = 10;
+            mc2[1] = 11;
+            Console.WriteLine(mc2[0]);
+            Console.WriteLine(mc2[1]);
+        }
+
+        static void Main1(string[] args) {
+            // 有无装箱和拆箱的性能比较
+            //ArrayList arr = new ArrayList();
+            //Stopwatch watch = new Stopwatch();
+            //watch.Start();
+            //for (int i = 0; i < 10000_000; i++) {
+            //    arr.Add(i);
+            //}
+            //for (int i = 0; i < arr.Count; i++) {
+            //    int a = (int)arr[i];
+            //}
+            //watch.Stop();
+            //Console.WriteLine(watch.Elapsed);// 00:00:01.3519004
+
+            List<int> arr = new List<int>();
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            for (int i = 0; i < 10000_000; i++) {
+                arr.Add(i);
+            }
+            for (int i = 0; i < arr.Count; i++) {
+                int a = arr[i];
+            }
+            watch.Stop();
+            Console.WriteLine(watch.Elapsed);// 00:00:00.2719427
+
+        }
+    }
+
+    // 泛型约束
+    public class MyClass4<T,E,V,W,X,Y,Z> 
+        where T:struct// 约束 T 必须是值类型
+        where E: class// 约束 E 必须是引用类型
+        where V: IComparable // 要求 V 必须实现 IComparable 接口
+        where W: E// 约束 W 必须继承自 E 
+        where X:class,new() // 对于一个类型有个多个约束必须使用“逗号”进行隔开，并且当 new() 与多个约束一起使用时，new() 必须放在最后一个，new() 表示 X 必须有无参构造函数
+        {
+        void SayHi(T arg) {
+            Console.WriteLine(arg);
+        }
+    }
+
+    // 使用泛型的意义：可以重用算法，也即代码逻辑，仅仅是数据类型发生了变化
+    public class MyClass0<T> {
+        private T[] _data = new T[5];
+
+        public T this[int index] {
+            get {
+                return _data[index];
+            }
+            set {
+                _data[index] = value;
+            }
+        }
+    }
+
+    // 泛型类
+    public class MyClass<T> {
+        public void SayHi(T arg) {
+            Console.WriteLine(arg);
+        }
+    }
+
+    public class Class1 {
+
+        // 泛型方法
+        public void SayHi<T>(T msg) {
+            Console.WriteLine(msg);
+        }
+    }
+
+    // 泛型接口
+    public interface IFly<T> {
+        T SayHi();
+        void SayHello(T msg);
+    }
+
+    // 普通类实现泛型接口
+    public class MyClass2 : IFly<string> {
+        public void SayHello(string msg) {
+            throw new NotImplementedException();
+        }
+
+        public string SayHi() {
+            throw new NotImplementedException();
+        }
+    }
+
+    // 泛型类实现泛型接口
+    public class MyClass3<E> : IFly<E> {
+        public void SayHello(E msg) {
+            throw new NotImplementedException();
+        }
+
+        public E SayHi() {
+            throw new NotImplementedException();
+        }
+    }
+
+}
 
 namespace 泛型集合练习 {
 
@@ -98,16 +320,12 @@ namespace 泛型集合练习 {
 
         }
 
-        static void Main(string[] args) {
-            
-        }
-
     }
 
 }
 
 
-namespace Hashtable集合{
+namespace Hashtable集合 {
     public class Program {
         static void Main0(string[] args) {
             Hashtable map = new Hashtable();
