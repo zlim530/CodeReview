@@ -9,7 +9,86 @@ using 集合ArrayList;
 * @create 2020/5/15 18:26:05
 */
 
+/*
+实际上，我们使用 yield return 语句在编译后会自动在类内部生成枚举器类，而后我们使用 foreach 循环时就会使用这个枚举器
+也就是说 yield return 语句的意思就是自动帮你生成枚举器，不需要你手动去写
+*/
+namespace foreach迭代 {
+    public class Program {
+        static void Main0(string[] args) {
+            Student stu = new Student();
+            /*
+            使用方法一实现 foreach 循环时需要在 in 后面调用相应的方法
+            */
+            foreach (var item in stu.GetEach()) {
+                Console.WriteLine(item);
+            }
 
+            Console.WriteLine("===========");
+            Teather thr = new Teather();
+            /*
+            使用方法二实现 foreach 循环无需在 in 关键字后调用方法
+            */
+            foreach (var item in thr) {
+                Console.WriteLine(item);
+            }
+            
+        }
+    }
+
+    public class Teather  {
+
+        private string[] _subjects = {"bio","english","PE","chinese","math" };
+
+        public string Subject { get; set; }
+
+        /*
+        简略实现 foreach 循环的方法二：
+        借用实现 IEnumerable 接口生成 IEnumerator GetEnumerator() 方法，而后可以将 IEnumerable 删除也可以留着，随后在方法体中继续使用 for循环与 yield 关键字
+        当返回值类型是 IEnumerator 时，编译器帮我们生成了一个“枚举器”类，也即一个实现了 IEnumerator 接口的类型，其中 Current 方法的返回值是 object
+        */
+        public IEnumerator GetEnumerator() {
+            for (int i = 0; i < _subjects.Length; i++) {
+                yield return _subjects[i];
+            }
+        }
+    }
+
+    public class Student {
+        private string[] _names = { "zyy","htl","lyy","myy","xyy"};
+
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        /*
+        简略实现 foreach 循环的方法一：
+        在自定义类中的任意一个方法中，设置返回值为 IEnumerable 接口，并在方法内部使用 for 循环与 yield 关键字即可
+        当返回值是 IEnumerable 时，编译器帮我们生成了一个“枚举器”类，这个类既实现了 IEnumerable 接口也实现了 IEnumerator 接口
+        */
+        public IEnumerable GetEach() {
+            for (int i = 0; i < _names.Length; i++) {
+                yield return _names[i];
+            }
+        }
+    }
+
+
+
+}
+
+/*
+可枚举类型（具有 GetEnumerator() 方法）、枚举器（实现 IEnumerator 接口中成员的类）
+实现 IEnumerable 接口的即为可枚举类型
+实现 IEnumerator 接口的即为枚举器
+foreach 遍历类型推断为 object 而不是实际类型，需要实现泛型版本的接口
+快捷语法：yield（yield含义：生产，出产，带来）
+    yield return 表达式
+    yield break;
+    当 yield 语句所在的方法的返回值为 IEnumerable<T> 时，表示自动生成一个可迭代类型
+    当 yield 语句所在的方法的返回值为 IEnumerator<T> 时，表示自动生成一个迭代器（枚举器）
+foreach 循环是只读的，并且是一条一条循环的，不能用来修改数据。
+*/
 namespace foreach循环_枚举器 {
     public class Program {
         static void Main0(string[] args) {
