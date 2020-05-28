@@ -9,6 +9,34 @@ using System.Text;
  */
 
 /*
+拷贝文件的两种方式：
+    将源文件内容全部度到内存中，再写到目标文件中；
+    读取源文件的1KB 内容，写到目标文件中，再读取源文件的1KB 内容，再写到目标文件中，直到将源文件的所有内容读取
+    完毕。
+其中第二种方法其实就是一种流的操作。
+用 File.ReadAllText、File.WriteAllText 进行文件的读写操作是一次性进行读写，如果文件非常大时会占用大量的内存
+，速度慢；而流（Stream）则是一种读取一部分再处理一部分的机制，Stream 仅会读取指定位置处指定长度的字节内容。
+Stream 不会一次性将所有内容读到内存中，而是有一个指针，指针指到哪里就对哪里进行读、写操作。
+流有很多种类，文件流（FileStream）是其中一种，FileStream 可读可写，可以使用 File.OpenRead 或者 
+File.OpenWrite 方法快速创建文件流对象。
+byte[] 是任何数据的最根本表达形式，任何数据在计算机中进行存储最终都是二进制。
+FileStream 的 Position 属性为当前文件指针位置，每写一次就要移动 Position 以备下次读写时在正确的位置。Write
+用于向当前位置写入若干字节，Read 则用于在当前位置读取若干字节。
+
+*/
+namespace 文件流操作 {
+    public class Program {
+        static void Main(string[] args) {
+            string msg = "Hello,World!";
+            // string 转换为 byte[] 数组
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(msg);
+            Console.WriteLine("OK");
+        }
+    }
+}
+
+
+/*
 文件操作常用相关类：
 File：操作文件，静态类，对文件整体操作：拷贝、删除、剪切等；
 Directory：操作目录（文件夹），静态类；
