@@ -1,7 +1,11 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Xml.Serialization;
 
 /**
  * @author zlim
@@ -9,6 +13,330 @@ using System.Text;
  */
 
 /*
+对象序列化（二进制序列化）：
+    对象序列化是将对象转换为二进制数据（字节流），反序列化是将二进制数据还原为对应的对象；
+    对象是稍纵即逝的，不仅程序重启、操作系统冲洗会造成对象的消失，就连退出函数范围等原因
+    也可能造成对象的消失，序列化和反序列化就是为了保持对象的持久化，就像用 DV 录像(序列
+    化)而后用播放器播放(反序列化)一样
+对象序列化，只能针对对象的字段进行序列化
+BinaryFormatter 类有两个方法：
+    void Serialize(Stream stream, object graph) 将对象 graph 系列化到 stream 中
+    object Deserialize(Stream stream) 将对象从 stream 中反序列化，返回值为反序列后得到的对象
+不是所有的对象都能进行序列化操作，只有可序列化的对象才能序列化
+    条件：在类声明前面添加 [Serizlizable] 特征，并且对象的属性、字段的类型也必须可序列化
+为什么要序列化?
+    将一个复杂的对象转换为文件流,方便存储与信息交换
+*/
+namespace 对象序列化 {
+    public class Program {
+        /// <summary>
+        /// JSON 序列化和 xml 序列化
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main0(string[] args) {
+            Person p = new Person();
+            p.Name = "Tim";
+            p.Age = 23;
+            p.Email = "tim@163.com";
+
+            // JSON 序列化
+            string json = JsonConvert.SerializeObject(p);
+            Console.WriteLine(json);
+            // {"Name":"Tim","Age":23,"Email":"tim@163.com"}
+
+            // xml 序列化
+            XmlSerializer xml = new XmlSerializer(typeof(Person));
+            using (FileStream fs = new FileStream("person.xml",FileMode.Create)) {
+                xml.Serialize(fs,p);
+            }
+            /*
+            person.xml:
+            <?xml version="1.0"?>
+            <Person xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+              <Name>Tim</Name>
+              <Age>23</Age>
+              <Email>tim@163.com</Email>
+            </Person>
+            */
+            Console.WriteLine("OK");
+        }
+
+        /// <summary>
+        /// 二进制序列化
+        /// </summary>
+        /// <param name="args"></param>
+        // 二进制序列化注意点：
+        // 1.被序列化的对象的类型必须标记为“可序列化”，即 [Serializable];
+        // 2.被序列化的类的所有父类也必须标记为“可序列化”，即 [Serializable];
+        // 3. 要求被序列化的对象的类型中的所有字段（属性）的类型也必须标记为“可序列化的”
+        // ，即 [Serializable]
+        // 4.序列化只会对类中的字段序列化：即只能序列化一些状态信息
+        // 5.不建议使用自动属性:因为自动属性每次生成的字段名称都可能不一样,会影响反序列化
+        static void Main1(string[] args) {
+            Person p = new Person();
+            p.Name = "Tim";
+            p.Age = 23;
+            p.Email = "tim@163.com";
+
+            BinaryFormatter bf = new BinaryFormatter();
+            using (FileStream fsWriter = new FileStream("person.data",FileMode.Create)) {
+                // try{
+                //     bf.Serialize(fsWriter,p);
+                // }catch (Exception e){
+                //     System.Console.WriteLine(e.Message);
+                // }
+                bf.Serialize(fsWriter,p);
+
+            }
+            Console.WriteLine("OK");
+        }
+
+        
+        /// <summary>
+        /// 二进制反序列化
+        /// </summary>
+        /// <param name="args"></param>
+        // 二进制反序列化注意点：
+        // 1.必须获取被序列化对象类型的所在的程序集，因为：反序列化要根据序列化之后的文件
+        // 重新还原该对象，而序列化文件中只包含对象的数据信息，并不包含对象的类型的相关信息
+        // ，例如：该对象是继承至那个父类，实现了哪些接口，拥有哪些方法 ...，这些信息在对
+        // 想序列化之后的文件中并不包含，因为在对象序列化时只是序列化字段数据，要获取这些信
+        // 息则必须通过该类型所在的程序集来获取 
+        static void Main2(string[] args){
+
+            BinaryFormatter bf = new BinaryFormatter();
+            using(FileStream fsRead = new FileStream("person.data",FileMode.Open)){
+                object obj = bf.Deserialize(fsRead);
+                Person p = obj as Person;
+                System.Console.WriteLine(string.IsNullOrEmpty(p.Name));// True 因为 _name 字段被标记为 NonSerialized
+                System.Console.WriteLine(p.Age);
+                System.Console.WriteLine(p.Email);
+            }
+
+        }
+
+    }
+
+
+    [Serializable]
+    public class Animal {
+        
+    }
+
+    [Serializable]
+    public class Person:Animal {
+        public Person() : this(null, 0, null) {
+
+        }
+
+        public Person(string name, int age, string email) {
+            this.Name = name;
+            this.Age = age;
+            this.Email = email;
+        }
+
+        public Car Car { get; set; }
+
+        [NonSerialized]
+        // NonSerialized 特性只能标记在字段上
+        private string _name;
+
+        public string Name { 
+            get{
+                return _name;
+            }
+            set{
+                _name = value;
+            }
+        }
+        public int Age { get; set; }
+        public string Email { get; set; }
+    }
+
+    [Serializable]
+    public class Car {
+        public string Name { get; set; }
+    }
+
+}
+
+
+/*
+压缩流：GZipStream
+压缩对象：图片、文本文件、电影、字符串等
+压缩：
+    创建读取流 File.OpenRead()  ：快速创建读取文件流的方法
+        File.OpenRead() 内部：return new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read);
+    创建写入流 File.OpenWrite() ：快速创建写入文件流的方法
+    创建压缩流 new GZipStream() ：将写入流作为参数
+    每次通过读取流读取一部分数据，并通过压缩流压缩之后写入新文件中
+解压：
+    创建读取流：File.OpenRead()
+    创建压缩流：new GZipStream(); 将读取流作为参数
+    创建写入流：File.OpenWrite()
+    每次通过压缩流读取解压后数据，再通过写入流将解压后的数据写入到新文件中
+*/
+namespace 压缩流 {
+    public class Program {
+        /// <summary>
+        /// 压缩单个文本文件
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main0(string[] args) {
+            // 将文本文件2.txt 压缩
+            // 创建读取文本文件的流
+            using (FileStream fsRead = File.OpenRead("2.txt")) {
+                // 创建写入文本文件的流
+                using (FileStream fsWrite = File.OpenWrite("2.zip")) {
+                    // 创建压缩流
+                    using (GZipStream zipStream = new GZipStream(fsWrite,CompressionMode.Compress)) {
+                        byte[] buffer = new byte[1024];// 每次读取1024 byte
+                        int len = 0;
+                        while ((len = fsRead.Read(buffer,0,buffer.Length)) > 0) {
+                            // 通过压缩流对读取到的文件进行压缩，并通过 fsWrite 写入流写入到新文件（即压缩文件）中
+                            zipStream.Write(buffer,0,len);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 使用 StreamReader 和 StreamWriter 读写文本文件
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main1(string[] args) {
+            // 工资文件中的工资翻倍输出到新文件中
+            using (StreamReader reader = new StreamReader("salary.txt",Encoding.Default)) {
+                // 创建一个写文件的文件流
+                using (StreamWriter writer = new StreamWriter("newSalary.txt",false,Encoding.Default)) {
+                    string line = null;
+                    while ((line = reader.ReadLine()) != null) {
+                        string[] parts = line.Split('|');
+                        string newLine = string.Format("{0}|{1}",parts[0],Convert.ToInt32(parts[1]) * 2 );
+                        // 将新行写入
+                        writer.WriteLine(newLine);
+                        // File.AppendAllText("",""); 不要调用这个方法，这样做每次都会 new 一个 StreamWriter
+                    }
+                }
+            }
+            Console.WriteLine("OK");
+        }
+
+        /// <summary>
+        /// 对象初始化器-集合初始化器
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main2(string[] args) {
+            Person p = new Person();
+            p.Name = "Tom";
+            p.Age = 23;
+            p.Email = "tom@163.com";
+
+            // 实际上是调用了构造函数，并不是初始化器
+            Person p2 = new Person("Jack",25,"jack@163.com");
+
+            // { ... } 就是对象初始化器，它与对象的构造函数一定关系都没有
+            // 在编译后会像对象 p 赋值那样的语句
+            Person p3 = new Person() { Name = "Tim",Age = 22,Email = "tim@163.com" };
+
+            // 集合初始化器
+            List<int> list = new List<int>() { 1,2,3,4,5,5,6,7,8,9};
+
+        }
+
+        /// <summary>
+        /// 解压单个文本文件
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main3(string[] args) {
+            // 创建读取文件流读取压缩文件
+            using (FileStream fsRead = File.OpenRead("2.zip")) {
+                // 创建压缩流解压读取的压缩文件
+                using (GZipStream zipStream = new GZipStream(fsRead,CompressionMode.Decompress) ) {
+                    // 创建写入文件流将解压后的文件写入到新文件（解压后的文件）中
+                    using (FileStream fsWrite = File.OpenWrite("decompress2.txt")) {
+                        byte[] buffer = new byte[1024 * 10];// 10KB
+                        int len = 0;
+                        // 解压读取后的文件
+                        while ((len = zipStream.Read(buffer,0,buffer.Length)) > 0) {
+                            // 写入新文件
+                            fsWrite.Write(buffer,0,len);
+                        }
+                    }
+                }
+            }
+            Console.WriteLine("OK");
+        }
+
+        /// <summary>
+        /// 利用 File.WriteAllText(string path,string content) 方法写入文件
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main4(string[] args) {
+            StringBuilder msg = new StringBuilder("Tim");
+            for (int i = 0; i < 5; i++) {
+                msg.Append(msg);
+            }
+            // 创建一个新文件，想其中写入指定的字符串，然后关闭文件。如果目标文件已存在，则覆盖该文件。
+            // 第二个参数：要写入文件的字符串
+            File.WriteAllText("test.txt",msg.ToString());
+            Console.WriteLine("OK");
+
+        }
+
+    }
+
+    public class Person {
+
+        public Person() : this(null,0,null){
+
+        }
+
+        public Person(string name,int age,string email) {
+            this.Name = name;
+            this.Age = age;
+            this.Email = email;
+        }
+
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Email { get; set; }
+    }
+
+}
+
+
+/*
+文件IO流：
+    输入 input：读取外部数据（磁盘、光盘等存储设备的数据）到程序（即内存）中
+    输出 output：将程序（内存）中的数据输出到磁盘、光盘等存储设备中
+
+解码：字节(二进制) ---> 字符串
+编码：字符串      ---> 字节
+
+编码表的由来：
+    计算机只能识别二进制数据，早期由来是电信号。为了方便应用计算机，让它可以识别各个的文字，
+    就将各个国家的文字用数字来表示，并一一对应，形成一张表。中额就是编码表
+常见的编码表：
+    ASCII：美国标准信息交换码
+        用一个字节的7位可以表示
+    ISO8859-1：拉丁码表，欧洲码表
+        用一个字节的8位表示
+    GB2312：中国的中文编码表，最多两个字节编码所有字符
+    GBK：中国的中文编码表升级，融合了更多的中文文字符号，同样是最多两个字节编码
+    Unicode：国际标准码，融合了目前人类使用的使用字符。为每个字符分配唯一的字符码，所有的文字都用两个字节来表示。
+            在内存层面表示没有问题，但是存入文件时有问题：因为 Unicode 完全向下兼容 ASCII 码，而所有 ASCII 码
+            只需要一个字节即可，因此在 Unicode 中两个字节到底是表示两个 ASCII 码还是作为一个整体只表示一个 ASCII 
+            码字符有歧义；实际上对于上述三种编码而言也有这样的问题，但是上面三个编码规定最高位为0时表示 ASCII 码，
+            即只需要一个字节，而其他的则按照对应字符集的编码规则进行编码
+    UTF-8：变长的编码方式，可以用1-4个字节来表示一个字符。向下兼容ASCII码。
+        Unicode只是定义了一个庞大的、全球通用的字符集，并为每个字符规定了唯
+        一确定的编号，具体存储成什么样的字节流，取决于字符编码方案。
+        推荐的Unicode编码是UTF-8和UTF-16。
+        Unicode字符集只是定义了字符的集合和唯一编号，Unicode编码，则是对UTF-8、
+        UCS-2/UTF-16等具体编码方案的统称而已，并不是具体的编码方案。
+
 拷贝文件的两种方式：
     将源文件内容全部度到内存中，再写到目标文件中；
     读取源文件的1KB 内容，写到目标文件中，再读取源文件的1KB 内容，再写到目标文件中，直到将源文件的所有内容读取
@@ -25,8 +353,6 @@ FileStream 的 Position 属性为当前文件指针位置，每写一次就要�
 使用 using 来简化操作：
     注意：不是任何类型对象都可以写在 using() 的小括号中
     只有实现了 IDispose 接口类型的对象才可以写，当 using{ ... } 执行完毕后会自动调用对象的 Dispose() 方法来释放资源
-
-
 */
 namespace 文件流操作 {
     public class Program {
@@ -43,7 +369,7 @@ namespace 文件流操作 {
             Console.WriteLine("OK");
         }
 
-        // 流操作的都是字节，不能字节操作字符串。
+        // 流操作的都是字节，不能直接操作字符串。
         
         /// <summary>
         /// 通过 FileStream 来写文件
@@ -175,12 +501,56 @@ namespace 文件流操作 {
                     }
 
                 }
-
             }
 
         }
 
+        /// <summary>
+        /// 使用 StreamReader 逐行读取文本文件
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main5(string[] args) {
+            // StreamReader 是用来逐行读取文本文件的
+            using (StreamReader reader = new StreamReader("encodings.txt",Encoding.Default)) {
+                // 一直读到文件的末尾
+                //while (!reader.EndOfStream) {
+                //    Console.WriteLine(reader.ReadLine());
+                //}
+                // 或者写为下面这种形式：
+                string line = null;
+                while ((line = reader.ReadLine()) != null) {
+                    Console.WriteLine(line);
+                }
+            }
 
+        }
+
+        /// <summary>
+        /// 使用 StreamWriter 逐行写入文本文件
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main6(string[] args) {
+            // 第二个参数：append：若要追加数据到改文件中，则为 true;若要覆盖该文件，则为 false。
+            // 如果指定的文件不存在，该参数无效，且构造函数将创建一个新文件
+            using (StreamWriter writer = new StreamWriter("text.txt",true,Encoding.Default)) {
+                for (int i = 0; i < 10; i++) {
+                    writer.WriteLine($"{i} Time(s)");
+                }
+            }
+            Console.WriteLine("OK");
+            /*
+            0 Time(s)
+            1 Time(s)
+            2 Time(s)
+            3 Time(s)
+            4 Time(s)
+            5 Time(s)
+            6 Time(s)
+            7 Time(s)
+            8 Time(s)
+            9 Time(s)
+            */
+        }
 
     }
 }
