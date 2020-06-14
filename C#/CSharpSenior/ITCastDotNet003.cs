@@ -162,7 +162,7 @@ namespace 字符串特性之不可变性_字符串池 {
             Console.WriteLine(s3);
 
         }
-
+        
         static void Main1(string[] args) {
             // 字符串默认只会将字符串常量加入到字符串常量池中
             string s1 = "abc";
