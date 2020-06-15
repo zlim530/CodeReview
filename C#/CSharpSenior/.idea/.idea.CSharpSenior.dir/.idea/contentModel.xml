@@ -12,6 +12,7 @@
       <e p="ITCastDotNet003.cs" t="Include" />
       <e p="ITCastDotNet004.cs" t="Include" />
       <e p="ITCastDotNet005.cs" t="Include" />
+      <e p="ITCastDotNet006.cs" t="Include" />
       <e p="Mixed.cs" t="Include" />
       <e p="obj" t="ExcludeRecursive">
         <e p="Debug" t="Include">

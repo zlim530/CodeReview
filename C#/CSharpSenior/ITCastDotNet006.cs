@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -88,9 +89,24 @@ using System.Text.RegularExpressions;
    · 字符串替换：Regex.Replace("字符串","正则表达式","替换内容");
    · Regex.Split();
 
-
 */
-namespace 正则表达式 {
+/* 字符串匹配：
+Regex.IsMatch(str,"^[0-9]{6}$");// 验证给定的字符串是否为一个合法的邮政编码
+//注意：要想完全匹配，必须加上 ^ 和 $，否则只要字符串中有一部分与给定的正则表达式匹配都会返回 True
+
+Regex.IsMatch(str,"^(1[0-9]|2[0-5])$");
+// 匹配任意一个10(含)-25(含)的数字
+// 对于这种要求，要学会找规律写正则表达式，不能像数学一个使用的大于小于等方法，而只能找规律
+
+Regex.IsMatch(str,@"^\d{11}$");// 验证是否为合法的手机号，因为 \ 在 C# 中是转义符号，
+因此在使用简写表达式时需要加上 @ 符号或者 使用 \\d
+
+Regex.IsMatch(str,"^z|food$");// 表示要么以 z 开头要么以 food 结尾的字符串
+
+Regex.IsMatch(str,"^(z|food)$");// 只能匹配 z 或者 food
+ * 
+ */
+namespace 正则表达式_字符串匹配 {
     public class ITCastDotNet006 {
         /// <summary>
         /// 判断是否为身份证号码
@@ -137,6 +153,10 @@ namespace 正则表达式 {
 
         /// <summary>
         /// .NET 默认使用的是 Unicode 匹配模式
+        /// \d 既能匹配1,2...等 ASCII 数字，也可以匹配全角数字“1，2，3...”
+        /// \w 既能匹配[a-zA-Z0-9_]也能匹配中文字符
+        /// \s 既能匹配“英文空格”、制表符等，也能匹配“全角空格”
+        /// 如果要想让只匹配 ASCII 字符，则需要指定 RegexOptions.ECMAScript 选项
         /// </summary>
         /// <param name="args"></param>
         public static void Main2(string[] args) {
@@ -200,16 +220,186 @@ namespace 正则表达式 {
         }
 
         /// <summary>
-        /// 判断是否为合法的日期格式:"2008-08-09"
+        /// 判断是否为合法的日期格式:"2008-08-09" 粗略规律：四位数字-两位数字-两位数字
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args) {
+        public static void Main5(string[] args) {
             while (true) {
                 Console.WriteLine("pls input a date:");
                 string date = Console.ReadLine();
-                bool b = Regex.IsMatch(date,@"");
+                // bool b = Regex.IsMatch(date,@"^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
+                
+                /*
+                 * 限制月份只能是1-12
+                 * 0[1-9]
+                 * 1[0-2]
+                 */
+                bool b = Regex.IsMatch(date, @"^[0-9]{4}-(0[1-9]|1[0-2])-[0-9]{2}$");
+                Console.WriteLine(b);
             }
         }
 
+        
+        /// <summary>
+        /// 判断是否为合法的 URL 地址
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main6(string[] args) {
+            /*
+             * 判断是否为合法的 URL 地址:
+             * http://www.test.com/a.html?id=3&name=aaa
+             * ftp://127.0.0.1/1.txt
+             * 规律：字符串序列：//字符串序列
+             * 可能的协议：http\https\ftp\file\thunder\ed2k
+             */
+            while (true) {
+                Console.WriteLine("pls input a url:");
+                string url = Console.ReadLine();
+                bool b = Regex.IsMatch(url,@"^[a-zA-Z0-9]+://.+$");
+                // 使用：^(http(s)?|ftp|file|thunder|edk2)://\w+$ 不可以，因为 \w 不包含 .
+                Console.WriteLine(b);
+            }
+            
+        }
+
+        
+        
     }
 }
+
+
+/*
+如果想要对已经匹配的字符串再进行分组提取，就用到了“提取组”的功能
+通过添加 () 就能实现提取组
+在正则表达式中只要出现了 () 就表示进行了分组，() 既有改变优先级的作用又具有提取组的功能
+
+// Regex.Match 只能提取一个匹配
+Match match = Regex.Match(msg,"[0-9]");// 一般字符串提取不加 ^ 和 $
+Console.WriteLine(match.Value);
+
+// Regex.Matchs() 提取字符串中的所有匹配
+MatchCollection matches = Regex.Matchs(msg,"[0-9]+");
+foreach(var item in mathces){
+	Console.WriteLine(item.Value);
+}
+ */
+namespace 正则表达式_字符串提取 {
+    public class Program {
+        /// <summary>
+        /// 提取 html 网页中的邮箱地址
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main0(string[] args) {
+            
+            // string html = File.ReadAllText("1.html");
+            string html = "zlim530@126.com";
+            // MatchCollection matches = Regex.Matches(html, @"[-a-zA-Z_0-9.]+@[-a-zA-Z0-9_]+(\.[a-zA-z+]+)+");
+            // 如果想要对已经匹配的字符串再进行分组提取，就用到了“提取组”的功能
+            // 通过添加 () 就能实现提取组
+            // 在正则表达式中只要出现了 () 就表示进行了分组，() 既有改变优先级的作用又具有提取组的功能
+            MatchCollection matches = Regex.Matches(html, @"([-a-zA-Z_0-9.]+)@([-a-zA-Z0-9_]+(\.[a-zA-Z]+)+)");
+            // (第1组)@(第2组(第三组))：第2组是包含第3组的
+            foreach (Match match in matches) {
+                /*
+                 * match.Value:表示本次提取到的字符串
+                 * match.Groups：此集合中存储的就是所有的分组信息
+                 * match.Group[0].Value 与 match.Value 等价都表示本次提取到的完整的字符串，也即表示提取到整个邮箱字符串，而 match.Group[1].Value 则表示第一组的字符串 
+                 */
+                // Console.WriteLine(match.Value);
+                Console.WriteLine($"第0组：{match.Groups[0].Value}");
+                Console.WriteLine($"第1组：{match.Groups[1].Value}");
+                Console.WriteLine($"第2组：{match.Groups[2].Value}");
+                Console.WriteLine($"第3组：{match.Groups[3].Value}");
+                /*
+                第0组：zlim530@126.com
+                第1组：zlim530
+                第2组：126.com
+                第3组：.com
+                */
+            }
+        }
+
+        /// <summary>
+        /// 关于 C# 字符串中的 \ 转义问题与正则表达式中的 \ 转义问题
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main1(string[] args) {
+            /*
+             * "\\d" -> \d
+             * "\\\\d" -> \\d
+             */
+            // string reg = "\d"; // 因为 \ 在 C# 中是一个转义字符，因此 C# 会认为 \ 是一个转义字符，将 \ 与后面的字符组合去解析它的含义，而 \d 并不是一个转义字符，因此 C# 无法解释其含义,因此会运行时会报错：无法识别的转义序列
+            string reg2 = "\\d";// 此时运行完毕后其实就是 \d，此时 C# 仍让会把 \ 认为是一个字符串的转义字符，但是 \ 后面跟的 \，即表示不再使用 \ 转义含义，而是直接使用 \ 字符本身，因此输出为 \d
+            Console.WriteLine(reg2);// \d
+            string reg3 = "\\\\d";// 同理，\\ 表示一个 \ 字符，那么 \\\\ 就表示 \\ 字符
+            Console.WriteLine(reg3);// \\d
+            bool b = Regex.IsMatch(@"\d", reg3);// True
+            /*
+             * 即 bool b = Regex.IsMatch(@"\d", "\\\\d");
+             * 其中第一个参数为 input：表示要搜索匹配项的字符串，这里为 @"\d"，即表示待匹配字符串为 \d(@"\d" 等价于 "\\d")
+             *  而第二个参数为 pattern：表示指定的正则表达式，在这里为 reg3，即为 "\\\\d"，解析的含义为 \\d，而"\\d"又相当于将 "\d" 中的 "\" 转义意义消除掉，因此此时会匹配字符 "\d" 而不会再匹配数字，因此返回结果为 True
+             */             
+            Console.WriteLine(b);
+            bool b2 = Regex.IsMatch(@"\d", reg2);// False
+            /*
+             * 此时 pattern 参数为 reg2 = "\\d" 即 \d，在正则表达式中即表示匹配数字0-9，因此字符串 \d 不满足匹配，返回 False
+             */
+            
+            Console.WriteLine(b2);
+        }
+
+        /// <summary>
+        /// 提取文件中的文件名
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main2(string[] args) {
+
+            string path = @"C:\360极速浏览器下载\pic\wei.jpg";
+            Match match = Regex.Match(path,@".+\\(.+)");
+            // 此处是因为有“贪婪模式”的存在，因此正则表达式中的 \\ 一定会匹配文件路径中最后一个 \ 
+            Console.WriteLine(match.Groups[1].Value);// wei.jpg
+
+        }
+
+        /// <summary>
+        /// 练习
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main3(string[] args) {
+
+            #region 从"June      26     ,       1951       "中提取出月份 June、26、1951。使用 @"^([a-zA-Z]+)\s*(\d{1,2})\s*,\s*(\d{4})\s*$" 正则表达式进行匹配，其中月份和日之间必须要有空格分割，所以使用空白符号"\s"匹配所有的空白字符，此处的空格是必须有的，所以使用"+"标识为匹配1至多个空格。之后的","与年份之间的空格是可有可无的，所以使用"*"标识为匹配0至多个
+            string date = "June         26     ,       1951       ";
+            Match match = Regex.Match(date, @"([a-zA-Z]+)\s*([0-9]{2})\s*,\s*([0-9]{4})\s*");
+            //Match match = Regex.Match(date, "[a-zA-Z0-9]+");
+            //Match match = Regex.Match(date, @"^([a-zA-Z]+)\s*(\d{1,2})\s*,\s*(\d{4})\s*$");
+            //Console.WriteLine(match.Value);
+            for (int i = 0; i < match.Groups.Count; i++) {
+                Console.WriteLine(match.Groups[i].Value);
+            }
+            #endregion
+
+        }
+        
+    }
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
