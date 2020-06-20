@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -368,20 +369,368 @@ namespace 正则表达式_字符串提取 {
         public static void Main3(string[] args) {
 
             #region 从"June      26     ,       1951       "中提取出月份 June、26、1951。使用 @"^([a-zA-Z]+)\s*(\d{1,2})\s*,\s*(\d{4})\s*$" 正则表达式进行匹配，其中月份和日之间必须要有空格分割，所以使用空白符号"\s"匹配所有的空白字符，此处的空格是必须有的，所以使用"+"标识为匹配1至多个空格。之后的","与年份之间的空格是可有可无的，所以使用"*"标识为匹配0至多个
-            string date = "June         26     ,       1951       ";
-            Match match = Regex.Match(date, @"([a-zA-Z]+)\s*([0-9]{2})\s*,\s*([0-9]{4})\s*");
-            //Match match = Regex.Match(date, "[a-zA-Z0-9]+");
-            //Match match = Regex.Match(date, @"^([a-zA-Z]+)\s*(\d{1,2})\s*,\s*(\d{4})\s*$");
-            //Console.WriteLine(match.Value);
-            for (int i = 0; i < match.Groups.Count; i++) {
-                Console.WriteLine(match.Groups[i].Value);
-            }
+            // string date = "June         26     ,       1951       ";
+            // Match match = Regex.Match(date, @"([a-zA-Z]+)\s*([0-9]{2})\s*,\s*([0-9]{4})\s*");
+            // //Match match = Regex.Match(date, "[a-zA-Z0-9]+");
+            // //Match match = Regex.Match(date, @"^([a-zA-Z]+)\s*(\d{1,2})\s*,\s*(\d{4})\s*$");
+            // //Console.WriteLine(match.Value);
+            // for (int i = 0; i < match.Groups.Count; i++) {
+            //     Console.WriteLine(match.Groups[i].Value);
+            // }
+            #endregion
+
+            #region 从 Email 中提取出用户名与域名，如从 tim@163.com 中提取出 tim 和 163.com
+
+            // while (true) {
+            //     Console.WriteLine("pls input a email:");
+            //     string email = Console.ReadLine();
+            //     // 因为是从已经确认格式的 email 地址中进行提取，故我们这里不需要再使用复杂的正则表达式再判断一次输入的字符串是否满足 email 地址格式要求
+            //     Match match = Regex.Match(email,@"(.+)@(.+)");
+            //     Console.WriteLine($"用户名:{match.Groups[1].Value},域名:{match.Groups[2].Value}");
+            // }
+
+            #endregion
+
+            #region "192.168.10.5[port=21,type=ftp]",这个字符串表示的 IP 地址为192.168.10.5的服务器的21端口提供的是 ftp 服务，其中如果",type=ftp"部分被省略，则默认为 http 服务。请使用程序解析此字符串，然后分别打印出 IP 地址、端口号与服务类型
+
+            // string msg = "192.168.10.5[port=21,type=ftp]";
+            // Match match = Regex.Match(msg,@"(.+)\[port=([0-9]{2,5})(,type=(.+))?\]");
+            // Console.WriteLine($"IP:{match.Groups[1].Value}");
+            // Console.WriteLine($"Port:{match.Groups[2].Value}");
+            // Console.WriteLine("Services Type:{0}",match.Groups[4].Value.Length == 0 ? "http" : match.Groups[5].Value);
+            // IP:192.168.10.5
+            // Port:21
+            // Services Type:ftp
+
             #endregion
 
         }
-        
+
+        /*
+         * 贪婪模式与非贪婪模式：
+         * 贪婪：. + 等元字符默认为贪婪模式，即尽可能的多匹配
+         * 非贪婪：.+?：在 . + 等元字符后面加上一个 ? 即表示非贪婪模式，尽可能的少匹配
+         */
+        public static void Main4(string[] args) {
+
+            #region 贪婪模式
+
+            string msg = "1111.11.111.111111.";
+            // .+ 默认是按照贪婪模式来匹配，尽可能多的去匹配
+            Match match = Regex.Match(msg,".+");
+            Console.WriteLine(match.Value);// 1111.11.111.111111.
+            // 终止贪婪模式：当在“限定符”后面使用 ? 之后，表示终止贪婪模式
+            // 而当终止贪婪模式时，会尽可能少的匹配
+            Match match2 = Regex.Match(msg, ".+?");
+            Console.WriteLine(match2.Value);// 1
+
+            #endregion
+
+        }
+
+        /// <summary>
+        /// 贪婪模式2
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main5(string[] args) {
+            string str = "abbb";
+            Match match = Regex.Match(str, "ab*");
+            Match match2 = Regex.Match(str, "ab*?");
+            Console.WriteLine(match.Value);// abbb
+            Console.WriteLine(match2.Value);// a
+
+            string msg = "1111。11。111。111111。";
+            Match match3 = Regex.Match(msg, ".+?。");// 1111。
+            Console.WriteLine(match3.Value);
+
+            string msg2 = "大家好。我们是S.E.H。我是S。我是H。我是E。我是杨中科。我是苏坤。我是杨洪波。我是Tim。我是N.L.L。我是☆姜坤☆。呜呜呜。ffff";
+
+            MatchCollection matches = Regex.Matches(msg2, "我是(.+?)。");
+            foreach (Match match1 in matches) {
+                Console.WriteLine(match1.Groups[1].Value);
+            }
+            /*
+              S
+              H
+              E
+              杨中科
+              苏坤
+              杨洪波
+              Tim
+              N.L.L
+              ☆姜坤☆
+            */
+                
+        }
+
     }
 
+    
+}
+
+
+/*
+ * 使用正则表达式的建议：
+ * 1.不要过度使用正则表达式，简单的操作能用字符串方式直接操作的就用字符串方式来操作，例如：
+ * IndexOf()、StartWith()、EndWith()、Path.GetFileName()...
+ *     因为很多基本的字符串操作方式已经有很高效的算法了，用了正则表达式反而效率低下
+ * 2.如果多次使用同样的正则表达式，则缓存该对象，或者使用 new Rgeex 对象的方式创建一个 Regex 对象
+ * 3.正则表达式是对字符串操作的，不要试图用正则表达式来验证字符串的意义，比如：验证是否为
+ * 闰年等，这种操作用程序更高效，更容易
+ */
+namespace 正则表达式_正则提取与替换 {
+    public class Program {
+        /// <summary>
+        /// 通过 WebClient 来提取 Email 地址
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main0(string[] args) {
+            // 通过 WebClient 下载字符串
+            WebClient client = new WebClient();
+            string html = client.DownloadString("http://localhost:8080/留下你的Email.html");
+            // 从 html 字符串中提取邮箱地址
+            MatchCollection matches = Regex.Matches(html, @"[-a-zA-Z0-9_.]+@[-a-zA-Z0-9]+(\.[a-zA-Z]+){1,2}");
+            foreach (Match match in matches) {
+                Console.WriteLine(match.Value);
+            }
+
+            Console.WriteLine($"共{matches.Count}个邮箱地址");
+            
+        }
+
+        /// <summary>
+        /// 通过 WebClient 提取网页的图片
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main1(string[] args){
+            WebClient wb = new WebClient();
+            string html = wb.DownloadString("http://localhost:8080/mm.html");
+            // 提取里面的 <img/> 标签
+            // <img alt="",src="hotgirls/00_00.jpg">
+            MatchCollection matches = Regex.Matches(html,@"<img\s+alt="""" src=""(.+)"" />");
+            foreach (Match match in matches){
+                System.Console.WriteLine(match.Value + "   " + match.Groups[1].Value);
+                string pathImg = "http://localhost/mm" + match.Groups[1].Value;
+                // 通过拼接路径实现下载图片
+                wb.DownloadFile(pathImg,@"d:\" + System.DateTime.Now.ToFileTime() + ".jpg");
+            }
+        }
+
+
+        /// <summary>
+        /// 提取超链接
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main2(string[] args) {
+            WebClient we = new WebClient();
+            string html = we.DownloadString("html://localhost:8080/test1.html");
+            // <a href="www.baidu.com">baidu</a>
+            MatchCollection matches = Regex.Matches(html, @"<a\s*href="".+?"">.+?</a>", RegexOptions.IgnoreCase);
+            foreach (Match match in matches) {
+                Console.WriteLine(match.Value);
+            }
+            
+        }
+
+
+        /// <summary>
+        /// 字符串替换
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main3(string[] args) {
+            // string msg = "你aaa好aa哈哈a你";
+            // msg = msg.Replace("a", "A");
+            // Console.WriteLine(msg);// 你AAA好AA哈哈A你
+            //
+            // msg = Regex.Replace(msg,"a+","A");// 你AAA好AA哈哈A你
+            // Console.WriteLine(msg);
+            
+            // 将 hello 'welcome' to 'china' 替换成 hello 【welcome】 to 【china】
+            string msg = "hello 'welcome' to 'china' 'less'     'ls'    'szj'    ";
+            msg = Regex.Replace(msg, "'(.+?)'", "【$1】");
+            Console.WriteLine(msg);
+            // hello 【welcome】 to 【china】 【less】     【ls】    【szj】
+            
+            // 隐藏手机号
+            string msg2 = "杨中科13409876543黄林18276354908杨硕87654321345红卫红98761234654";
+            msg2 = Regex.Replace(msg2, @"([0-9]{3})[0-9]{4}([0-9]{4})", "$1****$2");
+            Console.WriteLine(msg2);
+            // 杨中科134****6543黄林182****4908杨硕876****1345红卫红987****4654
+            
+            // 隐藏邮箱名：
+            string msg3 = "我的邮箱zlim530@126.com他的邮箱tim_zhao@163.com某某的邮箱xx@itcast.cn";
+            msg3 = Regex.Replace(msg3, @"\w+(@\w+\.\w+)","****$1",RegexOptions.ECMAScript);
+            Console.WriteLine(msg3);
+            // 我的邮箱****@126.com他的邮箱****@163.com某某的邮箱****@itcast.cn
+
+        }
+
+        /// <summary>
+        /// 单词边界 \b ：只判断是够匹配而不是真正的匹配，属性“断言”的一种
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main4(string[] args) {
+            string msg = "The day after tomorrow is wedding day.The row we are looking for is .row. number 10.";
+
+            // \b：表示单词的边界
+            // 什么叫做单词？
+            // 即在这个单词的两个边界中均是一边是[a-zA-Z]组成而另一边是非[a-zA-Z]组成
+            // welcome come come
+            // 当我们选择 \bcome\b 那么 welcome 中的 come 就不会匹配，因为在 welcome 中左边的单词边界不管是左边还是右边都是组成单词的部分
+            msg = Regex.Replace(msg, @"\brow\b", "line");
+            Console.WriteLine(msg);
+            // The day after tomorrow is wedding day.The line we are looking for is .line. number 10.
+            
+            // 请提取出3个字母的单词
+            string msg2 = "Hi,how are you?Welcome to our country!";
+            MatchCollection matches = Regex.Matches(msg2, @"\b[a-z]{3}\b", RegexOptions.IgnoreCase);
+            foreach (Match match in matches) {
+                Console.WriteLine(match.Value);
+                // how
+                // are
+                // you
+                // our
+            }
+            
+            string msg3 = "# ## ### ## # ## ### # ###.";
+            MatchCollection matches2 = Regex.Matches(msg3, @"\b###\b");
+            Console.WriteLine(matches2.Count);
+            // 0 : 因为 # 不是组成单词的一部分，也即 # 不能组成单词，因此一个都提取不到
+            // MatchCollection matches3 = Regex.Matches(msg3, @" ### ");
+            // ###
+            // ###
+            MatchCollection matches3 = Regex.Matches(msg3, @"(?<= )###(?= )");
+            // ###
+            // ###
+            foreach (Match match in matches3) {
+                Console.WriteLine(match.Value);
+            }
+        }
+
+        
+        /// <summary>
+        /// 反向引用
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main5(string[] args) {
+            // while (true) {
+            //     Console.WriteLine("请输入叠词：");
+            //     string msg = Console.ReadLine();
+            //     msg = Regex.Replace(msg, @"(.)\1+", "$1");
+            //     Console.WriteLine(msg);
+            // }
+
+            // string msg = "您们喜欢杨杨杨杨杨杨中中中中中科科科科科科";
+            // msg = Regex.Replace(msg, @"(.)\1+", "$1");
+            /*
+             \1：表示反向引用分组：是在正则表达式匹配时进行引用
+            (()())\1\2\3：
+            ((a)x(b))\1\2\3：可以匹配：axbaxbab
+            上述正则表达式的含义：
+            ((a)x(b))表示必须出现 axb，而其中最外层的小括号分组为第一组，使用 \1 表示反向引用第一组中的内容，也就是 axb；随后的 (a) 为第2组中的内容，\2 即表示引用 (a) 中的内容，也就是 a；同理 x 后面的 (b) 分组为第三组，因此 \3 即表示引用第三组的内容，也就是 (b) 即 b，因此上述正则表达式可以匹配字符串 axbaxbab
+            www wwwwwwwww：可以使用下述正则表达式匹配：(.{3})\1{3}
+            $1：也表示引用第一组的内容：是在正则表达式替换时进行引用
+            */
+            // Console.WriteLine(msg);
+            // 您们喜欢杨中科
+
+            #region 练习：将一段文本中的MM/DD/YYYY格式的日期转换为YYYY-MM-DD格式，比如“我的生日是05/21/2010耶”转换为“我的生日是2010-05-21耶”
+
+            // string msg2 = "我的生日是05/21/2010耶我的生日是2010-05-21耶";
+            // msg2 = Regex.Replace(msg2, @"(\d{2})/(\d{2})/(\d{4})", "$3-$1-$2");
+            // Console.WriteLine(msg2);
+
+            #endregion
+
+            #region 练习2：给一段文本匹配的url添加超链接，比如把http://www.test.com替换为<a href="http://www.test.com"> http://www.test.com</a>.
+
+            // string msg = "给一段文本匹配的url添加超链接，比如把http://www.test.com替换为http://www.sina.com.cn哈哈http://www.google.com";
+            // msg = Regex.Replace(msg, @"[a-zA-Z0-9]+://[-a-zA-Z0-9.?&=#\/_]+", "<a href=\"$0\">$0<\a>");
+            // Console.WriteLine(msg);
+
+            #endregion
+
+            #region 提取单词
+
+            // string txt = File.ReadAllText("2.txt", Encoding.Default);
+            // MatchCollection matches = Regex.Matches(txt, @"[a-zA-Z]*([a-zA-Z])\1+[a-zA-Z]*");
+            // foreach (Match match in matches) {
+            //     Console.WriteLine(match.Value);
+            // }
+
+            #endregion
+
+            #region 提取叠词
+
+            // string msg = File.ReadAllText("1.txt", Encoding.UTF8);
+            // AABB 型
+            // MatchCollection matches = Regex.Matches(msg, @"(.)\1(.)\2");
+            // foreach (Match match in matches) {
+            //     Console.WriteLine(match.Value);
+            // }
+
+            #endregion
+
+        }
+
+        
+        /// <summary>
+        /// 敏感词过滤
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main6(string[] args) {
+            // 用来存储需要审核的关键词
+            StringBuilder sbMode = new StringBuilder();
+            // 用来存储绝对禁止的关键词
+            StringBuilder sbBanned = new StringBuilder();
+            string[] lines = File.ReadAllLines("1.txt", Encoding.Default);
+            for (int i = 0; i < lines.Length; i++) {
+                string[] parts = lines[i].Split('=');
+                if (parts[1] == "{MOD}") {
+                    sbMode.AppendFormat("{0}|", parts[0]);
+                }else if (parts[1] == "{BANNED}") {
+                    sbBanned.AppendFormat("{0}|", parts[0]);
+                }
+            }
+
+            sbMode.Remove(sbMode.Length - 1, 1);
+            sbBanned.Remove(sbBanned.Length - 1, 1);
+            string input = Console.ReadLine();
+            // 验证是否有禁止发帖的关键词
+            // "xxx" => "x|x|x" => 符合正则表达式语法
+            if (Regex.IsMatch(input,sbBanned.ToString())) {
+                Console.WriteLine("禁止发帖！");
+            }else if (Regex.IsMatch(input,sbMode.ToString())) {
+                Console.WriteLine("需要审核！");
+            }
+            else {
+                Console.WriteLine("可以发帖！");
+            }
+
+
+        }
+    
+        
+        /// <summary>
+        /// 正则表达式提取职位信息
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main7(string[] args) {
+            WebClient wc = new WebClient();
+            string html = wc.DownloadString("http://localhost:8080/【上海,IT-管理,计算机软件招聘,求职】-前程无忧.html");
+
+            MatchCollection matches =
+                Regex.Matches(html, "<a href=\"http://search.51job.com/job/[0-9]+,c.html\".+?>(.+?)</a>");
+            foreach (Match match in matches) {
+                Console.WriteLine(match.Groups[1].Value);
+            }
+
+            Console.WriteLine($"total count:{matches.Count}");
+            
+        }
+        
+        
+    }
     
 }
 
