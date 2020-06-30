@@ -1,0 +1,12 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\bin\Debug\net45\Lesson.UdpCore.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\bin\Debug\net45\Lesson.UdpCore.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\bin\Debug\net45\LoongEgg.LoongLog.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\bin\Debug\net45\LoongEgg.UdpCore.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\bin\Debug\net45\Newtonsoft.Json.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\obj\Debug\net45\Lesson.UdpCore.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\obj\Debug\net45\Lesson.UdpCore.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\obj\Debug\net45\Lesson.UdpCore.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\obj\Debug\net45\Lesson.UdpCore.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\obj\Debug\net45\Lesson.UdpCore.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\obj\Debug\net45\Lesson.UdpCore.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore\bin\Debug\net45\demo.json

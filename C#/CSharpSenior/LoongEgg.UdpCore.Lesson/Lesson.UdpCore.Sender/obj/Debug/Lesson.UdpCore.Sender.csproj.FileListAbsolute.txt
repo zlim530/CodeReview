@@ -1,0 +1,14 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Lesson.UdpCore.Sender.exe.config
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Lesson.UdpCore.Sender.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Lesson.UdpCore.Sender.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\LoongEgg.LoongLog.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\obj\Debug\Lesson.UdpCore.Sender.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\obj\Debug\Lesson.UdpCore.Sender.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\obj\Debug\Lesson.UdpCore.Sender.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\config.udpsender.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Lesson.UdpCore.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\Lesson.UdpCore.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\obj\Debug\Lesson.UdpCore.Sender.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\bin\Debug\demo.json

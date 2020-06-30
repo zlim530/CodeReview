@@ -1,0 +1,10 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\Lesson.UdpCore.Receiver.exe.config
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\Lesson.UdpCore.Receiver.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\Lesson.UdpCore.Receiver.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\Lesson.UdpCore.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\LoongEgg.LoongLog.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\Lesson.UdpCore.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.pdb

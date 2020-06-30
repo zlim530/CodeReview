@@ -1,0 +1,195 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.0": {
+      "LoongEgg.LoongLog/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/LoongEgg.LoongLog.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/LoongEgg.LoongLog.dll": {}
+        }
+      },
+      "LoongEgg.UdpCore/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "LoongEgg.LoongLog": "2.1.0",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/LoongEgg.UdpCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/LoongEgg.UdpCore.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/any/_._": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Lesson.UdpCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "LoongEgg.UdpCore": "2.2.0",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "compile": {
+          "bin/placeholder/Lesson.UdpCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Lesson.UdpCore.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LoongEgg.LoongLog/2.1.0": {
+      "sha512": "2K6dGtcHve4Vm1PHG/enkrLKhzhhTPuKz38qn8ko6TRWaTHdkDNpVgixRzQwdw0N2TeQ7ZDmxEWEX1/Nkn07ag==",
+      "type": "package",
+      "path": "loongegg.loonglog/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/LoongEgg.LoongLog.dll",
+        "lib/netstandard2.0/LoongEgg.LoongLog.dll",
+        "lib/netstandard2.0/LoongEgg.LoongLog.xml",
+        "loongegg.loonglog.2.1.0.nupkg.sha512",
+        "loongegg.loonglog.nuspec"
+      ]
+    },
+    "LoongEgg.UdpCore/2.2.0": {
+      "sha512": "oakGlVovWx2W76yHsvcm345o79a+JkxvjLgNXtHGJOIyLsxGL5StgzRap6OHhG29XEFD7eAj6cYIacI1MSrsOQ==",
+      "type": "package",
+      "path": "loongegg.udpcore/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/config.udpreceiver.json",
+        "content/config.udpsender.json",
+        "contentFiles/any/net45/config.udpreceiver.json",
+        "contentFiles/any/net45/config.udpsender.json",
+        "contentFiles/any/netstandard2.0/config.udpreceiver.json",
+        "contentFiles/any/netstandard2.0/config.udpsender.json",
+        "lib/net45/LoongEgg.UdpCore.dll",
+        "lib/netstandard2.0/LoongEgg.UdpCore.dll",
+        "lib/netstandard2.0/LoongEgg.UdpCore.xml",
+        "loongegg.udpcore.2.2.0.nupkg.sha512",
+        "loongegg.udpcore.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "type": "package",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
+    "Lesson.UdpCore/1.0.0": {
+      "type": "project",
+      "path": "../Lesson.UdpCore/Lesson.UdpCore.csproj",
+      "msbuildProject": "../Lesson.UdpCore/Lesson.UdpCore.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.0": [
+      "Lesson.UdpCore >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Lim\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\CSharpSenior\\LoongEgg.UdpCore.Lesson\\Lesson.JsonDemo\\Lesson.JsonDemo.csproj",
+      "projectName": "Lesson.JsonDemo",
+      "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\CSharpSenior\\LoongEgg.UdpCore.Lesson\\Lesson.JsonDemo\\Lesson.JsonDemo.csproj",
+      "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\CSharpSenior\\LoongEgg.UdpCore.Lesson\\Lesson.JsonDemo\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.0": {
+          "projectReferences": {
+            "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\CSharpSenior\\LoongEgg.UdpCore.Lesson\\Lesson.UdpCore\\Lesson.UdpCore.csproj": {
+              "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\CSharpSenior\\LoongEgg.UdpCore.Lesson\\Lesson.UdpCore\\Lesson.UdpCore.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.0": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
