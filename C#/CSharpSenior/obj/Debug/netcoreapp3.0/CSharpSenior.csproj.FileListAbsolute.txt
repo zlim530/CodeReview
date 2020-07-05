@@ -10,3 +10,4 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSh
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.pdb
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\obj\Debug\netcoreapp3.0\CSharpSenior.csprojAssemblyReference.cache

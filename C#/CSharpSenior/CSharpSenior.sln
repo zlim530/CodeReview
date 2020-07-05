@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpSenior", "CSharpSenior.csproj", "{A235F8F1-2AB8-4A64-A6B9-286945B06A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson.UdpCore", "LoongEgg.UdpCore.Lesson\Lesson.UdpCore\Lesson.UdpCore.csproj", "{6810D9B8-24FA-4E51-B967-65BF24E33FA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson.UdpCore", "LoongEgg.UdpCore.Lesson\Lesson.UdpCore\Lesson.UdpCore.csproj", "{6810D9B8-24FA-4E51-B967-65BF24E33FA0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoongEgg.UdpCore.Lesson", "LoongEgg.UdpCore.Lesson", "{B6F6CB5D-0C37-420B-A72C-4B88D40BA18F}"
 EndProject
@@ -15,7 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson.UdpCore.Receiver", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson.UdpCore.Sender", "LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Sender\Lesson.UdpCore.Sender.csproj", "{E2780767-22FB-40F3-9BDB-7807C88F7040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson.JsonDemo", "LoongEgg.UdpCore.Lesson\Lesson.JsonDemo\Lesson.JsonDemo.csproj", "{4F9D046B-FD2F-4D77-800D-9FBE4905BA79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson.JsonDemo", "LoongEgg.UdpCore.Lesson\Lesson.JsonDemo\Lesson.JsonDemo.csproj", "{4F9D046B-FD2F-4D77-800D-9FBE4905BA79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoongEgg.MvvmCore.Demo.NetFramework", "LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\LoongEgg.MvvmCore.Demo.NetFramework.csproj", "{6C76F666-1817-4CD4-9423-2593836DD5C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoongEggBefore", "LoongEggBefore", "{DA8B465D-551F-411D-A521-3ECF0F4A2595}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson.UdpCore.WPF", "LoongEgg.UdpCore.Lesson\Lesson.UdpCore.WPF\Lesson.UdpCore.WPF.csproj", "{DC2706E2-5DF6-444B-84C6-195C46E9F829}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +49,14 @@ Global
 		{4F9D046B-FD2F-4D77-800D-9FBE4905BA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F9D046B-FD2F-4D77-800D-9FBE4905BA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F9D046B-FD2F-4D77-800D-9FBE4905BA79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C76F666-1817-4CD4-9423-2593836DD5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C76F666-1817-4CD4-9423-2593836DD5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C76F666-1817-4CD4-9423-2593836DD5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C76F666-1817-4CD4-9423-2593836DD5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC2706E2-5DF6-444B-84C6-195C46E9F829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC2706E2-5DF6-444B-84C6-195C46E9F829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC2706E2-5DF6-444B-84C6-195C46E9F829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC2706E2-5DF6-444B-84C6-195C46E9F829}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +67,8 @@ Global
 		{A75993D4-8149-4568-9A79-3EDBD3426600} = {B6F6CB5D-0C37-420B-A72C-4B88D40BA18F}
 		{E2780767-22FB-40F3-9BDB-7807C88F7040} = {B6F6CB5D-0C37-420B-A72C-4B88D40BA18F}
 		{4F9D046B-FD2F-4D77-800D-9FBE4905BA79} = {B6F6CB5D-0C37-420B-A72C-4B88D40BA18F}
+		{6C76F666-1817-4CD4-9423-2593836DD5C4} = {DA8B465D-551F-411D-A521-3ECF0F4A2595}
+		{DC2706E2-5DF6-444B-84C6-195C46E9F829} = {B6F6CB5D-0C37-420B-A72C-4B88D40BA18F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16657748-1453-4930-A8E9-0D33E9158F4A}

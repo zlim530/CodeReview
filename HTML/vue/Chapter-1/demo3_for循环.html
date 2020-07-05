@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--view 层：模板-->
+<div id="app">
+
+    <li v-for="(item,index) in items">
+        {{item.message}}-{{index}}
+    </li>
+
+</div>
+
+
+<!--1.导入 Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        // Model：数据：所有的对象、数据都在 data 属性中
+        data:{
+            items:[
+                {message:'zlim'},
+                {message:'Tim'},
+                {message:'Tom'}
+            ]
+        }
+
+    });
+
+
+</script>
+
+</body>
+</html>

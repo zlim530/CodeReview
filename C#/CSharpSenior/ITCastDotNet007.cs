@@ -33,7 +33,7 @@ namespace CSharpSenior {
     public delegate void MyDelegate();
 
     public class Program {
-        public static void Main(string[] args) {
+        public static void Main1(string[] args) {
             //TestClass tc = new TestClass();
             //WriteTimeDelegate writeTime = new WriteTimeDelegate(WritrTimeToFile);
             //WriteTimeDelegate writeTime = new WriteTimeDelegate(PrintTimeToConsole);

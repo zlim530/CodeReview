@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--view 层：模板-->
+<div id="app">
+
+    <!--    <li>hello</li>-->
+    <!--    组件：传递给组件中的值：使用 props 属性接收-->
+    <mycom v-for="item in items" v-bind:item="item"></mycom>
+
+</div>
+
+<!--1.导入 Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        // Model：数据
+        data:{
+            // ok:true
+            type:'A'
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

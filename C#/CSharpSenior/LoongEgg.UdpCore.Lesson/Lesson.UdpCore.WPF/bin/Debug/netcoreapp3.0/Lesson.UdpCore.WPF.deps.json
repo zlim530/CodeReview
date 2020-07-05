@@ -1,0 +1,121 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.0": {
+      "Lesson.UdpCore.WPF/1.0.0": {
+        "dependencies": {
+          "Lesson.UdpCore": "1.0.0",
+          "LoongEgg.DependencyInjection": "1.0.0-alp",
+          "LoongEgg.MvvmCore": "2.0.0-alp"
+        },
+        "runtime": {
+          "Lesson.UdpCore.WPF.dll": {}
+        }
+      },
+      "LoongEgg.DependencyInjection/1.0.0-alp": {
+        "runtime": {
+          "lib/netstandard2.0/LoongEgg.DependencyInjection.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "LoongEgg.LoongLog/2.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/LoongEgg.LoongLog.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        }
+      },
+      "LoongEgg.MvvmCore/2.0.0-alp": {
+        "runtime": {
+          "lib/netstandard2.0/LoongEgg.MvvmCore.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "LoongEgg.UdpCore/2.2.0": {
+        "dependencies": {
+          "LoongEgg.LoongLog": "2.1.0",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/LoongEgg.UdpCore.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "Lesson.UdpCore/1.0.0": {
+        "dependencies": {
+          "LoongEgg.UdpCore": "2.2.0",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "Lesson.UdpCore.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Lesson.UdpCore.WPF/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LoongEgg.DependencyInjection/1.0.0-alp": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qiPVw+AK8SefYawciboGswkaSQ9nvjcILA4TMNKfRR9Jkt7kh11eWpKsnjKecxMcBVr3lO82+X9nGlG0eA+apA==",
+      "path": "loongegg.dependencyinjection/1.0.0-alp",
+      "hashPath": "loongegg.dependencyinjection.1.0.0-alp.nupkg.sha512"
+    },
+    "LoongEgg.LoongLog/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2K6dGtcHve4Vm1PHG/enkrLKhzhhTPuKz38qn8ko6TRWaTHdkDNpVgixRzQwdw0N2TeQ7ZDmxEWEX1/Nkn07ag==",
+      "path": "loongegg.loonglog/2.1.0",
+      "hashPath": "loongegg.loonglog.2.1.0.nupkg.sha512"
+    },
+    "LoongEgg.MvvmCore/2.0.0-alp": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-z+BHODchylkoz5PaOwMHIVr0/0kLPtuhFHnycnehYT/Wm7wHO6Gy8JGdaSPSxr/hiYPaSLL+aSNzomP7rXhRyQ==",
+      "path": "loongegg.mvvmcore/2.0.0-alp",
+      "hashPath": "loongegg.mvvmcore.2.0.0-alp.nupkg.sha512"
+    },
+    "LoongEgg.UdpCore/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oakGlVovWx2W76yHsvcm345o79a+JkxvjLgNXtHGJOIyLsxGL5StgzRap6OHhG29XEFD7eAj6cYIacI1MSrsOQ==",
+      "path": "loongegg.udpcore/2.2.0",
+      "hashPath": "loongegg.udpcore.2.2.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "Lesson.UdpCore/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

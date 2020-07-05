@@ -1,0 +1,8 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\bin\Debug\LoongEgg.MvvmCore.Demo.NetFramework.exe.config
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\bin\Debug\LoongEgg.MvvmCore.Demo.NetFramework.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\bin\Debug\LoongEgg.MvvmCore.Demo.NetFramework.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\bin\Debug\LoongEgg.MvvmCore.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\obj\Debug\LoongEgg.MvvmCore.Demo.NetFramework.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\obj\Debug\LoongEgg.MvvmCore.Demo.NetFramework.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\obj\Debug\LoongEgg.MvvmCore.Demo.NetFramework.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEggBefore\LoongEgg.MvvmCore.Demo.NetFramework\obj\Debug\LoongEgg.MvvmCore.Demo.NetFramework.pdb

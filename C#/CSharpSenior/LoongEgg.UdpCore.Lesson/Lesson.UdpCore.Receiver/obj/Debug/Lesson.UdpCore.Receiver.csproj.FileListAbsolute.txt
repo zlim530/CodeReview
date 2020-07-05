@@ -8,3 +8,4 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Les
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.csproj.CopyComplete
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.exe
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\obj\Debug\Lesson.UdpCore.Receiver.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\LoongEgg.UdpCore.Lesson\Lesson.UdpCore.Receiver\bin\Debug\demo.json
