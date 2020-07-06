@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--view 层：模板-->
+<div id="app">
+
+<!--    <p>列表书籍</p>-->
+<!--    <ul>-->
+<!--        <li>JAVA</li>-->
+<!--        <li>Linux</li>-->
+<!--        <li>Python</li>-->
+<!--    </ul>-->
+    <todo>
+        <!-- : 是 v-bind: 的简写 -->
+        <todo-title slot="todo-title" :title="title"></todo-title>
+        <todo-items slot="todo-items" v-for="item in todoItems" :item="item"></todo-items>
+    </todo>
+
+</div>
+
+<!--1.导入 Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    // slot 标签就是用来定义插槽的
+    Vue.component("todo",{
+        template:
+            '<div>' +
+                '<slot name="todo-title"></slot>'+
+                '<ul>' +
+                    '<slot name="todo-items"></slot>'+
+                '</ul>'+
+            '</div>'
+        /* 或者使用 \ 来换行
+        template:'<div>' \
+                        <slot></slot>\
+                        <ul>\
+                        <slot></slot>\
+                        </ul>\
+                    </div>'
+        */
+    });
+
+    Vue.component("todo-title",{
+        props:['title'],
+        template:'<div>{{title}}</div>'
+    });
+
+    Vue.component("todo-items",{
+        props:['item'],
+        template:'<li>{{item}}</li>'
+    });
+
+    var vm = new Vue({
+        el:"#app",
+        // Model：数据
+        data:{
+            title:"Learning List:",
+            todoItems:['Java','Linux','Python','CSharp']
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>
