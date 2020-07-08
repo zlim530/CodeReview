@@ -15,12 +15,12 @@
 
     <el-dialog
       title="温馨提示"
-      :visible.sync="diklogvisible"
+      :visible.sync="dialogVisible"
       width="30%"
-      ：before-close="handLeClose">
+      :before-close="handleClose">
       <span>请输入账号和密码</span>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible=false">确 定</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -42,13 +42,12 @@
             { required:true, message:'账号不可为空', trigger: 'blur' }
           ],
           password: [
-            { required:true, message:'密码不可为空', trigger: 'blur' }
-          ],
+            { required:false, message:'密码不可为空', trigger: 'blur' }
+          ]
         },
 
         //  对话框显示和隐藏
         dialogVisible:false
-
       }
     },
     methods: {
@@ -57,7 +56,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
-            this.$router.push("/main");
+            this.$router.push("/main" /*+ this.form.username*/);
           } else {
             this.dialogVisible = true;
             return false;

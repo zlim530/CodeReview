@@ -7,6 +7,11 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 
+// cnpm:有可能安装失败，安装不上就用 npm 试一试
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+
+Vue.use(VueAxios,axios);
 
 Vue.use(router);
 Vue.use(ElementUI);

@@ -1,13 +1,80 @@
 <template>
-  <h1>首页</h1>
+  <div>
+    <el-container>
+      <el-aside width="2eepx">
+        <el-menu :default-openeds="['1']">
+
+          <el-submenu index="1">
+            <template slot="title"><i class="el-icon-caret-right"></i>用户管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="1-1">
+                <!-- 一、前端传入参数
+                     name 属性表示地址，可以传组件名：在配置路由时设置的组件名
+                     params 属性传递参数，需要对象：通过 v-bind 绑定对象
+                -->
+                <router-link :to="{name:'UserProfile',params: {id: 1}}">个人信息</router-link>
+              </el-menu-item>
+              <el-menu-item index="1-2">
+                <router-link to="/user/list">用户列表</router-link>
+              </el-menu-item>
+              <el-menu-item index="1-3">
+                <router-link to="/goHome">回到首页</router-link>
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="2">
+            <template slot="title"><i class="el-icon-caret-right"></i>内容管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="2-1">分类管理</el-menu-item>
+              <el-menu-item index="2-2">内容列表</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="3">
+            <template slot="title"><i class="el-icon-caret-right"></i>系统管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="3-1">用户设置</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-header style="text-align: right; font-size: 12px">
+          <el-dropdown>
+            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <el-dropdown-menu slot="dropdowm">
+              <el-dropdown-item>个人信息</el-dropdown-item>
+              <el-dropdown-item>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!--<span>{{name}}</span>-->
+        </el-header>
+
+        <el-main>
+          <router-view/>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
     export default {
+        // props:['name'],
         name: "Main"
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .el-header{
+    background-color: #2acaff;;
+    color: #333;
+    line-height: 60px;
+  }
 
+  .el-aside{
+    color: #333;
+  }
 </style>
