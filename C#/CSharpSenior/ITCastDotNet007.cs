@@ -183,10 +183,50 @@ namespace 匿名方法与Lambda表达式 {
             };
             Console.WriteLine(add2(3,4,5)+" lambda!!");
         }
+
+        public static void Main1(string[] args) {
+            // Action 委托的非泛型版本，就是一个无参数、无返回值的委托
+            Action action1 = new Action(M1);
+            action1();
+            // Action 的泛型版本，就是一个无返回值，但是参数可以变化的委托
+            Action<string> action2 = m => { Console.WriteLine(m); };
+            action2("hello,GenericWorld!");
+            Action<int, int> action3 = (x, y) => { Console.WriteLine(x + y); };
+            action3(100, 100);
+            
+            // Func 委托只有一个泛型版本的，没有非泛型版本的
+            Func<int, int, int, int> fun = M2;
+            Console.WriteLine(fun(1, 2, 3));
+
+            AddDelegate2 myDelegate = M3;
+            int x = 0;
+            int n = myDelegate(1, 2,out x);
+            Console.WriteLine(x);
+            Console.WriteLine(n);
+            
+        }
+
+        static int M3(int n1, int n2, out int n3) {
+            n3 = 100;
+            return n1 + n2 + n3;
+        }
+
+        static int M2(int n1, int n2, int n3) {
+            return n1 + n2 + n3;
+        }
+
+        static void M1() {
+            Console.WriteLine("Hello,World!");
+        }
     }
 
+    public delegate int AddDelegate2(int n1, int n2, out int n3);
+    
+    public delegate void MyGenericDelegate<T>(T agrs);
+    
     public delegate int AddDelegate1(params int[] arr);
     public delegate int AddDelegate(int n1, int n2, int n3);
     public delegate void MyDelegate1(string msg);
     public delegate void MyDelegate();
 }
+
