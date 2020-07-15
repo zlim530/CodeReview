@@ -5,23 +5,27 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <StartupObject></StartupObject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BeforeCSharpCode\**" />
     <Compile Remove="ITCast.NETOtherProject\**" />
     <Compile Remove="LoongEgg.UdpCore.Lesson\**" />
     <Compile Remove="LoongEggBefore\**" />
+    <EmbeddedResource Remove="BeforeCSharpCode\**" />
     <EmbeddedResource Remove="ITCast.NETOtherProject\**" />
     <EmbeddedResource Remove="LoongEgg.UdpCore.Lesson\**" />
     <EmbeddedResource Remove="LoongEggBefore\**" />
+    <None Remove="BeforeCSharpCode\**" />
     <None Remove="ITCast.NETOtherProject\**" />
     <None Remove="LoongEgg.UdpCore.Lesson\**" />
     <None Remove="LoongEggBefore\**" />
   </ItemGroup>
 
   <ItemGroup>
-     <Compile Remove="AllKindsOFParameters.cs" />
-     <Compile Remove="FileFinder.cs" />
+    <Compile Remove="AllKindsOFParameters.cs" />
+    <Compile Remove="FileFinder.cs" />
     <Compile Remove="Program.cs" />
     <Compile Remove="WhatIs.NET.cs" /> 
     <Compile Remove="_001_属性详解.cs" />

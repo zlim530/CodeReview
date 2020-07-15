@@ -1,0 +1,5 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\x64\Debug\事件案例.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\x64\Debug\事件案例.Form1.resources
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\x64\Debug\事件案例.Properties.Resources.resources
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\x64\Debug\事件案例.UCLogin.resources
+C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\x64\Debug\事件案例.csproj.GenerateResource.cache
