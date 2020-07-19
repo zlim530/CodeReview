@@ -31,6 +31,26 @@ using System.Reflection;
  * ·通过类型元数据来获取对象的一些相关信息，并且还可以实例化对象调用其方法等
  * ·反射让创建对象的方式发生了改变
  */
+
+ /*
+  Type 类的使用：
+  ·通过类获取 Type：Type t = typeof(Person);
+  ·通过对象获取类的 Type：Type t = p.GetType();
+  ·通过 Assembly 对象获取：Assembly asm = Assembly.LoadFile("c:\abc.dll");
+  ·调用 Assembly 的 GetExportedTypes 方法可以得到 Assembly 中定义的所有的 public 类型
+  ·调用 Assembly 的 GetTypes 方法可以得到 Assembly 中定义的所有的类型
+  ·调用 Assembly 的 GetType(string
+   name) 方法可以得到 Assembly 中定义的全名为 name 的类型信息
+   动态创建对象：
+   ·Activator.CreateInstance(Type t) 会动态调用类的无参构造函数创建一个对象，返回值就是创建的对象，如果类没有无参构造函数就会报错
+   ·GetConstructor(参数列表);// 这个是找到带参数的构造函数
+   Type 类的方法：在编写调用插件的程序时，需要做一系列的验证
+    ·bool IsAssignableFrom(Type e)：是否可以从 c 赋值，判断当前类型的变量是否可以接受 c 类型变量的赋值
+    ·typeof(IPlugin).IsAssignableFrom(t)
+    ·bool IsInstanceOfType(object o)：判断对象 o 是否是当前类的实例（当前类可以是 o 的类、父类、接口）
+    ·bool IsSubclassOf(Type c)：判断当前类是否是类 c 的子类
+    ·bool IsAbstract()：判断是否为抽象的，含接口
+ */
 namespace 程序集_反射介绍 {
     public class ITCastDotNet008 {
         /// <summary>
@@ -72,12 +92,52 @@ namespace 程序集_反射介绍 {
         public static void Main(string[] args) {
             #region 动态加载程序集并且调用类型的成员
 
+            // 动态加载程序集
+            // 根据程序的路径，动态加载一个程序集
             Assembly assembly = Assembly.Load(@"C:\Users\Lim\Desktop\code\CodeReview\C#\ReflectTest\bin\Debug\ReflectTest.dll");
 
+            // 1.获取该程序集中的所有类型
             Type[] types = assembly.GetTypes();
             for (int i = 0; i < types.Length; i++) {
                 Console.WriteLine(types[i].FullName);
             }
+
+            // 1.2 获取所有的 public 的类型
+            Type[] types = assembly.GetExportedTypes();
+            for( int i = 0;i < types.Length;i ++){
+                Console.WriteLine(types[i].FullName);
+            }
+
+            // 1.3 获取指定的类型
+            Type typePerson = assembly.GetType("_07TestDll.Person");
+            // 2.获取某个类型中的成员：
+            // 2.1 获取 SayHi 方法
+            MethodInfo method = typePerson.GetMethod("SayHi");
+            // 创建一个 Person 类型，根据指定的 Type 创建一个该类型的对象
+            object obj = Activator.CreateInstance(typePerson);
+            // 通过该类型的对象调用其方法
+            method.Inovke(obj,null);
+
+            // ================调用 SayHello 的有参数重载
+            // 调用重载就是通过第二个参数 Type[] 数组中的元素类型来区分调用的哪个方法
+            MethodInfo method = typePerson.GetMethod("SayHello",new Type[] {typeof(string) });
+            // 调用该重载方法
+            method.Inovke(Activator.CreateInstance(typePerson),new object[] {"Hello,World！"});
+            // 如果该方法有返回值，直接接收 Invoke() 方法的返回值即可
+
+            // ================通过 Type 来创建对象
+            // 1.根据 Person 的 Type 创建一个 Person 类型
+            // typePerson.GetMethod().GetParameters()[0].ParameterType
+            object obj = Activator.CreateInstance(typePerson);
+
+            // 通过调用指定的构造函数来创建对象
+            ConstructorInfo ctor = typePerson.GetConstructor(new Type[] { typeof(string),typeof(string),typeof(int)});
+            // 调用构造函数创建对象
+            object obj = ctor.Inovke(new object[] { "Tim",25,"Tim@ct.edu"});
+            // 通过反射获取指定对象的属性的值
+            PropertyInfo pInfo = typePerson.GetProperty("Name");
+            string name = pInfo.GetValue(obj,null).ToString();
+            Console.WriteLine(name);
 
             #endregion
         }
@@ -101,6 +161,40 @@ namespace 程序集_反射介绍 {
             Console.WriteLine("Stop Sleeping!");
         }
         
+    }
+
+    public class Person{
+        public Person(){
+
+        }
+
+        public Person(string name,string email,int age){
+            this.Name = name;
+            this.Email = email;
+            this.Age = age;
+        }
+
+        public string Name{ get; set; }
+
+        public string Email{ get; set; }
+
+        public int Age{ get; set; }
+
+        public void SayHi(){
+            Console.WriteLine("Hi!");
+        }
+
+        public void SayHello(string msg){
+            Console.WriteLine(msg);
+        }
+
+        public void SayHello(){
+            Console.WriteLine("Hi,我是 SayHi 的无参重载方法！");
+        }
+
+        public int Add(int n1,int n2){
+            return n1 + n2;
+        }
     }
     
 }
