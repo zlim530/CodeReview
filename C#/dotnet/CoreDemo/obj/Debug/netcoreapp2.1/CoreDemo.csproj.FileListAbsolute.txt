@@ -1,0 +1,14 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.RazorAssemblyInfo.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.RazorAssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\CoreDemo.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\CoreDemo.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\CoreDemo.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\CoreDemo.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\CoreDemo.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.RazorTargetAssemblyInfo.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\CoreDemo.pdb
