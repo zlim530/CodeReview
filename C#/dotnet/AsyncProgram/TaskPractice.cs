@@ -276,11 +276,11 @@ namespace AsyncProgram {
         /// Task 之 ContinueWith
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args) {
-            for (int i = 0; i < 10; i++) {
-                Task<int> getUpTask = Task<int>.Run( () => {
+        public static void Main2(string[] args) {
+            //for (int i = 0; i < 10; i++) {
+                Task<int> getUpTask = Task<int>.Run(() => {
                     int seed = new Random().Next(100);
-                    Console.WriteLine($"{seed}: Task-{Task.CurrentId}: 起床啦！"+
+                    Console.WriteLine($"{seed}: Task-{Task.CurrentId}: 起床啦！" +
                                       $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
                     return seed;
                 });
@@ -288,14 +288,64 @@ namespace AsyncProgram {
                 // Task Task<int>.ContinueWith(Action<Task<int>,object?> continuationAction,object? state);
                 // 创建一个传递有状态信息并在目标 Task<TResult> 完成时执行的延续
                 // 确保了不同 Task 之间的运行顺序，也即保证了在 getUpTask 运行完之后再运行 ContinueWith 中的那个 Task
-                getUpTask.ContinueWith( (x) => {
-                    Console.WriteLine(x == getUpTask);
+                getUpTask.ContinueWith((x) => {
+                    Console.WriteLine(x == getUpTask);// 这里的传入的 x 其实就是调用 ContinueWith 方法的任务
                     Console.WriteLine($"{x.Result}: Task-{Task.CurrentId}: 起床结束！" +
                                       $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
                     Console.WriteLine($"{x.Result}: Task-{Task.CurrentId}: 刷牙洗脸！" +
                                       $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
                 });
-            }
+            //}
+
+            // =============================================================================================
+
+            // task.ContinueWith() 与 task.Wait() 的对比
+            /*for (int i = 0; i < 10; i++) {
+                Task<int> getUpTask = Task<int>.Run(() => {
+                    int seed = new Random().Next(100);
+                    Console.WriteLine($"{seed}: Task-{Task.CurrentId}: 起床啦！" +
+                                      $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
+                    return seed;
+                });
+
+                getUpTask.Wait();
+
+                Task task = Task.Run( () => {
+                    // 因为这里没有传入参数，我们只能通过 Task.Result 来获得上个任务的返回值
+                    // 并且调用 Task.Result 属性会让此任务等待 Task 任务完成再执行
+                    Console.WriteLine($"{getUpTask.Result}: Task-{Task.CurrentId}: 起床结束！" +
+                                      $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
+                    Console.WriteLine($"{getUpTask.Result}: Task-{Task.CurrentId}: 刷牙洗脸！" +
+                                      $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
+                });
+
+            }*/
+
+            // =============================================================================================
+            // 不使用 ContinueWith() 和 Wait()，而使用 getUpTask.Result，观察任务执行情况
+            /*Task<DateTime> getUp = Task<DateTime>.Run(() => {
+                //Thread.Sleep(10);
+                Console.WriteLine($"ThreadId:{Thread.CurrentThread.ManagedThreadId}" +
+                                  $"Task-{Task.CurrentId}:起床啦！！！");
+                return DateTime.Now;
+            });
+
+            Task.Run(() => {
+                Console.WriteLine($"ThreadId:{Thread.CurrentThread.ManagedThreadId}" +
+                                  $"Task-{Task.CurrentId}:起床结束！！！");
+                Console.WriteLine($"ThreadId:{Thread.CurrentThread.ManagedThreadId}" +
+                                  $"Task-{Task.CurrentId}:刷牙洗脸 ... ");
+                Console.WriteLine($"ThreadId:{Thread.CurrentThread.ManagedThreadId}" +
+                                  $"Task-{Task.CurrentId}:{getUp.Result}");// Task.Result 会阻塞线程
+            });*/
+            /*
+            观察程序输出结果，这两个 Task 是异步并行的关系，两者都不需要等待另外一方运行完成再执行；
+            但是第二个 Task 中的最后一条语句，使用了别的 Task 的返回值，也即 Task.Result 属性，
+            那么它就会等到前一个任务执行完成再执行，也即在程序输出结果中输出的时间那一行永远不可能
+            出现在 起床啦！！！ 语句前面
+            */
+
+
         }
 
 
@@ -311,6 +361,26 @@ namespace AsyncProgram {
                               $"ThreadId is {Thread.CurrentThread.ManagedThreadId}");
             // 只要不是在子线程（Thread）或者任务（Task）中执行的代码那么就会在主线程中执行
             // ThreadId is 1:只要是在主线程的代码那么其 ManagedThreadId 就是1
+        }
+
+
+        /// <summary>
+        /// 多线程中的异常处理
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main(string[] args) {
+            Task<DateTime> getUp = Task<DateTime>.Run(() => {
+                throw new Exception("ouuried a exception ... ");
+                Thread.Sleep(10);
+                Console.WriteLine($"ThreadId:{Thread.CurrentThread.ManagedThreadId}" +
+                                  $"Task-{Task.CurrentId}:起床啦！！！");
+                return DateTime.Now;
+            });
+
+            //多线程中一个线程是无法捕获另外一个线程中发生的异常的，也即主线程是无法捕获子线程的异常的，除非碰到了 == Task.Wait() == 方法
+            getUp.Wait();
+            // Unhandled exception. System.AggregateException: One or more errors occurred. (ouuried a exception ... )
+
         }
 
     }
