@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -368,8 +369,9 @@ namespace AsyncProgram {
         /// 多线程中的异常处理
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args) {
-            Task<DateTime> getUp = Task<DateTime>.Run(() => {
+        public static void Main3(string[] args) {
+            #region 演示单个多线程的异常处理
+            /*Task<DateTime> getUp = Task<DateTime>.Run(() => {
                 throw new Exception("ouuried a exception ... ");
                 Thread.Sleep(10);
                 Console.WriteLine($"ThreadId:{Thread.CurrentThread.ManagedThreadId}" +
@@ -378,10 +380,213 @@ namespace AsyncProgram {
             });
 
             //多线程中一个线程是无法捕获另外一个线程中发生的异常的，也即主线程是无法捕获子线程的异常的，除非碰到了 == Task.Wait() == 方法
-            getUp.Wait();
+            getUp.Wait();*/
             // Unhandled exception. System.AggregateException: One or more errors occurred. (ouuried a exception ... )
+            #endregion
+
+
+            #region 多个 Task 异常处理之 catch
+
+            /*Task[] getUps = new Task[10];
+            for (int i = 0; i < 10; i++) {
+                Thread.Sleep(100);
+                getUps[i] = Task.Run(() => {
+                    throw new Exception(i.ToString());
+                });
+            }
+
+            try {
+                // void Task.WaitAll(params Task[] tasks) ：等到提供的所有 Task 对象完成执行过程
+                Task.WaitAll(getUps);
+            } catch (AggregateException ae) {
+                foreach (var item in ae.InnerExceptions) {
+                    Console.WriteLine(item.Message);// 这里的打印结果不保证是按顺序输出1到10，因为 Task 是异步执行的
+                }
+            }*/
+
+            #endregion
+
+
+            #region 多个 Task 异常处理之 Handle 
+
+            /*Task[] getUps = new Task[10];
+            for (int i = 0; i < 10; i++) {
+                Thread.Sleep(1);
+                getUps[i] = Task.Run(() => {
+                    throw new Exception(i.ToString());
+                });
+            }
+
+            try {
+                Task.WaitAll(getUps);
+            } catch (AggregateException ae) {
+                // void AggregateException.Handle(Func<Exception,bool> predicate)
+                // 在每个由此 AggregateException 包含的 Exception 上调用处理程序
+                // Handle 的参数接收的是带 Exception 参数返回值为 bool 类型的方法
+                // 并且返回 true 则不处理 Task 中的异常，返回 false 则表示处理异常
+                // Handle 处理的是 InnerExceptions 中的异常，因此这里的 x 其实就是 InnerExceptions
+                ae.Handle(x => {
+                    Console.WriteLine(x.Message);
+                    //return (x as AggregateException) == null;
+                    //return (x is AggregateException);
+                    return true;
+                });
+            }*/
+
+            #endregion
+
+
+            /*
+            使用注意事项：
+                throw：
+                    ·异常会带来较大的资源开销（性能损耗），所以要尽可能避免异常被抛出（不是不写 throw exception 的代码）
+                    ·不要使用 Exception 作为分支判断条件
+                    ·尽可能的使用具体的、.NET 现有的异常
+                try ... catch：
+                    ·不知道怎么处理的，就不要处理
+                    ·不要 catch 之后，什么都不做（或者就包裹一下），直接 throw
+                    ·总是在程序入口（顶层方法）处 catch 未捕获的异常（看情况）
+                finally：
+                    ·如果仅仅是为了释放资源，推荐使用 using 代码块
+                    ·使用 using 时注意和 try-catch 的搭配
+            */
+            #region Task 异常属性
+
+            /*Task getup = Task<int>.Run(() => {
+                Console.WriteLine($"at await in GetUp() with thread {Thread.CurrentThread.ManagedThreadId}");
+
+                if (DateTime.Now.Ticks % 2 == 0) {
+                    throw new LCEexception();
+                } else {
+                    throw new NotImplementedException();
+                }
+            });
+
+            while (!getup.IsCompleted) {
+                Console.WriteLine(getup.Status);
+            }
+
+            if (getup.IsFaulted) {
+                foreach (var e in getup.Exception.InnerExceptions) {
+                    if (e is LCEexception) {
+                        Console.WriteLine((e as LCEexception).Name);
+                    } else if (e is NotImplementedException) {
+                        Console.WriteLine("Not Implement.");
+                    } else {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }*/
+
+            #endregion
 
         }
 
+
+
+        public static void Greet(Func<string, bool> predicate) {
+            //bool result = predicate("hello");
+            var name = "zlim";
+            for (int i = 0; i < 5; i++) {
+                Console.WriteLine(predicate(name));
+                //if (!predicate(name)) {
+
+                //}
+            }
+        }
+
+        /// <summary>
+        /// Func 复习
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main4(string[] args) {
+            /*var name = "zlim";
+            Greet((x) => {
+                return x == name;
+            });
+
+            // lambda 表达式中如果方法只有一个参数，方法体只有一条语句，那么可以省略 () 与 {} 
+            // 如果方法体中的唯一的那条语句是 return 语句，那么 return 也可以省略
+            Greet( x => x == name+"530");*/
+
+            // =====================================================================
+
+            Student s = new Student("zlim");
+            s.Greet((s) => {
+                return s.Name == "zlim530";            
+            });
+
+        }
+
+
+        /// <summary>
+        /// Task 的取消
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main5(string[] args) {
+            // System.Threading.CancellationTokenSource:通知 CancelationToken，告知其应被取消
+            CancellationTokenSource source = new CancellationTokenSource();
+            // readonly struct System.Threading.CancellationToken：传播有关应取消操作的通知
+            CancellationToken token = source.Token;
+
+            Task<DateTime> getup = Task<DateTime>.Run( () => {
+                // void CancellationToken.ThrowIfCancellationRequest()：如果已请求取消此标记，则引发 OperationCanceledException
+                token.ThrowIfCancellationRequested();// 如果 Task 被 Cancel()，则会抛出异常
+                Console.WriteLine($"Task-{Task.CurrentId}:起床啦！！"+
+                    $"ThreadId:{Thread.CurrentThread.ManagedThreadId}");
+                return DateTime.Now;
+            },token);// 传入 token 指令，确保 Cancel 通知能被侦听
+
+            // void CancellationTokenSource.Cancel()：传达取消请求
+            source.Cancel();// 使用 source 进行 Cancel
+
+            try {
+                getup.Wait();// 只有在 Wait() 时才能捕获异常
+            } catch (AggregateException ae) {
+                // 使用 Handle() 方法进行处理
+                ae.Handle( ie => {
+                    Console.WriteLine("Canceled?");
+                    return true;// 表示已经成功处理，不需要再抛出异常；return false 则会抛出异常
+                });
+            }
+        }
+
     }
+
+    [Serializable]
+    internal class LCEexception : Exception {
+
+        public string Name { get; } = "zlim";
+
+        public LCEexception() {
+        }
+
+        public LCEexception(string message) : base(message) {
+        }
+
+        public LCEexception(string message, Exception innerException) : base(message, innerException) {
+        }
+
+        protected LCEexception(SerializationInfo info, StreamingContext context) : base(info, context) {
+        }
+    }
+
+    public class Student {
+
+        public Student(string name) {
+            Name = name;
+        }
+    
+        // 只读属性只能在构造函数与初始化时进行赋值
+        public string Name { get; }
+
+        public void Greet(Func<Student, bool> predicate) {
+            for (int i = 0; i < 5; i++) {
+                Console.WriteLine(predicate(this));
+            }
+        }
+
+    }
+
+
 }
