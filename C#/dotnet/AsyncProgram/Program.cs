@@ -138,6 +138,123 @@ namespace AsyncProgram
             var state = ThreadState.Unstarted | ThreadState.Stopped | ThreadState.WaitSleepJoin;
             System.Console.WriteLine($"{Convert.ToString((int)state,2)}");
         }
+    
+        static void Main6(){
+            new Thread(Go).Start();// 在新下线程上调用 Go()
+
+            Go();// 在 main 线程上调用 Go()
+        }
+
+        static void Go()
+        {
+            // cycles 是本地变量
+            // 在每个线程的内存栈上，都会创建 cycles 独立的副本
+            for (int cycles = 0; cycles < 5; cycles++)
+            {
+                Console.WriteLine('?');
+            }
+        }
+
+        // 结果会输出 10 个 ？
+
+
+        static void Main7()
+        {
+            bool done = false;
+
+            ThreadStart action = () => 
+            {
+                if (!done)
+                {
+                    done = true;
+                    Console.WriteLine("Done3");
+
+                    // 只要将代码改为下列代码，打印两次 Done3 的几率就会大大增加（就会打印两次 Done3 ）
+                    // Console.WriteLine("Done3");
+                    // Thread.Sleep(100);
+                    // done = true;
+                }
+            };
+
+            new Thread(action).Start();
+            action();
+        }
+
+    }
+
+
+    class ThreadTest
+    {
+        bool _done;
+
+        static void Main0()
+        {
+            ThreadTest tt = new ThreadTest(); // 创建了一个共同的实例
+            new Thread(tt.Go).Start();
+            tt.Go();
+        }
+
+        void Go() // 这是一个实例方法
+        {
+            if (!_done)
+            {
+                _done = true;
+                Console.WriteLine("Done");
+            }
+        }
+
+        // 由于两个线程是在同一个 ThreadTest 实例上调用的 Go()，所以它们共享 _done
+        // 结果就是只打印一次 Done
+
+    }
+
+    class ThreadTest2
+    {
+        static bool _done; // 静态字段在同一应用域下的所有线程中被共享
+
+        static void Main0()
+        {
+            new Thread(Go).Start();
+        }
+
+        static void Go() // 这是一个实例方法
+        {
+            if (!_done)
+            {
+                _done = true;
+                Console.WriteLine("Done");
+            }
+        }
+
+        // 由于静态字段在同一应用域下的所有线程中被共享
+        // 结果就是只打印一次 Done
+
+    }
+
+
+    class ThreadSafe
+    {
+        static bool _done;
+
+        static readonly object _locker = new object();
+
+        static void Main()
+        {
+            new Thread(Go).Start();
+            Go();
+        }
+
+        static void Go()
+        {
+            lock(_locker)
+            {
+                if (!_done)
+                {
+                    Console.WriteLine("Done with the lock block.");
+                    _done = true;
+                }
+            }
+        }
     }
 }
 

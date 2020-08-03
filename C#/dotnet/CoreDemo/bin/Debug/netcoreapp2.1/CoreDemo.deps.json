@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v2.1": {
       "CoreDemo/1.0.0": {
         "dependencies": {
+          "BuildBundlerMinifier": "2.8.391",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
           "Microsoft.NETCore.App": "2.1.0"
@@ -35,6 +36,7 @@
           "CoreDemo.dll": {}
         }
       },
+      "BuildBundlerMinifier/2.8.391": {},
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "dependencies": {
@@ -3164,6 +3166,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BuildBundlerMinifier/2.8.391": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JvnXAF6e55QKR9t+UcG/kVcWap22fHeKjkUcrJwl2N3vF/NpohuvZlBceqYF9S8aL8xOx6h+PX2plnymc23kiQ==",
+      "path": "buildbundlerminifier/2.8.391",
+      "hashPath": "buildbundlerminifier.2.8.391.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Razor.Design/2.1.2": {
       "type": "package",
