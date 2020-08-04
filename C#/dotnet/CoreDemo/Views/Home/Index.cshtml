@@ -1,5 +1,9 @@
 @using CoreDemo.Models
+@using CoreDemo.Settings
+@*@using Microsoft.Extensions.Options
 @model IEnumerable<Cinema>
+
+@inject IOptions<ConnectionOptions> options;*@
 
 <div class="container">
     <div class="row">
@@ -10,7 +14,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Location</th>
                     <th scope="col">Capacity</th>
-                    <th></th>
+                    <th>@*@options.Value.DefaultConnection*@</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,5 +23,9 @@
         </table>
 
         <a asp-action="Add">添加</a>
+
+        @*@Component.InvokeAsync("MovieCount",new { cinemaId = 2})*@
+        <!-- 或者使用下面这种写法：推荐 -->>
+        @*<vc:movie-count cinema-id="1"></vc:movie-count>*@
     </div>
 </div>

@@ -14,7 +14,7 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"e144af6182198b0bb249dd77f9b6cbf19d285ad9", @"/Views/Movie/DisplayTemplates/Movie.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fab20f07736fac93f3bdfc0b222a4405d25ca12e", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"443b273150bf49d5dfef524486ef48117358e8a1", @"/Views/_ViewImports.cshtml")]
     public class Views_Movie_DisplayTemplates_Movie : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<CoreDemo.Models.Movie>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Edit", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -94,7 +94,7 @@ namespace AspNetCore
             WriteLiteral("</td>\r\n    <td>\r\n        ");
             EndContext();
             BeginContext(211, 57, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8e5b99cd9ca54614b432baac160e5843", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d06f936d90f44e83bbbebe8ac96d05c2", async() => {
                 BeginContext(262, 2, true);
                 WriteLiteral("编辑");
                 EndContext();

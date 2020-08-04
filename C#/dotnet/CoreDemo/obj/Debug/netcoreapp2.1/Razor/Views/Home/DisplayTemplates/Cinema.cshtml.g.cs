@@ -14,7 +14,7 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"68c7bd7522a065912530a9e4bdabe068a6a6040e", @"/Views/Home/DisplayTemplates/Cinema.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fab20f07736fac93f3bdfc0b222a4405d25ca12e", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"443b273150bf49d5dfef524486ef48117358e8a1", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_DisplayTemplates_Cinema : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<CoreDemo.Models.Cinema>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "Movie", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -57,7 +57,7 @@ namespace AspNetCore
             WriteLiteral("</th>\r\n    <td>\r\n        ");
             EndContext();
             BeginContext(93, 92, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "615db5e9f8644951ba350bb316fc9a6d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6e1a151529384e65ad14b4ebc21527cb", async() => {
                 BeginContext(169, 1, true);
                 WriteLiteral(" ");
                 EndContext();
@@ -121,7 +121,7 @@ namespace AspNetCore
             WriteLiteral("</td>\r\n    <td>\r\n        ");
             EndContext();
             BeginContext(276, 80, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd6b4b74f6ca450383f61b62d8f09d1d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b310f5c504db40639937d1a2f85e9966", async() => {
                 BeginContext(350, 2, true);
                 WriteLiteral("编辑");
                 EndContext();

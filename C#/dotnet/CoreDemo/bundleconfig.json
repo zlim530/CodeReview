@@ -21,7 +21,7 @@
         "outputFileName": "wwwroot/js/all.min.js",
         "inputFiles": [
             "node_modules/jquery-slim/dist/jquery.slim.js",
-            "node_modules/popper.js/dist/js/popper.js",
+            "node_modules/popper.js/dist/umd/popper.js",
             "node_modules/bootstrap/dist/js/boootstrap.js",
             "wwwroot/js/site.js"
         ],
@@ -36,7 +36,7 @@
         "outputFileName": "wwwroot/js/vendor.js",
         "inputFiles": [
             "node_modules/jquery-slim/dist/jquery.slim.js",
-            "node_modules/popper.js/dist/js/popper.js",
+            "node_modules/popper.js/dist/umd/popper.js",
             "node_modules/bootstrap/dist/js/boootstrap.js"
         ],
         "minify": {

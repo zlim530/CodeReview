@@ -31,3 +31,6 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Index.cshtml.g.cs
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Add.cshtml.g.cs
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Add.cshtml.g.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\bin\Debug\netcoreapp2.1\appsettings.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Edit.cshtml.g.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Components\MovieCount\Default.cshtml.g.cs

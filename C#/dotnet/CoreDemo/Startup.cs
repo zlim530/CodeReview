@@ -1,11 +1,21 @@
 using CoreDemo.Services;
+using CoreDemo.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace CoreDemo {
     public class Startup {
+
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration) {
+            _configuration = configuration;
+        }
+
         /*
         ConfigureServices 用来配置依赖注入的
         注入容器的声明周期：依赖注入，IoC容器
@@ -24,6 +34,11 @@ namespace CoreDemo {
             services.AddSingleton<ICinemaService, CinemaMemoryService>();
             services.AddSingleton<IMovieService,MovieMemoryService>();
 
+            // 将 appsettings 配置文件中的 json 字符串与程序中的强类型实体类一一对应起来
+            // 并且我们对应的是 appsettings 中的一部分 json 字符串，而并不是全部
+            // 注册成功后，就可以在控制器或者视图中使用这个实体类的属性
+            services.Configure<ConnectionOptions>(_configuration.GetSection("ConnectionStrings"));
+
         }
 
         // Configure 配置管道的，告诉服务器如何响应 HTTP 请求
@@ -32,6 +47,14 @@ namespace CoreDemo {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
+            /*如果需要发布上线可以设置：
+            if (env.IsProduction()) {
+                app.UseForwardedHeaders(new ForwardedHeadersOptions { 
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
+            }*/
+
 
             app.UseStatusCodePages();
             app.UseStaticFiles();

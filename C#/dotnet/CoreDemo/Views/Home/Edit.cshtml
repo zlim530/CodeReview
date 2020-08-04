@@ -1,7 +1,8 @@
 @model CoreDemo.Models.Cinema
 
 <div class="container">
-    <form asp-action="Add">
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id"/>
         <div class="form-group row">
             <label asp-for="Name" class="col-sm-2 col-form-label">名称</label>
             <div class="col-sm-10">
@@ -30,8 +31,4 @@
         </div>
 
     </form>
-
-    @*@await Component.InvokeAsync("MovieCount", new { cinemaId = 2 })
-    <vc:movie-count cinema-id="1"></vc:movie-count>*@
-
 </div>

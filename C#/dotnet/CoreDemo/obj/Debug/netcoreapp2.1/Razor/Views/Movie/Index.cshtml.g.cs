@@ -19,7 +19,7 @@ using CoreDemo.Models;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f3c9d0b637ad4f089a96f6f5ccdc01bb02118936", @"/Views/Movie/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fab20f07736fac93f3bdfc0b222a4405d25ca12e", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"443b273150bf49d5dfef524486ef48117358e8a1", @"/Views/_ViewImports.cshtml")]
     public class Views_Movie_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<Movie>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Add", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -74,7 +74,7 @@ using CoreDemo.Models;
             WriteLiteral("\r\n            </tbody>\r\n        </table>\r\n\r\n        ");
             EndContext();
             BeginContext(631, 65, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "17afd6ffd60549d2b8feed5a45b21dd2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f95846f488ae4f30aa36e0b83f1fcf6c", async() => {
                 BeginContext(690, 2, true);
                 WriteLiteral("添加");
                 EndContext();
