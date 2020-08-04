@@ -27,7 +27,7 @@ namespace CoreDemo.Controllers {
             
         }
 
-
+        [HttpPost]
         public async Task<IActionResult> Add(Movie movie) {
             if (ModelState.IsValid) {
                 await _movieService.AddAsync(movie);

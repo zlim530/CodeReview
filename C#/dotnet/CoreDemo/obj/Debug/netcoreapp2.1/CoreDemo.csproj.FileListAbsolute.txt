@@ -29,3 +29,5 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Home\DisplayTemplates\Cinema.cshtml.g.cs
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Movie\DisplayTemplates\Movie.cshtml.g.cs
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Index.cshtml.g.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Home\Add.cshtml.g.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\CoreDemo\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Add.cshtml.g.cs
