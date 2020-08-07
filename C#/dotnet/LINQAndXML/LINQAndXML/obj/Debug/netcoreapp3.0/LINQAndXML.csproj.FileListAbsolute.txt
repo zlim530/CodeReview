@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\bin\Debug\netcoreapp3.0\LINQAndXML.exe
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\bin\Debug\netcoreapp3.0\LINQAndXML.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\bin\Debug\netcoreapp3.0\LINQAndXML.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\bin\Debug\netcoreapp3.0\LINQAndXML.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\bin\Debug\netcoreapp3.0\LINQAndXML.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\bin\Debug\netcoreapp3.0\LINQAndXML.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\obj\Debug\netcoreapp3.0\LINQAndXML.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\obj\Debug\netcoreapp3.0\LINQAndXML.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\obj\Debug\netcoreapp3.0\LINQAndXML.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\obj\Debug\netcoreapp3.0\LINQAndXML.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\LINQAndXML\obj\Debug\netcoreapp3.0\LINQAndXML.pdb
