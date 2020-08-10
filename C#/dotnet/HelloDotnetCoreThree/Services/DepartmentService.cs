@@ -31,11 +31,6 @@ namespace HelloDotnetCoreThree.Services {
         }
 
 
-        public Task Add(Department department) {
-            department.Id = _departments.Max(x => x.Id) + 1;
-            _departments.Add(department);
-            return Task.CompletedTask;// Task.CompletedTask:Gets a task has already completed successfully.
-        }
 
         public Task<IEnumerable<Department>> GetAll() {
             return Task.Run(() => _departments.AsEnumerable());
@@ -52,6 +47,12 @@ namespace HelloDotnetCoreThree.Services {
                     AverageDepartmentEmployeeCount = (int)_departments.Average(x => x.EmployeeCount)
                 };
             });
+        }
+
+        public Task Add(Department department) {
+            department.Id = _departments.Max(x => x.Id) + 1;
+            _departments.Add(department);
+            return Task.CompletedTask;// Task.CompletedTask:Gets a task has already completed successfully.
         }
     }
 }

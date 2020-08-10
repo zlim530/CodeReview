@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace HelloDotnetCoreThree.Services {
-    interface IDepartmentService {
+    public interface IDepartmentService {
         
         // 获得全部的部门
         Task<IEnumerable<Department>> GetAll();

@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HelloDotnetCoreThree.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +9,7 @@ namespace HelloDotnetCoreThree {
     public class Startup {
         
         public void ConfigureServices(IServiceCollection services) {
+
             services.AddControllersWithViews();
             // DI：dependency injection 依赖注入
             // IoC：inversion of control 控制反转
@@ -21,6 +17,8 @@ namespace HelloDotnetCoreThree {
             // Singleton:在整个 web 程序应用服务期间只创建一个实例对象
             // 这里泛型参数的意思是：接收一个 IClock 类型的对象，并返回一个 ChinaClock 类型的对象
             services.AddSingleton<IClock,ChinaClock>();
+            services.AddSingleton<IDepartmentService, DepartmentService>();
+            services.AddSingleton<IEmployeeService, EmployeeService>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -52,7 +50,7 @@ namespace HelloDotnetCoreThree {
                 // 注册了一个路由模板
                 endpoints.MapControllerRoute(
                     name:"default",
-                    pattern:"{controller=Home}/{action=Index}/{id?}");
+                    pattern:"{controller=Department}/{action=Index}/{id?}");
             });
         }
     }

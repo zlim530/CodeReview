@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -183,6 +184,129 @@ namespace AsyncProgram
     }
 
 
+    class Program4
+    {
+        // 前台线程 vs 后台线程
+        static void Main0(string[] args)
+        {
+            Thread worker = new Thread(() => Console.ReadLine());
+            if (args.Length > 0)
+            {
+                worker.IsBackground = true;
+                System.Console.WriteLine(worker.IsBackground);
+            }
+            worker.Start();
+        }
+
+
+        // 信号简介
+        static void Main1()
+        {
+            var signal = new ManualResetEvent(false);
+
+            new Thread(() => {
+                System.Console.WriteLine("Waiting for signal ... ");
+                signal.WaitOne();
+                signal.Dispose();
+                System.Console.WriteLine("Got signal!");
+            }).Start();
+
+            Thread.Sleep(3000);
+            signal.Set();// 主线程打开了信号，也即释放了信号
+        }
+
+
+        // Task
+        static void Main2()
+        {
+            Task<int> primeNumberTask = Task.Run(() => Enumerable.Range(2,3000000).Count(n => 
+                                        Enumerable.Range(2,(int)Math.Sqrt(n) - 1).All(i => n % i > 0)));
+
+            /*Console.WriteLine("Task running ... ");
+            Console.WriteLine($"The anwer is {primeNumberTask.Result}");*/
+
+            /*
+            在 task 上调用 GetAwaiter 会返回一个 awaiter 对象
+                它的 OnCompleted 方法会告诉之前的 task：“当你结束/发生故障的时候要执行委托”
+            可以将 Continuation 附加到已经结束的 task 上面，此时 Continuation 将会被安排立即执行
+
+            如果发生故障：
+              如果之前的任务发生故障，那么当 Continuation 代码调用 awaiter.GetResult() 的时候，异常会被重新抛出
+              无需调用 GetResult ，我们可以直接方法 task 的 Result 属性
+              但调用 GetResult 的好处时：如果 task 发生故障，那么异常会被直接的抛出，而不是包裹在 AggregateException 里面，这样 catch 块
+              就简洁很多了
+            */
+            /*var awaiter = primeNumberTask.GetAwaiter();
+            awaiter.OnCompleted( () => {
+                int result = awaiter.GetResult();
+                Console.WriteLine(result);// Writes result
+            });*/
+
+            var awaiter = primeNumberTask.ConfigureAwait(false).GetAwaiter();
+            awaiter.OnCompleted(() => {
+                int result = awaiter.GetResult();
+                Console.WriteLine(result);// Writes result
+            });
+
+            Console.ReadLine();
+        }
+
+
+        // TaskCompletionSource
+        public static void Main3(string[] args) {
+            var tcs = new TaskCompletionSource<int>();
+
+            new Thread(() => {
+                Thread.Sleep(5000);
+                tcs.SetResult(42);
+            }) {
+                IsBackground = true
+            }.Start();
+
+            Task<int> task = tcs.Task;
+            Console.WriteLine(task.Result);
+        }
+
+
+        public static void Main4(string[] args) {
+            /*Task<int> task = Run(() => {
+                Thread.Sleep(5000);
+                return 42;
+            });*/
+            //Console.WriteLine(task.Result);
+
+            // TaskCompletionSource 的真正魔力：它创建 Task，但并不占用线程
+            Delay(5000).GetAwaiter().OnCompleted(() => Console.WriteLine(42));
+        }
+
+        // 注意：没有非泛型版本的 TaskCompletionSource
+        static Task Delay(int milliseconds) {
+            var tcs = new TaskCompletionSource<Object>();
+            var timer = new System.Timers.Timer(milliseconds) { AutoReset = false};
+            timer.Elapsed += delegate { timer.Dispose(); tcs.SetResult(null); };
+            timer.Start();
+            return tcs.Task;
+        }
+
+        
+
+        // 调用此方法相当于调用 Task.Factory.StartNew
+        // 并使用 TaskCreationOptions.LongRunning 选项来创建非线程池的线程
+        static Task<TResult> Run<TResult>(Func<TResult> function) {
+            var tcs = new TaskCompletionSource<TResult>();
+            new Thread(() => {
+                try {
+                    tcs.SetResult(function());
+                } catch (Exception ex) {
+                    tcs.SetException(ex);
+                }
+            }).Start();
+            return tcs.Task;
+        }
+
+    }
+
+
     class ThreadTest
     {
         bool _done;
@@ -238,7 +362,7 @@ namespace AsyncProgram
 
         static readonly object _locker = new object();
 
-        static void Main()
+        static void Main0()
         {
             new Thread(Go).Start();
             Go();

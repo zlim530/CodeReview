@@ -77,15 +77,25 @@ namespace HelloDotnetCoreThree.Services {
 
 
         public Task Add(Employee employee) {
-            throw new NotImplementedException();
+            employee.Id = _employees.Max(x => x.Id) + 1;
+            _employees.Add(employee);
+            return Task.CompletedTask;
+        }
+        public Task<IEnumerable<Employee>> GetByDepartmentId(int departmentId) {
+            return Task.Run(() => _employees.Where(x => x.DepartmentId == departmentId));
         }
 
         public Task<Employee> Fire(int id) {
-            throw new NotImplementedException();
+            return Task.Run(() => {
+                var employee = _employees.FirstOrDefault(e => e.Id == id);
+                if (employee != null) {
+                    employee.Fired = true;
+                    return employee;
+                }
+
+                return null;
+            });
         }
 
-        public Task<IEnumerable<Employee>> GetByDepartmentId(int departmentId) {
-            throw new NotImplementedException();
-        }
     }
 }

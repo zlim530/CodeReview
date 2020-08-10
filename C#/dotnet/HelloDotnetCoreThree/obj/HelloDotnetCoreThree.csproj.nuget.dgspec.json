@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj": {}
+    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj": {
+    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj",
+        "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj",
         "projectName": "HelloDotnetCoreThree",
-        "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj",
+        "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj",
         "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\HelloDotnetCoreThree\\obj\\",
+        "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\HelloDotnetCoreThree\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
