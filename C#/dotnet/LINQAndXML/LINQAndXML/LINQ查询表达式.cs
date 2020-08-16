@@ -8,7 +8,7 @@ using System.Linq;
  */
 namespace LINQAndXML {
     public class LINQ查询表达式 {
-        public static void Main(string[] args) {
+        public static void Main0(string[] args) {
             Teacher fg = new Teacher { Name = "FenGe" };
             Teacher fish = new Teacher { Name = "Fish"};
 
