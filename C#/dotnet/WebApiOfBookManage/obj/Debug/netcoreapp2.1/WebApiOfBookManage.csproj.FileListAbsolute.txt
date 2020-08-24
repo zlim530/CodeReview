@@ -1,0 +1,16 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\appsettings.Development.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\appsettings.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\WebApiOfBookManage.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\WebApiOfBookManage.runtimeconfig.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\WebApiOfBookManage.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\WebApiOfBookManage.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\bin\Debug\netcoreapp2.1\WebApiOfBookManage.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.RazorAssemblyInfo.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.RazorAssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.RazorTargetAssemblyInfo.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\WebApiOfBookManage\obj\Debug\netcoreapp2.1\WebApiOfBookManage.pdb

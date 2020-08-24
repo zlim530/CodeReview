@@ -31,7 +31,7 @@ namespace LINQAndXML {
             IList<Major> majors = new List<Major> { csharp, SQL, javascript, UI };
 
             // group 对 ... 进行分组，其中分组后得到的对象的 key 就是分组依据，也即 by 关键字后的对象
-            //var groupExample = from m in majors group m by m.Teacher;
+            // var groupExample = from m in majors group m by m.Teacher;
             // interface System.Linq.IGrouping<out TKey,out TElemnt> 表示具有公共键的对象的集合
             IEnumerable<IGrouping<Teacher,Major>> groupExample = from m in majors
                                group m by m.Teacher;
@@ -43,6 +43,7 @@ namespace LINQAndXML {
                     SQL
             --------------------
             fish    UI
+            因此对 group 后的集合遍历需要两层 foreach ，因为 group 之后的 key 也是一个集合
             */
             foreach (var groupItem in groupExample) {
                 //LINQAndXML.Teacher : FenGe
