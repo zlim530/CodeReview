@@ -1,0 +1,8 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\bin\Debug\netstandard2.1\Demo.Domian.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\bin\Debug\netstandard2.1\Demo.Domian.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\bin\Debug\netstandard2.1\Demo.Domian.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\obj\Debug\netstandard2.1\Demo.Domian.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\obj\Debug\netstandard2.1\Demo.Domian.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\obj\Debug\netstandard2.1\Demo.Domian.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\obj\Debug\netstandard2.1\Demo.Domian.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Domian\obj\Debug\netstandard2.1\Demo.Domian.pdb

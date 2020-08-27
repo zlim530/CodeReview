@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\bin\Debug\netstandard2.1\Demo.Data.deps.json
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\bin\Debug\netstandard2.1\Demo.Data.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\bin\Debug\netstandard2.1\Demo.Data.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\bin\Debug\netstandard2.1\Demo.Domian.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\bin\Debug\netstandard2.1\Demo.Domian.pdb
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Data.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Data.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Data.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Data.csproj.CopyComplete
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Data.dll
+C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Data.pdb
