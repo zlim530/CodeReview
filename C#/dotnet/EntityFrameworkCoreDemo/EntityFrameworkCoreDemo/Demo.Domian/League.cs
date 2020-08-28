@@ -6,5 +6,6 @@ namespace Demo.Domian {
 
         public string Country { get; set; }
 
+
     }
 }

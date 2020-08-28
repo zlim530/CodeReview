@@ -135,7 +135,7 @@ namespace XML {
         /// LINQ to XML 查询
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args) {
+        public static void Main1(string[] args) {
             
             XElement xElement = XElement.Load(@"C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\LINQAndXML\luckystack.xml");
 

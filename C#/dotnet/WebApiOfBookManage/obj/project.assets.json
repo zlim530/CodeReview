@@ -2578,6 +2578,15 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Microsoft.OpenApi/1.1.4": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
+        }
+      },
       "Microsoft.Win32.Registry/4.5.0": {
         "type": "package",
         "dependencies": {
@@ -2864,6 +2873,19 @@
             "assetType": "native",
             "rid": "win-x86"
           }
+        }
+      },
+      "Swashbuckle.AspNetCore.Swagger/5.5.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Routing": "2.1.0",
+          "Microsoft.OpenApi": "1.1.4"
+        },
+        "compile": {
+          "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.dll": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -6903,6 +6925,23 @@
         "version.txt"
       ]
     },
+    "Microsoft.OpenApi/1.1.4": {
+      "sha512": "6SW0tpbJslc8LAY1XniRfLVcJa7bJUbbwvo2/ZRqfkMbJrsqIj9045vg3STtZhDhYRKhpYgjqGU11eeW4Pzyrg==",
+      "type": "package",
+      "path": "microsoft.openapi/1.1.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net46/Microsoft.OpenApi.dll",
+        "lib/net46/Microsoft.OpenApi.pdb",
+        "lib/net46/Microsoft.OpenApi.xml",
+        "lib/netstandard2.0/Microsoft.OpenApi.dll",
+        "lib/netstandard2.0/Microsoft.OpenApi.pdb",
+        "lib/netstandard2.0/Microsoft.OpenApi.xml",
+        "microsoft.openapi.1.1.4.nupkg.sha512",
+        "microsoft.openapi.nuspec"
+      ]
+    },
     "Microsoft.Win32.Registry/4.5.0": {
       "sha512": "+FWlwd//+Tt56316p00hVePBCouXyEzT86Jb3+AuRotTND0IYn0OO3obs1gnQEs/txEnt+rF2JBGLItTG+Be6A==",
       "type": "package",
@@ -7423,6 +7462,23 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Swashbuckle.AspNetCore.Swagger/5.5.1": {
+      "sha512": "YlrnRiIFQdjh+MfBtiUzPPsRwk5745dv1DeWwgNBehN3PwZjIs+gczVaS0h5KKP9ON+e8GM3ieajV6BVZtc/dQ==",
+      "type": "package",
+      "path": "swashbuckle.aspnetcore.swagger/5.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.dll",
+        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.pdb",
+        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Swagger.xml",
+        "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.dll",
+        "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.pdb",
+        "lib/netstandard2.0/Swashbuckle.AspNetCore.Swagger.xml",
+        "swashbuckle.aspnetcore.swagger.5.5.1.nupkg.sha512",
+        "swashbuckle.aspnetcore.swagger.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -11876,23 +11932,24 @@
     ".NETCoreApp,Version=v2.1": [
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
-      "Microsoft.NETCore.App >= 2.1.0"
+      "Microsoft.NETCore.App >= 2.1.0",
+      "Swashbuckle.AspNetCore.Swagger >= 5.5.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lim\\.nuget\\packages\\": {}
+    "C:\\Users\\c02082\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
+      "projectUniqueName": "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
       "projectName": "WebApiOfBookManage",
-      "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
-      "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\obj\\",
+      "projectPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
+      "packagesPath": "C:\\Users\\c02082\\.nuget\\packages\\",
+      "outputPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\c02082\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11932,6 +11989,10 @@
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
+          },
+          "Swashbuckle.AspNetCore.Swagger": {
+            "target": "Package",
+            "version": "[5.5.1, )"
           }
         },
         "imports": [
@@ -11944,7 +12005,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

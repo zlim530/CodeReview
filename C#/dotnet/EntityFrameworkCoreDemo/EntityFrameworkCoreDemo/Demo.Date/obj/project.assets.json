@@ -7260,19 +7260,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lim\\.nuget\\packages\\": {}
+    "C:\\Users\\c02082\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Date\\Demo.Data.csproj",
+      "projectUniqueName": "E:\\localcode\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Date\\Demo.Data.csproj",
       "projectName": "Demo.Data",
-      "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Date\\Demo.Data.csproj",
-      "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Date\\obj\\",
+      "projectPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Date\\Demo.Data.csproj",
+      "packagesPath": "C:\\Users\\c02082\\.nuget\\packages\\",
+      "outputPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Date\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\c02082\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7285,8 +7285,8 @@
       "frameworks": {
         "netstandard2.1": {
           "projectReferences": {
-            "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Domian\\Demo.Domian.csproj": {
-              "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Domian\\Demo.Domian.csproj"
+            "E:\\localcode\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Domian\\Demo.Domian.csproj": {
+              "projectPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\EntityFrameworkCoreDemo\\EntityFrameworkCoreDemo\\Demo.Domian\\Demo.Domian.csproj"
             }
           }
         }
@@ -7326,7 +7326,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

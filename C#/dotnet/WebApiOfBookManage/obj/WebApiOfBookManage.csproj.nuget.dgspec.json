@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj": {}
+    "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj": {
+    "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
+        "projectUniqueName": "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
         "projectName": "WebApiOfBookManage",
-        "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
-        "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\obj\\",
+        "projectPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\WebApiOfBookManage.csproj",
+        "packagesPath": "C:\\Users\\c02082\\.nuget\\packages\\",
+        "outputPath": "E:\\localcode\\CodeReview\\C#\\dotnet\\WebApiOfBookManage\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\c02082\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[5.5.1, )"
             }
           },
           "imports": [
@@ -66,7 +70,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -23,14 +23,14 @@ namespace WebApiOfBookManage.Controllers
                 DB.Add(req.ISBN,req);
                 resp.ISBN = req.ISBN;
                 resp.message = "交易成功";
-                resp.result = "S";
+                resp.code = 200;
             }
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 resp.ISBN = "";
                 resp.message = "交易失败";
-                resp.result = "F";
+                resp.code = 400;
             }
             return resp;
         }
