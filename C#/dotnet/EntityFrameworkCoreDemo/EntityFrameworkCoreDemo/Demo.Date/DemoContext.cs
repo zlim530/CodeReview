@@ -38,6 +38,11 @@ namespace Demo.Date {
 
         public DbSet<Player> Players { get; set; }
 
+        public DbSet<Resume> Resumes { get; set; }
+
+        public DbSet<Game> Games { get; set; }
+
+
         // 将执行的 SQL 语句打印到控制台上
         public static readonly ILoggerFactory ConsoleLoggerFactory = LoggerFactory.Create(builder => {
             builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name

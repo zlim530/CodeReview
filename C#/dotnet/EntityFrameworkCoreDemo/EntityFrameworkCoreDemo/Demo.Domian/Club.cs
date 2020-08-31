@@ -30,5 +30,6 @@ namespace Demo.Domian {
         // 导航属性：此时导航属性是一个集合，相当于 Club 是主表，Player 是子表
         public List<Player> Players { get; set; }
 
+
     }
 }
