@@ -4,14 +4,16 @@ using Demo.Date;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Demo.Data.Migrations
 {
     [DbContext(typeof(DemoContext))]
-    partial class DemoContextModelSnapshot : ModelSnapshot
+    [Migration("20200831062408_ChangeSomeProperties")]
+    partial class ChangeSomeProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,35 +121,11 @@ namespace Demo.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResumeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClubId");
 
                     b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("Demo.Domian.Resume", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId")
-                        .IsUnique();
-
-                    b.ToTable("Resume");
                 });
 
             modelBuilder.Entity("Demo.Domian.Club", b =>
@@ -177,15 +155,6 @@ namespace Demo.Data.Migrations
                     b.HasOne("Demo.Domian.Club", null)
                         .WithMany("Players")
                         .HasForeignKey("ClubId");
-                });
-
-            modelBuilder.Entity("Demo.Domian.Resume", b =>
-                {
-                    b.HasOne("Demo.Domian.Player", "Player")
-                        .WithOne("Resume")
-                        .HasForeignKey("Demo.Domian.Resume", "PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
