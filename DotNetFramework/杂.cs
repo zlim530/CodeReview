@@ -1,3 +1,10 @@
+/*
+ConfigureServices 用来配置依赖注入的
+注入容器的声明周期：依赖注入，IoC容器
+- Transient：每次服务类被请求都会创建一个新的实例
+- Scoped：每次Web请求会创建一个实例
+- Singleton：一旦被创建实例，就会一直使用这个实例，直到应用停止
+*/
 ABP公共结构-依赖注入：
 1.传统方式的问题
 在一个应用程序中，类之间相互依赖。假设我们有一个应用程序服务，使用仓储（repository）类插入实体到数据库。在这种情况下，应用程序服务类依赖于仓储（repository）类。看下例子：
@@ -89,18 +96,325 @@ personService.CreatePerson("Tim",19);
 
 几乎所有的依赖注入框架都支持属性注入模式。
 
+3.依赖注入框架：
+有许多依赖注入框架，都可以自动解决依赖关系。他们可以创建所有的依赖项(递归地依赖和依赖关系)。你只需要依赖注入模式写类和类构造函数&属性，其他的均交给DI框架处理。我们只需要将依赖注册(入)到DI框架中即可。
+
+4.ABP依赖注入的基础结构
+4.1 注册(Registering)
+常规注册(Conventional registration)
+ABP按照约定注册程序集。所以，你应该告诉ABP按照约定注册你的程序集。
+在模块即 xxxModule类 中的初始化方法 Initialize 中进行注册：
+
+public class MyModule:AbpModule
+{
+	public override void Initialize()
+	{
+		IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly);
+	}
+}
 
 
 
-/*
-ConfigureServices 用来配置依赖注入的
-注入容器的声明周期：依赖注入，IoC容器
-- Transient：每次服务类被请求都会创建一个新的实例
-- Scoped：每次Web请求会创建一个实例
-- Singleton：一旦被创建实例，就会一直使用这个实例，直到应用停止
-*/
+ABP领域层-仓储
+仓储的定义：在领域层和数据映射层的中介，使用类似集合的接口来存取领域对象。
+一般来说，我们针对不同的实体会创建相应的仓储。
+仓储在领域层定义，但在基础设施层实现。
 
-ABP入门系列：编写单元测试
+
+IRepository.GetAll() 方法
+当你在仓储外调用GetAll方法方法时，数据库的连接必须是开启的，因为它返回IQueryable类型的对象。这是必须的，因为IQueryable对象是延迟执行的，它并不会马上执行数据库查询，直到你调用ToList()方法或在foreach循环中使用IQueryable(或以某种方式访问查询项时)。因此，当你调用ToList()方法，数据库连接必需是启用状态。
+
+请看下面示例：
+
+[UnitOfWork]
+public SerachPeopleOutput SearchPeople(SerachPeopleInput input)
+{
+	// 取得 IQueryable<Person>
+	var query = _personRepository.GetAll();
+
+	// 若有选取，则添加一些过滤条件
+	if (!string.IsNullOrEmpty(input.SearchName))
+	{
+		query = query.Where(person => person.Name.StartsWith(input.SerachName));
+	}
+
+	if (input.IsActive.HasValue)
+	{
+		quert = quert.Where(person => person.IsActive == input.IsActive.Value);
+	}
+
+	// 取得分页结果集
+	var people = quert.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+	// 将 <List<PeopleDto>>(people) 对象映射为 SearchPeopleOutput 对象
+	return new SerachPeopleOutput{ People = Mapper.Map<List<PeopleDto>>(people)};
+}
+在这里，SearchPeople方法必需是工作单元，因为IQueryable的ToList()方法在方法体内调用，在执行IQueryable.ToList()方法的时候，数据库连接必须开启。
+
+在大多数情况下，web应用需要你安全的使用GetAll方法，因为所有控制器的Action默认是工作单元的，因此在整个连接中，数据库连接必须是有效连接的。
+
+
+
+
+
+
+
+
+
+
+一ABP入门系列：编写单元测试
+1.对ABP模板测试项目一探究竟：
+在 ABP 框架的 Test 文件下存在 xxx.Tests (xxx为你的ABP项目解决方案名)控制台应用程序。
+通过在Abp官网创建的模板项目中，默认就已经为我们创建好了测试项目。并对Session、User创建了单元测试。其中 xxxTestBase 是继承的集成测试基类，主要用来伪造一个数据库连接。该项目添加了对Application、Core、EntityFramework项目的引用，以便于我们针对它们进行测试。
+从这我们也可以看出，Abp是按照Service-->Repository-->Domain这条线来进行集成测试。
+即 ABP 框架的测试路径：Application --> EntityFramwork --> Core
+打开测试项目的NuGet程序包我们可以发现主要依赖了以下几个NuGet包：
+	·Abp.TestBase：提供了测试基类和基础架构以便我们创建单元集成测试。
+	·Effort.EF6：对基于EF的应用程序提供了一种便利的方式来进行单元测试。
+	·XUnit：.Net上好用的测试框架。
+	·Shouldly：断言框架，方便我们书写断言。
+
+2.xUnit：.NET 测试框架
+xUnit.net 支持两种主要类型的单元测试：facts and theories（事实和理论）。
+
+Facts are tests which are always true. They test invariant conditions.
+Theories are tests which are only true for a particular set of data.
+
+Facts：使用[Fact]标记的测试方法，表示不需要传参的常态测试方法。
+Theories：使用[Theory]标记的测试方法，表示期望一个或多个DataAttribute实例用来提供参数化测试的方法的参数的值。
+
+3.Shouldly：断言框架
+Shouldly提供的断言方式与传统的Assert相比更实用易懂。
+对比一下就明白了：
+
+	Assert.That(contestant.Points, Is.EqualTo(1337));
+	//Expected 1337 but was 0
+	contestant.Points.ShouldBe(1337);
+	//contestant.Points should be 1337 but was 0
+
+4.测试基类 XxxTestBase.cs：是ABP框架自动生成的
+#region MESTestBase 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Abp;
+using Abp.Authorization.Users;
+using Abp.Events.Bus;
+using Abp.Events.Bus.Entities;
+using Abp.MultiTenancy;
+using Abp.Runtime.Session;
+using Abp.TestBase;
+using SMC.MES.Authorization.Users;
+using SMC.MES.EntityFrameworkCore.Seed.Host;
+using SMC.MES.EntityFrameworkCore.Seed.Tenants;
+using SMC.MES.MultiTenancy;
+using SMC.MES.EntityFrameworkCore.SysDbContext;
+
+namespace SMC.MES.Tests
+{
+    public abstract class MESTestBase : AbpIntegratedTestBase<MESTestModule>
+    {
+        protected MESTestBase()
+        {
+            void NormalizeDbContext(MESPlatFormDbContext context)
+            {
+                context.EntityChangeEventHelper = NullEntityChangeEventHelper.Instance;
+                context.EventBus = NullEventBus.Instance;
+                context.SuppressAutoSetTenantId = true;
+            }
+
+            // Seed initial data for host
+            AbpSession.TenantId = null;
+            UsingDbContext(context =>
+            {
+                NormalizeDbContext(context);
+                new InitialHostDbBuilder(context).Create();
+                new DefaultTenantBuilder(context).Create();
+            });
+
+            // Seed initial data for default tenant
+            AbpSession.TenantId = 1;
+            UsingDbContext(context =>
+            {
+                NormalizeDbContext(context);
+                new TenantRoleAndUserBuilder(context, 1).Create();
+            });
+
+            LoginAsDefaultTenantAdmin();
+        }
+
+        #region UsingDbContext
+
+        protected IDisposable UsingTenantId(int? tenantId)
+        {
+            var previousTenantId = AbpSession.TenantId;
+            AbpSession.TenantId = tenantId;
+            return new DisposeAction(() => AbpSession.TenantId = previousTenantId);
+        }
+
+        protected void UsingDbContext(Action<MESPlatFormDbContext> action)
+        {
+            UsingDbContext(AbpSession.TenantId, action);
+        }
+
+        protected Task UsingDbContextAsync(Func<MESPlatFormDbContext, Task> action)
+        {
+            return UsingDbContextAsync(AbpSession.TenantId, action);
+        }
+
+        protected T UsingDbContext<T>(Func<MESPlatFormDbContext, T> func)
+        {
+            return UsingDbContext(AbpSession.TenantId, func);
+        }
+
+        protected Task<T> UsingDbContextAsync<T>(Func<MESPlatFormDbContext, Task<T>> func)
+        {
+            return UsingDbContextAsync(AbpSession.TenantId, func);
+        }
+
+        protected void UsingDbContext(int? tenantId, Action<MESPlatFormDbContext> action)
+        {
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<MESPlatFormDbContext>())
+                {
+                    action(context);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        protected async Task UsingDbContextAsync(int? tenantId, Func<MESPlatFormDbContext, Task> action)
+        {
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<MESPlatFormDbContext>())
+                {
+                    await action(context);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+
+        protected T UsingDbContext<T>(int? tenantId, Func<MESPlatFormDbContext, T> func)
+        {
+            T result;
+
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<MESPlatFormDbContext>())
+                {
+                    result = func(context);
+                    context.SaveChanges();
+                }
+            }
+
+            return result;
+        }
+
+        protected async Task<T> UsingDbContextAsync<T>(int? tenantId, Func<MESPlatFormDbContext, Task<T>> func)
+        {
+            T result;
+
+            using (UsingTenantId(tenantId))
+            {
+                using (var context = LocalIocManager.Resolve<MESPlatFormDbContext>())
+                {
+                    result = await func(context);
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region Login
+
+        protected void LoginAsHostAdmin()
+        {
+            LoginAsHost(AbpUserBase.AdminUserName);
+        }
+
+        protected void LoginAsDefaultTenantAdmin()
+        {
+            LoginAsTenant(AbpTenantBase.DefaultTenantName, AbpUserBase.AdminUserName);
+        }
+
+        protected void LoginAsHost(string userName)
+        {
+            AbpSession.TenantId = null;
+
+            var user =
+                UsingDbContext(
+                    context =>
+                        context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
+            if (user == null)
+            {
+                throw new Exception("There is no user: " + userName + " for host.");
+            }
+
+            AbpSession.UserId = user.Id;
+        }
+
+        protected void LoginAsTenant(string tenancyName, string userName)
+        {
+            var tenant = UsingDbContext(context => context.Tenants.FirstOrDefault(t => t.TenancyName == tenancyName));
+            if (tenant == null)
+            {
+                throw new Exception("There is no tenant: " + tenancyName);
+            }
+
+            AbpSession.TenantId = tenant.Id;
+
+            var user =
+                UsingDbContext(
+                    context =>
+                        context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
+            if (user == null)
+            {
+                throw new Exception("There is no user: " + userName + " for tenant: " + tenancyName);
+            }
+
+            AbpSession.UserId = user.Id;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Gets current user if <see cref="IAbpSession.UserId"/> is not null.
+        /// Throws exception if it's null.
+        /// </summary>
+        protected async Task<User> GetCurrentUserAsync()
+        {
+            var userId = AbpSession.GetUserId();
+            return await UsingDbContext(context => context.Users.SingleAsync(u => u.Id == userId));
+        }
+
+        /// <summary>
+        /// Gets current tenant if <see cref="IAbpSession.TenantId"/> is not null.
+        /// Throws exception if there is no current tenant.
+        /// </summary>
+        protected async Task<Tenant> GetCurrentTenantAsync()
+        {
+            var tenantId = AbpSession.GetTenantId();
+            return await UsingDbContext(context => context.Tenants.SingleAsync(t => t.Id == tenantId));
+        }
+    }
+}
+
+#endregion
+从上述代码中可以看出 MESTestBase 继承自 AbpIntegratedTestBase<MESTestModule>
+在构造函数中主要做了两件事，预置了初始数据和种子数据，并以默认租户Admin登录。
+
+5.单元测试实战
+5.1 理清要测试的方法逻辑
+
+
+
+
 xUnit.Net提供了三种继承于DataAttribute的特性（[InlineData]、 [ClassData]、 [PropertyData]）用于为[Theory]标记的参数化测试方法传参。
 下面是使用这三种特性传参的实例：
 InlineData Example：
@@ -713,8 +1027,6 @@ MYSQL：
     #drop database IF EXISTS escshop;
     #可以使用help drop来查看帮助 加不加分号都可以
 	Query OK, 0 rows affected (0.61 sec)
-
-
 
 
 
