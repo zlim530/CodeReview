@@ -17,7 +17,8 @@ namespace Demo.Date {
             optionsBuilder
                 .UseLoggerFactory(ConsoleLoggerFactory)
                 .EnableSensitiveDataLogging()
-                .UseSqlServer("Data Source= .; Initial Catalog=demoone;Integrated Security=True");
+                //.UseSqlServer("Data Source= .; Initial Catalog=demoone;Integrated Security=True");
+                .UseSqlServer("Data Source= .; Initial Catalog=Test;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

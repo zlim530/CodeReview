@@ -89,10 +89,10 @@ namespace 程序集_反射介绍 {
         /// 反射的部分方法调用
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args) {
+        public static void Main1(string[] args) {
             #region 动态加载程序集并且调用类型的成员
 
-            // 动态加载程序集
+            /*// 动态加载程序集
             // 根据程序的路径，动态加载一个程序集
             Assembly assembly = Assembly.Load(@"C:\Users\Lim\Desktop\code\CodeReview\C#\ReflectTest\bin\Debug\ReflectTest.dll");
 
@@ -137,7 +137,7 @@ namespace 程序集_反射介绍 {
             // 通过反射获取指定对象的属性的值
             PropertyInfo pInfo = typePerson.GetProperty("Name");
             string name = pInfo.GetValue(obj,null).ToString();
-            Console.WriteLine(name);
+            Console.WriteLine(name);*/
 
             #endregion
         }

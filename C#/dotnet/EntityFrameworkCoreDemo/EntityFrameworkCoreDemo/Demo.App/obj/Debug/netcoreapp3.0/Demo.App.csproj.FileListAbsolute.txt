@@ -82,3 +82,9 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFra
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\bin\Debug\netcoreapp3.0\System.Text.Encodings.Web.dll
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\bin\Debug\netcoreapp3.0\System.Text.Json.dll
+E:\localcode\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\obj\Debug\netcoreapp3.0\Demo.App.csprojAssemblyReference.cache
+E:\localcode\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\obj\Debug\netcoreapp3.0\Demo.App.csproj.CoreCompileInputs.cache
+E:\localcode\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\obj\Debug\netcoreapp3.0\Demo.App.AssemblyInfoInputs.cache
+E:\localcode\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\obj\Debug\netcoreapp3.0\Demo.App.AssemblyInfo.cs
+E:\localcode\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\obj\Debug\netcoreapp3.0\Demo.App.dll
+E:\localcode\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.App\obj\Debug\netcoreapp3.0\Demo.App.pdb

@@ -115,6 +115,10 @@ public class MyModule:AbpModule
 
 
 
+
+
+
+
 ABP领域层-仓储
 仓储的定义：在领域层和数据映射层的中介，使用类似集合的接口来存取领域对象。
 一般来说，我们针对不同的实体会创建相应的仓储。
@@ -159,7 +163,7 @@ public SerachPeopleOutput SearchPeople(SerachPeopleInput input)
 
 
 
-
+================================一ABP入门系列：编写单元测试=============================================================
 
 
 一ABP入门系列：编写单元测试
@@ -415,6 +419,9 @@ namespace SMC.MES.Tests
 
 
 
+
+
+
 xUnit.Net提供了三种继承于DataAttribute的特性（[InlineData]、 [ClassData]、 [PropertyData]）用于为[Theory]标记的参数化测试方法传参。
 下面是使用这三种特性传参的实例：
 InlineData Example：
@@ -490,8 +497,41 @@ public class StringTest3
 
 
 
+ABP领域层：规约模式
+public class CustomerManager
+{
+	private readonly IRepository<Customer> _customerRepository;
+
+	public CustomerManager(IRepository<Customer> customerRepository)
+	{
+		_customerRepository = customerRepository;
+	}
+
+	public int GetCustomerCount(ISpecification<Customer> spec)
+	{
+		var customers = _customerRepository.GetAllList();
+
+		var customerCount = 0;
+
+		foreach (var customer in customers)
+		{
+			if (spec.IsSatisfiedBy<customer>)
+			{
+				customerCount++;
+			}
+		}
+
+		return customerCount;
+	}
+	
+}
 
 
+
+
+
+
+=============================================SMC_MES========================================================
 
 
 
@@ -588,6 +628,8 @@ public class PersonAppService
 
 
 
+===========================================EF Core 教程：======================================
+
 
 EF Core 教程：
 namespace EFGetStarted
@@ -623,6 +665,9 @@ namespace EFGetStarted
 
 
 
+
+
+===========================================LINQ相关：======================================
 class Example{
 	public static void Main(){
 		// Func 是一个泛型委托，参数为 int，返回值也是 int
@@ -678,6 +723,127 @@ var query4 = from l1 in list1
 			 from l2 in list
 
 
+在 C# 中，从功能上 LINQ 可分为两类：LINQ to Object 和 LINQ to Provider（如：XML）；从语法上 LINQ 可以分为 LINQ to Object 和 LINQ 扩展方法。大多数 LINQ to Object 都可以用 LINQ 扩展方法实现等同的效果，而且平时开发中用的最多的是 LINQ 扩展方法。
+
+LINQ to Object 多用于映射数据库的查询，LINQ to XML 用于查询 XML 元素数据。使用 LINQ 查询的前提是对象必须是一个 IEnumerable 集合（注意，为了描述方便，本文说的集合都是指 IEnumerable 对象，包含字面上的 ICollection 对象）。另外，LINQ 查询大多是都是链式查询，即操作的数据源是 IEnumerable<T1> 类型，返回的是 IEnumerable<T2> 类型。
+
+形如下面这样的查询就是 LINQ to Object：
+
+var list = from user in users
+  where user.Name.Contains("Wang")
+  select user.Id;
+等同于使用下面的 LINQ 扩展方法：
+
+var list = users
+  .Where(u => user.Name.Contains("Wang"))
+  .Select(u => u.id);
+LINQ 查询支持在语句中间根据需要定义变量，比如取出数组中平方值大于平均值的数字：
+
+int[] numbers = {0,1,2,3,4,5,6,7,8,9};
+var result = from number in numbers
+			let average = numbers.Average()
+			let squared = Math.Pow(number,2)
+			where squared > average
+			select number;
+// 平均值为 4.5，result 为 {3,4,5,6,7,8,9}
+
+
+SelectMany 集合降维
+
+
+SelectMany 可以把多维集合降维，比如把二维的集合平铺成一个一维的集合。举例：
+
+var collection = new int[][]
+{
+    new int[] {1, 2, 3},
+    new int[] {4, 5, 6},
+};
+var result = collection.SelectMany(x => x);
+// result = [1, 2, 3, 4, 5, 6]
+再来举个更贴合实际应用的例子。例如有如下实体类（一个部门有多个员工）：
+
+class Department
+{
+    public Employee[] Employees { get; set; }
+}
+
+class Employee
+{
+    public string Name { get; set; }
+}
+此时，我们拥有一个这样的数据集合：
+
+var departments = new[]
+{
+    new Department()
+    {
+        Employees = new []
+        {
+            new Employee { Name = "Bob" },
+            new Employee { Name = "Jack" }
+        }
+    },
+    new Department()
+    {
+        Employees = new []
+        {
+            new Employee { Name = "Jim" },
+            new Employee { Name = "John" }
+        }
+    }
+};
+现在我们可以使用 SelectMany 把各部门的员工查询到一个结果集中：
+
+var allEmployees = departments.SelectMany(x => x.Employees);
+foreach(var emp in allEmployees)
+{
+    Console.WriteLine(emp.Name);
+}
+// 依次输出：Bob Jack Jim John
+
+
+Skip & Take 分页
+
+
+Skip 扩展方法用来跳过从起始位置开始的指定数量的元素读取集合；Take 扩展方法用来从集合中只读取指定数量的元素。
+
+var values = new[] { 5, 4, 3, 2, 1 };
+var skipTwo = values.Skip(2);  // { 3, 2, 1 }
+var takeThree = values.Take(3);  // { 5, 4, 3 }
+var skipOneTakeTwo = values.Skip(1).Take(2); // { 4, 3 }
+Skip 与 Take 两个方法结合即可实现我们常见的分页查询：
+
+public IEnumerable<T> GetPage<T>(this IEnumerable<T> collection, int pageNumber, int pageSize)
+{
+    int startIndex = (pageNumber - 1) * pageSize;
+    return collection.Skip(startIndex).Take(pageSize);
+}
+使用过 EF (Core) 的同学一定很熟悉。
+
+另外，还有 SkipWhile 和 TakeWhile 扩展方法，它与 Skip 和 Take 不同的是，它们的参数是具体的条件。SkipWhile 从起始位置开始忽略元素，直到匹配到符合条件的元素停止忽略，往后就是要查询的结果；TakeWhile 从起始位置开始读取符合条件的元素，一旦遇到不符合条件的就停止读取，即使后面还有符合条件的也不再读取。示例：
+
+SkipWhile：
+
+int[] list = { 42, 42, 6, 6, 6, 42 };
+var result = list.SkipWhile(i => i == 42);
+// result: 6, 6, 6, 42
+TakeWhile：
+
+int[] list = { 1, 10, 40, 50, 44, 70, 4 };
+var result = list.TakeWhile(item => item < 50).ToList();
+// result = { 1, 10, 40 }
+
+
+
+
+
+
+
+
+
+
+
+==========================================数据库SQL相关============================
 
 
 #region sqlserver 数据类型
@@ -941,7 +1107,7 @@ MYSQL：
 	SQL语言主要用于存取数据、查询数据、更新数据和管理关系数据库系统，SQL语言由IBM开发，可分为：
 
 	DDL ：数据定义语句：定义和管理数据对象，如数据库，数据表等，命令有 create、drop、alter		
-        数据库定义语言：数据库、表、视图、索引、存储过程，列入create drop alter 通常是开发人员关注 它创造了数据库的整个框架 如数据库、表等
+        数据库定义语言：数据库、表、视图、索引、存储过程，例如create drop alter 通常是开发人员关注 它创造了数据库的整个框架 如数据库、表等
 
 	DML ：数据操作语句：用于操作数据库对象中所包含的数据，命令有 insert、update、delete
         数据库操纵语言：插入数据INSERT、删除数据DELETE、更新数据UPDATE、查询数据SELECT 对象是表当中的数据 “增删改查” DML是往框架中添数据
