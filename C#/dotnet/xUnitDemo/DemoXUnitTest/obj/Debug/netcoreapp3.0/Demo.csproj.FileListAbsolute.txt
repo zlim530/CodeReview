@@ -6,3 +6,12 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.AssemblyInfo.cs
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.dll
 C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.pdb
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\bin\Debug\netcoreapp3.0\Demo.deps.json
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\bin\Debug\netcoreapp3.0\Demo.dll
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\bin\Debug\netcoreapp3.0\Demo.pdb
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.csprojAssemblyReference.cache
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.csproj.CoreCompileInputs.cache
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.AssemblyInfoInputs.cache
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.AssemblyInfo.cs
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.dll
+E:\localcode\CodeReview\C#\dotnet\xUnitDemo\DemoXUnitTest\obj\Debug\netcoreapp3.0\Demo.pdb

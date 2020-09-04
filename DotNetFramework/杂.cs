@@ -1,3 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 ConfigureServices 用来配置依赖注入的
 注入容器的声明周期：依赖注入，IoC容器
@@ -5,6 +24,7 @@ ConfigureServices 用来配置依赖注入的
 - Scoped：每次Web请求会创建一个实例
 - Singleton：一旦被创建实例，就会一直使用这个实例，直到应用停止
 */
+ABP框架主要还是基于领域驱动的理念来构建整个架构的，其中领域驱动包含的概念有 域对象Entities、仓储对象Repositories、域服务接口层Domain Service、域事件Domain Events、应用服务接口
 ABP公共结构-依赖注入：
 1.传统方式的问题
 在一个应用程序中，类之间相互依赖。假设我们有一个应用程序服务，使用仓储（repository）类插入实体到数据库。在这种情况下，应用程序服务类依赖于仓储（repository）类。看下例子：
@@ -492,6 +512,23 @@ public class StringTest3
 		}
 	}
 }
+
+
+
+
+[Fact]
+public void Should_Get_All_Tasks()
+{
+	var totalCount = UsingDbContext(ctx => ctx.Tasks.Count());
+
+	var actualCount = _taskAppService.GetAllTasks().Count;
+
+	actualCount.ShouldBe(totalCount);
+}
+
+
+
+
 
 
 

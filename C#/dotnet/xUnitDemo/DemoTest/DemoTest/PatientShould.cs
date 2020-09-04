@@ -130,7 +130,14 @@ namespace DemoTest {
             Assert.PropertyChanged(p,nameof(p.HeartBeatRate),()=> p.IncreaseHeartBeatRate());
         }
 
-        
+        [Fact]
+        [Trait("Category","New")]
+        public void BeNewWhenCreated2(){
+            Console.WriteLine("第一个测试");
+            var p = new Patient();
+            var result = p.IsNew;
+            Assert.True(result);
+        }
         
     }
     
