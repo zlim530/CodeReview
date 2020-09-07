@@ -179,7 +179,181 @@ public SerachPeopleOutput SearchPeople(SerachPeopleInput input)
 
 
 
+ABP应用层：
+public class Task:Enitiy,IHasCreationTime
+{
+	public string Title { get; set; }
 
+	public string  Description { get; set; }
+
+	public DateTime CreationTime { get; set; }
+
+	public TaskState State { get; set;}
+
+	public Person AssignedPerson { get; set; }
+	public Guid? AssignedPersonId { get; set; }
+
+	public Task()
+	{
+		CreationTime = Clock.Now;
+		State = TaskState.Open;
+	}
+}
+
+
+然后，我们为该实体创建一个DTO：
+[AutoMap(typeof(Task))]
+public class TaskDto:EntityDto,IHasCreationTime
+{
+	public string Title { get; set;}
+
+	public string  Description { get; set; }
+
+	public DateTime CreationTime { get; set; }
+
+	public TaskState State { get; set;}
+
+	public Guid? AssignedPersonId { get; set; }
+
+	public string AssignedPersonName { get; set; }
+
+}
+
+
+// 我们添加了 GetAllTasksInput 作为第4个泛型参数到AsyncCrudAppService类(第三个参数是实体的主键)
+public class TaskAppService:AsyncCrudService<Task,TaskDto,int,GetAllTasksInput>
+{
+	public TaskAppService(IRepository<Task> repository):base(repository)
+	{
+
+	}
+
+	// 重写 CreateFilteredQuery 方法来应用自定义过滤。这个方法是作为 AsyncCrudAppService 类的一个扩展点(为了简化条件过滤，我们使用了ABP的一个扩展方法WhereIf，但实际上我们所做的就是对IQueryable的过滤)。
+	protected override IQueryable<Task> CreatedFilteredQueryed(GetAllTasksInput input)
+	{
+		return base.CreateFilteredQuery(input)
+			.WhereIf(input.State.HasValue,t => t.State == input.State.Value)
+	}
+
+}
+
+
+ABP应用服务：
+public class Person : Entity
+{
+	public virtual string Name { get; set; }
+	public virtual string EmialAddress { get; set; }
+	public virtual string Password { get; set; }
+}
+
+定义应用服务接口：
+public interface IPersonAppService :IApplicationService
+{
+	SearchPeopleOutput SearchPeople(SearchPeopleInput input);
+}
+
+Input 和 Output DTO 类型定义如下：
+public class SearchPeopleInput
+{
+	[StringLength(40,MinmumLength = 1)]
+	public string SearchedName { get; set; }
+}
+
+public class SearchPeopleOutput
+{
+	public List<PersonDto> People { get; set; }
+}
+
+// EntityDto是一个简单具有与实体相同的Id属性的简单类型。如果你的实体Id不为int型你可以使用它泛型版本。EntityDto也实现了IDto接口。你可以看到PersonDto并不包含Password属性，因为展现层并不需要它。
+public class PersonDto : EntityDto
+{
+	public string Name { get; set; }
+	public string EmailAddress { get; set; }
+}
+
+
+实现 IPersonAppService
+public class PersonAppService : IPersonAppService
+{
+	private readonly IPersonRepository _personRepository;
+
+	public PersonAppService(IPersonRepository personRepository)
+	{
+		_personRepository = personRepository;
+	}
+
+	/* 
+	我们从数据库获取实体，将实体转换成DTO并返回output。注意我们没有手动检测Input的数据有效性。ABP会自动验证它。ABP甚至会检查Input是否为null，如果为null则会抛出异常。这避免了我们在每个方法中都手动检查数据有效性。
+	*/
+	public SearchPeopleOutput SearchPeople(SearchPeopleInput input)
+	{
+		// 获取实体
+		var peopleEntityList = _personRepository.GetAllList(person => person.Name.Contains(input.SearchName));
+
+		// 转换为 DTO 对象
+		var peopleDtoList = peopleEntityList.select(
+			person => new PersonDto
+						{
+							Id = person.Id,
+							Name = person.Name,
+							EmailAddress = person.EmailAddress
+						}).ToList();
+
+		return new SearchPeopleOutput{ People = peopleDtoList}
+	}
+}
+
+
+DTO 和实体间的自动映射：
+使用 AutoMapper 来重写 SearchPeople 方法：
+
+public SearchPeopleOutput SearchPeople(SearchPeopleInput input)
+{
+	var peopleEntityList = _personRepository.GetAllList(person => person.Name.Contains(input.SearchName));
+
+	return new SearchPeopleOutput{ People = Mapper.Map<List<PersonDto>>(peopleEntityList) }
+}
+
+
+
+使用特性(attributes)和扩展方法来映射(Mapping using attributes and extension methods)
+[AutoMap(typeof(MyClass2))
+public class MyClass1
+{
+	public string TestProp { get; set; }
+}
+
+public class MyClass2
+{
+	public string TestProp { get; set; }
+}
+
+通过 MapTo 扩展方法进行映射：
+var obj1 = new MyClass1 { TestProp = "Test Value"};
+var obj2 = obj1.MapTo<MyClass2>();// 创建了新的 MyClass2 对象，并将 obj1.TestProp 的值赋值给新的 MyClass2 对象的 TestProp 属性
+// 上述代码根据 MyClass1 创建了新的 MyClass2 对象，你也可以映射已存在的对象，如下所示：
+var obj1 = new MyClass1 { TestProp = "Test Value"};
+var obj2 = new MyClass2();
+obj1.MapTo(obj2);// 根据 obj1 设置 obj2 的属性
+
+
+
+StringBuilder query = new StringBuilder("");
+while (dem.MoveNext())
+{
+	string key = dem.Current.Key;
+	string value = dem.Current.Value;
+	if(!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value)
+	)
+	{
+		query.Append(key).Append("=").Append(value).Append("&");
+	}
+	/* 
+	SortedDictionary<string,string> = (a,1) (b,2)
+	"a=1&b=2"
+	
+	 */
+}
 
 
 
@@ -2047,6 +2221,9 @@ MySQL数据库单表查询select：DQL语句
 
 	二、去重查询：distinct 注意：distinct去重方法仅能用于一个字段
 		select distinct 字段名 from 表名;
+		去重后记录数量查询：
+		select count(distinct(字段名)) from 表名;
+
 		如：
 			mysql> select post from employee5;
 			+------+
@@ -2252,7 +2429,7 @@ MySQL数据库单表查询select：DQL语句
 
 			
 	六、查询排序
-		order by 按照哪一列排序 默认是升序ASC 若想要降序 则加上desc
+		order by 按照某一列排序 默认是升序ASC 若想要降序 则加上desc
 		1.按单列排序
 			select * from 表名 order by 字段名; #默认为升序
 			select 字段1,字段2,... from 表名 order by 某一字段 asc;  	#按某一个字段的升序排列
@@ -2803,7 +2980,7 @@ MySQL索引
 
 二、索引的分类：	
 	普通索引：允许重复
-	唯一索引：unique key 不允许重复
+	唯一索引：unique key 不允许重复数据
 	全文索引：fulltext
 	
 	mysql> create table t2(id int,name varchar(20));
@@ -2873,7 +3050,7 @@ MySQL索引
 	Records: 0  Duplicates: 0  Warnings: 0
 
 	mysql> select * from t2 where id= 19999;	#创建索引后的查询时间：0.00
-			#使用索引 ：where条件一定是拥有索引的那一列 
+			#使用索引 ：where条件一定是拥有索引的那一列(字段)
 	+-------+------+
 	| id    | name |
 	+-------+------+
@@ -2914,7 +3091,7 @@ MySQL索引
 		索引类型：unique唯一索引 fulltext全文索引  是可选项
 		创建索引的关键字：index 或者 key  是必写项
 		索引名（很少使用索引名字）	以及对哪些字段进行索引	索引是升序还是降序
-		不起索引名 则默认是索引的字段名  
+		不起索引名 则默认是索引列的字段名  
 		不加索引类型则默认是普通索引 即这一列的值不是唯一的 可以重复
 		如果是unique index或是 unique key  则表示唯一索引  它的值是不可以重复的
 		
