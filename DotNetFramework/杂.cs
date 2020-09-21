@@ -1,6 +1,10 @@
 
+var queryList = query.Skip(skipCount).Take(input.Limit).Select(a => a);
 
-
+var query = datainputRepository.GetAll()
+			.WhereIf(!string.IsNullOrEmpty(code),(c => c.DepartNo.Equals(code)))
+			.WhereIf(true,c => c.status == (int)InputStatus.status.dr)
+			.WhereIf(!string.IsNullOrEmpty(input.MacNo),c => )
 
 
 
@@ -353,6 +357,67 @@ while (dem.MoveNext())
 	"a=1&b=2"
 	 */
 }
+
+
+
+ABP应用层：权限验证
+在使用验证权限前，我们需要为每一个操作定义唯一的权限。Abp的设计是基于模块化，所以不同的模块可以有不同的权限。为了定义权限，一个模块应该创建AuthorizationProvider的派生类。MyAuthorizationProvider继承自AuthorizationProvider，换句话说就是AuthorizationProvider派生出MyAuthorizationProvider。例子如下：
+
+public class MyAuthorizationProvider : MyAuthorizationProvider
+{
+	public override void SetPermission(IPermissionDefinitionContext context)
+	{
+		var administration = context.CreatePermission("Administration");
+
+		var userManagement = administration.CreateChildPermission("Administration.UserManagement");
+		userManagement.CreateChildPermission("Administration.UserManagement.CreateUser");
+
+		var roleManagement = administration.CreateChildPermission("Administration.RoleManagement");
+		
+	}
+}
+
+
+
+ABP后台服务之后台作业和后台工人：
+public class TestJob : BackgroundJob<int>,ITransientDependency
+{
+	public override void Execute(int number)
+	{
+		Logger.Debug(number.ToString());
+	}
+}
+
+
+public class SimpleSendEmailJob : BackgroundJob<SimpleSendEmailJob>,ITransientDependency
+{
+	private readonly IRepository<User,long> _userRepository;
+	private readonly IEmailSender _emailSender;
+
+	public SimpleSendEmailJob(IRepository<User,long> userRepository,IEmailSender emailSender)
+	{
+		_userRepository = userRepository;
+		_emailSender = emailSender;
+	}
+
+	public override void Execute(SimpleSendEmailJobArgs args)
+	{
+		var senderUser = _userRepository.Get(args.SenderUserId);
+		var targetUSer = _userRepository.Get(args.TargetUserId);
+
+		_emailSender.Send(senderUser.EmailAddress,targetUSer.EmailAddress,args.Subject,args.Body);
+	}
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

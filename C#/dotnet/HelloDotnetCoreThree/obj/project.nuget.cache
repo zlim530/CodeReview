@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1i7JlD9au3gjktdgrJLM2qJCGXgy0rUD4cu+9to7/WZdEgQ72IVu92NqHa1ms3frszTXWQx0sQG/iD+NBjaRhw==",
+  "dgSpecHash": "XMUOh3uzs8CpzFprAVmWEasIEoMLupSZFlIrMnojUTFbFBEVCCb88EzziHBljO1A3pO0Ubhto65Kg51fBPz1KA==",
   "success": true,
   "projectFilePath": "E:\\localcode\\CodeReview\\C#\\dotnet\\HelloDotnetCoreThree\\HelloDotnetCoreThree.csproj",
   "expectedPackageFiles": [

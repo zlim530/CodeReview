@@ -30,12 +30,16 @@ namespace HelloDotnetCoreThree {
                 // 只有为开发环境时才会显示页面异常的详细信息
                 // 而为生产环境( Production )时不建议把这种异常的详细信息也就是内部实现细节展示给客户
                 app.UseDeveloperExceptionPage();
+                /*
+                 UseDeveloperExceptionPage 中间件：如果存在异常并且环境是 Development，此中间件会被调用，显示开发异常页面
+                 */
+
             }
 
             // 注意：代码中的中间件注册顺序是很重要的，它代表了一个请求在管道中相继被各个中间件处理的顺序
             // 在代码中越早注册，表示越早被这种中间件处理
 
-            // 注册了访问静态文件的中间件
+            // 注册了访问静态文件的中间件：添加静态文件中间件
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -52,6 +56,10 @@ namespace HelloDotnetCoreThree {
                     name:"default",
                     pattern:"{controller=Department}/{action=Index}/{id?}");
             });
+            /*
+             我们只能将一个终端中间件添加到请求管道。
+             终端中间件是我们之前已经说到过，他会使管道短路，不会去调用下一个中间件。
+             */
         }
     }
 }
