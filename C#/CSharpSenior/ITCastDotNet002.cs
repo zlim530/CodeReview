@@ -584,12 +584,20 @@ namespace 抽象类练习_U盘_计算器案例 {
         }
     }
 
+    /*
+     抽象类中可以有非抽象方法与属性等，但只要类中有一个抽象方法，那么此类就要被 abstract 修饰成为抽象类
+     抽象方法不允许有任何实现，甚至是一对花括号{} 都不允许写，故因此继承抽象类的子类一定要实现抽象方法
+     */
     public abstract class Duck {
         public void Swim() {
             Console.WriteLine("Duck is swimming ... ");
         }
 
         public abstract void Bark();
+
+        public void Fuck(){
+            Console.WriteLine("Fuck it!");
+        }
     }
 
     public class RealDuck : Duck {

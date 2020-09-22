@@ -1,10 +1,96 @@
+SMC.MES.Core/Technologys：
+
+namespace SMC.MES.Technologys
+{
+    [Table("T_Tech_ProcessDetail")]
+    public class ProcessDetailInfo : Entity<int>
+    {
+		// 型号：C1A40B-Q7156-850
+        public string MaterialModel { get; set; }
+
+		// 所属HOLON：731、732等
+        public string HOLON { get; set; }
+        
+		// 四位部门代码：6211
+		public string DepartNo { get; set; }
+        
+		// 工艺路径：NC(瓶颈),铣扁,去毛刺,研磨,挤丝,清洗,精修,出库
+		public string TechProcessName { get; set; }
+
+		// 对应 T_Tech_ProcessChildData 表中的 ProcessNum 字段取前两位
+        public string TechLineGroup { get; set; }
+
+		// 
+        public string BattLeMachGroup { get; set; }
+        public string CytimeGroup { get; set; }
+        public string TechProcessNum { get; set; }
+        public string PTMachGroup { get; set; }
+        public string BattleProcessNum { get; set; }
+        public Nullable<bool> Standard { get; set; }
+    }
+}
+
+
+namespace SMC.MES.Technologys
+{
+    [Table("T_Process_Matching")]
+    public class T_Process_Matchings : Entity<int>
+    {
+        /// <summary>
+        /// 配套ID：14、22
+        /// </summary>
+        public Nullable<int> Ptid { get; set; }
+        /// <summary>
+        /// 加工指示号：8738730、8732595
+        /// </summary>
+        public int? ProInstrid { get; set; }
+        /// <summary>
+        /// 组装指示号：11133549
+        /// </summary>
+        public Nullable<int> AssInstrid { get; set; }
+        /// <summary>
+        /// 部品型号：MGP50A-CA007-050
+        /// </summary>
+        public string MaterialModel { get; set; }
+        /// <summary>
+        /// 组装开工日：2020-9-18 00:00:00:000
+        /// </summary>
+        public Nullable<System.DateTime> AssStartDate { get; set; }
+        /// <summary>
+        /// 运输方式：LAND、AIR
+        /// </summary>
+        public string DlvyWay { get; set; }
+        /// <summary>
+        /// 欠品数量：1.00、402.00、2.00
+        /// </summary>
+        public Nullable<decimal> ShortCount { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        /// <summary>
+        /// 加工指示状态：首工序可生产数、表面上架数、加工打票待入数、BJ在库
+        /// </summary>
+        public string OrderStates { get; set; }
+    }
+}
+
+
+
+
+
+
+
 
 var queryList = query.Skip(skipCount).Take(input.Limit).Select(a => a);
 
 var query = datainputRepository.GetAll()
 			.WhereIf(!string.IsNullOrEmpty(code),(c => c.DepartNo.Equals(code)))
 			.WhereIf(true,c => c.status == (int)InputStatus.status.dr)
-			.WhereIf(!string.IsNullOrEmpty(input.MacNo),c => )
+			.WhereIf(!string.IsNullOrEmpty(input.MacNo),c => c.MachineNum == input.MacNo)
+			.WhereIf(!string.IsNullOrEmpty(input.ProcessName),c => c.ProcessName == input.ProcessName)
+			.Where(c => c.CreationTime >= stime && c.CreationTime <= dtime)
+			.OrderByDescending
 
 
 

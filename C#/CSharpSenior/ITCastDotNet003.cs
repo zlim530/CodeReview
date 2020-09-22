@@ -184,6 +184,12 @@ namespace 字符串特性之不可变性_字符串池 {
         public string Name { get; set; }
         public int Age { get; set; }
 
+        /*
+         抽象类中可以有非抽象方法与属性等，但只要类中有一个抽象方法，那么此类就要被 abstract 修饰成为抽象类
+         抽象方法不允许有任何实现，甚至是一对花括号{} 都不允许写，故因此继承抽象类的子类一定要实现抽象方法
+
+         而 virtual 关键字表示此方法为虚方法可以被子类重写，因此虚方法可以有默认实现
+         */
         public virtual void SayHi() {
             Console.WriteLine("Hi");
         }
@@ -264,6 +270,7 @@ namespace 判断两个变量是否为同一个对象 {
             Console.WriteLine(p1.Equals(p2));// False：如果 Person 内部重写了 Equals 方法则结果为 True
             Console.WriteLine(object.ReferenceEquals(p1,p2));// False
 
+            // 两个引用变量引用了同一个对象/实例
             p1 = p2;
 
             Console.WriteLine(p1 == p2);// True
@@ -418,7 +425,7 @@ namespace 可变参数和out参数 {
 
         /*
         1.如果方法有多个参数，可变参数必须作为最后一个参数
-        2.可变参数可以传递餐也可以不传递参数，如果不传递参数，则此时 args 数组就是一个长度为0的数组，而不是 null
+        2.可变参数可以传递参数也可以不传递参数，如果不传递参数，则此时 args 数组就是一个长度为0的数组，而不是 null
         3.可变参数也可以直接传递一个数组进来
         */
         public static void Test(params int[] args) {
