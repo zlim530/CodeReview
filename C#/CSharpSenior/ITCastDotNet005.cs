@@ -697,3 +697,22 @@ namespace 文件操作 {
 
 
 }
+
+
+namespace MES{
+    public class Program{
+        static void Main(string[] args){
+
+        }
+
+        public void DownLoadTechnologyTemplate(){
+            string filePath = $"{Environment.CurrentDirectory}/{DateTime.UtcNow}";
+            FileInfo file = new FileInfo(filePath);
+            Stream stream = file.OpenRead();
+            stream.Position = 0;
+            byte[] buffer = new byte[stream.Length + 1];
+            stream.Read(buffer, 0, buffer.Length);
+
+        }
+    }
+}

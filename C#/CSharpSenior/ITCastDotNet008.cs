@@ -14,9 +14,9 @@ using System.Reflection;
  * 程序集中包含：类型元数据（描述在代码中定义的每一类型和成员二进制形式）、程序集元数据（程序集清单、版本号、名称等）、IL 代码（在 exe 或者 dll 文件中）、资源文件。每个程序集都有自己的名称、版本等信息。这些信息可以通过 AssemblyInfo.cs 文件来自己定义
  * 使用程序集的好处：
  * ·程序中只引用必须的程序集，减小程序的尺寸
- * ·程序集可以锋装一些代码，只提供必要的访问接口
+ * ·程序集可以封装一些代码，只提供必要的访问接口
  * 如何添加程序集的引用：
- * ·添加路劲、项目引用、GAC（全局程序集缓存）
+ * ·添加路径、项目引用、GAC（全局程序集缓存）
  * ·不能循环添加引用
  * ·在 C# 中添加其他其他语言编写的 dll 文件的引用：extern（参考 P/Inovke 在.NET 中调用非程序集的 dll）
  */
@@ -39,8 +39,7 @@ using System.Reflection;
   ·通过 Assembly 对象获取：Assembly asm = Assembly.LoadFile("c:\abc.dll");
   ·调用 Assembly 的 GetExportedTypes 方法可以得到 Assembly 中定义的所有的 public 类型
   ·调用 Assembly 的 GetTypes 方法可以得到 Assembly 中定义的所有的类型
-  ·调用 Assembly 的 GetType(string
-   name) 方法可以得到 Assembly 中定义的全名为 name 的类型信息
+  ·调用 Assembly 的 GetType(string name) 方法可以得到 Assembly 中定义的全名为 name 的类型信息
    动态创建对象：
    ·Activator.CreateInstance(Type t) 会动态调用类的无参构造函数创建一个对象，返回值就是创建的对象，如果类没有无参构造函数就会报错
    ·GetConstructor(参数列表);// 这个是找到带参数的构造函数
