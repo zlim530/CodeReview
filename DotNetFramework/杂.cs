@@ -1,3 +1,66 @@
+
+SMC.MES.Common/LinqExtension:
+IQueryableExtension.cs:IQueryable 的扩展
+public static IQueryable<TSource> WhereIfContains<TSource>(this IQueryable<TSource> source,string propertyName,string propertyValue)
+{
+	ParameterExpression parameter = Expression.Parameter(typeof(TSource),"p");
+	MemberExpression member = Expression.PropertyOrField(parameter,propertyName);
+	MethodInfo method = typeof(string).GetMethod("Contains",new[] { typeof(string)});
+	ConstantExpression constant = Expression.Constant(propertyValue,typeof(string));
+	return source.Where(Expression.Lambda<Func<TSource,bool>>(Expression.Call(member,method,constant),parameter));
+}
+
+
+
+
+
+
+
+
+IEnumerableExtension.cs:IEnumerable 的扩展
+
+public static IEnumerable<TSource> SkipTakeEnumerable<TSource>(this IEnumerable<TSource> source,int index,int limit)
+{
+	return source.Skip((index - 1) * limit).Take(limit);
+}
+
+
+
+
+
+IRepositoryExtension.cs: IRepository 的扩展
+
+public async static Task BulkInsertAsync<TEntity,TPrimaryKey>([NotNull] this IRepository<TEntity,TPrimaryKey> repository,List<TEntity> entities) where TEntity : Entity<TPrimaryKey>,new ()
+{
+	if (entites.Any())
+	{
+		foreach (var item in entities)
+		{
+			var itemType = item.GetType();
+			var objcuser = itemType.GetProperty(_strCreateUserId);
+			if (objcuser != null)
+			{
+				objcuser.SetValue(item,_abpSession.UserId,null);
+			}
+			var objctime = itemType.GetProperty(_strCreateDateTimes);
+			if (objctime != null)
+			{
+				objctime.SetValue(item,DateTime.Now,null);
+			}
+		}
+	}
+	await repository.GetDbContext().BulkInsertAsync(entities);
+}
+
+
+
+
+
+
+
+
+
+
 SMC.MES.Core/Technologys：
 
 namespace SMC.MES.Technologys
