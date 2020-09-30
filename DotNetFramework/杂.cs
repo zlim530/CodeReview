@@ -1,3 +1,243 @@
+// 构造DI
+public TechnologyAppService(
+	// ProductionLine 生产线表：在 SMC_MOM_EquipmentWorkReport 数据库中：对应当前HOLON下的生产线：在 设备管理/生产线 界面中
+	IRepository<ProductionLine, long> productionLinesRepository
+	// T_ProduceData_Inputs 首工序导入主表：在 SMC_MOM_Technology 数据库中：对应当前班组长导入本班每天排产信息首工序数据，在 作业调度管理/排产计划导入 界面中
+	, IRepository<T_ProduceData_Inputs, int> datainputRepository
+	// T_Tech_ProcessDetail 工艺过程/路径详情表：在 SMC_MOM_Technology 数据库中：对应标准工艺路径(从生技那获得的标准数据)中的数据，在 工艺管理/标准工艺路径(生技) 界面中
+	, IRepository<ProcessDetailInfo, int> processdetailinfoRepository
+	// 
+	, IRepository<T_Tech_ProcessChildDatas, int> processChildDatasRepository
+	, IRepository<T_Process_Matchings, int> Process_MatchingsRepository
+	, IRepository<T_Process_ProductionInfos, int> Process_ProductionInfosRepository
+	, IRepository<T_ProduceJoinTech_Datas, int> ProduceJoinTech_DatasRepository
+	, IRepository<V_New_ProductionInfos, int> New_ProductionInfosDatasRepository
+	, IRepository<T_WorkOrder_Groups, int> workordergroupsRepository
+	, IAbpSession abpSession
+	, IExcelCommon excelCommon
+	, ICacheManager cacheManager
+	, IWebHostEnvironment hostingEnvironment
+	, IMapper autoMapper
+	, DeviceManage deviceManage
+	, OuManager ouManager
+	, ITemplateCommon templateCommon
+	, ITechManage techManage
+	)
+
+{
+	_productionLinesRepository = productionLinesRepository;
+	_datainputRepository = datainputRepository;
+	_processdetailinfoRepository = processdetailinfoRepository;
+	_processChildDatasRepository = processChildDatasRepository;
+	_Process_MatchingsRepository = Process_MatchingsRepository;
+	_Process_ProductionInfosRepository = Process_ProductionInfosRepository;
+	_ProduceJoinTech_DatasRepository = ProduceJoinTech_DatasRepository;
+	_New_ProductionInfosDatasRepository = New_ProductionInfosDatasRepository;
+	_workordergroupsRepository = workordergroupsRepository;
+	_abpSession = abpSession;
+	_excelCommon = excelCommon;
+	_cacheManager = cacheManager;
+	_bulkImporyCache = "BulkImporyTechnologyCache";
+	_hostingEnvironment = hostingEnvironment;
+	_autoMapper = autoMapper;
+	_devicemanage = deviceManage;
+	strundefined = "undefined";
+	_ouManager = ouManager;
+	_templateCommon = templateCommon;
+	_timeoutminutes = 600;
+	_techManage = techManage;
+}
+
+
+
+
+
+
+
+
+
+
+
+using Abp.Domain.Entities;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SMC.MES.Technologys
+{
+    [Table("T_Tech_ProcessDetail")]
+    public class ProcessDetailInfo : Entity<int>
+    {
+		// 部品型号
+        public string MaterialModel { get; set; }
+        // HOLON名称
+		public string HOLON { get; set; }
+        // 4位部门代码
+		public string DepartNo { get; set; }
+        // 工艺路径:如NC(瓶颈),研磨,清洗,外观检查,出库
+		public string TechProcessName { get; set; }
+		public string TechLineGroup { get; set; }
+        public string BattLeMachGroup { get; set; }
+        public string CytimeGroup { get; set; }
+        public string TechProcessNum { get; set; }
+        public string PTMachGroup { get; set; }
+        public string BattleProcessNum { get; set; }
+		// 是否为原价基准
+        public Nullable<bool> Standard { get; set; }
+    }
+}
+
+
+
+using Abp.Domain.Entities;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SMC.MES.Technologys
+{
+    [Table("T_Tech_ProcessChildData")]
+    public class T_Tech_ProcessChildDatas : Entity<int>
+    {
+        /// <summary>
+        /// 部品型号
+        /// </summary>
+        public string MaterialModel { get; set; }
+        /// <summary>
+        /// holon代码
+        /// </summary>
+        public string HOLON { get; set; }
+        /// <summary>
+        /// 四位部门代码
+        /// </summary>
+        public string DepartNo { get; set; }
+        /// <summary>
+        /// 原价基准
+        /// </summary>
+        public Nullable<bool> Standard { get; set; }
+        /// <summary>
+        ///工艺工序代码
+        /// </summary>
+        public string ProcessNum { get; set; }
+        /// <summary>
+        /// 设备号
+        /// </summary>
+        public string MachNo { get; set; }
+        /// <summary>
+        /// 设备工序名称
+        /// </summary>
+        public string ProcessName { get; set; }
+        /// <summary>
+        /// 测量日期
+        /// </summary>
+        public Nullable<System.DateTime> MeterDate { get; set; }
+        /// <summary>
+        /// 瓶颈设备标记
+        /// </summary>
+        public Nullable<bool> BottleStamp { get; set; }
+        /// <summary>
+        /// 循环时间
+        /// </summary>
+        public Nullable<decimal> CycletTime { get; set; }
+        /// <summary>
+        /// 模具编号
+        /// </summary>
+        public string DieNum { get; set; }
+        /// <summary>
+        /// 瓶颈设备组可替代
+        /// </summary>
+        public string BattleMachGroup { get; set; }
+        /// <summary>
+        /// 瓶颈设备组可替代循环时间
+        /// </summary>
+        public string CytimeGroup { get; set; }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//格式化日期
+FormatDate: function (timespan, fmt) {//formatstyle:例如：yyyy-MM-dd hh:mm:ss
+	if (timespan == "1-01-01" || timespan == undefined) {
+		return "";
+	}
+	else {
+		if (!fmt) fmt = "yyyy-MM-dd hh:mm:ss";
+		var d = new Date(timespan);
+		var o = {
+			"M+": d.getMonth() + 1, //月份  
+			"d+": d.getDate(), //日  
+			"h+": d.getHours(), //小时  
+			"m+": d.getMinutes(), //分  
+			"s+": d.getSeconds(), //秒  
+			"q+": Math.floor((d.getMonth() + 3) / 3), //季度  
+			"S": d.getMilliseconds() //毫秒  
+		};
+		if (/(y+)/.test(fmt))
+			fmt = fmt.replace(RegExp.$1, (d.getFullYear() + "").substr(4 - RegExp.$1.length));
+		for (var k in o)
+			if (new RegExp("(" + k + ")").test(fmt))
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		return fmt;
+	}
+},
+
+
+
+
+
+
+
+
+变量    含义
+$data    要返回的数据
+$msg    页面提示信息
+$code    返回的code
+$wait    跳转等待时间 单位为秒
+$url    跳转页面地址
+
+
+public OutputPageInfo(int count,IRepositoryList<TEntity> items)
+{
+	Msg = "",
+	Data = items,
+	Count = count;
+}
+
+new OutputPageInfo<TechGetherOutput>(taskCount,taskList);
+
+
+
+
+
+
+
+
+
+
 
 SMC.MES.Common/LinqExtension:
 IQueryableExtension.cs:IQueryable 的扩展
