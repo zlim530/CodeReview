@@ -1,3 +1,224 @@
+// 创建 Jwttoken 中的 handler
+private string CreateAccessToken(IEnumerable<Claim> claims, TimeSpan? expiration = null)
+{
+    var now = DateTime.UtcNow;
+
+    var jwtSecurityToken = new JwtSecurityToken(
+        issuer: _configuration.Issuer,
+        audience: _configuration.Audience,
+        claims: claims,
+        notBefore: now,
+        expires: now.Add(expiration ?? _configuration.Expiration),
+        signingCredentials: _configuration.SigningCredentials
+    );
+
+    // JwtSecurityToken 类生成jwt，JwtSecurityTokenHandler将jwt编码，你可以在claims中添加任何chaims
+    //  创建一个JwtSecurityTokenHandler类用来生成Token，生成token字符串，返回值为 string
+    return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+}
+
+private async Task<List<Claim>> CreateJwtClaimsAsync(ClaimsIdentity identity)
+{
+    var claims = identity.Claims.ToList();
+    var nameIdClaim = claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+    var orgid = await _ouManager.GetOuIdByUserId(nameIdClaim.Value);
+    //var orgobj = await _ouManager.GetOuByUserId(orgid);
+    if (orgid==null)
+        throw new Exception("未找到当前用户部门!");
+    var orglevel = await _ouManager.GetOuIdByLevel(nameIdClaim.Value);
+    if (orglevel<=0)
+        throw new Exception("未找到当前用户组织机构等级!");
+    // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
+    long intorgid;
+    string userCode = string.Empty;
+    if(Int64.TryParse(orgid,out intorgid))
+    {
+        #region 判断是否为班组
+        if (Convert.ToInt32(orglevel) == (int)OranizationEnum.OrgunitLevel.Machine)
+        {
+            // 如果不是班组级别，则userCode为4位部门（HOLON）代码
+            userCode = string.Join(",", _ouManager.GetOrganizationTree(intorgid).Select(x => x.Code).ToArray());
+        }
+        else
+        {
+            // 如果是班组级别，则userCode为6位部门代码（本MES系统中独创的）
+            userCode = string.Join(",", _ouManager.GetOrganizationTree(intorgid).Select(x => x.OldCode).ToArray());
+        }
+    }
+    #endregion
+
+    claims.AddRange(new[]
+    {
+        new Claim("Application_OrganizationUnitId",orgid),
+        new Claim("Application_OrganizationLevel",orglevel.ToString()),
+        new Claim("Application_OrganizationCode",userCode),
+        // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
+        new Claim(JwtRegisteredClaimNames.Sub, nameIdClaim.Value),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+    });
+
+    return claims;
+}
+
+private string GetEncryptedAccessToken(string accessToken)
+{
+	// AppConsts.DefaultPassPhrase 加密字符串的 value
+    return SimpleStringCipher.Instance.Encrypt(accessToken, AppConsts.DefaultPassPhrase);
+}
+
+AppConsts.cs：
+namespace SMC.MES
+{
+    public class AppConsts
+    {
+        /// <summary>
+        /// Default pass phrase for SimpleStringCipher decrypt/encrypt operations
+        /// </summary>
+        public const string DefaultPassPhrase = "gsKxGZ012HLL3MI5";
+    }
+}
+
+
+
+
+
+
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Abp.Runtime.Security;
+
+namespace SMC.MES.Web.Host.Startup
+{
+    public static class AuthConfigurer
+    {
+        public static void Configure(IServiceCollection services, IConfiguration configuration)
+        {
+            if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"]))
+            {
+                // 配置认证服务
+                services.AddAuthentication(options => {
+                    options.DefaultAuthenticateScheme = "JwtBearer";
+                    options.DefaultChallengeScheme = "JwtBearer";
+                }).AddJwtBearer("JwtBearer", options =>
+                {
+                    options.Audience = configuration["Authentication:JwtBearer:Audience"];
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // The signing key must match!
+                        // 是否验证密钥
+                        ValidateIssuerSigningKey = true,
+                        // 密钥
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Authentication:JwtBearer:SecurityKey"])),
+
+                        // Validate the JWT Issuer (iss) claim
+                        // 是否验证发行人
+                        ValidateIssuer = true,
+                        // 发行人
+                        ValidIssuer = configuration["Authentication:JwtBearer:Issuer"],
+
+                        // Validate the JWT Audience (aud) claim
+                        // 是否验证受众人
+                        ValidateAudience = true,
+                        // 受众人
+                        ValidAudience = configuration["Authentication:JwtBearer:Audience"],
+
+                        // Validate the token expiry
+                        // 验证生命周期
+                        ValidateLifetime = true,
+
+                        // If you want to allow a certain amount of clock drift, set that here
+                        // 如果你想允许一定数量的时钟漂移，在这里设置
+                        // ClockSkew = TimeSpan.FromSeconds(300), ----- 允许服务器时间偏移量300秒，即我们配置的过期时间加上这个允许偏移的时间值，才是真正过期的时间(过期时间 +偏移值)你也可以设置为0，ClockSkew = TimeSpan.Zero
+                        ClockSkew = TimeSpan.Zero
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = QueryStringTokenResolver
+                    };
+                });
+            }
+        }
+
+        /* This method is needed to authorize SignalR javascript client.
+         * SignalR can not send authorization header. So, we are getting it from query string as an encrypted text. */
+        private static Task QueryStringTokenResolver(MessageReceivedContext context)
+        {
+            if (!context.HttpContext.Request.Path.HasValue ||
+                !context.HttpContext.Request.Path.Value.StartsWith("/signalr"))
+            {
+                // We are just looking for signalr clients
+                return Task.CompletedTask;
+            }
+
+            var qsAuthToken = context.HttpContext.Request.Query["enc_auth_token"].FirstOrDefault();
+            if (qsAuthToken == null)
+            {
+                // Cookie value does not matches to querystring value
+                return Task.CompletedTask;
+            }
+
+            // Set auth token from cookie
+            context.Token = SimpleStringCipher.Instance.Decrypt(qsAuthToken, AppConsts.DefaultPassPhrase);
+            return Task.CompletedTask;
+        }
+    }
+}
+
+
+public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+{
+    //app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
+    app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
+
+    app.UseCors(_defaultCorsPolicyName); // Enable CORS!
+
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    // 关于认证授权方案之JwtBearer认证实现认证服务注册的两个中间件
+    // 1.先开启认证
+    app.UseAuthentication();
+    // 2.再开启授权
+    app.UseAbpRequestLocalization();
+
+    //添加MIME
+    var provider = new FileExtensionContentTypeProvider();
+    provider.Mappings[".zpl"] = "application/octet-stream";//解决斑马打印问题
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        ContentTypeProvider = provider
+    });
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHub<AbpCommonHub>("/signalr");
+        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+        endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
+    });
+
+    // Enable middleware to serve generated Swagger as a JSON endpoint
+    app.UseSwagger();
+    // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint(_appConfiguration["App:ServerRootAddress"].EnsureEndsWith('/') + "swagger/v1/swagger.json", "MES API V1");
+        options.IndexStream = () => Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream("SMC.MES.Web.Host.wwwroot.swagger.ui.index.html");
+    }); // URL: /swagger
+}
+
+
+
+
+
+
 // 构造DI
 public TechnologyAppService(
 	// ProductionLine 生产线表：在 SMC_MOM_EquipmentWorkReport 数据库中：对应当前HOLON下的生产线：在 设备管理/生产线 界面中
