@@ -1,3 +1,121 @@
+public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
+{
+	if (env.IsDevelopment)
+	{
+		app.UseDevelopmentExceptionPage();
+	}
+
+	app.UseRouting();
+
+	app.UseEndpoints(endpoints => {
+		endpoints.MapGet("/",async context => {
+			await context.Response.WriteAsync("Hello World!");
+		})
+	});
+}
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    // Matches request to an endpoint.
+    app.UseRouting();
+
+    // Endpoint aware middleware. 
+    // Middleware can use metadata from the matched endpoint.
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    // Execute the matched endpoint.
+    app.UseEndpoints(endpoints =>
+    {
+        // Configure the Health Check endpoint and require an authorized user.
+        endpoints.MapHealthChecks("/healthz").RequireAuthorization();
+
+        // Configure another endpoint, no authorization requirements.
+        endpoints.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync("Hello World!");
+        });
+    });
+}
+
+
+// Location 1: before routing runs, endpoint is always null here
+app.Use(next => context =>
+{
+    Console.WriteLine($"1. Endpoint: {context.GetEndpoint()?.DisplayName ?? "(null)"}");
+    return next(context);
+});
+
+app.UseRouting();
+
+// Location 2: after routing runs, endpoint will be non-null if routing found a match
+app.Use(next => context =>
+{
+    Console.WriteLine($"2. Endpoint: {context.GetEndpoint()?.DisplayName ?? "(null)"}");
+    return next(context);
+});
+
+app.UseEndpoints(endpoints =>
+{
+    // Location 3: runs when this endpoint matches
+    endpoints.MapGet("/", context =>
+    {
+        Console.WriteLine(
+            $"3. Endpoint: {context.GetEndpoint()?.DisplayName ?? "(null)"}");
+        return Task.CompletedTask;
+    }).WithDisplayName("Hello");
+});
+
+// Location 4: runs after UseEndpoints - will only run if there was no match
+app.Use(next => context =>
+{
+    Console.WriteLine($"4. Endpoint: {context.GetEndpoint()?.DisplayName ?? "(null)"}");
+    return next(context);
+});
+
+
+
+
+
+
+
+
+
+有关 JwtBearer 相关：
+using System;
+using Microsoft.IdentityModel.Tokens;
+
+namespace SMC.MES.Authentication.JwtBearer
+{
+    public class TokenAuthConfiguration
+    {
+        // 加密的Key：SecretKey 必须大于16个，是大于，不是大于等于
+        public SymmetricSecurityKey SecurityKey { get; set; }
+        
+        // token是谁颁发
+        public string Issuer { get; set; }
+        
+        // token 可以给哪些客户端使用
+        public string Audience { get; set; }
+
+        // 定义token中的安全密钥与加密算法
+        public SigningCredentials SigningCredentials { get; set; }
+        
+        // token的过期时间
+        public TimeSpan Expiration { get; set; }
+    }
+}
+
+
+
+
+
+
 // 创建 Jwttoken 中的 handler
 private string CreateAccessToken(IEnumerable<Claim> claims, TimeSpan? expiration = null)
 {
