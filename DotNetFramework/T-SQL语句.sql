@@ -336,3 +336,41 @@ select * from Class
 -- sum() 对于null值认为是0
 -- 2.如果使用聚合函数的时候没有手动 group by 分组，那么聚合函数会把整个表中的数据作为一组来统计
 
+
+
+-----------------------------2020年10月12日(Monday)-----------------------------
+-- 带条件的查询：
+/*
+select 
+	列名
+from 表名
+where 条件
+*/
+select 
+	Name,
+	Age,
+from Stduent 
+where ClassId = 1 or ClassId = 2 or ClassId = 3
+
+select 
+	Name,
+	Age,
+from Stduent 
+where ClassId in (1,2,3)
+
+-- 对于上述查询语句，可以写成：
+select 
+	Name,
+	Age,
+from Stduent 
+where ClassId >= 1 and ClassId <= 3
+-- 因为1,2,3是连续的值，使用这种写法效率更高
+
+--查询年龄在20-30岁之间的男学生（包含20和30）
+select 
+	*
+from Student
+where Age >= 20 and Age <= 30 and Gender = '男'
+
+
+

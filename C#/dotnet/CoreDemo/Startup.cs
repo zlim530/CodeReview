@@ -18,7 +18,7 @@ namespace CoreDemo {
 
         /*
         ConfigureServices 用来配置依赖注入的
-        注入容器的声明周期：依赖注入，IoC容器
+        注入容器的生明周期：依赖注入，IoC容器
         - Transient：每次被请求都会创建新的实例
         - Scoped：每次Web请求会创建一个实例
         - Singleton：一旦被创建实例，就会一直使用这个实例，直到应用停止
