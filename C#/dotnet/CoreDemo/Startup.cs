@@ -18,10 +18,10 @@ namespace CoreDemo {
 
         /*
         ConfigureServices 用来配置依赖注入的
-        注入容器的生明周期：依赖注入，IoC容器
-        - Transient：每次被请求都会创建新的实例
-        - Scoped：每次Web请求会创建一个实例
-        - Singleton：一旦被创建实例，就会一直使用这个实例，直到应用停止
+        注入容器的生命周期：依赖注入，IoC容器
+        - Transient 瞬态模式：每次服务被请求都会创建新的实例，服务在每次请求时被创建
+        - Scoped 作用域模式：服务在每次请求时被创建，整个请求过程中都贯穿使用这个创建的服务；每次Web请求会创建一个实例
+        - Singleton 单例模式：服务在第一次请求时被创建，其后的每次请求都沿用这个已创建的服务；一旦被创建实例，就会一直使用这个实例，直到应用停止，在整个 web 程序应用服务期间只创建一个实例对象
         */
         public void ConfigureServices(IServiceCollection services) {
             // 配置 MVC 
