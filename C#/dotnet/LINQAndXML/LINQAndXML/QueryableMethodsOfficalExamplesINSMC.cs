@@ -23,7 +23,7 @@ namespace QueryableMethodsOfficalExamplesINSMC
 	public class AllEx
 	{
 
-		static void Main(string[] args)
+		static void Main0(string[] args)
 		{
 			//AllEx2();
 			//AnyEx1();

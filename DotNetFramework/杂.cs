@@ -1,3 +1,157 @@
+/// <summary>
+/// 根据机器号MachinNo= A,B,C 得到今天这台机器红灯的列表, 要去掉DownTimeReport中的ListNo的停机记录
+/// </summary>
+/// <returns></returns>
+public async Task<List<GetDownTimeByTripleLightOutput>> GetDownTimeByTripleLight(string MachineNoListString)
+{
+	// 尽量避免直接去 new 对象：有违背 IoC、OOP 原则
+	List<GetDownTimeByTripleLightOutput> downList = new List<GetDownTimeByTripleLightOutput>();
+	
+	//如果传入的机器列表为空，直接返回
+	if (string.IsNullOrEmpty(MachineNoListString)) {
+		//MachinNoListString
+		return downList;
+	}
+
+	//得到机器号列表2434,1111
+	// StringSplitOptions.RemoveEmptyEntries 去除被分割数组中的无意义字符
+	List<string> MachineNoList = MachineNoListString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+
+	//从DownTimeReport表中得到今天已经报停机的列表
+	// 任何 List 在使用之前都要进行非空判断！！！因为我们不能保证此 List 一定是有值的
+	var exceptListNoList = await _downTimeReportRepository.GetAll()
+		.Where(d => d.CreationTime.Date == DateTime.Now.Date)//今天汇报的
+		.Select(d => d.ListNo).Distinct()
+		.ToListAsync();
+
+	#region 根据 PlantNo-DepartNo-MachineNo 得到停机信息
+	//根据机器号得到机器Id
+	var planDepartMachineDtoList = await _v_manuDNC_Machine_collect_dicRepository.GetAll()
+		.Where(dic => MachineNoList.Contains(dic.MachineNo))
+		.Select(dic => new PlanDepartMachineDto
+		{
+			PlanNo = dic.PlanNo,
+			DepartNo = dic.DepartNo,
+			MachineID = dic.MachineID
+		})
+		.Distinct()
+		.ToListAsync();
+	//List<string> planDepartMachineStringList = planDepartMachineDtoList.Select(d => d.ToString()).ToList();
+
+	//根据机器Id和Today得到三色灯停机列表，但是排除已经汇报过的
+	List<V_manuDNC_V_Machine_Chart> tempV_manuDNC_V_Machine_ChartList = new List<V_manuDNC_V_Machine_Chart>();
+	foreach (PlanDepartMachineDto  pdm in planDepartMachineDtoList) { 
+	
+		var partList = await _v_manuDNC_V_Machine_ChartRepository.GetAll()
+			.Where(sd =>   pdm.PlanNo == sd.PlantNo 
+						&& pdm.DepartNo == sd.DepartNo 
+						&& pdm.MachineID == sd.MachineNo  //工单对应的机器
+						&& (sd.Starttime.Value.Date == DateTime.Now.Date || sd.Endtime.Value.Date == DateTime.Now.Date) //今天
+						&& (!exceptListNoList.Contains(sd.Id))
+						&& (_showcolorList.Contains(sd.Showcolor))  // 红 黄 蓝
+						//&& (sd.sj >= this._downTimeThresholdSecond)
+						)  //大于阈值
+			.Select(sd => sd)
+			.OrderBy(sd => sd.Id).ThenBy(sd => sd.Starttime)
+			.ToListAsync();
+
+		tempV_manuDNC_V_Machine_ChartList.AddRange(partList);
+	}
+	#endregion
+
+	#region 有时间再修改多个条件join
+	//result = (from d in (_v_manuDNC_Machine_collect_dicRepository
+	//           .GetAll()
+	//           .Where(dic => MachineNoList.Contains(dic.MachineNo))
+	//           .Select(dic => dic).ToList())
+	//          join down in await _v_manuDNC_V_Machine_ChartRepository.GetAll().ToListAsync()
+	//          on new { d.PlanNo, d.DepartNo, d.MachineID } equals new { down.PlantNo, down.DepartNo, down.MachineNo } into d_down
+	//          from data1 in d_down.DefaultIfEmpty()
+	//          select new V_manuDNC_V_Machine_Chart
+	//          {
+	//              Id = data1 == null ? 0 : data1.,
+	//              MachineNo = i.WorkOrder,
+	//              Starttime = i.ProcessName,
+	//              Endtime = i.ProcessNo,
+	//              sj = i.MachineNum,
+	//              Showcolor = i.ProdKOGONo
+	//          }).OrderBy(i => i.Id).ToList();
+
+	//var query =(_v_manuDNC_Machine_collect_dicRepository
+	//           .GetAll()
+	//           .Where(dic => MachineNoList.Contains(dic.MachineNo))
+	//           .Select(dic => dic).ToList())
+	//           .GroupJoin((await _v_manuDNC_V_Machine_ChartRepository.GetAll().ToListAsync()),
+	//             d => new { d.PlanNo, d.DepartNo, d.MachineID },
+	//             down => new { down.PlantNo, down.DepartNo, down.MachineNo },
+	//             (d, down) => down.Select(d2 => new V_manuDNC_V_Machine_Chart
+	//             {
+	//                 Id = d2.Id,
+	//                 MachineNo = d2.MachineNo,
+	//                 Starttime = d2.Starttime,
+	//                 Endtime = d2.Endtime,
+	//                 sj = d2.sj,
+	//                 Showcolor = d2.Showcolor
+	//             }));
+
+	#endregion
+
+	downList = _autoMapper.Map<List<GetDownTimeByTripleLightOutput>>(tempV_manuDNC_V_Machine_ChartList);
+
+	return downList;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
 {
 	if (env.IsDevelopment)
