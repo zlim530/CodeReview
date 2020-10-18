@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj": {}
+    "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj": {
+    "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj",
+        "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj",
         "projectName": "CoreDemo",
-        "projectPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj",
+        "projectPath": "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj",
         "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lim\\Desktop\\code\\CodeReview\\C#\\dotnet\\CoreDemo\\obj\\",
+        "outputPath": "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\dotnet\\CoreDemo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
