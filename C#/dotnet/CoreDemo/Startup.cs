@@ -72,6 +72,7 @@ namespace CoreDemo {
                 logger.LogInformation("M1 Start");
                 await context.Response.WriteAsync("zlim,");
                 await next();
+                // 异步调用 next()，因此当执行此中间件时，next() 方法后面的代码会在 M2 End 后面执行
                 logger.LogInformation("M1 End");
             });
 

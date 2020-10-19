@@ -9,6 +9,7 @@ using Routine.Api.Data;
 namespace Routine.Api {
     public class Program {
         public static void Main(string[] args) {
+            // 生成承载 web 应用程序的 Microsoft.Extensions.Hosting.IHost 
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope()) {
