@@ -1,3 +1,143 @@
+#region IQeurable、IEnumerable、IList的区别
+基本概念：
+
+IEnumerable：使用的是LINQ to Object方式，它会将AsEnumerable()时对应的所有记录都先加载到内存，然后在此基础上再执行后来的Query
+
+IQeurable（IQuerable<T>）:不在内存加载持久数据,因为这家伙只是在组装SQL，(延迟执行) 到你要使用的时候，例如  list.Tolist() or list.Count()的时候，数据才从数据库进行加载 (AsQueryable())。
+
+IList（IList<T>）：泛型接口是 ICollection 泛型接口的子代，作为所有泛型列表的基接口，在用途方面如果作为数据集合的载体这是莫有问题的，只是如果需要对集合做各种的操作，例如 排序 编辑 统计等等，它不行。
+
+List <> ：泛型类,它已经实现了IList <> 定义的那些方法,IList<T> list=new List<T>();只是想创建一个基于接口IList<Class1>的对象的实例，这个接口是由List<T>实现的。只是希望使用到IList<T>接口规定的功能而已
+
+
+//IList
+IList users = res.ToList(); //此时已把users加载到内存，而每个user的关联实体（UserInfos）未被加载，所以下一行代码无法顺利通过
+var ss = users.Where(p => p.UserInfos.ID != 3); //此处报错，因为P的UserInfos实体无法被加载
+
+// IQuerable的
+IQueryable users = res.AsQueryable(); //users未被立即加载，关联实体可通过“延迟加载”获得
+var ss = users.Where(p => p.UserInfos.ID != 3);//此处顺利获得对应的ss
+
+
+总结:
+
+基于性能和数据一致性这两点，使用IQueryable时必须谨慎，而在大多数情况下我们应使用IList。
+
+1.当你打算马上使用查询后的结果(比如循环作逻辑处理或者填充到一个table/grid中)，并且你不介意该查询即时被执行后的结果可以供调用者(Consummer)作后续查询(比如这是一个"GetAll"的方法)，或者你希望该查执行，使用ToList()
+2.当你希望查询后的结果可以供调用者(Consummer)作后续查询(比如这是一个"GetAll"的方法)，或者你希望该查询延时执行，使用AsQueryable()
+3.按照功能由低到高：List<T> IList<T> IQueryable<T> IEnumerable<T>(IEnumerable的功能最丰富)
+4.按照性能由低到高：IEnumerable<T> IQueryable<T> IList<T> List<T>(IEnumerable的性能最低)
+#endregion
+
+
+#region ExcelPackage类源码：namespace OfficeOpenXml Represents an Excel 2007/2010 XLSX file package. This is the top-level object
+to access all parts of the document.
+//
+// 摘要:
+//     Copies the Package to the Outstream The package is closed after it has been saved
+//
+// 参数:
+//   OutputStream:
+//     The stream to copy the package to
+public void SaveAs(Stream OutputStream)
+{
+	File = null;
+	Save();
+	if (OutputStream != _stream)
+	{
+		CopyStream(_stream, ref OutputStream);
+	}
+}
+
+
+
+//
+// 摘要:
+//     Saves all the components back into the package. This method recursively calls
+//     the Save method on all sub-components. We close the package after the save is
+//     done.
+public void Save()
+{
+	try
+	{
+		if (_stream is MemoryStream && _stream.Length > 0)
+		{
+			CloseStream();
+		}
+
+		Workbook.Save();
+		if (File == null)
+		{
+			if (Encryption.IsEncrypted)
+			{
+				MemoryStream memoryStream = new MemoryStream();
+				_package.Save(memoryStream);
+				byte[] package = memoryStream.ToArray();
+				CopyStream(new EncryptedPackageHandler().EncryptPackage(package, Encryption), ref _stream);
+			}
+			else
+			{
+				_package.Save(_stream);
+			}
+
+			_stream.Flush();
+			_package.Close();
+		}
+		else // if (File != null)
+		{
+			if (System.IO.File.Exists(File.FullName))
+			{
+				try
+				{
+					System.IO.File.Delete(File.FullName);
+				}
+				catch (Exception innerException)
+				{
+					throw new Exception($"Error overwriting file {File.FullName}", innerException);
+				}
+			}
+
+			_package.Save(_stream);
+			_package.Close();
+			if (Stream is MemoryStream)
+			{
+				FileStream fileStream = new FileStream(File.FullName, FileMode.Create);
+				if (Encryption.IsEncrypted)
+				{
+					byte[] package2 = ((MemoryStream)Stream).ToArray();
+					MemoryStream memoryStream2 = new EncryptedPackageHandler().EncryptPackage(package2, Encryption);
+					fileStream.Write(memoryStream2.ToArray(), 0, (int)memoryStream2.Length);
+				}
+				else
+				{
+					fileStream.Write(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length);
+				}
+
+				fileStream.Close();
+				fileStream.Dispose();
+			}
+			else
+			{
+				System.IO.File.WriteAllBytes(File.FullName, GetAsByteArray(save: false));
+			}
+		}
+	}
+	catch (Exception innerException2)
+	{
+		if (File == null)
+		{
+			throw;
+		}
+
+		throw new InvalidOperationException($"Error saving file {File.FullName}", innerException2);
+	}
+}
+#endregion
+
+
+
+
+#region SMC.MES.DeviceProcessReport/Report/DeviceProcessReportAppService.cs
 /// <summary>
 /// 根据机器号MachinNo= A,B,C 得到今天这台机器红灯的列表, 要去掉DownTimeReport中的ListNo的停机记录
 /// </summary>
@@ -108,7 +248,7 @@ public async Task<List<GetDownTimeByTripleLightOutput>> GetDownTimeByTripleLight
 
 
 /// <summary>
-/// 根据加工指示号processNo从数据库中找到数据，斑马打印机
+/// 根据加工指示号打印随行票：根据加工指示号processNo从数据库中找到数据，斑马打印机
 ///   1 如果文件路径存在就返回，并且打印次数+1，OperationTime改成now
 ///   2 如果保存的文件路径的zpl文件不存在了，就根据数据库中的数据生成zpl文件，返回路径。
 ///   3 如果processNo没有查询到数据，就根据3个view生成zpl，并且写库。PrintCount=1 and OperationTime改成now
@@ -526,56 +666,13 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 	//}
 	//result.OrderBy(c => c.CurrentBoxNumber).ToList();
 }
+#endregion
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#region ASP .NET Core 路由相关
 public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
 {
 	if (env.IsDevelopment)
@@ -655,6 +752,7 @@ app.Use(next => context =>
     Console.WriteLine($"4. Endpoint: {context.GetEndpoint()?.DisplayName ?? "(null)"}");
     return next(context);
 });
+#endregion
 
 
 
@@ -663,8 +761,7 @@ app.Use(next => context =>
 
 
 
-
-有关 JwtBearer 相关：
+#region 有关 JwtBearer 相关：
 using System;
 using Microsoft.IdentityModel.Tokens;
 
@@ -909,12 +1006,12 @@ public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
             .GetManifestResourceStream("SMC.MES.Web.Host.wwwroot.swagger.ui.index.html");
     }); // URL: /swagger
 }
+#endregion
 
 
 
 
-
-
+#region SMC.MES.Technology/Techologys/TechnologyAppService.cs 构造DI
 // 构造DI
 public TechnologyAppService(
 	// ProductionLine 生产线表：在 SMC_MOM_EquipmentWorkReport 数据库中：对应当前HOLON下的生产线：在 设备管理/生产线 界面中
@@ -964,7 +1061,7 @@ public TechnologyAppService(
 	_timeoutminutes = 600;
 	_techManage = techManage;
 }
-
+#endregion
 
 
 

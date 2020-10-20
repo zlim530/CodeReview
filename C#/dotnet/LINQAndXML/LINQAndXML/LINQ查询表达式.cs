@@ -106,7 +106,7 @@ namespace LINQAndXML {
             noone  :Noone       javascript  javascript  fg
                                 UI          UI          fish
                                 java        Java        NULL
-            m join j 即 m left join t：因此 m 序列中的所有元素都会显示出来
+            m join t 即 m left join t：因此 m 序列中的所有元素都会显示出来
             */
             Major java = new Major { Name = "Java"};
             var info1s = from m in new List<Major> { csharp, javascript, SQL, java }

@@ -55,6 +55,12 @@ namespace CoreDemo {
                 });
             }*/
 
+            app.Run(async context => {
+                logger.LogInformation("run 1 start");
+                await context.Response.WriteAsync("Hello world!run 1.");
+                logger.LogInformation("run 1 end.");
+            })
+
 
             app.UseStatusCodePages();
             app.UseStaticFiles();

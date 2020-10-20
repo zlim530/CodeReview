@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Text;
 
 namespace LINQAndXML
 {
     public class DailyTest
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             string str = "a -b+c";
             string[] s = str.Split(new char[] { '-', '+' }, StringSplitOptions.RemoveEmptyEntries);
@@ -14,6 +15,11 @@ namespace LINQAndXML
             Console.WriteLine(str[1]);
             Console.WriteLine(str[2]);// -
 
+        }
+
+        static void Main(String[] args)
+        {
+            
         }
     }
 }
