@@ -1,3 +1,82 @@
+public class Student{
+	
+}
+
+
+
+
+#region 2020年10月20日
+using System;
+using System.IO;
+using System.Net.Sockets;
+using System.Text;
+class Program
+{
+	static void Main()
+	{
+		string rootDirectory = Environment.CurrentDirectory;
+		Console.WriteLine("开始连接，端口号：8090");
+		Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+		socket.Bind(new System.Net.IPEndPoint(System.Net.IPAddress.Loopback, 8090));
+		socket.Listen(30);
+		while (true)
+		{
+			Socket socketClient = socket.Accept();
+			Console.WriteLine("新请求");
+			byte[] buffer = new byte[4096];
+			int length = socketClient.Receive(buffer, 4096, SocketFlags.None);
+			string requestStr = Encoding.UTF8.GetString(buffer, 0, length);
+			Console.WriteLine(requestStr);
+			//
+			string[] strs = requestStr.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+			string url = strs[0].Split(' ')[1];
+
+			byte[] statusBytes, headerBytes, bodyBytes;
+
+			if (Path.GetExtension(url) == ".jpg")
+			{
+				string status = "HTTP/1.1 200 OK\r\n";
+				statusBytes = Encoding.UTF8.GetBytes(status);
+				bodyBytes = File.ReadAllBytes(rootDirectory + url);
+				string header = string.Format("Content-Type:image/jpg;\r\ncharset=UTF-8\r\nContent-Length:{0}\r\n", bodyBytes.Length);
+				headerBytes = Encoding.UTF8.GetBytes(header);
+			}
+			else
+			{
+				if (url == "/")
+					url = "默认页";
+				string status = "HTTP/1.1 200 OK\r\n";
+				statusBytes = Encoding.UTF8.GetBytes(status);
+				string body = "<html>" +
+					"<head>" +
+						"<title>socket webServer  -- Login</title>" +
+					"</head>" +
+					"<body>" +
+						"<div style=\"text-align:center\">" +
+							"当前访问" + url +
+						"</div>" +
+					"</body>" +
+				"</html>";
+				bodyBytes = Encoding.UTF8.GetBytes(body);
+				string header = string.Format("Content-Type:text/html;charset=UTF-8\r\nContent-Length:{0}\r\n", bodyBytes.Length);
+				headerBytes = Encoding.UTF8.GetBytes(header);
+			}
+			socketClient.Send(statusBytes);
+			socketClient.Send(headerBytes);
+			socketClient.Send(new byte[] { (byte)'\r', (byte)'\n' });
+			socketClient.Send(bodyBytes);
+
+			socketClient.Close();
+		}
+	}
+}
+#endregion
+
+
+
+
+
+
 #region IQeurable、IEnumerable、IList的区别
 基本概念：
 

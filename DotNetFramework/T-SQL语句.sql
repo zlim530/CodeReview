@@ -372,5 +372,68 @@ select
 from Student
 where Age >= 20 and Age <= 30 and Gender = '男'
 
+select * from TblStudent where Age between 20 and 30 and Gender = '男'
+-- between ... and .. 在...之间（闭区间，包含两个端点值）
+
+select * from TblStudent where tClassId = 3 or tClassId = 4 or tClassId = 5
+select * from TblStudent where tClassId in (3,4,5)
+-- 对于in 或者or 查询，如果查询中的条件是连续的几个数字，最好使用 >=、<= 或者 between ... and ...，不要使用or或者in，以调高效率
+select * from TblStudent where tClassId >= 3 and tClassId <= 5
 
 
+
+-------------------------------2020年10月21日-----------------------
+/*
+模糊查询：
+	通配符: _ 、 % 、[] 、^
+*/
+-- _ 表示任意单个字符，它匹配单个出现的字符
+-- 所有姓张，名字为两个字的
+select * from TblStudent where tName like '张_'
+
+-- 所有姓张，名字为三个字的
+select * from TblStudent where tName like '张__'
+
+
+-- % 表示匹配任意多个字符，它匹配任意次数（零或多个）出现的任意字符
+-- 无论姓名字数，只要第一个字符是'张'即可匹配
+select * from TblStudent where tName like '张%'
+
+-- 用另一个字符串替换出现的所有指定字符串值
+replace(string _expression, string _pattern, string replacement)
+-- string _expression 要搜索的字符串表达式，可以是字符或二进制数据类型
+-- string _pattern 要查找的子字符串，可以是字符或二进制数据类型，不能是空字符串('')
+-- string replacement 替换字符串，可以是字符或二进制数据类型
+update TblStudent set tName = REPLACE(tName,'(女)','')
+
+
+-- [] 表示筛选范围，只匹配一个字符，并且这个字符必须是 [] 范围内的
+select * from TblStudent where tName like '张[0-9]豪'
+select * from TblStudent where tName like '张[a-z]豪'
+select * from TblStudent where tName like '张[a-z0-9]豪'
+-- [^] 不在指定范围内的任何单个字符：^ 只有MSSQL Server 支持，其他DBMS用 not like
+select * from TblStudent where tName like '张[^0-9]豪'
+select * from TblStudent where tName not like '张[0-9]豪'
+
+
+-- 查询出姓名中包含 % 的人
+-- 通配符放到 [] 中就转义了则不再认为是通配符
+select * from TblStudent where tName like '%[%]%'
+
+-- where columnA like '%5/%%' ESCAPE '/'
+-- 自定义转义符
+select * from TblStudent where tName like '%/]%' escape '/' -- 将转义符指定为 / 也即对 ] 符号进行转义
+select * from TblStudent where tName like '%/[%' escape '/'
+select * from TblStudent where tName like '%/[%/]%' escape '/'
+
+
+/*
+空值处理：
+·数据库中，一个列如果没有指定值，那么值就为null，数据库中的null表示“不知道”，而不是表示没有。
+因此select null + 1 的结果还是null，因为“不知道”加1的结果还是“不知道”
+·select * from score where English = null; select * from socre where English != null
+都没有任何返回结果，因为数据库也不知道什么等于“不知道”或者什么不等于“不知道”
+·SQL 中使用 is null 或者 is not null来进行空值判断
+select * from score where English is null; select * from score where English is not null
+ISNULL(check_expression,)
+*/
