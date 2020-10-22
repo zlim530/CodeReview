@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace LINQAndXML
 {
@@ -18,7 +19,13 @@ namespace LINQAndXML
 
         static void Main(String[] args)
         {
-            
+            //int y = 10;
+            //int x = y == 0 ? 1 : y;
+            Func<int, int> del = x => x + 1;
+            Expression<Func<int, int>> exp = x => x + 1;// 表达式目录树 exp 引用描述表达式 x => x + 1 的数据结构
+            var del2 = exp.Compile();
+            Console.WriteLine(del(1));
+            Console.WriteLine(del2(1));
         }
     }
 }

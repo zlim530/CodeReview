@@ -435,5 +435,78 @@ select * from TblStudent where tName like '%/[%/]%' escape '/'
 都没有任何返回结果，因为数据库也不知道什么等于“不知道”或者什么不等于“不知道”
 ·SQL 中使用 is null 或者 is not null来进行空值判断
 select * from score where English is null; select * from score where English is not null
-ISNULL(check_expression,)
+ISNULL(check_expression,replacement_)
 */
+select null + 200-- 任何值与null进行计算，得到的结果还是null
+
+
+
+-------------------------------2020年10月22日-----------------------
+-------------------------------数据排序-----------------------
+/*
+·order by字节位于select 语句末尾，它允许指定按照一个列或者多个列进行排序，还可以指定排序是升序（从小到大排列，asc）还是降序（从大到小排列，desc）
+·order by 语句一般要放在所有语句的后面，表示先让其他语句进行筛选，待全部筛选完成后，最后进行排序
+·表中数据是集合，集合是没有顺序的。order by 返回的数据是有顺序的，故此我们把order by以后返回的数据集合叫“游标”
+*/
+-- 按照英语成绩的升序进行排序
+select * from TblScore order by tEnglish asc
+-- 先按照英语成绩的从小到大进行排序，如果英语成绩相同则按照数学成绩从大到小排序
+select * from TblScore order by tEnglish asc,tMath desc
+
+--order by字句要放在where 字句之后
+select * from TblScore where tEnglish >=60 and tMath >=60 order by tEnglish asc,tMath desc
+
+-- order by 语句必须一定要放在整个sql语句的最后
+select * from TableName
+left join ...
+where ...
+group by ... 
+having ...
+order by ...
+
+
+select 
+	*,
+	AvgScore = (tEnglish + tMath) * 1.0 / 2
+from TblScore
+order by AvgScore desc
+
+select 
+	*
+from TblScore
+order by(tEnglish + tMath) * 1.0 / 2 desc
+
+select * -- 3
+from TblScore -- 1
+where tEnglish >= 60 and tMath >=60 -- 2
+order by tEnglish desc,tMath desc -- 4
+
+
+
+-------------------------------数据分组-----------------------
+/*
+·在使用select 查询的时候，有时候需要对数据进行分组汇总（即：将现有的数据按照某列来汇总统计），这时就需要用到group by 语句，select 语句中可以使用group by字句将行划分成较小的组，然后使用聚合函数返回每一组的汇总信息；分组一般都和聚合函数连用
+·group by 字句必须放到where 语句之后，group by 与 order by 都是对筛选后的数据进行处理，而where 是用来筛选数据的；
+·没有出现在group by 字句中的列是不能放到select 语句后的列名列表中的（聚合函数中除外）
+	select ClassId,count(sName),sAge from Student group by ClassId => 错误！
+	select ClassId,count(sName),avg(sAge) from Student group by ClassId => 正确！
+*/
+
+--从学生表中查出每个班的班级Id和班级人数
+select 
+	tClassId as 班级Id,
+	班级人数 = count(*)
+from TblStudent
+group by tClassId
+
+-- 统计出班级中男同学与女同学的人数
+select 
+	Gender = tGender,
+	GenderCount = COUNT(*)
+from TblStudent
+group by tGender
+
+
+
+-------------------------------having语句（对组的筛选，哪些组显示哪些组不显示）-----------------------
+

@@ -1,5 +1,16 @@
 public class Student{
-	
+	public string FirstName {get;}
+	public string LastName {get;}
+
+	public Student(string firstName,string lastName)		
+	{
+		if (IsNullOrWhiteSpace(lastName))	
+		{
+			throw new ArgumentException(message:"Cannot be blank",paramName:nameof(lastName));
+		}
+		FirstName = firstName;
+		LastName = lastName;
+	}
 }
 
 
@@ -366,14 +377,14 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 
 			// 工序名称数组：即工艺路径
 			string[] gxDescArr = new string[15] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-			// 工艺路径中对应工序所需的设备号：有的工序并不需要用到设备
+			// 工艺路径中对应工序所需的设备号：有的工序并不需要用到设备，并不是所有的工序都需要用到设备
 			string[] macDescArr1 = new string[30] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
 			#region 根据processNo从accompanyTicket中看是否有打印记录
 			bool isAllZPLFileExist = true;
-			// 根据7位的生产指示号获取随行票打印记录
+			// 根据7位的生产指示号获取随行票打印记录：getTicketinfoinput.processNo int 类型
 			var oldATList = await _accompanyTicketRepository.GetAll().Where(a => a.IssueID == input.processNo.ToString())
-				.OrderBy(at => at.CurrentBoxNumber)
+				.OrderBy(at => at.CurrentBoxNumber)// 根据当前装箱数排序
 				.ToListAsync();
 
 			if (oldATList != null && oldATList.Count > 0)
@@ -381,7 +392,7 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 				//如果有旧的打印记录
 				result = oldATList.Select(a => new ATPrintDto
 				{
-					printFileFullPath = a.ZplPath,
+					printFileFullPath = a.ZplPath,// string
 					PrintAmount = a.PrintAmount.Value + 1,
 					CurrentBoxNumber = a.CurrentBoxNumber.Value
 				}).OrderBy(r => r.CurrentBoxNumber).ToList();
@@ -421,7 +432,7 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 						return result.OrderBy(a => a.CurrentBoxNumber).ToList();
 						#endregion
 					}
-					else
+					else // if ( !isAllZPLFileExist)
 					{//oldATList存在，但是不是所有的文件都存在，根据以前保存的随行票信息，构建新的ZPL文件
 						#region 2 情况2文件不存在,AccompanyTicket库中随行票数据存在，根据AccompanyTicket库中随行票数据 生成随行票，更新PrintAmount, ZplPath
 
@@ -573,20 +584,28 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 			#region 3 从3个View中得到数据打印
 
 			#region 3.1 得到打印数据
+			// ProcessProcessNo 生产/加工指示号 ProcessProcessName：工序名称
 			V_Technology_Process_Technology_ProcessGroup ptg = await _v_Technology_Process_Technology_ProcessGroupRepository.GetAll()
 				.Where(ptg => ptg.ProcessProcessNo == input.processNo).FirstOrDefaultAsync();
-
+			
+			// V_V_DFPJ_IncmpProdInstr.Id 即 V_V_DFPJ_IncmpProdInstr表中的IssueID，即为生产/加工指示号
 			V_V_DFPJ_IncmpProdInstr sxpWithFanHao = await _v_V_DFPJ_IncmpProdInstr.GetAll().Where(sxp => sxp.Id == input.processNo).FirstOrDefaultAsync();
 
 			V_IncmpProdInstr_Master_ModelRegister sxp = await _v_IncmpProdInstr_Master_ModelRegister.GetAll().Where(imm => imm.Id == input.processNo).FirstOrDefaultAsync();
 			// 计算要几张随行票
+			{ //如果 V_Technology_Process_Technology_ProcessGroup 或者 V_V_DFPJ_IncmpProdInstr 或者 V_IncmpProdInstr_Master_ModelRegister 有一个是空就返回
 			if (ptg == null || sxpWithFanHao == null || sxp == null)
-			{ //如果Process_Technology_ProcessGroup 或者 IncmpProdInstr_Master_ModelRegister 有一个是空就返回
 				throw new Exception("没有数据");
 			}
 			#endregion
 
 			#region 3.2 构造打印数据, 包含打印
+			//如果数据为每箱为0，就打印一张随行票
+			if (sxp.M_BoxFixedQty == null || sxp.M_BoxFixedQty == 0)
+			{
+				sxp.M_BoxFixedQty = (ptg.TechnologyWorkOrderCount == null || ptg.TechnologyWorkOrderCount == 0) ? 1 : ptg.TechnologyWorkOrderCount;
+			}
+			
 			//页数
 			pageCount = (int)Math.Ceiling(ptg.TechnologyWorkOrderCount.Value / sxp.M_BoxFixedQty.Value);  //wwwwgg
 																											//最后一页的余数
@@ -616,7 +635,8 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 
 				temp.Holon = sxp.M_Holon; //0 Holon编号
 				temp.BINManage = sxp.M_BINManage; //30 BIN管理标识
-				temp.BoxFixedQty = (pageIndex < pageCount) ? (int)sxp.M_BoxFixedQty : lastCount; //4 外箱装箱数量
+				// temp.BoxFixedQty = (pageIndex < pageCount) ? (int)sxp.M_BoxFixedQty : lastCount; //4 外箱装箱数量
+				temp.BoxFixedQty = (pageIndex < pageCount) ? (sxp.M_BoxFixedQty == null ? (ptg.TechnologyWorkOrderCount == null ? 0 : (int)ptg.TechnologyWorkOrderCount.Value) : (int)sxp.M_BoxFixedQty) : lastCount; //4 外箱装箱数量
 				temp.BoxType = sxp.M_BoxType; //10 外箱型号
 
 				temp.PartLength = (sxp.MR_PartLength.Value).ToString("#0.00"); //5 工件全长
@@ -630,6 +650,7 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 				temp.MaterialModel = sxpWithFanHao.MaterialModel; //27 素材
 				temp.RequestQty = sxpWithFanHao.RequestQty.Value.ToString("#0"); //28 素材数量
 
+				// 三个字段在数据库中均可为null
 				temp.TotalBoxCount = pageCount; //32 总箱号
 				temp.CurrentBoxNumber = pageIndex; //33 当前箱号
 				temp.OperateTime = DateTime.Now; //34 操作日期
@@ -654,8 +675,9 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 				temp.ProNameGroup = ptg.TechnologyProNameGroup; // 40 工艺对应的工序
 
 				#region 构造工艺和设备(2行)的数据
-
-				var gxSrcArr = ptg.TechnologyProNameGroup.Split(new char[] { ',' }).Select(p => p.Length > 3 ? p.Substring(0, 3) : p).ToArray();
+				// 工序名称数组：在这里进行的工序名称数组长度的截取
+				// var gxSrcArr = ptg.TechnologyProNameGroup.Split(new char[] { ',' }).Select(p => p.Length > 3 ? p.Substring(0, 3) : p).ToArray();
+				var gxSrcArr = ptg.TechnologyProNameGroup.Split(new char[] { ',' }).ToArray();
 				Array.Copy(gxSrcArr, gxDescArr, gxSrcArr.Length);
 
 
@@ -689,8 +711,9 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 			#endregion
 
 			#region 3.4 落库
-			InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
-			UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+			// InsertAccompayTicketList 、UpdateAccompanyTicketList 已经在最前面进行定义并且赋值，如果在这里进行赋值，则在最前面赋值为 null；如果在最前面进行赋值，则此两条语句不需要
+			// InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+			// UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
 			atList.ForEach(temp =>
 			{
 				var newAccompanyTicket = _autoMapper.Map<AccompanyTicket>(temp);
