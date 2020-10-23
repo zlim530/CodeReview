@@ -2,6 +2,7 @@ using CoreDemo.Services;
 using CoreDemo.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +46,15 @@ namespace CoreDemo {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILogger<Startup> logger) {
             // Development:开发环境 Staging：上线环境 Production：生产环境 也可以自己自定义环境变量
             if (env.IsDevelopment()) {
+                // 在开发环境中,使用异常页面,这样可以暴露错误堆栈信息,故不要放在生产环境
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // 在非开发环境中，使用HTTP严格安全传输（or HSTS）对于保护web安全是非常重要的
+                // 强制实施 HTTPS 在 ASP .NET Core 配合 app.UseHTTPSRedirect
+                //app.UseHsts();
             }
 
             /*如果需要发布上线可以设置：
@@ -55,11 +64,12 @@ namespace CoreDemo {
                 });
             }*/
 
-            app.Run(async context => {
+            app.Run(async context =>
+            {
                 logger.LogInformation("run 1 start");
                 await context.Response.WriteAsync("Hello world!run 1.");
                 logger.LogInformation("run 1 end.");
-            })
+            });
 
 
             app.UseStatusCodePages();

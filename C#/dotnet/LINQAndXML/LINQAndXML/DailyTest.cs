@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace LINQAndXML
@@ -19,6 +20,7 @@ namespace LINQAndXML
 
         static void Main(String[] args)
         {
+            List<string> list = new List<string>();
             //int y = 10;
             //int x = y == 0 ? 1 : y;
             Func<int, int> del = x => x + 1;
