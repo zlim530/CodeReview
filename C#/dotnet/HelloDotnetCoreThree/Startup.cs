@@ -1,8 +1,10 @@
 using HelloDotnetCoreThree.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace HelloDotnetCoreThree {
     // Startup 类用于配置服务和应用的请求管道(在 Configure 方法中配置着管道中的多种中间件)
@@ -37,6 +39,9 @@ namespace HelloDotnetCoreThree {
             }
 
 
+            Console.WriteLine($"{env.WebRootPath}");
+            //E:\localcode\CodeReview\C#\dotnet\HelloDotnetCoreThree\wwwroot
+
             /* 
             使用 Approach 1 显示的中间件样式是终端中间件，之所以称之为终端中间件，是因为它执行匹配的操作：
                 ·前面示例中的匹配操作是用于中间件的 Path == "/" 和用于路由的 Path == "Movie"。
@@ -44,7 +49,7 @@ namespace HelloDotnetCoreThree {
             之所以称之为终端中间件，是因为它会终止搜索，执行一些功能，然后返回。
              */
             // Approach 1:Writing a terminal middleware.
-            app.Use(next => async context => {
+            /*app.Use(next => async context => {
                 if (context.Request.Path == "/")
                 {
                     await context.Response.WriteAsync("Hello terminal middleware!");
@@ -52,7 +57,7 @@ namespace HelloDotnetCoreThree {
                 }
 
                 await next(context);
-            });
+            });*/
 
             // 注意：代码中的中间件注册顺序是很重要的，它代表了一个请求在管道中相继被各个中间件处理的顺序
             // 在代码中越早注册，表示越早被这种中间件处理
@@ -67,8 +72,8 @@ namespace HelloDotnetCoreThree {
 
             // Endpoint aware middleware.
             // Middleware can use metadata from the matched endpoint.
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             /* 
             调用 UseAuthentication 和 UseAuthorization 会添加身份验证和授权中间件。
             这些中间件位于 UseRouting 和 UseEndpoints 之间，因此它们可以：
@@ -79,21 +84,22 @@ namespace HelloDotnetCoreThree {
             // Execute the matched endpoint.
             // 向中间件管道添加终结点执行，它会运行与所选终结点关联的委托
             app.UseEndpoints(endpoints => {
-                endpoints.MapGet("/", async context => {
+                /*endpoints.MapGet("/", async context => {
                     // Configure another endpoint,no authorization requirements.
                     await context.Response.WriteAsync("Hello World!");
-                });
+                });*/
                 /* 
                 当 HTTP GET 请求发送到跟 URL / 时：
                     ·将执行显示的请求委托
                     ·Hello World！会写入 HTTP 响应。默认请求下，根 URL / 为：https://localhost:5001/
                 如果请求方法不是 GET 或者根 URL 不是 /，则无路由匹配，并返回 HTTP 404
                  */
-                
-                endpoints.MapGet("/hello/{name:alpha}",async context => {
+
+                /*endpoints.MapGet("/hello/{name:alpha}", async context =>
+                {
                     var name = context.Request.RouteValues["name"];
                     await context.Response.WriteAsync($"Hello {name}!");
-                })
+                });*/
                 /* 
                 /hello/{name:alpha} 字符串是一个路由模板，用于配置终结点的匹配方式。在这种情况下，模板将匹配：
                     ·类似 /hello/Ryan 的 URL
@@ -102,15 +108,15 @@ namespace HelloDotnetCoreThree {
                     ·绑定到 name 参数
                     ·捕获并存储在 HttpRequest.RouteValues 中。
                  */
-                
-                
+
+
                 // Configure the Health Check endpoint and require an authorized uses.
-                endpoints.MapHealthChecks("/healthz").RequireAuthorization();
+                //endpoints.MapHealthChecks("/healthz").RequireAuthorization();
 
                 // Configure another endpoint,no authorization requirements.
-                endpoints.MapGet("/",async context => {
+                /*endpoints.MapGet("/",async context => {
                     await context.Response.WriteAsync("Hello World!");
-                }); 
+                });*/
 
                 /* 
                 blog上述代码中的路由是专用的传统路由。 这称为专用的传统路由，因为：
@@ -124,11 +130,11 @@ namespace HelloDotnetCoreThree {
                     ·blog 路由具有比路由更高的优先级， default 因为它是首先添加的。
                     ·是一个 缩略 名称样式路由的示例，在此示例中，通常将项目名称作为 URL 的一部分。
                  */
-                endpoints.MapControllerRoute(
-                    name:"blog",
-                    pattern:"blog/{*article}",
-                    defaults:new { controller = "Blog", action = "Arctile"}
-                )
+                /*endpoints.MapControllerRoute(
+                    name: "blog",
+                    pattern: "blog/{*article}",
+                    defaults: new { controller = "Blog", action = "Arctile" }
+                );*/
 
                 /* 
                 MapControllerRoute 用于创建单个路由。单路由命名为 default。大多数具有控制器和视图的应用都使用类似于路由的路由模板 default。REST Api 应使用属性路由。
@@ -138,8 +144,8 @@ namespace HelloDotnetCoreThree {
                 */
                 // 注册了一个路由模板
                 endpoints.MapControllerRoute(
-                    name:"default",
-                    pattern:"{controller=Department}/{action=Index}/{id?}"
+                    name: "default",
+                    pattern: "{controller=Department}/{action=Index}/{id?}"
                 );
                 /* 
                 是一种传统路由。 它被称为 传统路由 ，因为它建立了一个 URL 路径 约定 ：
@@ -153,9 +159,9 @@ namespace HelloDotnetCoreThree {
                     ·仅基于控制器和操作名称。
                     ·不基于命名空间、源文件位置或方法参数。
                     */
-                
 
-                endpoints.MapControllers();
+
+                //endpoints.MapControllers();
                 // REST Api 的属性路由
 
             });

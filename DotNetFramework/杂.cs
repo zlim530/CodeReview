@@ -1,3 +1,88 @@
+// Swagger - Enable this line and the related lines in Configure method to enable swagger UI
+services.AddSwaggerGen(options =>
+{
+	options.SwaggerDoc("v1", new OpenApiInfo() { Title = "MES API", Version = "v1" });
+	options.DocInclusionPredicate((docName, description) => true);
+
+	// Define the BearerAuth scheme that's in use
+	options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
+	{
+		Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+		Name = "Authorization",
+		In = ParameterLocation.Header,
+		Type = SecuritySchemeType.ApiKey
+	});
+
+
+	// 为 Swagger JSON and UI设置xml文档注释路径
+	var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+
+	var files = Directory.GetFiles(basePath, "*.xml");
+
+	files.ToList().ForEach(e =>
+	{
+		options.IncludeXmlComments(e);
+	});
+});
+
+
+
+
+
+
+public async Task<List<GetDownTimeByTripleLightOutput>> GetDownTimeByTripleLight(string MachineNoListString)
+{
+	#region 杨函
+	//如果传入的机器列表为空，直接返回
+	List<GetDownTimeByTripleLightOutput> downList = new List<GetDownTimeByTripleLightOutput>();
+	if (string.IsNullOrEmpty(MachineNoListString))
+	{
+		//MachinNoListString
+		return downList;
+	}
+
+	//得到机器号列表2434,1111
+	List<string> MachineNoList = MachineNoListString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+
+	//从DownTimeReport表中得到今天已经报停机的列表
+	var exceptListNoList = await _downTimeReportRepository.GetAll()
+		.Where(d => d.CreationTime.Date == DateTime.Now.Date)//今天汇报的
+		.Select(d => d.ListNo).Distinct()
+		.ToListAsync();
+
+	var query = from t1 in _v_manuDNC_Machine_collect_dicRepository.GetAll().Where(x => MachineNoList.Contains(x.MachineNo))
+				join t2 in _v_manuDNC_V_Machine_ChartRepository.GetAll().Where(s =>
+				(s.Starttime.Value.Date == DateTime.Now.Date || s.Endtime.Value.Date == DateTime.Now.Date)
+					&& !exceptListNoList.Contains(s.Id)
+					&& _showcolorList.Contains(s.Showcolor))
+				on new { a = t1.PlanNo, b = t1.DepartNo, c = t1.MachineID } equals new { a = t2.PlantNo, b = t2.DepartNo, c = t2.MachineNo } into e
+				from t3 in e//.DefaultIfEmpty()
+				select t3;
+	List<V_manuDNC_V_Machine_Chart> viewdata = query.ToList();
+	//var datalist = (await query.ProjectTo<V_manuDNC_V_Machine_Chart>(_autoMapper.ConfigurationProvider).ToListAsync()).OrderBy(sd => sd.Id).ThenBy(sd => sd.Starttime);
+	return _autoMapper.Map<List<GetDownTimeByTripleLightOutput>>(viewdata);
+	#endregion
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
 	if (env.IsDevelopment())
