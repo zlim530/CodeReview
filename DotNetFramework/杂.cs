@@ -1,3 +1,68 @@
+/// <summary>
+/// 根据session中保存的userId得到某个他可用的MachNoList
+/// 方法：从派工表中 [SMC_MES_Dispatch].[dbo].[DispatchRecord] 得到相关的机器号
+/// 先找临时的（时间范围）在临时的StartTime和EndTime区间的MachNo，如果找到直接返回
+/// 如果找不到临时的MachNo，就找固定的MachNo 返回
+/// </summary>
+/// <param name="session"></param>
+/// <param name="gx"></param>
+/// <param name="holoncode"></param>
+/// <returns></returns>
+public static async Task<List<string>> GetMachNoByUserId(this IAbpSession session,string gx=null,string holoncode=null)
+{
+	//List<string> machNoList = new List<string>();
+	//List<string> fixMachNoArrayList = new List<string>();
+	//List<string> fixMachNoList = new List<string>();
+	var searchdate = DateTime.Now;// 人员任务派工界面派工日期查询的时间：后端接口中默认为今天
+	#region 查询数据库中[DispatchRecord]表中的派工信息数量
+	var pgcount = await dispatchRecordRepository.GetAll()
+	// DispatchRecord dr 派工的记录表实体类
+	// 派工开始日期可以小于查询日期也可以大于查询日期 但是查询日期一定要小于派工结束日期
+	.Where(dr => dr.UserId == session.UserId && (dr.StartDate <= searchdate || dr.StartDate >= searchdate) && searchdate <= dr.EndDate)
+	// !string.IsNullOrEmpty(gx) == true 即 string.IsNullOrEmpty(gx) == false 即 gx 不为null(空)或empty(空字符串)
+	// gx 是工序表中的工序编号：1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 等等
+	.WhereIf(!string.IsNullOrEmpty(gx),dr=>dr.ProcessNum.Equals(gx))
+	.WhereIf(!string.IsNullOrEmpty(holoncode), dr => dr.HolonCode.Equals(holoncode)).CountAsync();
+	#endregion
+	if(pgcount>0)
+	{
+		//查询query
+		var query = dispatchRecordRepository.GetAll()
+			.Where(dr => dr.UserId == session.UserId
+			&& (dr.StartDate <= searchdate || dr.StartDate >= searchdate)
+			&& searchdate <= dr.EndDate)
+			.WhereIf(!string.IsNullOrEmpty(gx), dr => dr.ProcessNum.Equals(gx))
+			.WhereIf(!string.IsNullOrEmpty(holoncode), dr => dr.HolonCode.Equals(holoncode));
+		//查询是否存在替换任务
+		var queryrreplace = await query.Where(x => x.isReplaced == true && x.isFixed != true).Select(x=>x.ProcessNum).ToListAsync();
+		var gdlist = new List<long>();
+		//判断存在替换数据
+		if(queryrreplace.Any())
+		{
+			var gxquery = query;
+			//排除固定派工工序任务
+			foreach (var item  in queryrreplace)
+			{
+				gxquery = gxquery.WhereIf(!string.IsNullOrEmpty(item), d => d.ProcessNum.Equals(item) && d.isFixed ==true)
+					.WhereIf(!string.IsNullOrEmpty(holoncode), d => d.HolonCode.Equals(holoncode));
+			}
+			gdlist = await gxquery.Select(x => x.Id).ToListAsync();
+		}
+		//设备集合
+		var machinelist = await query.WhereIf(gdlist.Any(),s=>!gdlist.Contains(s.Id)).Select(x => x.MachNo).ToListAsync();
+		return string.Join(',', machinelist).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+	}
+	else
+	{
+		throw new ObjIsNullException("未找到当前用户派工信息!");
+	}
+}
+
+
+
+
+
+
 // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
 services.AddSwaggerGen(options =>
 {
@@ -64,17 +129,6 @@ public async Task<List<GetDownTimeByTripleLightOutput>> GetDownTimeByTripleLight
 	return _autoMapper.Map<List<GetDownTimeByTripleLightOutput>>(viewdata);
 	#endregion
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

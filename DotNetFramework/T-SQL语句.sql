@@ -1,6 +1,12 @@
 -- 在这里编写SQl命令
 -- 1.创建一个数据库（直接创建一个数据库，没有设置任何特殊选项，都是使用默认）
 
+print @@version --查看当前sqlserver版本信息
+--Microsoft SQL Server 2012 (SP3) (KB3072779) - 11.0.6020.0 (X64) 
+--	Oct 20 2015 15:36:27 
+--	Copyright (c) Microsoft Corporation
+--	Standard Edition (64-bit) on Windows NT 6.3 <X64> (Build 9600: )
+
 use MyFirstDatabase;
 
 create database MySecondDatabse;
@@ -14,11 +20,11 @@ on primary
 (
 	-- 配置主数据文件的选项
 	name = 'MyFirstDatabase', -- 主数据文件的逻辑名称，一般与数据库名称一致
-	filename = 'C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\DATA\MyFirstDatabase.mdf',
 	-- 主数据文件的实际保存路径
+	filename = 'C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\DATA\MyFirstDatabase.mdf',
 	size = 5MB,
 	maxsize = 150MB,
-	filegrowth = 20%
+	filegrowth = 20% -- 既可以写百分比也可以写每次增长的文件大小
 )
 log on
 (
@@ -32,10 +38,10 @@ log on
 ------------------在数据库中创建一个表----------------
 -- 将代码环境切换到 MyFirstDatabase 下：
 use MyFirstDatabase;
-
+-- 如果在创建表之前不选择数据库环境，则默认为 master 数据库，创建的表也默认在 master 数据库中
 create table Department
 (
-	Id int  identity(1,1) primary key,
+	Id int identity(1,1) primary key,
 	DepartmentName nvarchar(50) not null
 )
 
@@ -51,12 +57,12 @@ create table Employee
 	EmpAddress nvarchar(300),
 	EmpPhone varchar(100),
 	EmpEmail varchar(100),
-	DeptId int not null --外键列，对应 Department 表中的主键列
+	DeptId int not null --外键列，对应 Department 表中的主键列也即 Id 列
 )
 
--- 删除表
 use master;
 
+-- 删除表
 drop table Department;
 drop table DepartmentTable;
 
@@ -104,7 +110,7 @@ create table Class(
 -- 向班级表中插入一条记录：
 -- insert into 表名(列1,列2,列3 ... ) values(值1,值2,值3 ... )
 -- 自动编号列默认就会自动增长，故不需要默认情况下也不允许向自动编号列插入值：
-insert into Class values('.net blackhorse one');
+insert into Class(ClassName) values('.net blackhorse one');
 select * from Class
 
 -- 如果向表中的所有列（除自动编号以外的所有列）都要插入值，可以省略列名，同时必须保证后面的值列表中的顺序与表中对应列的顺序一致
@@ -115,7 +121,9 @@ select * from TblStudent
 -- 向自动编号列插入值
 -- 启动某个表的“自动编号列”手动插入值的功能
 set identity_insert Class on
-insert into Class(Id,ClassName) values(5, 'Java Two')
+
+insert into Class(Id,ClassName) values(5, 'Java Two')-- 手动向自动增长的Id列插入值
+
 set identity_insert Class off
 select * from Class
 
@@ -133,7 +141,7 @@ select * from TblStudent
 
 ---------------------------删除语句---------------------------
 -- 删除 TblStudent 表中的所有数据
--- 自动编号不会恢复默认值，仍然继续编号
+-- 自动编号不会恢复默认值，仍然会继续(累加1)编号
 delete from TblStudent
 insert into TblStudent
 values ('Tom','男',23,'1998-05-06','12345678987653212',1);
@@ -143,7 +151,7 @@ select * from TblStudent
 -- 删除表中的所有行而不记录单个行删除操作，使用的系统资源和事务日志资源更少
 truncate table TblStudent;
 -- 如果确实是要删除表中的所有数据，建议使用 truncate 命令
--- 特定：
+-- 特点：
 	--1.truncate 语句不能跟 where 条件：即无法根据条件来删除，只能删除全部数据
 	--2.同时自动编号恢复为初始值
 	--3.使用truncate 删除表中的所有数据比delete 效率更高
@@ -170,37 +178,45 @@ create table Employee
 	EmpGender bit,
 	EmpJoinDate datetime,
 	EmpAge int ,
-	EmpAddress nvarchar(300),
+	EmpAddress nvarchar(300),-- 不带n的数据类型长度最长可以设置为8000，带n的则为4000
 	EmpPhone varchar(100),
 	EmpEmail varchar(100),
 	DeptId int 
 )
 
 -- 手动增加约束：通过 T-SQL 语句
--- 删除某一列
+-- 删除某一列：
+-- alter table tableName drop column columnName
 alter table Employee drop column EmpAddress
--- 手动增加一列：不需要关键字 column
+-- 手动增加一列：不需要关键字 column:
+-- alter table tableName add columnName ... 
 alter table Employee add EmpAddr nvarchar(1000)
 
 --修改EmpEmail字段
+-- alter table tableName alter column columnName ... 
 alter table Employee alter column EmpEmail varchar(200)
 
 --给Employee表中的EmpId字段添加主键约束
+-- alter table tableName add constraint primaryKeyName primary key(columName)
 alter table Employee add constraint PK_Employee_EmpId
 primary key(EmpId)
 
 --给Employee 表中的 EmpName 字段添加非空约束：通过修改表字段属性来实现
+--非空约束 not null 不需要加关键字 constraint
 alter table Employee alter column EmpName varchar(50) not null
 
 --给Employee 表中的EmpName 添加唯一约束
+-- alter table tableName add constraint uniqueName unique(columName)
 alter table Employee add constraint UQ_Employee_EmpName 
 unique(EmpName)
 
 --给Employee 表中的EmpGender 字段添加默认约束
+-- alter table tableName add constraint defaultName default('defaultValue') for columName
 alter table Employee add constraint DF_Employee_EmpGedner
 default('女') for EmpGender
 
 --给Employee 表中的EmpGender 字段添加检查约束
+-- alter table tableName add constraint checkName check(expression)
 alter table Employee add constraint CK_Employee_EmpGender 
 check(EmpGender = '男' or EmpGender = '女')
 
@@ -220,12 +236,15 @@ primary key(Id)
 alter table Employee alter column DeptId int not null
 
 --给Employee 表中的 DeptId 字段添加外键约束
+-- alter table tableName add constraint foreignKeyName foreign key(columnName) references anotherTableName(primaryKeyColumnName)
 alter table Employee add constraint FK_Employee_Department
 foreign key(DeptId) references Department(Id)
 
---删除约束
+--删除约束：通过约束名来删除
+-- alter table tableName drop constraint constraintName1,constraintName2, ...
 alter table Employee drop constraint FK_Employee_Department,UQ_Employee_EmpName
 ,DF_Employee_EmpGender
+
 
 -- 通过一行代码来添加多个约束
 alter table Employee add 
@@ -247,13 +266,15 @@ create table Employee
 	EmpId int identity(1,1) primary key ,
 	EmpIdCard varchar(18) not null unique,
 	EmpName nvarchar(50) not null check(len(EmpName) >= 2),
-	EmpGender bit default(1) ,-- 注意bit类型在进行insert 插入值时只能写1 或 0
+	EmpGender bit default(1) ,-- 注意bit类型在进行insert 插入值时只能写1 或 0：但在代码中筛选判断时应该写 true(1) 或 false(0)
 	EmpJoinDate datetime,
 	EmpAge int check(EmpAge >= 0 and EmpAge <= 120),
 	EmpAddress nvarchar(300),
 	EmpPhone varchar(100),
 	EmpEmail varchar(100) not null unique,
-	DeptId int foreign key references Department(Id) on delete cascade -- 级联删除：即如果删除Department表中的数据，那么Employee表中引用到Department表中对应Id主键的数据也会被删除
+	DeptId int foreign key references Department(Id) on delete cascade 
+	-- 级联删除：即如果删除Department表中的数据，那么Employee表中引用到Department表中对应Id主键的数据也会被删除
+	-- 在实际项目中并不会设置级联删除，一般主外键关系均为弱关系/依赖
 )
 
 
