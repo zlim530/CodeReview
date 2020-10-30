@@ -529,5 +529,104 @@ group by tGender
 
 
 
--------------------------------having语句（对组的筛选，哪些组显示哪些组不显示）-----------------------
+---------------------------------2020年10月30日-------------------------------------
+/*
+					having语句（对组的筛选，哪些组显示哪些组不显示）
+对表中的数据分组后，会得到一个分组后的结果集，如何对该结果集在进行筛选：having
+注意Having中不能使用未参与分组的列，Having不能替代where。
+作用不一样，Having是对组进行过滤，where是对每条记录进行过滤的
+Having是Group By的条件对分组后的数据进行筛选，与where类似，都是筛选数据，只不过having是用来筛选分组后的组的
+在where中不能使用聚合函数，必须使用Having，Having要位于Group by之后
+Having的使用几乎与where一样，也可以用in
+	·Having count(*) in (5,8,10)
+*/
+select 
+	 班级Id = tClassId,
+	 男生人数 = count(*)
+from TblStudent
+where tGender = 'Male'
+group by tClassId
 
+------------------------------
+select 
+	 sum(tAge),
+	 Gender = tGender,
+	 'count' = COUNT(*)
+from TblStudent
+group by tGender
+-- 当使用了分组语句（group by）或者是聚合函数的时候，在select查询列表中不能再包含其他的列名，除非该列同时也出现在了group by子句中，或者改列也包含在了某个聚合函数中
+
+-- 对分组以后的数据进行筛选，使用having
+-- having与where都是对数据进行筛选，where是对分组前的每一行数据进行筛选，而having是对分组后的每一行数据进行筛选
+select				    --4
+	tClassId as 班级Id,
+	班级人数 = count(*)
+from TblStudent			--1
+group by tClassId		--2
+having COUNT(*) > 0		--3
+order by 班级人数 desc	--5
+
+
+
+SQL语句的执行顺序：
+5.select 
+	5.1选择列名
+	5.2distinct
+	5.3top（应用top选项最后计算）
+1.from 表
+2.where 条件
+3.group by 列
+4.having 筛选条件
+6.order by 列
+
+SELECT语句的处理顺序：
+以下步骤显示SELECT语句的处理顺序
+	1.FROM
+	2.ON
+	3.JOIN
+	4.WHERE
+	5.GROUP BY
+	6.WITH CUBE 或 WITH ROLLIP
+	7.HAVING
+	8.SELECT
+	9.DISTINCT
+	10.ORDER BY
+	11.TOP
+
+
+--热销商品排名表，即按照每种商品的总销售数量排序
+select
+	商品名称
+	sum(销售数量) as 销售数量
+from MyOrders
+group by 商品名称
+order by 销售数量 desc
+
+
+--统计销售总价超过3000元的商品名称和销售总价，并按销售总价降序排序
+select 
+	商品数量,
+	销售总价 = sum(销售数量 * 销售价格)
+from MyOrders
+group by 商品名称
+having sum(销售数量 * 销售价格) > 3000
+order by 销售总价 desc
+
+
+--统计各个客户对“可口可乐”的喜爱度（即统计每个购买人对“可口可乐”的购买量）
+select 
+	购买人,
+	购买数量 = sum(销售数量)
+from MyOrders
+where 商品数量 = '可口可乐'
+group by 购买人
+order by 购买数量 desc
+
+
+
+/*
+类型转换函数：
+	·cast(_expression,as data_type)
+	·convert(data_type,expression,[style])
+		select 'Number' + 1; 语句错误，因为这里的+是数学运算符
+*/

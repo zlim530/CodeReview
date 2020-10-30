@@ -430,7 +430,7 @@ public void Save()
 
 
 
-#region SMC.MES.DeviceProcessReport/Report/DeviceProcessReportAppService.cs
+#region GetDownTimeByTripleLight 旧
 /// <summary>
 /// 根据机器号MachinNo= A,B,C 得到今天这台机器红灯的列表, 要去掉DownTimeReport中的ListNo的停机记录
 /// </summary>
@@ -537,9 +537,11 @@ public async Task<List<GetDownTimeByTripleLightOutput>> GetDownTimeByTripleLight
 
 	return downList;
 }
+#endregion
 
 
 
+#region GetAccompanyTicketPrintByProcessNo 打印随行票（旧）
 /// <summary>
 /// 根据加工指示号打印随行票：根据加工指示号processNo从数据库中找到数据，斑马打印机
 ///   1 如果文件路径存在就返回，并且打印次数+1，OperationTime改成now
@@ -564,13 +566,13 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 	int lastCount = 0; //最后一页的余数
 
 	var userId = _abpSession.UserId.Value;
-	// List<WorkOrderOnWork> 开工工单list：根据生产指示号和工单号查询
+	// List<WorkOrderOnWork> 开工工单list：根据生产指示号：8658833（7位）和工单号：8544932101267 查询
 	var res = await _workOrderOnWorkRepository.GetAll().Where(w => w.ProcessNo == input.processNo && w.WorkOrder == input.workOrder).ToListAsync();
 	//try
 	//{
 		if (res.Count == 0)
 		{
-			throw new Exception("未找到工单信息");
+			throw new Exception("未找到工单信息");// 在开工表中未找到工单信息
 		}
 		else if (res.Count == 1)
 		{
@@ -972,6 +974,519 @@ public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNo(getTicket
 	//result.OrderBy(c => c.CurrentBoxNumber).ToList();
 }
 #endregion
+
+
+
+
+#region GetAccompanyTicketPrintByProcessNo 打印随行票（新）
+///<summary>
+///根据加工指示号processNo从数据库中找到数据，使用思普瑞特
+///   1 如果文件路径存在就返回，并且打印次数+1，OperationTime改成now
+///   2 如果保存的文件路径的zpl文件不存在了，就根据数据库中的数据生成zpl文件，返回路径。
+///   3 如果processNo没有查询到数据，就根据3个view生成zpl，并且写库。PrintCount=1 and OperationTime改成now
+///</summary>
+public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNoNew(getTicketinfoinput input, string Authentication)
+{
+
+	List<ATPrintDto> result = new List<ATPrintDto>();
+	List<string> printFileFullPath = new List<string>();
+	List<AccompanyTicketOutput> atList = new List<AccompanyTicketOutput>();
+	List<AccompanyTicket> accompanyTicketList = new List<AccompanyTicket>();
+	// WorkOrderOnWork workOrder = new WorkOrderOnWork();
+	List<AccompanyTicket> InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+	List<AccompanyTicket> UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+	string workOrderNo = "";
+	long wId = 0;
+	int pageCount = 0; //总共几页          
+	int lastCount = 0; //最后一页的余数
+
+	var userId = _abpSession.UserId.Value;
+	// List<WorkOrderOnWork> 开工工单list：根据生产指示号：8658833（7位）和工单号：8544932101267 查询
+	var res = await _workOrderOnWorkRepository.GetAll().Where(w => w.ProcessNo == input.processNo && w.WorkOrder == input.workOrder).ToListAsync();
+	if (res.Count == 0)
+	{
+		throw new Exception("未找到工单信息");// 未在开工表中找到工单信息
+	}
+	else if (res.Count == 1)
+	{
+		var workOrderOnWork = res[0];
+		workOrderNo = workOrderOnWork.WorkOrder;// 工单号
+		wId = workOrderOnWork.Id;// Id
+
+		string[] gxDescArr = new string[15] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+		string[] macDescArr1 = new string[30] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+
+		#region 根据processNo从accompanyTicket中看是否有打印记录，如果有则直接组装返回的Dto
+		bool isAllZPLFileExist = true;
+		var oldATList = await _accompanyTicketRepository.GetAll().Where(at => at.IssueID == input.processNo.ToString())
+			.OrderBy(at => at.CurrentBoxNumber)
+			.ToListAsync();
+
+		//如果有旧的打印记录
+		if (oldATList != null && oldATList.Count > 0)
+		{
+			result = oldATList
+						.Select(at => new ATPrintDto
+						{
+							printFileFullPath = at.ZplPath,
+							PrintAmount = at.PrintAmount.Value + 1,
+							CurrentBoxNumber = at.CurrentBoxNumber.Value,
+							Token = Authentication
+						}).OrderBy(atDto =>atDto.CurrentBoxNumber).ToList();
+
+			printFileFullPath = oldATList.Select(at => at.ZplPath).ToList();
+			//遍历所有的文件路径，有一个zpl文件找不到，就返回false,如果这个IssueId（生产指示号）的ZPL全部存在，就直接返回
+			if (printFileFullPath != null && printFileFullPath.Count > 0)
+			{
+				foreach (string aRelativePath in printFileFullPath)
+				{
+					string aFullPath = $"{_hostingEnvironment.WebRootPath}\\{aRelativePath}";//{_hostingEnvironment.WebRootPath} wwwroot ContentRootPath
+
+					isAllZPLFileExist = File.Exists(aFullPath);
+					if (!isAllZPLFileExist)
+					{
+						result = new List<ATPrintDto>();
+						break;
+					}
+				}
+
+				if (isAllZPLFileExist == true)
+				{
+					#region 1 情况一文件存在
+					#region 替换Z.EFCore
+					oldATList.ForEach(a =>
+					{
+						a.PrintAmount = a.PrintAmount == null ? 1 : a.PrintAmount + 1;
+						_accompanyTicketRepository.Update(a);
+					});
+					//await _accompanyTicketRepository.BulkUpdateAsync(oldATList); 
+					#endregion 
+					//var str = input.processNo.ToString();
+					//await _accompanyTicketRepository.GetAll().Where(a => a.IssueID == str).BatchUpdateAsync(a => new AccompanyTicket
+					//{
+					//    PrintAmount = a.PrintAmount == null ? 1 : a.PrintAmount + 1
+					//});
+					return result.OrderBy(a => a.CurrentBoxNumber).ToList();// 每次返回前都按照装箱数进行正序排序
+					#endregion
+				}
+				else
+				{//oldATList存在，但是不是所有的文件都存在，根据以前保存的随行票信息，构建新的ZPL文件
+					#region 2 情况2文件不存在,AccompanyTicket库中随行票数据存在，根据AccompanyTicket库中随行票数据 生成随行票，更新PrintAmount, ZplPath
+
+					#region 2.0 根据AccompanyTicket库中随行票数据构造随行票数据
+					oldATList.ForEach(a =>
+					{
+						#region AccompanyTicket库中相应记录构造每个打印的entity
+						AccompanyTicketOutput temp = new AccompanyTicketOutput();
+						temp.AccompanyTicketNo = a.AccompanyTicketNo; //1 随行票号
+						temp.WorkOrder = a.WorkOrder;           // 37 工单号
+						temp.ProdKOGONo = a.ProdKOGONo;         //3 生产工号
+						temp.IssueID = int.Parse(a.IssueID);    //9 生产指示号
+						temp.Model = a.Model;                   //18 品番
+
+						temp.Quantity = a.Quantity.Value; //22 工单数
+
+						if (temp.Quantity < 0)
+						{
+							throw new Exception($"工单{temp.WorkOrder},工单数小于零不允许打印。");
+						}
+
+						temp.InstrDlvyDate = a.InstrDlvyDate; //20 出库日期
+						temp.MasterID = a.MasterID.Value; //29 Master唯一编号
+						temp.BOMNo = a.BOMNo.Value; //21 单耗版本号
+
+						temp.Holon = a.Holon; //0 Holon编号
+						temp.BINManage = a.BINManage; //30 BIN管理标识
+						temp.BoxFixedQty = a.BoxFixedQty; //4 外箱装箱数量
+						temp.BoxType = a.BoxType; //10 外箱型号
+
+						temp.PartLength = a.PartLength; //5 工件全长
+						temp.UnitWeight = a.UnitWeight; //31 单重
+						temp.Series = a.Series;//sxp.MR_Series; //17 系列
+						temp.DrawingNo = a.DrawingNo;//sxp.MR_DrawingNo == null? "" : sxp.MR_DrawingNo; //24 图号
+						temp.DesignChangeNo = a.DesignChangeNo;//sxp.MR_DesignChangeNo == null ? "" : sxp.MR_DesignChangeNo; //25 设变
+
+						temp.TuZhiFanHao = a.TuZhiFanHao;//sxpWithFanHao.TuZhiFanHao.Trim(); //23 图纸番号
+						temp.SuCaiFanHao = a.SuCaiFanHao;//sxpWithFanHao.SuCaiFanHao.Trim(); //26 素材番号
+						temp.MaterialModel = a.MaterialModel; //27 素材
+						temp.RequestQty = a.RequestQty; //28 素材数量
+
+						temp.TotalBoxCount = a.TotalBoxCount.Value; //32 总箱号
+						temp.CurrentBoxNumber = a.CurrentBoxNumber.Value; //33 当前箱号
+						temp.OperateTime = a.OperateTime.Value; //34 操作日期
+
+						#region 备注
+						Remark tempRemark = this.GetRemarkByRemarkString(a.Description);
+						temp.Remark8 = tempRemark.Remark8;   //8 备注
+						temp.Remark12 = tempRemark.Remark12; //12 Remark12
+						temp.Remark13 = tempRemark.Remark13; //13 Remark13
+						temp.Remark14 = tempRemark.Remark14; //14 Remark14
+						temp.Remark15 = tempRemark.Remark15; //15 Remark15
+						#endregion
+
+						temp.PrintMonth = a.OperateTime.Value.Month.ToString() + "/"; //2 打印月份
+						temp.PrintDay = a.OperateTime.Value.Day.ToString(); // 7 打印日期
+
+						temp.Description = a.Description; //38 描述
+						temp.MacNoGroup = a.MacNoGroup;  // 39 工序对应的设备编号列表
+						temp.ProNameGroup = a.ProNameGroup; // 40 工艺对应的工序
+
+						#region 构造工艺和设备(2行)的数据
+						var gxSrcArr = a.ProNameGroup.Split(new char[] { ',' }).ToArray();
+						Array.Copy(gxSrcArr, gxDescArr, gxSrcArr.Length);// 第一个参数是被赋值的数组名，第二个参数是赋值到的数组名，第三个参数是要复制的个数：即将gxSrcArr复制到gxDescArr中，复制个数为gxSrcArr.Length
+						//gxDescArr[0] = "NC";
+
+						int macIndex = 0;
+						List<string> macNameList = a.MacNoGroup.Split(new char[] { ',' }).ToList();
+						foreach (var macstr in macNameList)
+						{
+							var macNameLine1 = macstr.Length >= 3 ? macstr.Substring(0, 3) : macstr;
+							var macNameLine2 = macstr.Length > 3 ? macstr.Substring(3) : "";
+							macDescArr1[macIndex++] = macNameLine1;
+							macDescArr1[macIndex++] = macNameLine2;
+						}
+
+						#region 把gxSrcArr工序数组写到C29-C43, 把macDescArr1写到C44-C73
+						for (int i = 0; i < gxSrcArr.Length; i++)
+						{
+							PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 29}");
+							if (_findedPropertyInfo != null)
+							{
+								_findedPropertyInfo.SetValue(temp, gxSrcArr[i]);
+							}
+						}
+						for (int i = 0; i < macDescArr1.Length; i++)
+						{
+							PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 44}");
+							if (_findedPropertyInfo != null)
+							{
+								_findedPropertyInfo.SetValue(temp, macDescArr1[i]);
+							}
+						}
+						#endregion
+
+						#endregion
+						
+						
+						
+						temp.LengthTolerance = a.LengthTolerance;
+						temp.DescEmergency = temp.Description.Contains(_emergencyKeyWord) ? _emergencyKeyWord : "";
+
+						atList.Add(temp);
+
+						result.Add(new ATPrintDto
+						{
+							printFileFullPath = a.ZplPath,
+							PrintAmount = a.PrintAmount.Value + 1,
+							CurrentBoxNumber = a.CurrentBoxNumber.Value,
+							Token = Authentication,
+							aAT = temp,
+						});
+						#endregion
+					});
+					#endregion
+
+					#region 2.1 调用斑马打印方法，返回随行票的路径
+					//printFileFullPath = (await _zplHelps.OpenZPLModelFile<AccompanyTicketOutput, AccompanyTicketEnum>(
+					//    string.Empty,
+					//    userId,
+					//    gxDescArr,
+					//    macDescArr1,
+					//    atList)).OrderBy(at => at.CurrentBoxNumber).Select(a => a.ZplPath).ToList();
+					#endregion
+
+					#region 2.2 落库
+					InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+					UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+					atList.ForEach(temp =>
+					{
+						var newAccompanyTicket = _autoMapper.Map<AccompanyTicket>(temp);
+						newAccompanyTicket.WorkOrderOnWorkId = wId;
+
+						var oldAccompanyTicket = _accompanyTicketRepository.GetAll().Where(a => a.AccompanyTicketNo == newAccompanyTicket.AccompanyTicketNo).FirstOrDefault();
+						if (oldAccompanyTicket != null)
+						{
+							oldAccompanyTicket.PrintAmount = oldAccompanyTicket.PrintAmount == null ? 1 : oldAccompanyTicket.PrintAmount.Value + 1;
+							oldAccompanyTicket.ZplPath = newAccompanyTicket.ZplPath;
+							UpdateAccompanyTicketList.Add(oldAccompanyTicket);
+
+							//result.Add(new ATPrintDto
+							//{
+							//    printFileFullPath = oldAccompanyTicket.ZplPath,
+							//    PrintAmount = oldAccompanyTicket.PrintAmount.Value,
+							//    CurrentBoxNumber = oldAccompanyTicket.CurrentBoxNumber.Value
+							//});
+
+							_accompanyTicketRepository.Update(oldAccompanyTicket);
+						}
+						else
+						{
+							newAccompanyTicket.PrintAmount = newAccompanyTicket.PrintAmount == null ? 1 : newAccompanyTicket.PrintAmount.Value + 1;
+							InsertAccompanyTicketList.Add(newAccompanyTicket);
+
+							//result.Add(new ATPrintDto
+							//{
+							//    printFileFullPath = temp.ZplPath,
+							//    PrintAmount = newAccompanyTicket.PrintAmount.Value,
+							//    CurrentBoxNumber = newAccompanyTicket.CurrentBoxNumber.Value
+							//});
+						}
+					});
+
+					await _accompanyTicketRepository.BulkInsertAsync(InsertAccompanyTicketList);
+					//await _accompanyTicketRepository.BulkUpdateAsync(UpdateAccompanyTicketList);
+					//await _accompanyTicketRepository.GetAll().BatchUpdateAsync(UpdateAccompanyTicketList);
+					#endregion
+
+					#endregion
+
+					return result.OrderBy(a => a.CurrentBoxNumber).ToList();
+				}
+			}
+
+		}
+		#endregion
+
+		// 如果没有旧的打印数据
+		#region 3 从3个View中得到数据打印
+
+		#region 3.1 从3个View中得到打印数据
+		V_Technology_Process_Technology_ProcessGroup ptg = await _v_Technology_Process_Technology_ProcessGroupRepository.GetAll()
+			.Where(ptg => ptg.ProcessProcessNo == input.processNo)
+			.Select(ptg => new V_Technology_Process_Technology_ProcessGroup
+			{
+				Id = ptg.Id,
+				TechnologyWorkOrderCount = ptg.TechnologyWorkOrderCount,
+				ProcessDescription = ptg.ProcessDescription,
+				TechnologyMacNoGroup = ptg.TechnologyMacNoGroup,
+				TechnologyProNameGroup = ptg.TechnologyProNameGroup,
+				ProcessProcessNo = ptg.ProcessProcessNo,
+				ProcessWorkOrder = ptg.ProcessWorkOrder,
+				ProcessProcessName = ptg.ProcessProcessName,
+				ProcessMachineNum = ptg.ProcessMachineNum
+			})
+			.FirstOrDefaultAsync();
+
+		V_V_DFPJ_IncmpProdInstr sxpWithFanHao = await _v_V_DFPJ_IncmpProdInstr.GetAll()
+			.Where(sxp => sxp.Id == input.processNo)
+			.Select(sxpWithFanHao => new V_V_DFPJ_IncmpProdInstr
+			{
+				Id = sxpWithFanHao.Id,
+				TuZhiFanHao = sxpWithFanHao.TuZhiFanHao,
+				SuCaiFanHao = sxpWithFanHao.SuCaiFanHao,
+				MaterialModel = sxpWithFanHao.MaterialModel,
+				RequestQty = sxpWithFanHao.RequestQty
+			})
+		.FirstOrDefaultAsync();
+
+		V_IncmpProdInstr_Master_ModelRegister sxp = await _v_IncmpProdInstr_Master_ModelRegister.GetAll()
+		.Where(imm => imm.Id == input.processNo)
+		.Select(sxp => new V_IncmpProdInstr_Master_ModelRegister
+		{
+			Id = sxp.Id,
+			M_BoxFixedQty = sxp.M_BoxFixedQty,
+			P_ProdKOGONo = sxp.P_ProdKOGONo,
+			P_Model = sxp.P_Model,
+			P_InstrDlvyDate = sxp.P_InstrDlvyDate,
+			P_MasterID = sxp.P_MasterID,
+			P_BOMNo = sxp.P_BOMNo,
+			M_Holon = sxp.M_Holon,
+			M_BINManage = sxp.M_BINManage,
+			M_BoxType = sxp.M_BoxType,
+			MR_PartLength = sxp.MR_PartLength,
+			MR_UnitWeight = sxp.MR_UnitWeight,
+			MR_Series = sxp.MR_Series,
+			MR_DrawingNo = sxp.MR_DrawingNo,
+			MR_DesignChangeNo = sxp.MR_DesignChangeNo
+		})
+		.FirstOrDefaultAsync();
+		// 计算要几张随行票
+		if (ptg == null || sxpWithFanHao == null || sxp == null)
+		{ //如果Process_Technology_ProcessGroup 或者 IncmpProdInstr_Master_ModelRegister 有一个是空就返回
+			throw new Exception("没有数据");
+		}
+		#endregion
+
+		#region 3.2 构造打印数据, 包含打印
+		//页数
+		pageCount = (int)Math.Ceiling(ptg.TechnologyWorkOrderCount.Value / sxp.M_BoxFixedQty.Value);
+		//最后一页的余数
+		lastCount = ((int)(ptg.TechnologyWorkOrderCount % sxp.M_BoxFixedQty) == 0) ? (int)sxp.M_BoxFixedQty : (int)(ptg.TechnologyWorkOrderCount % sxp.M_BoxFixedQty);
+
+		for (int pageIndex = 1; pageIndex <= pageCount; pageIndex++)
+		{
+
+			AccompanyTicketOutput temp = new AccompanyTicketOutput();
+
+			temp.AccompanyTicketNo = string.Format("{0}-{1}", workOrderNo, pageIndex.ToString().PadLeft(3, '0')); //1 随行票号
+			temp.WorkOrder = workOrderNo;       // 37 工单号
+			temp.ProdKOGONo = sxp.P_ProdKOGONo; //3 生产工号
+			temp.IssueID = sxp.Id;              //9 生产指示号
+			temp.Model = sxp.P_Model;           //18 品番
+
+			temp.Quantity = (ptg.TechnologyWorkOrderCount == null) ? 0 : (int)ptg.TechnologyWorkOrderCount.Value; //22 工单数
+
+			if (temp.Quantity < 0)
+			{
+				throw new Exception($"工单{temp.WorkOrder},工单数小于零不允许打印。");
+			}
+
+			temp.InstrDlvyDate = sxp.P_InstrDlvyDate.Value.ToString("yyyy/MM/dd"); //20 出库日期
+			temp.MasterID = sxp.P_MasterID; //29 Master唯一编号
+			temp.BOMNo = sxp.P_BOMNo; //21 单耗版本号
+
+			temp.Holon = sxp.M_Holon; //0 Holon编号
+			temp.BINManage = sxp.M_BINManage; //30 BIN管理标识
+			temp.BoxFixedQty = (pageIndex < pageCount) ? (int)sxp.M_BoxFixedQty : lastCount; //4 外箱装箱数量
+			temp.BoxType = sxp.M_BoxType; //10 外箱型号
+
+			temp.PartLength = sxp.MR_PartLength.Value.ToString("#0.00"); //5 工件全长
+			temp.UnitWeight = sxp.MR_UnitWeight == null ? "0" : sxp.MR_UnitWeight.Value.ToString("#0.000"); //31 单重
+			temp.Series = sxp.MR_Series; //17 系列 "MXS"
+			temp.DrawingNo = sxp.MR_DrawingNo == null ? "" : sxp.MR_DrawingNo; //24 图号 "C5550BBAQ294-#";
+			temp.DesignChangeNo = sxp.MR_DesignChangeNo == null ? "" : sxp.MR_DesignChangeNo; //25 设变 "9";
+
+			temp.TuZhiFanHao = sxpWithFanHao.TuZhiFanHao.Trim(); //23 图纸番号 "200";
+			temp.SuCaiFanHao = sxpWithFanHao.SuCaiFanHao.Trim(); //26 素材番号 "2433C9";
+			temp.MaterialModel = sxpWithFanHao.MaterialModel; //27 素材
+			temp.RequestQty = sxpWithFanHao.RequestQty.Value.ToString("#0"); //28 素材数量
+
+			temp.TotalBoxCount = pageCount; //32 总箱号
+			temp.CurrentBoxNumber = pageIndex; //33 当前箱号
+			temp.OperateTime = DateTime.Now; //34 操作日期
+
+			//35 工序号  36 设备号 
+			//temp.ProcessMachineList = this.GetListByString(ptg.TechnologyProNameGroup, ptg.TechnologyMacNoGroup);
+
+			#region 备注
+			Remark tempRemark = this.GetRemarkByRemarkString(ptg.ProcessDescription == null ? "" : ptg.ProcessDescription);
+			temp.Remark8 = tempRemark.Remark8;   //8 备注
+			temp.Remark12 = tempRemark.Remark12; //12 Remark12
+			temp.Remark13 = tempRemark.Remark13; //13 Remark13
+			temp.Remark14 = tempRemark.Remark14; //14 Remark14
+			temp.Remark15 = tempRemark.Remark15; //15 Remark15
+			#endregion
+
+			temp.PrintMonth = string.Format(@"{0}/", DateTime.Now.Month.ToString()); //2 打印月份
+			temp.PrintDay = DateTime.Now.Day.ToString(); // 7 打印日期
+
+			temp.Description = ptg.ProcessDescription == null ? "" : ptg.ProcessDescription; //38 描述
+			temp.MacNoGroup = ptg.TechnologyMacNoGroup;  // 39 工序对应的设备编号列表
+			temp.ProNameGroup = ptg.TechnologyProNameGroup; // 40 工艺对应的工序
+
+			#region 构造工艺和设备(2行)的数据
+
+			var gxSrcArr = ptg.TechnologyProNameGroup.Split(new char[] { ',' }).Select(p => p.Length > 3 ? p.Substring(0, 3) : p).ToArray();
+			Array.Copy(gxSrcArr, gxDescArr, gxSrcArr.Length);
+
+
+			int macIndex = 0;
+			List<string> macNameList = ptg.TechnologyMacNoGroup.Split(new char[] { ',' }).ToList();
+			foreach (var macstr in macNameList)
+			{
+				var macNameLine1 = macstr.Length >= 3 ? macstr.Substring(0, 3) : macstr;
+				var macNameLine2 = macstr.Length > 3 ? macstr.Substring(3) : "";
+				macDescArr1[macIndex++] = macNameLine1;
+				macDescArr1[macIndex++] = macNameLine2;
+			}
+
+			#region 把gxSrcArr工序数组写到C29-C43, 把macDescArr1写到C44-C73
+			for (int i = 0; i < gxSrcArr.Length; i++)
+			{
+				PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 29}");
+				if (_findedPropertyInfo != null)
+				{
+					_findedPropertyInfo.SetValue(temp, gxSrcArr[i]);
+				}
+			}
+			for (int i = 0; i < macDescArr1.Length; i++)
+			{
+				PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 44}");
+				if (_findedPropertyInfo != null)
+				{
+					_findedPropertyInfo.SetValue(temp, macDescArr1[i]);
+				}
+			}
+			#endregion
+
+			#endregion
+
+			temp.LengthTolerance = input.lt;      //11 长度公差
+			temp.DescEmergency = temp.Description.Contains(_emergencyKeyWord) ? _emergencyKeyWord : "";
+
+			atList.Add(temp);
+			result.Add(new ATPrintDto
+			{
+				printFileFullPath = "",
+				PrintAmount = 1,
+				CurrentBoxNumber = 1,
+				Token = Authentication,
+				aAT = temp
+			});
+		}
+		#endregion
+
+		#region 3.3 调用斑马打印方法，返回随行票的相对路径\wwwroot\Upload\ZPL\SXP\20200921\18400\094021\272896586.zpl
+		//printFileFullPath = (await _zplHelps.OpenZPLModelFile<AccompanyTicketOutput, AccompanyTicketEnum>(
+		//    string.Empty,
+		//    userId,
+		//    gxDescArr,
+		//    macDescArr1,
+		//    atList)).OrderBy(at => at.CurrentBoxNumber).Select(a => a.ZplPath).ToList();
+		#endregion
+
+		#region 3.4 落库
+		InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+		UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+		atList.ForEach(temp =>
+		{
+			var newAccompanyTicket = _autoMapper.Map<AccompanyTicket>(temp);
+			newAccompanyTicket.WorkOrderOnWorkId = wId;
+
+			var oldAccompanyTicket = _accompanyTicketRepository.GetAll().Where(a => a.AccompanyTicketNo == newAccompanyTicket.AccompanyTicketNo).FirstOrDefault();
+			if (oldAccompanyTicket != null)
+			{
+				oldAccompanyTicket.PrintAmount = oldAccompanyTicket.PrintAmount == null ? 1 : oldAccompanyTicket.PrintAmount.Value + 1;
+				UpdateAccompanyTicketList.Add(oldAccompanyTicket);
+
+				//result.Add(new ATPrintDto
+				//{
+				//    printFileFullPath = oldAccompanyTicket.ZplPath,
+				//    PrintAmount = oldAccompanyTicket.PrintAmount.Value,
+				//    CurrentBoxNumber = oldAccompanyTicket.CurrentBoxNumber.Value
+				//});
+				_accompanyTicketRepository.Update(oldAccompanyTicket);
+			}
+			else
+			{
+				newAccompanyTicket.PrintAmount = newAccompanyTicket.PrintAmount == null ? 1 : newAccompanyTicket.PrintAmount.Value + 1;
+				InsertAccompanyTicketList.Add(newAccompanyTicket);
+
+				//result.Add(new ATPrintDto
+				//{
+				//    printFileFullPath = temp.ZplPath,
+				//    PrintAmount = newAccompanyTicket.PrintAmount.Value,
+				//    CurrentBoxNumber = newAccompanyTicket.CurrentBoxNumber.Value
+				//});
+			}
+		});
+
+		await _accompanyTicketRepository.BulkInsertAsync(InsertAccompanyTicketList);
+		//await _accompanyTicketRepository.BulkUpdateAsync(UpdateAccompanyTicketList);
+		#endregion
+
+		return result.OrderBy(c => c.CurrentBoxNumber).ToList();
+
+		#endregion 
+	}
+	else
+	{
+		throw new Exception("根据生产指示号和工单找到多个工单");
+	}
+}
+#endregion
+
+
 
 
 
