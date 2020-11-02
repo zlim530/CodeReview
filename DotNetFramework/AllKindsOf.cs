@@ -1,3 +1,995 @@
+#region DispatchAppService.cs
+using Abp.Authorization;
+using Abp.Authorization.Users;
+using Abp.Collections.Extensions;
+using Abp.Domain.Repositories;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
+using Abp.Runtime.Session;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SMC.MES.Authorization.Users;
+using SMC.MES.Common.CommonModel;
+using SMC.MES.Common.CommonModel.Sys.OrganizationUnits.Dto;
+using SMC.MES.Common.CommonModel.Sys.OrganizationUnits.Enum;
+using SMC.MES.Common.CommonModel.Sys.UserOrganizations;
+using SMC.MES.Common.EnumCommon;
+using SMC.MES.Common.Exceptions;
+using SMC.MES.Common.LinqExtension;
+using SMC.MES.Common.OpearCommon.Algorithm;
+using SMC.MES.Dispatch.Dispatch.Dto;
+using SMC.MES.EquipmentWorkReport;
+using SMC.MES.Extensions;
+using SMC.MES.OrganizationUnits;
+using SMC.MES.PsnManage;
+using SMC.MES.RepositoryExtensions;
+using SMC.MES.Sys;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
+
+namespace SMC.MES.Dispatch.Dispatch
+{
+    #region 派工信息管理
+    /// <summary>
+    /// 派工信息管理
+    /// </summary>
+    public class DispatchAppService : DispatchAppServiceBase, IDispatchAppService
+    {
+        private readonly IAbpSession _abpSession;													// 单例：有且只有一个实例 
+        private readonly IMapper _autoMapper;						
+        private readonly IRepository<DispatchRecord, long> _dispatchRecordRepository;				// 派工表仓储
+        private readonly IRepository<UserOrganizationUnit, long> _userOrganizationUnitRepository;	// 组织结构员工表仓储：有组织机构表中的主键Id(OrganizationUnitId)、员工表中的主键Id(UserId)
+        private readonly IRepository<User, long> _abpUsersRepository;								// 员工表仓储：有员工的姓名(Name)、员工编号(NormalizedUserName/UserName)、主键Id
+        private readonly IRepository<MyOrganization, long> _organizationUnitRepository;				// 获取用户组织机构表仓储：有组织机构等级(OrgLevel)与组织机构具体名称(DisplayName)
+        private readonly IRepository<DevicesInfo, long> _devicesInfoRepository;						// 设备表仓储
+        private readonly IRepository<T_PsnHelpDatas, int> _t_PsnHelpDatasRepository; 				// 支授员表仓储
+        private readonly IRepository<MdmItemCode, long> _mdmItemCodeRepository;						// 系统字典表仓储：标准工序名称等记录在此
+        private readonly OuManager _ouManager;														
+		// 各模块通用方法对象：获取用户组织机构对象、获取用户组织机构Id、获取用户组织机构Level、获取组织机构Tree、获取用户组织机构对象等方法
+		// 因为MES系统中的各个模块都要用到获取当前用户组织机构的方法，而所有的模块都依赖于 Core 层，Core 层又依赖于基础设施层(ORM:EFCore层)
+		// 所以此方法类在 SMC.MES.Core/OrganizationUnits 文件夹下：OuManager.cs
+
+        /// <summary>
+        /// 构造DI
+        /// </summary>
+        /// <param name="abpSession"></param>
+        /// <param name="autoMapper"></param>
+        /// <param name="dispatchLogRepository"></param>
+        /// <param name="userOrganizationUnitRepository"></param>
+        /// <param name="abpUsersRepository"></param>
+        /// <param name="organizationUnitRepository"></param>
+        /// <param name="dispatchRecordRepository"></param>
+        /// <param name="devicesInfoRepository"></param>
+        /// <param name="t_PsnHelpDatasRepository"></param>
+        /// <param name="mdmItemCodeRepository"></param>
+        /// <param name="ouManager"></param>
+        public DispatchAppService(IAbpSession abpSession,
+            IMapper autoMapper,
+            IRepository<DispatchRecord, long> dispatchLogRepository,
+            IRepository<UserOrganizationUnit, long> userOrganizationUnitRepository,
+            IRepository<User, long> abpUsersRepository,
+            IRepository<MyOrganization, long> organizationUnitRepository,
+            IRepository<DispatchRecord, long> dispatchRecordRepository,
+            IRepository<DevicesInfo, long> devicesInfoRepository,
+            IRepository<T_PsnHelpDatas, int> t_PsnHelpDatasRepository,
+            IRepository<MdmItemCode, long> mdmItemCodeRepository,
+            OuManager ouManager)
+        {
+            _abpSession = abpSession;
+            _dispatchRecordRepository = dispatchLogRepository;
+            _autoMapper = autoMapper;
+            _userOrganizationUnitRepository = userOrganizationUnitRepository;
+            _abpUsersRepository = abpUsersRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _devicesInfoRepository = devicesInfoRepository;
+            _t_PsnHelpDatasRepository = t_PsnHelpDatasRepository;
+            _mdmItemCodeRepository = mdmItemCodeRepository;
+            _ouManager = ouManager;
+        }
+
+        #region 查询分页派工信息-优先查询支受援信息、再查询当前组织机构即登录用户所属单位即权限下单位用户派工信息集合
+        /// <summary>
+        /// 查询分页派工信息-优先查询支受援信息、再查询当前组织机构即登录用户所属单位即权限下单位用户派工信息集合
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task<OutputPageInfo<UserOrganizationDto>> GetDispatchPsnPage(DispatchPsnPageInput input)
+        {
+            //用户组织机构等级
+            var orglevel = await _abpSession.GetOrgLevel();
+            //当前用户组织机构
+            var userorg = await _abpSession.GetOuId();
+            //用户组织机构ID
+            var ouid = orglevel== (int)OranizationEnum.OrgunitLevel.Machine? userorg : input.HOldCode != null ? input.HOldCode : userorg;
+            //员工编号集合
+            var ucodelist = new List<string>();
+            if (input.Usercode != null)
+                ucodelist.Add(input.Usercode);// 自己给自己派工
+            var orgcodelist = new List<long>();
+            var usernamelist = GetUserCodeByHelpDataList(ouid, input.sTime,input.eTime, ucodelist, out orgcodelist);
+            //查询当前组织机构所有用户
+            var usetlist = await _userOrganizationUnitRepository.GetAll().Where(x => orgcodelist.Contains(x.OrganizationUnitId)).Select(x => x.UserId).ToListAsync();
+            var zylist = new List<long>();
+            //添加支受援用户ID
+            if (usernamelist.Any())
+            {
+                var querylist = await _abpUsersRepository.GetAll().Where(x => usernamelist.Contains(x.UserName)).Select(x => x.Id).ToListAsync();
+                usetlist.AddRange(querylist);
+                zylist.AddRange(querylist);
+            }
+            //查询当前组织机构人员集合
+            var peoplequery = (from t1 in _abpUsersRepository.GetAll().Where(x => usetlist.Contains(x.Id))
+                               .WhereIf(input.Usercode != null, x => x.UserName.Equals(input.Usercode))
+                               join t2 in _userOrganizationUnitRepository.GetAll()
+                               on t1.Id equals t2.UserId into temp
+                               from data1 in temp.DefaultIfEmpty()
+                               join t3 in _organizationUnitRepository.GetAll()
+                               on data1.OrganizationUnitId equals t3.Id into temp1
+                               from data2 in temp1.DefaultIfEmpty()
+                               select new UserOrganizationDto
+                               {
+                                   UserID = data1.UserId,
+                                   Name = t1.Name,
+                                   UserName = t1.UserName,
+                                   OrganizationUnitId = data1.OrganizationUnitId,
+                                   OrganizationUnitName = data2 != null ? !string.IsNullOrEmpty(data2.DisplayName) ? data2.DisplayName : string.Empty : string.Empty,
+                                   HelpStatus = false,
+                                   OrgLevel = data2 != null ? data2.OrgLevel : default(int),
+                                   HoLonName = data2 != null ? (data2.OrgLevel == (int)OranizationEnum.OrgunitLevel.Machine ? (data2.Parent != null ? (!string.IsNullOrEmpty(data2.Parent.DisplayName) ? data2.Parent.DisplayName : string.Empty) : string.Empty) : (!string.IsNullOrEmpty(data2.DisplayName) ? data2.DisplayName : string.Empty)) : !string.IsNullOrEmpty(data2.DisplayName) ? data2.DisplayName : string.Empty,
+                                   HoLonCode = data2 != null ? (data2.OrgLevel == (int)OranizationEnum.OrgunitLevel.Machine ? (data2.Parent != null ? (!string.IsNullOrEmpty(data2.Parent.Code) ? data2.Parent.Code : string.Empty) : string.Empty) : (!string.IsNullOrEmpty(data2.Code) ? data2.Code : string.Empty)) : !string.IsNullOrEmpty(data2.Code) ? data2.Code : string.Empty
+                               });
+            //总页数
+            var resultcount = await peoplequery.CountAsync();
+            peoplequery = peoplequery.SkipTakeQueryble(input.Page, input.Limit);
+            //追加查询数据
+            var listdata = peoplequery.ToList();
+            //用户ID集合
+            var useridlist = listdata.Select(x => x.UserID).ToList();
+            //人员任务派工信息
+            var dispatchquery = await (_dispatchRecordRepository.GetAll().Where(x => useridlist.Contains((long)x.UserId))
+                .WhereIf(input.HOldCode != null && orglevel <(int)OranizationEnum.OrgunitLevel.Machine, o => o.HolonCode.Equals(input.HOldCode))
+                .WhereIf(input.ProcessNum != null, o => o.ProcessNum.Equals(input.ProcessNum))
+                .WhereIf(input.Usercode != null, o => o.UserName.Equals(input.Usercode))
+                .WhereIf(input.sTime != null && input.eTime != null, s => (s.StartDate <= input.sTime || s.StartDate >= input.sTime) && input.eTime <= s.EndDate)
+                ).ToListAsync();
+            listdata.ForEach(x =>
+               {
+                   x.TaskCount = dispatchquery.Where(s => s.UserId == x.UserID).Count();
+                   x.HelpStatus = zylist.Where(y => y == x.UserID).Count() > 0 ? true : false;
+               });
+            return new OutputPageInfo<UserOrganizationDto>(resultcount, listdata.OrderByDescending(x=>x.HelpStatus).ToList());
+        }
+        #endregion
+
+        #region 个人派工，批量派工(新增)
+        /// <summary>
+        /// 个人派工，批量派工(新增)-不检验派工时间是否冲突，因为同一时间段可能看多个工序和设备,如果选择替换
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task<bool> BindPerson([FromBody]BindInput input)
+        {
+            if (!input.UserIdList.Any())
+                throw new ObjIsNullException("未找到相关人员信息!");
+            var orgcodelist = new List<long>();
+            //用户组织机构ID
+            var ouid = await _abpSession.GetOuId();
+            //用户ID
+            var userlist = input.UserIdList.Select(x => x.userid).ToList();
+            //支受援用户集合
+            var zsyuserlist = input.UserIdList.Where(x=>x.zsy==true).Select(x => x.userid).ToList();
+            //员工编号集合
+            var usernamelist = GetUserCodeByHelpDataList(ouid, null, null, null, out orgcodelist, userlist);
+            //不允许支受援设置固定派工
+            if (input.isFixed == true)
+            {               
+                if (usernamelist.Any())
+                    throw new ObjIsNullException("员工号为:" + string.Join(",",usernamelist) + "支援对象,无法固定派工!");
+            }
+            else
+            {
+                //存在支受援对象信息
+                if(zsyuserlist.Any())
+                {
+                    //派工时间的支受援信息集合
+                    var zsytimelist = GetHelpDataList(ouid, input.StartDate, input.EndDate, null, out orgcodelist, zsyuserlist).Select(x => x.PsnCode).ToList();
+                    //支受援派工异常信息
+                    var zsyyclist = usernamelist.Where(x => !zsytimelist.Contains(x)).ToList();  
+                    if (zsyyclist.Any())
+                    {
+                        throw new ObjIsNullException("员工号为:" + string.Join(",", zsyyclist) + "支援时间已过,无法派工!");
+                    }
+                }               
+            }
+            //获取员工用户组织机构信息集合
+            var userinfolist = await _abpSession.GetUserOrgListInfo(orgcodelist, userlist);
+            if(userinfolist.Any() && userinfolist.Count() != input.UserIdList.Count())
+            {
+                throw new ObjIsNullException("存在员工组织机构信息异常!无法操作!");
+            }
+            var checkobj = await _dispatchRecordRepository.GetAll().Where(x => userlist.Contains((long)x.UserId)
+                            && x.ProcessNum ==input.ProcessNum
+                            && x.StartDate == input.StartDate
+                            && x.EndDate == input.EndDate).Select(x=>x.Name).ToListAsync();
+            if(checkobj.Any())
+                throw new ObjIsNullException("员工:"+ string.Join(",", checkobj) + "已存在同样的派工!");
+            //映射对象
+            var drList = _autoMapper.Map<List<DispatchRecord>>(userinfolist);
+            drList.ForEach(x =>
+            {
+                x.UserId = x.UserId;
+                x.ProcessNum = input.ProcessNum;
+                x.ProcessId = input.ProcessId;
+                x.MachNo = input.MachNOList;
+                x.StartDate = input.StartDate == null ? DateTime.Now.Date : input.StartDate.Value.Date;
+                x.isFixed = input.isFixed;
+                x.Priority = input.Priority;
+                x.Remark = input.Remark;
+                //固定派工 结束时间为空 给默认时间9999-12-31、非固定 给当前系统时间
+                x.EndDate = input.isFixed ? (input.EndDate == null ? new DateTime(9999, 12, 31).Date : input.EndDate) : (input.EndDate == null ? DateTime.Now.Date : input.EndDate);
+                //不替换
+                x.isReplaced = input.isReplaced;
+            });
+            if (drList.Count > 0)
+            {
+                await _dispatchRecordRepository.BulkInsertAsync(drList);
+            }
+            return await Task.FromResult(true);
+        }
+        #endregion
+
+        #region 个人派工(修改)
+        /// <summary>
+        /// 个人派工(修改)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task<bool> EditBindPerson(EditBindInput input)
+        {
+            if (input.uId<=0)
+                throw new ObjIsNullException("未找到要修改的相关人员信息!");
+            var orgcodelist = new List<long>();
+            //不允许支受援设置固定派工
+            if (input.isFixed == true)
+            {
+                var UserIdList = new List<long>() { (long)input.uId };
+                //用户组织机构ID
+                var ouid = await _abpSession.GetOuId();
+                var usernamelist = GetUserCodeByHelpDataList(ouid, null, null, null, out orgcodelist, UserIdList);
+                if (usernamelist.Any())
+                    throw new ObjIsNullException("员工号为:" + string.Join(",", usernamelist) + "支援对象,无法固定派工!");
+            }
+            //if (!string.IsNullOrEmpty(input.StartDatestr))
+            //    input.StartDate = Convert.ToDateTime(input.StartDatestr);
+            //if (!string.IsNullOrEmpty(input.EndDatestr))
+            //    input.EndDate = Convert.ToDateTime(input.EndDatestr);
+            var olddata = await _dispatchRecordRepository.FirstOrDefaultAsync(x=>x.Id==input.Id);
+            _ = olddata ?? throw new ObjIsNullException("未找到更新对象");
+            var checkobj = await _dispatchRecordRepository.GetAll().Where(x => x.UserId == input.uId
+                           && x.ProcessNum == input.ProcessNum
+                           && x.StartDate == input.StartDate
+                           && x.EndDate == input.EndDate
+                           && x.Id !=olddata.Id).Select(x => x.Name).ToListAsync();
+            if (checkobj.Any())
+                throw new ObjIsNullException("员工:" + string.Join(",", checkobj) + "已存在同样的派工!");
+            var objupdate = _autoMapper.Map(input, olddata);
+            await _dispatchRecordRepository.UpdateAsync(objupdate);
+            return await Task.FromResult(true);
+        }
+        #endregion
+
+        #region 个人派工，批量派工(删除)
+        /// <summary>
+        /// 个人派工，批量派工(删除)
+        /// </summary>
+        /// <param name="userIdList"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task UnBindPerson(List<long> userIdList)
+        {
+            await _dispatchRecordRepository.NewBatchDeleteAsync(dr => userIdList.Contains(dr.Id));
+        }
+        #endregion
+
+        #region 根据UserId和是否完工，得到这个员工的派工列表分页
+        /// <summary>
+        /// 根据UserId和是否完工，得到这个员工的派工列表分页
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task<OutputPageInfo<GetDispatchInfoPageOutput>> GetDispatchInfoPage(GetDispatchInfoPageInput input)
+        {
+            if (input.UserId <= 0)
+                throw new ObjIsNullException("未找到相关人员信息!");
+            var query = _dispatchRecordRepository.GetAll()
+                        .Where(dr => dr.UserId.Value == input.UserId)
+                        .WhereIf(input.IsFinished == (short)DispatchInfoEnum.DispatchFinishedEnum.LS, dr => DateTime.Now.Date > dr.EndDate.Value.Date)
+                        .WhereIf(input.IsFinished == (short)DispatchInfoEnum.DispatchFinishedEnum.DQ, dr => DateTime.Now.Date <= dr.EndDate.Value.Date)
+                        .OrderByDescending(dr => dr.CreationTime).ThenByDescending(dr => dr.LastModificationTime);
+            var result = await query.SkipTakeQueryble(input.Page, input.Limit).ProjectTo<GetDispatchInfoPageOutput>(_autoMapper.ConfigurationProvider).ToListAsync();
+            //var res = query.SkipTakeQueryble(input.Page, input.Limit).ToList();
+            return new OutputPageInfo<GetDispatchInfoPageOutput>(query.Count(), result);
+        }
+        #endregion
+
+        #region 删除派工信息
+        /// <summary>
+        /// 删除派工信息
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task DeleteDispatchByDispatchId(long Id)
+        {
+            await _dispatchRecordRepository.DeleteAsync(Id);
+        }
+        #endregion
+
+        #region 根据工作人员的id获取固定派工信息
+        /// <summary>
+        /// 根据工作人员的id获取固定派工信息
+        /// </summary>
+        /// <param name="userIdList">userId的数组</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AbpAuthorize("schedule.dispatch")]
+        public async Task<bool> GetUserFixedDispatch(List<long> userIdList)
+        {
+            if (!userIdList.Any())
+                throw new ObjIsNullException("未找要设置派工的相关人员信息!");
+            var disdata = await _dispatchRecordRepository.GetAll().Where(dr => userIdList.Contains((long)dr.UserId) && dr.isFixed == true).ToListAsync();
+            if (!disdata.Any())
+                return await Task.FromResult(true);
+            var userlist = disdata.Select(x => x.UserId).ToList();
+            var querylist = await _abpUsersRepository.GetAll().Where(x => userlist.Contains(x.Id)).Select(x => x.Name).ToListAsync();
+            if (querylist.Any())
+                throw new ObjIsNullException("人员" + string.Join(",", querylist) + "存在固定派工信息,无法派工!");
+            else
+                return await Task.FromResult(true);
+        }
+        #endregion
+
+        #region 字典缓存
+        /// <summary>
+        /// 字典缓存
+        /// </summary>
+        /// <returns></returns>
+        private async Task<List<MdmItemCode>> GetCacheItemCode()
+        {
+            return await _mdmItemCodeRepository.GetCacheListAsync();
+        }
+        #endregion
+
+        #region 组织机构缓存
+        /// <summary>
+        /// 组织机构缓存
+        /// </summary>
+        /// <returns></returns>
+        private async Task<List<MyOrganization>> GetOrgCacheItemCode()
+        {
+            return await _organizationUnitRepository.GetCacheListAsync();
+        }
+        #endregion
+
+        #region 获取支受援信息员工编号
+        /// <summary>
+        /// 获取支受援信息员工编号
+        /// </summary>
+        /// <param name="holonid">组织机构ID</param>
+        /// <param name="stime">查询开始时间</param>
+        /// <param name="etime">查询结束时间</param>
+        /// <param name="ucodelist">员工编号集合</param>
+        /// <param name="orgcodelist">组织机构ID集合</param>
+        /// <param name="uidlist">员工ID集合</param>
+        /// <returns></returns>
+        private List<string> GetUserCodeByHelpDataList(long? holonid,DateTime? stime,DateTime? etime,List<string> ucodelist,out List<long> orgcodelist,List<long> uidlist=null)
+        {
+            //包含本身的组织机构List
+            var orglist = _ouManager.GetOrganizationTree(holonid);
+            //组织机构idlist
+            var list = AlgorithmCommon.GetAlgorithmAllChid<GetObjectChildOutput, long>(orglist, "Id", "Children").Distinct().ToList();
+            orgcodelist = list;
+            //支受援查询数据-HelpStatus支援状态True
+            //支受援信息集合
+            var query = _t_PsnHelpDatasRepository.GetAll().Where(x => list.Contains(x.RecipDeptId) && x.HelpStatus == true)
+                           .WhereIf(stime != null && etime != null, s => (s.HelpStartTime <= stime || s.HelpStartTime >= stime) && etime<=s.HelpEndTime);
+            if(uidlist!=null)
+            {
+                var usernamelist = _abpUsersRepository.GetAll().Where(x => uidlist.Contains(x.Id)).Select(x => x.UserName).ToList();
+                query = query.WhereIf(usernamelist.Any(), s => usernamelist.Contains(s.PsnCode));
+            }
+            else
+            {
+                if(ucodelist.Any())
+                    query = query.WhereIf(ucodelist.Any(), s => ucodelist.Contains(s.PsnCode));
+            }
+            return query.Select(x => x.PsnCode).ToList();
+        }
+        #endregion
+
+        #region 获取支受援信息
+        /// <summary>
+        /// 获取支受援信息
+        /// </summary>
+        /// <param name="holonid">组织机构ID</param>
+        /// <param name="stime">查询开始时间</param>
+        /// <param name="etime">查询结束时间</param>
+        /// <param name="ucodelist">员工编号集合</param>
+        /// <param name="orgcodelist">组织机构ID集合</param>
+        /// <param name="uidlist">员工ID集合</param>
+        /// <returns></returns>
+        private List<T_PsnHelpDatas> GetHelpDataList(long? holonid, DateTime? stime, DateTime? etime, List<string> ucodelist, out List<long> orgcodelist, List<long> uidlist = null)
+        {
+            //包含本身的组织机构List
+            var orglist = _ouManager.GetOrganizationTree(holonid);
+            //组织机构idlist
+            var list = AlgorithmCommon.GetAlgorithmAllChid<GetObjectChildOutput, long>(orglist, "Id", "Children").Distinct().ToList();
+            orgcodelist = list;
+            //支受援查询数据-HelpStatus支援状态True
+            //支受援信息集合
+            var query = _t_PsnHelpDatasRepository.GetAll().Where(x => list.Contains(x.RecipDeptId) && x.HelpStatus == true)
+                           .WhereIf(stime != null && etime != null, s => (s.HelpStartTime <= stime || s.HelpStartTime >= stime) && etime <= s.HelpEndTime);
+            if (uidlist != null)
+            {
+                var usernamelist = _abpUsersRepository.GetAll().Where(x => uidlist.Contains(x.Id)).Select(x => x.UserName).ToList();
+                query = query.WhereIf(usernamelist.Any(), s => usernamelist.Contains(s.PsnCode));
+            }
+            else
+            {
+                if (ucodelist.Any())
+                    query = query.WhereIf(ucodelist.Any(), s => ucodelist.Contains(s.PsnCode));
+            }
+            return query.ToList();
+        }
+        #endregion
+    }
+    #endregion
+}
+
+
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public async Task<List<ATPrintDto>> GetAccompanyTicketPrintByProcessNoNew(getTicketinfoinput input, string Authentication)
+{
+
+	List<ATPrintDto> result = new List<ATPrintDto>();
+	List<string> printFileFullPath = new List<string>();
+	List<AccompanyTicketOutput> atList = new List<AccompanyTicketOutput>();
+	List<AccompanyTicket> accompanyTicketList = new List<AccompanyTicket>();
+	WorkOrderOnWork workOrder = new WorkOrderOnWork();
+	List<AccompanyTicket> InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+	List<AccompanyTicket> UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+	string workOrderNo = "";
+	long wId = 0;
+	int pageCount = 0; //总共几页          
+	int lastCount = 0; //最后一页的余数
+
+	var userId = _abpSession.UserId.Value;
+	var res = await _workOrderOnWorkRepository.GetAll().Where(w => w.ProcessNo == input.processNo && w.WorkOrder == input.workOrder).ToListAsync();
+	if (res.Count == 0)
+	{
+		throw new Exception("未找到工单信息");
+	}
+	else if (res.Count == 1)
+	{
+		workOrder = res[0];
+		workOrderNo = workOrder.WorkOrder;
+		wId = workOrder.Id;
+
+		string[] gxDescArr = new string[15] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+		string[] macDescArr1 = new string[30] { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+
+		#region 根据processNo从accompanyTicket中看是否有打印记录
+		bool isAllZPLFileExist = true;
+		var oldATList = await _accompanyTicketRepository.GetAll().Where(a => a.IssueID == input.processNo.ToString())
+			.OrderBy(at => at.CurrentBoxNumber)
+			.ToListAsync();
+
+		if (oldATList != null && oldATList.Count > 0)
+		{
+			//如果有旧的打印记录
+			result = oldATList
+						.Select(a => new ATPrintDto
+						{
+							printFileFullPath = a.ZplPath,
+							PrintAmount = a.PrintAmount.Value + 1,
+							CurrentBoxNumber = a.CurrentBoxNumber.Value,
+							Token = Authentication
+						}).OrderBy(r => r.CurrentBoxNumber).ToList();
+
+			printFileFullPath = oldATList.Select(a => a.ZplPath).ToList();
+			if (printFileFullPath != null && printFileFullPath.Count > 0)
+			{
+				//遍历所有的文件路径，有一个zpl文件找不到，就返回false,如果这个IssueId的ZPL全部存在，就直接返回
+				foreach (string aRelativePath in printFileFullPath)
+				{
+					string aFullPath = $"{_hostingEnvironment.WebRootPath}\\{aRelativePath}";//ContentRootPath
+
+					isAllZPLFileExist = File.Exists(aFullPath);
+					if (!isAllZPLFileExist)
+					{
+						result = new List<ATPrintDto>();
+						break;
+					}
+				}
+
+				if (isAllZPLFileExist == true)
+				{
+					#region 1 情况一文件存在
+					#region 替换Z.EFCore
+					oldATList.ForEach(a =>
+					{
+						a.PrintAmount = a.PrintAmount == null ? 1 : a.PrintAmount + 1;
+						_accompanyTicketRepository.Update(a);
+					});
+					//await _accompanyTicketRepository.BulkUpdateAsync(oldATList); 
+					#endregion 
+					//var str = input.processNo.ToString();
+					//await _accompanyTicketRepository.GetAll().Where(a => a.IssueID == str).BatchUpdateAsync(a => new AccompanyTicket
+					//{
+					//    PrintAmount = a.PrintAmount == null ? 1 : a.PrintAmount + 1
+					//});
+					return result.OrderBy(a => a.CurrentBoxNumber).ToList();
+					#endregion
+				}
+				else
+				{//oldATList存在，但是不是所有的文件都存在，根据以前保存的随行票信息，构建新的ZPL文件
+					#region 2 情况2文件不存在,AccompanyTicket库中随行票数据存在，根据AccompanyTicket库中随行票数据 生成随行票，更新PrintAmount, ZplPath
+
+					#region 2.0 根据AccompanyTicket库中随行票数据构造随行票数据
+					oldATList.ForEach(a =>
+					{
+						#region AccompanyTicket库中相应记录构造每个打印的entity
+						AccompanyTicketOutput temp = new AccompanyTicketOutput();
+						temp.AccompanyTicketNo = a.AccompanyTicketNo; //1 随行票号
+						temp.WorkOrder = a.WorkOrder;           // 37 工单号
+						temp.ProdKOGONo = a.ProdKOGONo;         //3 生产工号
+						temp.IssueID = int.Parse(a.IssueID);    //9 生产指示号
+						temp.Model = a.Model;                   //18 品番
+
+						temp.Quantity = a.Quantity.Value; //22 工单数
+
+						if (temp.Quantity < 0)
+						{
+							throw new Exception($"工单{temp.WorkOrder},工单数小于零不允许打印。");
+						}
+
+						temp.InstrDlvyDate = a.InstrDlvyDate; //20 出库日期
+						temp.MasterID = a.MasterID.Value; //29 Master唯一编号
+						temp.BOMNo = a.BOMNo.Value; //21 单耗版本号
+
+						temp.Holon = a.Holon; //0 Holon编号
+						temp.BINManage = a.BINManage; //30 BIN管理标识
+						temp.BoxFixedQty = a.BoxFixedQty; //4 外箱装箱数量
+						temp.BoxType = a.BoxType; //10 外箱型号
+
+						temp.PartLength = a.PartLength; //5 工件全长
+						temp.UnitWeight = a.UnitWeight; //31 单重
+						temp.Series = a.Series;//sxp.MR_Series; //17 系列
+						temp.DrawingNo = a.DrawingNo;//sxp.MR_DrawingNo == null? "" : sxp.MR_DrawingNo; //24 图号
+						temp.DesignChangeNo = a.DesignChangeNo;//sxp.MR_DesignChangeNo == null ? "" : sxp.MR_DesignChangeNo; //25 设变
+
+						temp.TuZhiFanHao = a.TuZhiFanHao;//sxpWithFanHao.TuZhiFanHao.Trim(); //23 图纸番号
+						temp.SuCaiFanHao = a.SuCaiFanHao;//sxpWithFanHao.SuCaiFanHao.Trim(); //26 素材番号
+						temp.MaterialModel = a.MaterialModel; //27 素材
+						temp.RequestQty = a.RequestQty; //28 素材数量
+
+						temp.TotalBoxCount = a.TotalBoxCount.Value; //32 总箱号
+						temp.CurrentBoxNumber = a.CurrentBoxNumber.Value; //33 当前箱号
+						temp.OperateTime = a.OperateTime.Value; //34 操作日期
+
+						#region 备注
+						Remark tempRemark = this.GetRemarkByRemarkString(a.Description);
+						temp.Remark8 = tempRemark.Remark8;   //8 备注
+						temp.Remark12 = tempRemark.Remark12; //12 Remark12
+						temp.Remark13 = tempRemark.Remark13; //13 Remark13
+						temp.Remark14 = tempRemark.Remark14; //14 Remark14
+						temp.Remark15 = tempRemark.Remark15; //15 Remark15
+						#endregion
+
+						temp.PrintMonth = a.OperateTime.Value.Month.ToString() + "/"; //2 打印月份
+						temp.PrintDay = a.OperateTime.Value.Day.ToString(); // 7 打印日期
+
+						temp.Description = a.Description; //38 描述
+						temp.MacNoGroup = a.MacNoGroup;  // 39 工序对应的设备编号列表
+						temp.ProNameGroup = a.ProNameGroup; // 40 工艺对应的工序
+
+						#region 构造工艺和设备(2行)的数据
+						var gxSrcArr = a.ProNameGroup.Split(new char[] { ',' }).ToArray();
+						Array.Copy(gxSrcArr, gxDescArr, gxSrcArr.Length);
+						//gxDescArr[0] = "NC";
+
+						int macIndex = 0;
+						List<string> macNameList = a.MacNoGroup.Split(new char[] { ',' }).ToList();
+						foreach (var macstr in macNameList)
+						{
+							var macNameLine1 = macstr.Length >= 3 ? macstr.Substring(0, 3) : macstr;
+							var macNameLine2 = macstr.Length > 3 ? macstr.Substring(3) : "";
+							macDescArr1[macIndex++] = macNameLine1;
+							macDescArr1[macIndex++] = macNameLine2;
+						}
+
+						#region 把gxSrcArr工序数组写到C29-C43, 把macDescArr1写到C44-C73
+						for (int i = 0; i < gxSrcArr.Length; i++)
+						{
+							PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 29}");
+							if (_findedPropertyInfo != null)
+							{
+								_findedPropertyInfo.SetValue(temp, gxSrcArr[i]);
+							}
+						}
+						for (int i = 0; i < macDescArr1.Length; i++)
+						{
+							PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 44}");
+							if (_findedPropertyInfo != null)
+							{
+								_findedPropertyInfo.SetValue(temp, macDescArr1[i]);
+							}
+						}
+						#endregion
+
+						#endregion
+						temp.LengthTolerance = a.LengthTolerance;
+						temp.DescEmergency = temp.Description.Contains(_emergencyKeyWord) ? _emergencyKeyWord : "";
+
+						atList.Add(temp);
+
+						result.Add(new ATPrintDto
+						{
+							printFileFullPath = a.ZplPath,
+							PrintAmount = a.PrintAmount.Value + 1,
+							CurrentBoxNumber = a.CurrentBoxNumber.Value,
+							Token = Authentication,
+							aAT = temp,
+						});
+						#endregion
+					});
+					#endregion
+
+					#region 2.1 调用斑马打印方法，返回随行票的路径
+					//printFileFullPath = (await _zplHelps.OpenZPLModelFile<AccompanyTicketOutput, AccompanyTicketEnum>(
+					//    string.Empty,
+					//    userId,
+					//    gxDescArr,
+					//    macDescArr1,
+					//    atList)).OrderBy(at => at.CurrentBoxNumber).Select(a => a.ZplPath).ToList();
+					#endregion
+
+					#region 2.2 落库
+					InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+					UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+					atList.ForEach(temp =>
+					{
+						var newAccompanyTicket = _autoMapper.Map<AccompanyTicket>(temp);
+						newAccompanyTicket.WorkOrderOnWorkId = wId;
+
+						var oldAccompanyTicket = _accompanyTicketRepository.GetAll().Where(a => a.AccompanyTicketNo == newAccompanyTicket.AccompanyTicketNo).FirstOrDefault();
+						if (oldAccompanyTicket != null)
+						{
+							oldAccompanyTicket.PrintAmount = oldAccompanyTicket.PrintAmount == null ? 1 : oldAccompanyTicket.PrintAmount.Value + 1;
+							oldAccompanyTicket.ZplPath = newAccompanyTicket.ZplPath;
+							UpdateAccompanyTicketList.Add(oldAccompanyTicket);
+
+							//result.Add(new ATPrintDto
+							//{
+							//    printFileFullPath = oldAccompanyTicket.ZplPath,
+							//    PrintAmount = oldAccompanyTicket.PrintAmount.Value,
+							//    CurrentBoxNumber = oldAccompanyTicket.CurrentBoxNumber.Value
+							//});
+
+							_accompanyTicketRepository.Update(oldAccompanyTicket);
+						}
+						else
+						{
+							newAccompanyTicket.PrintAmount = newAccompanyTicket.PrintAmount == null ? 1 : newAccompanyTicket.PrintAmount.Value + 1;
+							InsertAccompanyTicketList.Add(newAccompanyTicket);
+
+							//result.Add(new ATPrintDto
+							//{
+							//    printFileFullPath = temp.ZplPath,
+							//    PrintAmount = newAccompanyTicket.PrintAmount.Value,
+							//    CurrentBoxNumber = newAccompanyTicket.CurrentBoxNumber.Value
+							//});
+						}
+					});
+
+					await _accompanyTicketRepository.BulkInsertAsync(InsertAccompanyTicketList);
+					//await _accompanyTicketRepository.BulkUpdateAsync(UpdateAccompanyTicketList);
+					//await _accompanyTicketRepository.GetAll().BatchUpdateAsync(UpdateAccompanyTicketList);
+					#endregion
+
+					#endregion
+
+					return result.OrderBy(a => a.CurrentBoxNumber).ToList();
+				}
+			}
+
+		}
+		#endregion
+
+		#region 3 从3个View中得到数据打印
+
+		#region 3.1 得到打印数据
+		V_Technology_Process_Technology_ProcessGroup ptg = await _v_Technology_Process_Technology_ProcessGroupRepository.GetAll()
+			.Where(ptg => ptg.ProcessProcessNo == input.processNo)
+			.Select(ptg => new V_Technology_Process_Technology_ProcessGroup
+			{
+				Id = ptg.Id,
+				TechnologyWorkOrderCount = ptg.TechnologyWorkOrderCount,
+				ProcessDescription = ptg.ProcessDescription,
+				TechnologyMacNoGroup = ptg.TechnologyMacNoGroup,
+				TechnologyProNameGroup = ptg.TechnologyProNameGroup,
+				ProcessProcessNo = ptg.ProcessProcessNo,
+				ProcessWorkOrder = ptg.ProcessWorkOrder,
+				ProcessProcessName = ptg.ProcessProcessName,
+				ProcessMachineNum = ptg.ProcessMachineNum
+			})
+			.FirstOrDefaultAsync();
+
+		V_V_DFPJ_IncmpProdInstr sxpWithFanHao = await _v_V_DFPJ_IncmpProdInstr.GetAll()
+			.Where(sxp => sxp.Id == input.processNo)
+			.Select(sxpWithFanHao => new V_V_DFPJ_IncmpProdInstr
+			{
+				Id = sxpWithFanHao.Id,
+				TuZhiFanHao = sxpWithFanHao.TuZhiFanHao,
+				SuCaiFanHao = sxpWithFanHao.SuCaiFanHao,
+				MaterialModel = sxpWithFanHao.MaterialModel,
+				RequestQty = sxpWithFanHao.RequestQty
+			})
+		.FirstOrDefaultAsync();
+
+		V_IncmpProdInstr_Master_ModelRegister sxp = await _v_IncmpProdInstr_Master_ModelRegister.GetAll()
+		.Where(imm => imm.Id == input.processNo)
+		.Select(sxp => new V_IncmpProdInstr_Master_ModelRegister
+		{
+			Id = sxp.Id,
+			M_BoxFixedQty = sxp.M_BoxFixedQty,
+			P_ProdKOGONo = sxp.P_ProdKOGONo,
+			P_Model = sxp.P_Model,
+			P_InstrDlvyDate = sxp.P_InstrDlvyDate,
+			P_MasterID = sxp.P_MasterID,
+			P_BOMNo = sxp.P_BOMNo,
+			M_Holon = sxp.M_Holon,
+			M_BINManage = sxp.M_BINManage,
+			M_BoxType = sxp.M_BoxType,
+			MR_PartLength = sxp.MR_PartLength,
+			MR_UnitWeight = sxp.MR_UnitWeight,
+			MR_Series = sxp.MR_Series,
+			MR_DrawingNo = sxp.MR_DrawingNo,
+			MR_DesignChangeNo = sxp.MR_DesignChangeNo
+		})
+		.FirstOrDefaultAsync();
+		// 计算要几张随行票
+		if (ptg == null || sxpWithFanHao == null || sxp == null)
+		{ //如果Process_Technology_ProcessGroup 或者 IncmpProdInstr_Master_ModelRegister 有一个是空就返回
+			throw new Exception("没有数据");
+		}
+		#endregion
+
+		#region 3.2 构造打印数据, 包含打印
+		//页数
+		pageCount = (int)Math.Ceiling(ptg.TechnologyWorkOrderCount.Value / sxp.M_BoxFixedQty.Value);
+		//最后一页的余数
+		lastCount = ((int)(ptg.TechnologyWorkOrderCount % sxp.M_BoxFixedQty) == 0) ? (int)sxp.M_BoxFixedQty : (int)(ptg.TechnologyWorkOrderCount % sxp.M_BoxFixedQty);
+
+		for (int pageIndex = 1; pageIndex <= pageCount; pageIndex++)
+		{
+
+			AccompanyTicketOutput temp = new AccompanyTicketOutput();
+
+			temp.AccompanyTicketNo = string.Format("{0}-{1}", workOrderNo, pageIndex.ToString().PadLeft(3, '0')); //1 随行票号
+			temp.WorkOrder = workOrderNo;       // 37 工单号
+			temp.ProdKOGONo = sxp.P_ProdKOGONo; //3 生产工号
+			temp.IssueID = sxp.Id;              //9 生产指示号
+			temp.Model = sxp.P_Model;           //18 品番
+
+			temp.Quantity = (ptg.TechnologyWorkOrderCount == null) ? 0 : (int)ptg.TechnologyWorkOrderCount.Value; //22 工单数
+
+			if (temp.Quantity < 0)
+			{
+				throw new Exception($"工单{temp.WorkOrder},工单数小于零不允许打印。");
+			}
+
+			temp.InstrDlvyDate = sxp.P_InstrDlvyDate.Value.ToString("yyyy/MM/dd"); //20 出库日期
+			temp.MasterID = sxp.P_MasterID; //29 Master唯一编号
+			temp.BOMNo = sxp.P_BOMNo; //21 单耗版本号
+
+			temp.Holon = sxp.M_Holon; //0 Holon编号
+			temp.BINManage = sxp.M_BINManage; //30 BIN管理标识
+			temp.BoxFixedQty = (pageIndex < pageCount) ? (int)sxp.M_BoxFixedQty : lastCount; //4 外箱装箱数量
+			temp.BoxType = sxp.M_BoxType; //10 外箱型号
+
+			temp.PartLength = sxp.MR_PartLength.Value.ToString("#0.00"); //5 工件全长
+			temp.UnitWeight = sxp.MR_UnitWeight == null ? "0" : sxp.MR_UnitWeight.Value.ToString("#0.000"); //31 单重
+			temp.Series = sxp.MR_Series; //17 系列 "MXS"
+			temp.DrawingNo = sxp.MR_DrawingNo == null ? "" : sxp.MR_DrawingNo; //24 图号 "C5550BBAQ294-#";
+			temp.DesignChangeNo = sxp.MR_DesignChangeNo == null ? "" : sxp.MR_DesignChangeNo; //25 设变 "9";
+
+			temp.TuZhiFanHao = sxpWithFanHao.TuZhiFanHao.Trim(); //23 图纸番号 "200";
+			temp.SuCaiFanHao = sxpWithFanHao.SuCaiFanHao.Trim(); //26 素材番号 "2433C9";
+			temp.MaterialModel = sxpWithFanHao.MaterialModel; //27 素材
+			temp.RequestQty = sxpWithFanHao.RequestQty.Value.ToString("#0"); //28 素材数量
+
+			temp.TotalBoxCount = pageCount; //32 总箱号
+			temp.CurrentBoxNumber = pageIndex; //33 当前箱号
+			temp.OperateTime = DateTime.Now; //34 操作日期
+
+			//35 工序号  36 设备号 
+			//temp.ProcessMachineList = this.GetListByString(ptg.TechnologyProNameGroup, ptg.TechnologyMacNoGroup);
+
+			#region 备注
+			Remark tempRemark = this.GetRemarkByRemarkString(ptg.ProcessDescription == null ? "" : ptg.ProcessDescription);
+			temp.Remark8 = tempRemark.Remark8;   //8 备注
+			temp.Remark12 = tempRemark.Remark12; //12 Remark12
+			temp.Remark13 = tempRemark.Remark13; //13 Remark13
+			temp.Remark14 = tempRemark.Remark14; //14 Remark14
+			temp.Remark15 = tempRemark.Remark15; //15 Remark15
+			#endregion
+
+			temp.PrintMonth = string.Format(@"{0}/", DateTime.Now.Month.ToString()); //2 打印月份
+			temp.PrintDay = DateTime.Now.Day.ToString(); // 7 打印日期
+
+			temp.Description = ptg.ProcessDescription == null ? "" : ptg.ProcessDescription; //38 描述
+			temp.MacNoGroup = ptg.TechnologyMacNoGroup;  // 39 工序对应的设备编号列表
+			temp.ProNameGroup = ptg.TechnologyProNameGroup; // 40 工艺对应的工序
+
+			#region 构造工艺和设备(2行)的数据
+
+			var gxSrcArr = ptg.TechnologyProNameGroup.Split(new char[] { ',' }).Select(p => p.Length > 3 ? p.Substring(0, 3) : p).ToArray();
+			Array.Copy(gxSrcArr, gxDescArr, gxSrcArr.Length);
+
+
+			int macIndex = 0;
+			List<string> macNameList = ptg.TechnologyMacNoGroup.Split(new char[] { ',' }).ToList();
+			foreach (var macstr in macNameList)
+			{
+				var macNameLine1 = macstr.Length >= 3 ? macstr.Substring(0, 3) : macstr;
+				var macNameLine2 = macstr.Length > 3 ? macstr.Substring(3) : "";
+				macDescArr1[macIndex++] = macNameLine1;
+				macDescArr1[macIndex++] = macNameLine2;
+			}
+
+			#region 把gxSrcArr工序数组写到C29-C43, 把macDescArr1写到C44-C73
+			for (int i = 0; i < gxSrcArr.Length; i++)
+			{
+				PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 29}");
+				if (_findedPropertyInfo != null)
+				{
+					_findedPropertyInfo.SetValue(temp, gxSrcArr[i]);
+				}
+			}
+			for (int i = 0; i < macDescArr1.Length; i++)
+			{
+				PropertyInfo _findedPropertyInfo = temp.GetType().GetProperty($"C{i + 44}");
+				if (_findedPropertyInfo != null)
+				{
+					_findedPropertyInfo.SetValue(temp, macDescArr1[i]);
+				}
+			}
+			#endregion
+
+			#endregion
+
+			temp.LengthTolerance = input.lt;      //11 长度公差
+			temp.DescEmergency = temp.Description.Contains(_emergencyKeyWord) ? _emergencyKeyWord : "";
+
+			atList.Add(temp);
+			result.Add(new ATPrintDto
+			{
+				printFileFullPath = "",
+				PrintAmount = 1,
+				CurrentBoxNumber = 1,
+				Token = Authentication,
+				aAT = temp
+			});
+		}
+		#endregion
+
+		#region 3.3 调用斑马打印方法，返回随行票的相对路径\wwwroot\Upload\ZPL\SXP\20200921\18400\094021\272896586.zpl
+		//printFileFullPath = (await _zplHelps.OpenZPLModelFile<AccompanyTicketOutput, AccompanyTicketEnum>(
+		//    string.Empty,
+		//    userId,
+		//    gxDescArr,
+		//    macDescArr1,
+		//    atList)).OrderBy(at => at.CurrentBoxNumber).Select(a => a.ZplPath).ToList();
+		#endregion
+
+		#region 3.4 落库
+		InsertAccompanyTicketList = new List<AccompanyTicket>(); //插入列表
+		UpdateAccompanyTicketList = new List<AccompanyTicket>(); //更新列表
+		atList.ForEach(temp =>
+		{
+			var newAccompanyTicket = _autoMapper.Map<AccompanyTicket>(temp);
+			newAccompanyTicket.WorkOrderOnWorkId = wId;
+
+			var oldAccompanyTicket = _accompanyTicketRepository.GetAll().Where(a => a.AccompanyTicketNo == newAccompanyTicket.AccompanyTicketNo).FirstOrDefault();
+			if (oldAccompanyTicket != null)
+			{
+				oldAccompanyTicket.PrintAmount = oldAccompanyTicket.PrintAmount == null ? 1 : oldAccompanyTicket.PrintAmount.Value + 1;
+				UpdateAccompanyTicketList.Add(oldAccompanyTicket);
+
+				//result.Add(new ATPrintDto
+				//{
+				//    printFileFullPath = oldAccompanyTicket.ZplPath,
+				//    PrintAmount = oldAccompanyTicket.PrintAmount.Value,
+				//    CurrentBoxNumber = oldAccompanyTicket.CurrentBoxNumber.Value
+				//});
+				_accompanyTicketRepository.Update(oldAccompanyTicket);
+			}
+			else
+			{
+				newAccompanyTicket.PrintAmount = newAccompanyTicket.PrintAmount == null ? 1 : newAccompanyTicket.PrintAmount.Value + 1;
+				InsertAccompanyTicketList.Add(newAccompanyTicket);
+
+				//result.Add(new ATPrintDto
+				//{
+				//    printFileFullPath = temp.ZplPath,
+				//    PrintAmount = newAccompanyTicket.PrintAmount.Value,
+				//    CurrentBoxNumber = newAccompanyTicket.CurrentBoxNumber.Value
+				//});
+			}
+		});
+
+		await _accompanyTicketRepository.BulkInsertAsync(InsertAccompanyTicketList);
+		//await _accompanyTicketRepository.BulkUpdateAsync(UpdateAccompanyTicketList);
+		#endregion
+
+		return result.OrderBy(c => c.CurrentBoxNumber).ToList();
+
+		#endregion 
+	}
+	else
+	{
+		throw new Exception("根据生产指示号和工单找到多个工单");
+	}
+}
+
+
+
+
+
+
+
+
+
 /// <summary>
 /// 根据session中保存的userId得到某个他可用的MachNoList
 /// 方法：从派工表中 [SMC_MES_Dispatch].[dbo].[DispatchRecord] 得到相关的机器号
@@ -1892,127 +2884,6 @@ public TechnologyAppService(
 
 
 
-using Abp.Domain.Entities;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SMC.MES.Technologys
-{
-    [Table("T_Tech_ProcessDetail")]
-    public class ProcessDetailInfo : Entity<int>
-    {
-		// 部品型号
-        public string MaterialModel { get; set; }
-        // HOLON名称
-		public string HOLON { get; set; }
-        // 4位部门代码
-		public string DepartNo { get; set; }
-        // 工艺路径:如NC(瓶颈),研磨,清洗,外观检查,出库
-		public string TechProcessName { get; set; }
-		public string TechLineGroup { get; set; }
-        public string BattLeMachGroup { get; set; }
-        public string CytimeGroup { get; set; }
-        public string TechProcessNum { get; set; }
-        public string PTMachGroup { get; set; }
-        public string BattleProcessNum { get; set; }
-		// 是否为原价基准
-        public Nullable<bool> Standard { get; set; }
-    }
-}
-
-
-
-using Abp.Domain.Entities;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SMC.MES.Technologys
-{
-    [Table("T_Tech_ProcessChildData")]
-    public class T_Tech_ProcessChildDatas : Entity<int>
-    {
-        /// <summary>
-        /// 部品型号
-        /// </summary>
-        public string MaterialModel { get; set; }
-        /// <summary>
-        /// holon代码
-        /// </summary>
-        public string HOLON { get; set; }
-        /// <summary>
-        /// 四位部门代码
-        /// </summary>
-        public string DepartNo { get; set; }
-        /// <summary>
-        /// 原价基准
-        /// </summary>
-        public Nullable<bool> Standard { get; set; }
-        /// <summary>
-        ///工艺工序代码
-        /// </summary>
-        public string ProcessNum { get; set; }
-        /// <summary>
-        /// 设备号
-        /// </summary>
-        public string MachNo { get; set; }
-        /// <summary>
-        /// 设备工序名称
-        /// </summary>
-        public string ProcessName { get; set; }
-        /// <summary>
-        /// 测量日期
-        /// </summary>
-        public Nullable<System.DateTime> MeterDate { get; set; }
-        /// <summary>
-        /// 瓶颈设备标记
-        /// </summary>
-        public Nullable<bool> BottleStamp { get; set; }
-        /// <summary>
-        /// 循环时间
-        /// </summary>
-        public Nullable<decimal> CycletTime { get; set; }
-        /// <summary>
-        /// 模具编号
-        /// </summary>
-        public string DieNum { get; set; }
-        /// <summary>
-        /// 瓶颈设备组可替代
-        /// </summary>
-        public string BattleMachGroup { get; set; }
-        /// <summary>
-        /// 瓶颈设备组可替代循环时间
-        /// </summary>
-        public string CytimeGroup { get; set; }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //格式化日期
 FormatDate: function (timespan, fmt) {//formatstyle:例如：yyyy-MM-dd hh:mm:ss
 	if (timespan == "1-01-01" || timespan == undefined) {
@@ -2135,90 +3006,6 @@ public async static Task BulkInsertAsync<TEntity,TPrimaryKey>([NotNull] this IRe
 
 
 
-SMC.MES.Core/Technologys：
-
-namespace SMC.MES.Technologys
-{
-    [Table("T_Tech_ProcessDetail")]
-    public class ProcessDetailInfo : Entity<int>
-    {
-		// 型号：C1A40B-Q7156-850
-        public string MaterialModel { get; set; }
-
-		// 所属HOLON：731、732等
-        public string HOLON { get; set; }
-        
-		// 四位部门代码：6211
-		public string DepartNo { get; set; }
-        
-		// 工艺路径：NC(瓶颈),铣扁,去毛刺,研磨,挤丝,清洗,精修,出库
-		public string TechProcessName { get; set; }
-
-		// 对应 T_Tech_ProcessChildData 表中的 ProcessNum 字段取前两位
-        public string TechLineGroup { get; set; }
-
-		// 
-        public string BattLeMachGroup { get; set; }
-        public string CytimeGroup { get; set; }
-        public string TechProcessNum { get; set; }
-        public string PTMachGroup { get; set; }
-        public string BattleProcessNum { get; set; }
-        public Nullable<bool> Standard { get; set; }
-    }
-}
-
-
-namespace SMC.MES.Technologys
-{
-    [Table("T_Process_Matching")]
-    public class T_Process_Matchings : Entity<int>
-    {
-        /// <summary>
-        /// 配套ID：14、22
-        /// </summary>
-        public Nullable<int> Ptid { get; set; }
-        /// <summary>
-        /// 加工指示号：8738730、8732595
-        /// </summary>
-        public int? ProInstrid { get; set; }
-        /// <summary>
-        /// 组装指示号：11133549
-        /// </summary>
-        public Nullable<int> AssInstrid { get; set; }
-        /// <summary>
-        /// 部品型号：MGP50A-CA007-050
-        /// </summary>
-        public string MaterialModel { get; set; }
-        /// <summary>
-        /// 组装开工日：2020-9-18 00:00:00:000
-        /// </summary>
-        public Nullable<System.DateTime> AssStartDate { get; set; }
-        /// <summary>
-        /// 运输方式：LAND、AIR
-        /// </summary>
-        public string DlvyWay { get; set; }
-        /// <summary>
-        /// 欠品数量：1.00、402.00、2.00
-        /// </summary>
-        public Nullable<decimal> ShortCount { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        /// <summary>
-        /// 加工指示状态：首工序可生产数、表面上架数、加工打票待入数、BJ在库
-        /// </summary>
-        public string OrderStates { get; set; }
-    }
-}
-
-
-
-
-
-
-
-
 var queryList = query.Skip(skipCount).Take(input.Limit).Select(a => a);
 
 var query = datainputRepository.GetAll()
@@ -2228,11 +3015,6 @@ var query = datainputRepository.GetAll()
 			.WhereIf(!string.IsNullOrEmpty(input.ProcessName),c => c.ProcessName == input.ProcessName)
 			.Where(c => c.CreationTime >= stime && c.CreationTime <= dtime)
 			.OrderByDescending
-
-
-
-
-
 
 
 
