@@ -1,4 +1,4 @@
-#region DispatchAppService.cs
+#region DispatchAppService.cs 人员任务派工服务类
 using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Collections.Extensions;
@@ -463,18 +463,6 @@ namespace SMC.MES.Dispatch.Dispatch
 
 
 #endregion
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
