@@ -630,3 +630,118 @@ order by 购买数量 desc
 	·convert(data_type,expression,[style])
 		select 'Number' + 1; 语句错误，因为这里的+是数学运算符
 */
+
+
+
+------------------------------------------2020年11月4日----------------------------
+/*
+					联合结果集union（集合运算符）
+·集合运算符是对两个集合操作的，两个集合必须具有相同的列数，列具有相同的数据结构（至少能隐式转换的），最终输出的集合的列名由一个集合的列名来确定。（可以用来连接多个结果）
+·联合（union）与连接（join）不一样
+·简单的结果集联合：
+	select tName,tSex from techer union
+	select sName,sSex from student
+·基本的原则：每个结果集必须有相同的列数；每个结果集的列必须类型相容
+·联合：将多个结果集合并成一个结果集。
+·union（默认去除重复，相当于默认应用了distinct）
+·union all
+·常见应用：底部汇总。使用 union all（即不默认去重）
+*/
+-- 使用union联合结果集
+select 
+	tName,tGender,tAge
+from TblStudent
+union all
+select
+	fName,fGender,fAge
+from MySdtuent
+
+
+--使用union和union all都能进行联合，区别在于：使用union联合会去除重复、重新排列数据，而union all不会去除重复也不会重新排列
+select tName,tGender,tAge from TblStudent
+union
+select fName,fGender,fAge from MyStudent
+--union 合并两个查询结果集，并且将其中完全重复的数据合并为一条
+--union因为要进行重复值扫描,所以效率低,因此如果不是确定要去除重复行,就使用union all
+
+--大多数情况下，联合的时候不需要去除重复，同时要保持数据的顺序，所以一般建议使用union all
+
+
+--从MyOrder表中统计每种商品的销售总价，并且在底部做汇总
+select
+	商品名称,
+	销售总价 = sum(销售价格 * 销售数量)
+from MyOrders
+group by 商品名称
+union all
+select '总销售价格',sum(销售价格 * 销售数量) from MyOrders
+order by 销售总价 asc
+
+
+--查询成绩表中的:最高分,最低分,平均分
+select 
+	max(tMath) as 最高分,
+	min(tMath) as 最低分,
+	avg(tMath) as 平均分
+from TblScore
+
+select 
+	最高分 = (select max(tMath) from TblScore),	
+	最低分 = (select min(tMath) from TblScore),	
+	平均分 = (select avg(tMath) from TblScore)
+from TblScore
+
+select 名称='最高分', 分数 = max(tMath) from TblScore
+union all
+select 名称='最低分', 分数 = min(tMath) from TblScore
+union all
+select 名称='平均分', 分数 = avg(tMath) from TblScore
+
+
+--使用union all向表中插入多条数据
+insert into Class
+select 'Python'
+union all
+select 'Python'
+union all
+select 'Java'
+union all
+select 'C'
+union all
+select 'CPlusPlus'
+
+
+--使用union向表中插入多条数据：会自动去除重复
+insert into Class
+select 'Python'
+union  
+select 'Python'
+union  
+select 'Java'
+union  
+select 'C'
+union  
+select 'CPlusPlus'
+
+
+--一次插入多条数据
+--把现有的表的数据插入到新表(表不能存在),为表建备份
+--newStudent表示在执行select into语句时创建的
+--select into 语句不能重复执行，因为每次执行都会创建一个newStudent表
+--TblStudent 表结构包括自动编号列都会在newStudent中创建，但是TblStudent表中的约束并不会出现在newStudent表中
+select * into newStudent from TblStudent 
+--(newStudent表在select 查询时同时自动建立)
+--把现有表的数据复制到一个已存在的表，通过这种方式复制，只能复制表结构，以及列的名字和数据类型，对于约束，不会复制过来
+--只拷贝表结构，不拷贝数据
+select * into newTbl from oldTbl where 1 != 1
+--这样做可以只复制表结构，但效率不高，建议：
+select top 0 * into newTbl from oldTbl
+
+--如果表已经存在了
+insert into backupStudent select * from TblStudent
+--(backupStudent表必须提前建好)
+
+
+select top 0 * into newStudent from TblStudent
+select * from newStudent
+
