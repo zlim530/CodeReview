@@ -1,3 +1,358 @@
+#region 工单状态变更-暂停工单(批量)
+/// <summary>
+/// 工单状态变更-暂停工单(批量)
+/// </summary>
+/// <param name="changeinput"></param>
+/// <returns></returns>
+// ChangeWorkReportStatus 变更报工状态对象：
+// 		int wSource 开工来源(0表示首工序开工，从排产计划表导入)、List<SuspendInput> slist 批量变更对象
+// SuspendInput 暂停工单对象Input：
+// 		long wid 开工表主键Id、int changestatus 变更状态(开单开工状态0表示进行中doing，1表示已完成done，2表示暂停pause)、string workorder 工单号(由7位生产指示号+4位随行票打印日期+2位随机数组成=13位的工单号：唯一标识了一个工单)、int? inputid 首工序导入工单表关联主键Id
+public async Task<bool> ChangeOrderStatus(ChangeWorkReportStatus changeinput)
+{
+	//开工表主键Id集合
+	List<long> kgidlist = changeinput.slist.Select(x => x.wid).Distinct().ToList();
+	//需要暂停的工单数量
+	int pauseWorkCount = kgidlist.Count();
+	//首工序ID集合
+	var sgxidlist = new List<int>();
+	//来源首工序
+	if (changeinput.wSource == (int)WorkOrderSourceEnum.ByFirst)
+	{
+		// 工单表主键Id集合
+		List<int> pdilist = changeinput.slist.Select(x => (int)x.inputid).ToList();
+		if (!ilist.Any())
+			throw new AbpException("未找到首工序关联导入数据!");
+		sgxidlist = pdilist;
+		//首工序导入Query
+		var producequery = _produceDataInputsRepository.GetAll().Where(pdi => pdilist.Contains(pdi.Id));
+		var producecount = await producequery.Where(pdi => pdi.Status == (int)InputStatus.status.kg).CountAsync();
+		if (pdilist.Count() != producecount)
+			throw new AbpException("变更状态数量与实际首工序导入数量不符!");
+	}
+	//工单号集合
+	List<sting> orderlist = changeinput.slist.Select(x => x.workorder).Distinct().ToList();
+	// 三种工单开工状态：对应想要暂停的工单来说有且只有两条路可以走：要么回到开工list任务界面允许重复开工，要么进入完工报工状态无论是开工界面还是报工界面都看不见
+	//开工状态只能是允许中的工单才可以变更状态-至急插单
+	int statusdoing = (int)WorkOrderOnWorkStatusEnum.Doing;
+	//开工变更状态-至急插单、暂停
+	int statuspause = (int)WorkOrderOnWorkStatusEnum.pause;
+	//开工变更状态-完工
+	int statusdone = (int)WorkOrderOnWorkStatusEnum.Done;
+	//开工表Query
+	IQueryable<WorkOrderOnWork> startWorkQuery = _workOrderOnWorkRepository.GetAll().Where(woow => kgidlist.Contains(woow.Id));
+	//查询开工表相关主键信息总数
+	int startWorkCount = await startWorkquery.Where(x => x.Status == statusdoing).CountAsync();
+	if (pauseWorkCount != startWorkCount)
+		throw new AbpException("变更状态数量与实际开工信息数量不符!");
+	//开工表List
+	List<WorkOrderOnWork> startWorkList = await startWorkQuery.ToListAsync();
+	//更新开工对象集合
+	List<WorkOrderOnWork> upworkdata = new List<WorkOrderOnWork>();
+	//异常开工更新状态数据集合
+	List<string> errorworkdata = new List<string>();
+	//批量插入变更信息之前的信息
+	var insertbackdata = new List<T_BackOrder_Datas>();
+
+	//遍历变更状态对象集合
+	#region 遍历变更状态对象集合
+	// List<SuspendInput> changeinput.slist SuspendInput item
+	foreach (var item in changeinput.slist)
+	{
+		//判断是否满足更新条件
+		var changedata = kglist.Where(x => x.Id == item.wid && x.Status == statusdoing).FirstOrDefault();
+		//状态等于至急插单、完工 并且存在可更新数据
+		if ((item.changestatus == statuspause || item.changestatus == statusdone) && changedata != null)
+		{
+			changedata.Status = item.changestatus;
+			upworkdata.Add(changedata);
+			insertbackdata.Add(new T_BackOrder_Datas
+			{
+				WorkOrder = changedata.WorkOrder,
+				WorkOrderGroupID = changedata.WorkOrderGroup,
+				WorkOrderOnWorkId = changedata.Id
+				//首工序主键ID
+			});
+		}
+		else
+		{
+			if (changedata == null)
+			{
+				errorworkdata.Add("主键编号：" + item.wid.ToString() + "未找到对应开工信息!");
+			}
+			else
+			{
+				errorworkdata.Add("工单：" + changedata.WorkOrder + "变更状态异常!");
+			}
+		}
+	}
+	#endregion
+	//更新异常
+	if (!errorworkdata.Any())
+		throw new AbpException(string.Join(System.Environment.NewLine, errorworkdata));
+	#region 已报工数据
+	var sjlist = await (from d in _deviceProcessReportLogRepository.GetAll().Where(x => kgidlist.Contains(x.WorkOrderOnWorkId))
+						group d by new
+						{
+							WorkOrderid = d.WorkOrderOnWorkId,
+						} into groupa
+						select new WorkOrderDeviceDto
+						{
+							WorkOrderOnWorkId = groupa.Key.WorkOrderid,
+							GCount = groupa.Sum(c => c.AmountByManual)
+						}).ToListAsync();
+
+	//通过ID查询不良品生产实绩
+	var bllist = await (from a in _defectiveReportRepository.GetAll().Where(x => kgidlist.Contains(x.WorkOrderOnWorkId))
+						group a by new
+						{
+							WorkOrderid = a.WorkOrderOnWorkId,
+						} into groupb
+						select new WorkOrderDefectiveDto
+						{
+							WorkOrderOnWorkId = groupb.Key.WorkOrderid,
+							Daccount = groupb.Sum(c => c.DefectiveAccount)
+						}).ToListAsync();
+	#endregion
+	#region 遍历
+	insertbackdata.ForEach(x =>
+	{
+		x.GCount = sjlist.Any() ? sjlist.Where(s => s.WorkOrderOnWorkId == x.WorkOrderOnWorkId).FirstOrDefault()?.GCount : 0;
+		x.Daccount = bllist.Any() ? bllist.Where(s => s.WorkOrderOnWorkId == x.WorkOrderOnWorkId).FirstOrDefault()?.Daccount : 0;
+	});
+	//批量插入工单变更信息记录-缺少前一次暂停记录跟踪(工单变化记录)
+	await _BackOrder_DataRepository.BulkInsertAsync(insertbackdata);
+	#endregion
+	#region 更新开工数据和首工序数据状态
+	//更新开工数据和首工序数据状态
+	if (changeinput.wSource == (int)WorkOrderSourceEnum.ByFirst)
+	{
+		//开工信息
+		await _workOrderOnWorkRepository.BulkUpdateAsync(upworkdata);
+		//首工序
+		await _produceDataInputsRepository.GetAll().Where(x => sgxidlist.Contains(x.Id)).BatchUpdateAsync(e => new T_ProduceData_Inputs { Status = (int)InputStatus.status.zjcd });
+	}
+	#endregion
+	return await Task.FromResult(true);
+}
+#endregion
+
+
+
+
+
+
+
+
+
+
+#region 工单状态变更-暂停工单
+/// <summary>
+/// 工单状态变更-暂停工单
+/// </summary>
+/// <param name="changeinput"></param>
+/// <returns></returns>
+public async Task<bool> ChangeOrderStatus(ChangeWorkReportStatus changeinput)
+{
+	//开工表主键集合：开工表主键ID：wid
+	var kgidlist = changeinput.slist.Select(x => x.wid).Distinct().ToList();
+	//变更数量：需要暂停的工单数量
+	var bgcount = kgidlist.Count();
+	//来源首工序
+	if (changeinput.wSource == (int)WorkOrderSourceEnum.ByFirst)
+	{
+		//工单表主键集合：工单表主键ID：inputid
+		var ilist = changeinput.slist.Select(x => x.inputid).ToList();
+		if (!ilist.Any())
+			throw new AbpException("未找到首工序关联导入数据!");
+		//首工序导入Query
+		var producequery = _produceDataInputsRepository.GetAll().Where(p => ilist.Contains(p.Id));
+		var producecount = await producequery.Where(x => x.Status == (int)InputStatus.status.kg).CountAsync();
+		if (ilist.Count() != producecount)
+			throw new AbpException("变更状态数量与实际首工序导入数量不符!");
+	}
+	//工单集合
+	var orderlist = changeinput.slist.Select(x => x.workorder).Distinct().ToList();
+	//只有为开工状态的工单才可以变更状态-至急插单
+	var statusdoing = (int)WorkOrderOnWorkStatusEnum.Doing;
+	//开工变更状态-至急插单、暂停
+	var statuspause = (int)WorkOrderOnWorkStatusEnum.pause;
+	//开工变更状态-完工
+	var statusdone = (int)WorkOrderOnWorkStatusEnum.Done;
+	//开工Query
+	var kgquery = _workOrderOnWorkRepository.GetAll().Where(x => kgidlist.Contains(x.Id));
+	//查询开工表相关主键信息总数
+	var kgcount = await kgquery.Where(x => x.Status == statusdoing).CountAsync();
+	if (bgcount != kgcount)
+		throw new AbpException("变更状态数量与实际开工信息数量不符!");
+	//开工List
+	var kglist = await kgquery.ToListAsync();
+	//更新开工对象集合
+	var upworkdata = new List<WorkOrderOnWork>();
+	//异常开工更新状态数据集合
+	var errorworkdata = new List<string>();
+	//批量插入变更信息之前的信息
+	var insertbackdata = new List<T_BackOrder_Datas>();
+
+	#region 已报工数据
+	var sjlist =await (from dprl in _deviceProcessReportLogRepository.GetAll().Where(dprl=> kgidlist.Contains(dprl.WorkOrderOnWorkId))
+					group dprl by new
+					{
+						WorkOrderid = dprl.WorkOrderOnWorkId,
+					} into groupa
+					select new WorkOrderDeviceDto
+					{
+
+						WorkOrderOnWorkId = groupa.Key.WorkOrderid,
+						GCount = groupa.Sum(dprl => dprl.AmountByManual)// sum(当前工单报工历史报工记录所有良品)
+					}).ToListAsync();
+
+	//通过ID查询不良品生产实绩
+	var bllist = await (from a in _defectiveReportRepository.GetAll().Where(x => kgidlist.Contains(x.WorkOrderOnWorkId))
+					group a by new
+					{
+						WorkOrderid = a.WorkOrderOnWorkId,
+					} into groupb
+					select new WorkOrderDefectiveDto
+					{
+
+						WorkOrderOnWorkId = groupb.Key.WorkOrderid,
+						Daccount = groupb.Sum(c => c.DefectiveAccount)
+					}).ToListAsync();
+
+	#endregion
+	//遍历变更状态对象集合
+	foreach (var item in changeinput.slist)
+	{
+		//判断是否满足更新条件：必须是开工表中存在的并且对应的工单状态为进行中（即未完工的）
+		var changedata = kglist.Where(x => x.Id == item.wid && x.Status == statusdoing).FirstOrDefault();
+		//状态等于至急插单、完工 并且存在可更新数据
+		if((item.changestatus == statuspause || item.changestatus == statusdone) && changedata!=null)
+		{
+			changedata.Status = item.changestatus;
+			upworkdata.Add(changedata);
+		}
+		else /* if(item.changestatus == statusdoing || changedata == null) */
+		{
+			if(changedata==null)
+			{
+				errorworkdata.Add("主键编号：" + item.wid.ToString() + "未找到对应开工信息!");
+			}
+			else /* if( item.changestatus == statusdoiong ) */
+			{
+				errorworkdata.Add("工单：" + changedata.WorkOrder + "变更状态异常!");
+			}
+		}
+	}
+
+	// 在最外面检验指示残的时候添加
+
+	//if (workorder != null)
+	//{
+	//    //查询主表的id status 必须是开工状态下
+	//    var drresult = await _workOrderOnWorkRepository.GetAll()
+	//                    .Where(c => c.WorkOrder.Contains(workorder))
+	//                    .Where(c => c.Status.Equals(WorkOrderOnWorkStatusEnum.Doing))
+	//                    .Select(c => c.ProductDataInputId).ToListAsync();
+
+	//    if (drresult.Count() > 0)
+	//    {
+
+
+	//        //从开工表查询id
+	//        var result = from a in _workOrderOnWorkRepository.GetAll()
+	//                         .Where(c => c.WorkOrder.Contains(workorder))
+	//                     select new WorkOrderForInputDto
+	//                     {
+	//                         WorkOrderOnWorkId = a.Id,
+	//                         ProductDataInputId = a.ProductDataInputId,
+	//                         WorkOrderGroupID = a.WorkOrderGroup
+	//                     };
+
+	//        ///通过ID查询良品生产实绩
+
+	//        var sjlist = (from d in _deviceProcessReportLogRepository.GetAll()
+	//                      group d by new
+	//                      {
+	//                          WorkOrderid = d.WorkOrderOnWorkId,
+	//                      } into groupa
+	//                      select new WorkOrderDeviceDto
+	//                      {
+
+	//                          WorkOrderOnWorkId = groupa.Key.WorkOrderid,
+	//                          GCount = groupa.Sum(c => c.AmountByManual)
+	//                      });
+
+	//        ///通过ID查询不良品生产实绩
+	//        var bllist = (from a in _defectiveReportRepository.GetAll()
+	//                      group a by new
+	//                      {
+	//                          WorkOrderid = a.WorkOrderOnWorkId,
+	//                      } into groupb
+	//                      select new WorkOrderDefectiveDto
+	//                      {
+
+	//                          WorkOrderOnWorkId = groupb.Key.WorkOrderid,
+	//                          Daccount = groupb.Sum(c => c.DefectiveAccount)
+	//                      });
+
+
+	//        var resultdata = await (from a in result
+	//                                join b in sjlist
+	//                                on a.WorkOrderOnWorkId equals b.WorkOrderOnWorkId into t1
+	//                                from data1 in t1.DefaultIfEmpty()
+	//                                join d in bllist
+	//                                on a.WorkOrderOnWorkId equals d.WorkOrderOnWorkId into t2
+	//                                from data2 in t2.DefaultIfEmpty()
+	//                                select new WorkOrderSumCountDto
+	//                                {
+	//                                    WorkOrderOnWorkId = a.WorkOrderOnWorkId,
+	//                                    ProductDataInputId = a.ProductDataInputId,
+	//                                    WorkOrderGroupID = a.WorkOrderGroupID,
+	//                                    WorkOrder = workorder,
+	//                                    GCount = data1 != null ? data1.GCount != null ? data1.GCount : 0 : 0,
+	//                                    Daccount = data2 != null ? data2.Daccount != null ? data2.Daccount : 0 : 0
+	//                                }).ToListAsync();
+
+	//        //foreach (var item in resultdata)
+
+	//        //    if (item.GCount > 0 || item.Daccount > 0)
+	//        //    {
+	//        ///根据查询的ID，更新主表状态为6
+	//        await _produceDataInputsRepository.GetAll().Where(x => drresult.Contains(x.Id)).BatchUpdateAsync(e => new T_ProduceData_Inputs { Status = (int)InputStatus.status.zjcd });
+
+	//        var kty = _autoMapper.Map<List<T_BackOrder_Datas>>(resultdata);
+	//        await _BackOrder_DataRepository.BulkInsertAsync(kty);
+
+	//        await _workOrderOnWorkRepository.GetAll().Where(x => drresult.Contains(x.ProductDataInputId)).BatchUpdateAsync(e => new WorkOrderOnWork { Status = (int)WorkOrderOnWorkStatusEnum.pause });
+
+	//        //}
+	//        //else
+	//        //{
+	//        //    throw new ObjIsNullException("无法退回，此工单没有报工");
+	//        //}
+	//    }
+
+	//    else
+	//    {
+	//        throw new ObjIsNullException("无法退回，没有查到此工单或者已经完工");
+	//    }
+	//}
+	return await Task.FromResult(true);
+}
+#endregion
+
+
+
+
+
+
+
+
+
+
+
+
 #region DispatchAppService.cs 人员任务派工服务类
 using Abp.Authorization;
 using Abp.Authorization.Users;
