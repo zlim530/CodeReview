@@ -19,40 +19,41 @@ namespace LINQAndXML {
             };
 
             // LINQ query
-            /*var bmws = from car in myCars
+            var bmws = from car in myCars
                        where car.Make == "BMW"
                        && car.Year == 2010
-                       select car;*/
+                       select car;
 
-            /*var orderedCars = from car in myCars
+            var orderedCars = from car in myCars
                               orderby car.Year descending
-                              select car;*/
+                              select car;
 
             // LINQ method
-            //var bmws = myCars.Where(c => c.Make == "BMW" && c.Year == 2010);
+            var bmw2s = myCars.Where(c => c.Make == "BMW" && c.Year == 2010);
 
-            //var orderedCars = myCars.OrderByDescending(c => c.Year);
+            var orderedCar2s = myCars.OrderByDescending(c => c.Year);
 
-            //var firstBMW = myCars.OrderByDescending(c => c.Year).First();
-            //Console.WriteLine(firstBMW.VIN);
+            var firstBMW = myCars.OrderByDescending(c => c.Year).First();
+            Console.WriteLine(firstBMW.VIN);
 
-            //Console.WriteLine(myCars.TrueForAll(c => c.Year > 2007));
+            Console.WriteLine(myCars.TrueForAll(c => c.Year > 2007));
 
-            //myCars.ForEach(c => c.StikerPrice -= 3000);// 使用 ForEach 会对原链表进行修改
-            //myCars.ForEach(c => Console.WriteLine("{0} {1:C}",c.VIN,c.StikerPrice));
+            myCars.ForEach(c => c.StikerPrice -= 3000);// 使用 ForEach 会对原链表进行修改
+            myCars.ForEach(c => Console.WriteLine("{0} {1:C}", c.VIN, c.StikerPrice));
 
-            //Console.WriteLine(myCars.Exists(c => c.Model == "74li"));
-            //Console.WriteLine(myCars.Sum(c => c.StikerPrice));
+            Console.WriteLine(myCars.Exists(c => c.Model == "74li"));
+            Console.WriteLine(myCars.Sum(c => c.StikerPrice));
 
-            /*foreach (var car in bmws) {
+            foreach (var car in bmws)
+            {
                 Console.WriteLine($"{car.VIN} {car.Make} {car.Year}");
-            }*/
+            }
 
             Console.WriteLine(myCars.GetType());
-            var orderedCars = myCars.OrderByDescending(c => c.Year);
+            var orderedCar3s = myCars.OrderByDescending(c => c.Year);
             Console.WriteLine(orderedCars.GetType());
 
-            var bmws = myCars.Where(c => c.Make == "BMW" && c.Year == 2010);
+            var bmw3s = myCars.Where(c => c.Make == "BMW" && c.Year == 2010);
             Console.WriteLine(bmws.GetType());
 
             var newCars = from car in myCars

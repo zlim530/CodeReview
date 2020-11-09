@@ -7,7 +7,7 @@
 // ChangeWorkReportStatus 变更报工状态对象：
 // 		int wSource 开工来源(0表示首工序开工，从排产计划表导入)、List<SuspendInput> slist 批量变更对象
 // SuspendInput 暂停工单对象Input：
-// 		long wid 开工表主键Id、int changestatus 变更状态(开单开工状态0表示进行中doing，1表示已完成done，2表示暂停pause)、string workorder 工单号(由7位生产指示号+4位随行票打印日期+2位随机数组成=13位的工单号：唯一标识了一个工单)、int? inputid 首工序导入工单表关联主键Id
+// 		long wid 开工表主键Id、int changestatus 需要变更为的状态(开单开工状态0表示进行中doing，1表示已完成done，2表示暂停pause)、string workorder 工单号(由7位生产指示号+4位随行票打印日期+2位随机数组成=13位的工单号：唯一标识了一个工单)、int? inputid 首工序导入工单表关联主键Id
 public async Task<bool> ChangeOrderStatus(ChangeWorkReportStatus changeinput)
 {
 	//开工表主键Id集合

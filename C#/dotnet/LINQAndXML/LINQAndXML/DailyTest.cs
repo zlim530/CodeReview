@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace LINQAndXML
@@ -32,7 +33,29 @@ namespace LINQAndXML
 
         static void Main(string[] args)
         {
+            string[] fruits = { "apricot", "organe" , "banana" , "mango" , "apple" , "grape" , "strawberry" };
+            IOrderedEnumerable<string> sortedFruits1 = fruits.OrderByDescending(fruit => fruit.Length).ThenBy(fruit => fruit);// 按照字符串本身的排序原则：如果长度一致则根据(首字母的)ASCII值进行排序
+            foreach (var fruit in sortedFruits1)
+            {
+                Console.WriteLine(fruit);
+            }
+            /*
+            apple
+            grape
+            mango
+            banana
+            organe
+            apricot
+            strawberry
 
+            strawberry
+            apricot
+            banana
+            organe
+            apple
+            grape
+            mango
+             */
         }
 
     }
