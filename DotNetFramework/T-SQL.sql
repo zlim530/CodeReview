@@ -745,3 +745,30 @@ insert into backupStudent select * from TblStudent
 select top 0 * into newStudent from TblStudent
 select * from newStudent
 
+
+
+
+-----------------------------2020年11月10日-----------------------------
+use Test
+
+create table MartialArtsMaster(
+	Id int identity(1,1) primary key,
+	Name nvarchar(100) not null,
+	Age int not null,
+	Menpai nvarchar(100) not null,
+	Kungfu nvarchar(100) not null,
+	Level int not null
+)
+
+select * from MartialArtsMaster
+
+create table Kongfu(
+	KongfuId int identity(1,1) primary key,
+	KongfuName nvarchar(100) not null,
+	Lethality int not null
+)
+
+select * from Kongfu
+
+insert into MartialArtsMaster values('黄蓉',18,'丐帮','打狗棒法',9)
+

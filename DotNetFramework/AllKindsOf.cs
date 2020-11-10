@@ -19,7 +19,7 @@ public async Task<bool> ChangeOrderStatus(ChangeWorkReportStatus changeinput)
 	//来源首工序
 	if (changeinput.wSource == (int)WorkOrderSourceEnum.ByFirst)
 	{
-		// 工单表主键Id集合
+		// 工单表主键Id集合 
 		List<int> pdilist = changeinput.slist.Select(x => (int)x.inputid).ToList();
 		if (!ilist.Any())
 			throw new AbpException("未找到首工序关联导入数据!");

@@ -31,7 +31,7 @@ namespace LINQAndXML
             Console.WriteLine(del2(1));
         }
 
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             string[] fruits = { "apricot", "organe" , "banana" , "mango" , "apple" , "grape" , "strawberry" };
             IOrderedEnumerable<string> sortedFruits1 = fruits.OrderByDescending(fruit => fruit.Length).ThenBy(fruit => fruit);// 按照字符串本身的排序原则：如果长度一致则根据(首字母的)ASCII值进行排序

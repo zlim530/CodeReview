@@ -70,69 +70,76 @@ namespace LINQAndXML {
         /// </summary>
         /// <param name="args"></param>
         static void Main1(string[] args){
-            /*int[] arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[] arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             var query = from n in arr
                         where IsEven(n)
                         select n;
-            foreach (var item in query) {
+            foreach (var item in query)
+            {
                 Console.WriteLine(item);
             }
 
             int[] numbers = { 1, 3, 5, 7, 9, 2, 4, 6, 8, 0 };
 
-            var query = from num in numbers
+            var quer2y = from num in numbers
                         let n = num % 2// 创建一个范围变量来存储结果
                         where n == 0
                         select num;
-            foreach (var item in query) {
+            foreach (var item in quer2y)
+            {
                 Console.WriteLine(item);
             }
 
-            int[] arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            var query = from n in arr
+            int[] ar2r = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var quer3y = from n in arr
                         where n > 1 && n < 6
                         orderby n descending
                         select n;
 
-            foreach (var item in query) {
+            foreach (var item in query)
+            {
                 Console.WriteLine(item);
             }
 
-            int[] arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[] ar3r = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            var query = from n in arr
+            var quer4y = from n in arr
                         where n > 1 && n < 6
                         group n by n % 2;
 
-            foreach (var item in query) {
-                foreach (var i in item) {
+            foreach (var item in quer4y)
+            {
+                foreach (var i in item)
+                {
                     Console.WriteLine(i);
                 }
                 Console.WriteLine("========================");
             }
 
-            int[] arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[] ar4r = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            var query = from n in arr
+            var quer5y = from n in arr
                         where n > 1 && n < 6
                         group n by n % 2 into lists// into：临时标识符，存储数据
                         from item in lists
                         select item;
 
-            foreach (var item in query) {
+            foreach (var item in query)
+            {
                 Console.WriteLine(item);
             }
 
-            int[] arrA = {0,1,2,3,4,5,6,7,8,9 };
-            int[] arrB = { 0,2,4,6,8};
+            int[] arrA = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[] arrB = { 0, 2, 4, 6, 8 };
 
-            var query = from a in arrA
+            var quer6y = from a in arrA
                         where a < 7
                         join b in arrB on a equals b// 将 arrA 和 arrB 数组进行行联接，同时满足 a，b 相同的条件，其中 b 是 arrB 中的元素
                         select a;
-            foreach (var item in query) {
+            foreach (var item in query)
+            {
                 Console.WriteLine(item);
-            }*/
+            }
 
         }
 
@@ -145,27 +152,36 @@ namespace LINQAndXML {
 
 
         public static void Main2(string[] args) {
-            /*int[] scores = new int[] { 97,92,81,60};
+            int[] scores = new int[] { 97, 92, 81, 60 };
             //IEnumerable<int> 
             var scoreQuert = from score in scores
                              where score > 80
                              orderby score descending
                              select score;
-            foreach (var item in scoreQuert) {
+            foreach (var item in scoreQuert)
+            {
                 Console.WriteLine(item);
-            }*/
+            }
 
 
             string[] languages = { "Java","C#","C++","Delphi","VB.net","VC.net","C++Builder","Kylix","Perl","Python"};
             var query = from item in languages
                         group item by item.Length into lengthGroups
                         // 按照字符串长度进行排序，并保存在 lengthGroups 临时变量中
-                        orderby lengthGroups.Key
+                        orderby lengthGroups.Key descending
                         select lengthGroups;
 
             foreach (var item in query) {
                 Console.WriteLine($"string of length:{item.Key}");
-                foreach (var str in item) {
+                //foreach (var str in item) {
+                //    Console.WriteLine(str);
+                //}
+            }
+            Console.WriteLine("=============================");
+            foreach (var item in query)
+            {
+                foreach (var str in item)
+                {
                     Console.WriteLine(str);
                 }
             }
