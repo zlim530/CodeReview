@@ -770,5 +770,38 @@ create table Kongfu(
 
 select * from Kongfu
 
-insert into MartialArtsMaster values('黄蓉',18,'丐帮','打狗棒法',9)
+
+insert into MartialArtsMaster values('洪七公',70,'丐帮','打狗棒法',10)
+,('郭靖',22,'丐帮','降龙十八掌',10)
+,('任我行',50,'明教','吸星大法',1)
+,('东方不败',35,'明教','葵花宝典',10)
+,('林平之',23,'华山','葵花宝典',7)
+,('岳不群',50,'华山','葵花宝典',8)
+
+insert into Kongfu values('降龙十八掌',95)
+,('葵花宝典',100)
+,('吸星大法',10)
+
+
+select * from MartialArtsMaster as m
+where m.Level > 8 and m.Menpai = '丐帮'
+-- LINQ query
+--var list = from m in MartialArtsMaster
+--			where m.Level > 8 and m.Menpai == "丐帮"
+--LINQ method
+--var lis2t = MartialArtsMaster.Where(m => m.Level > 8 && m.Menpai == "丐帮");
+
+
+select 
+	m.Id,m.Name,m.Age,m.Menpai,m.Kungfu,m.Level
+from MartialArtsMaster as m 
+left join Kongfu as k on k.KongfuName = m.Kungfu
+where k.Lethality > 90 
+order by m.Level
+--LINQ query
+--var list = from m in MartialArtsMaster 
+--			from k in Kongfu
+--			where k.Lethality > 90 && m.Kungfu == k.KongfuName
+--			order by m.Level
+--			select m.Id + m.Name + m.Age + m.Menpai + m.Kungfu + m.Level
 

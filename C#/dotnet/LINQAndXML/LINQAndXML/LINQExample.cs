@@ -52,15 +52,17 @@ namespace LINQAndXML {
                                 select m.Id + " " + m.Name + " " + m.Age + " " + m.Menpai + " " + m.Kungfu + " " + m.Level + " ";*/
 
             // LINQ method
-            /*var mastersKongfu = masters.SelectMany(k => kongfus, (m,k) => new { mt = m, kf = k })
+            var mastersKongfu = masters.SelectMany(k => kongfus, (m, k) => new { mt = m, kf = k })
+                                       // 这里的 x 就是 new { mt = m, kf = k } 这个匿名对象
                                        .Where(x => x.kf.Lethality > 90 && x.mt.Kungfu == x.kf.KongfuName)
                                        .OrderBy(m => m.mt.Level)
                                        .Select(m => m.mt.Id + " " + m.mt.Name + " " + m.mt.Age + " " + m.mt.Menpai + " " + m.mt.Kungfu + " " + m.mt.Level + " ");
 
             Console.WriteLine("过滤所学武学杀伤力大于90的大侠：");
-            foreach (var m in mastersKongfu) {
+            foreach (var m in mastersKongfu)
+            {
                 Console.WriteLine(m.ToString());
-            }*/
+            }
 
             // =====================================================================
             //int i = 0;
