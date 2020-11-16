@@ -1,3 +1,121 @@
+8748940
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#region 补打随行票更新打印次数(批量)
+/// <summary>
+/// 补打随行票更新打印次数(批量)
+/// </summary>
+/// <param name="reprintInput"></param>
+/// <returns></returns>
+[HttpPost]
+[AbpAuthorize]
+public  async Task<bool> PostReprintInfoReg(ReprintInput reprintInput)
+{
+	//用户Id
+	var userid = _abpSession.GetUserIdIsNull();
+	// 随性票表随行票号集合
+	var numList = reprintInput.numList;
+	// 随行票变更数量
+	var changeCount = numList.Count;
+	// 工单号
+	var workOrder = reprintInput.workOrder;
+	// 生产指示号
+	var processNo = reprintInput.processNo;
+
+	var sxpIdQuery = _accompanyTicketRepository.GetAll().Where(at => at.IssueID == processNo && at.WorkOrder == workOrder && numList.Contains(at.AccompanyTicketNo));
+	var sxpList = await sxpIdQuery.ToListAsync();
+	var sxpCount = sxpList.Count;
+
+	if (changeCount != sxpCount)
+		throw new AbpException("补打数量与实际数量不符!");
+	sxpList.ForEach(at =>
+	{
+		at.PrintAmount = at.PrintAmount + 1;// 补打只需将对应随行票的打印次数字段+1即可
+	});
+	await _accompanyTicketRepository.BulkUpdateAsync(sxpList);// 批量更新
+	return await Task.FromResult(true);
+}
+#endregion
+
+
+ReprintInput.cs:
+using Abp;
+using Abp.Runtime.Validation;
+using System.Collections.Generic;
+
+namespace SMC.MES.DeviceProcessReport.Report.Dto
+{
+    public class ReprintInput:ICustomValidate
+    {
+        /// <summary>
+        /// 随行票表随行票号集合
+        /// </summary>
+        public List<string> numList { get; set; }
+
+        /// <summary>
+        /// 工单号
+        /// </summary>
+        public string workOrder { get; set; }
+
+        /// <summary>
+        /// 加工指示号
+        /// </summary>
+        public int processNo { get; set; }
+
+        /// <summary>
+        /// 自定义校验异常
+        /// </summary>
+        /// <param name="context"></param>
+        public void AddValidationErrors(CustomValidationContext context)
+        {
+            if (string.IsNullOrEmpty(workOrder))
+                throw new AbpException("工单编号不能为空!");
+            if (numList==null || numList.Count<=0)
+                throw new AbpException("未找到要补打的对象!");
+            if (processNo<=0)
+                throw new AbpException("生产指示号未找到!");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //0~现品票票号
 //1~型号
 //2~单耗版本
