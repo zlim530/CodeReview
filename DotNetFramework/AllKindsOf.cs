@@ -1,3 +1,54 @@
+//0~现品票票号
+public int goodsLableNo { get; set; }
+////0~现品票票号
+//public string GoodsLableNo { get; set; }
+//1~型号
+public string model { get; set; }
+//2~单耗版本
+public string bomno { get; set; }
+//3~箱号
+public  string boxno { get; set; }
+//4~外箱数
+public string boxFixedQty { get; set; }
+//5~场所编码
+public string shelfNo { get; set; }
+// 6 装箱数
+public decimal quantity { get; set; }
+//7~处理时间
+public string operateTime { get; set; }
+//8~生产指示号
+public int? instrID { get; set; }
+//9~ROH6或ROH10的code标识
+public string greenMakStr { get; set; }
+public string greenMark { get; set; }
+//10~bin管理品
+public string management { get; set; }
+//11~包装箱型
+public string boxType { get; set; }
+//12~工号编号
+public string prodKOGONo { get; set; }
+//13~定量数
+public string binfixedQty { get; set; }
+//14~番号
+public string fNo { get; set; }
+//15~番号下面的大数字
+public string zone { get; set; }
+//16~净重
+public string unitWeight { get; set; }
+//17~设变
+public string designChangeNo { get; set; }
+//18~番号前缀
+public string prefNo { get; set; }
+
+
+
+
+
+
+
+
+
+
 8748940
 
 
