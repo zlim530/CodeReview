@@ -1,3 +1,9 @@
+
+
+
+
+
+
 //0~现品票票号
 public int goodsLableNo { get; set; }
 ////0~现品票票号
@@ -39,23 +45,6 @@ public string unitWeight { get; set; }
 public string designChangeNo { get; set; }
 //18~番号前缀
 public string prefNo { get; set; }
-
-
-
-
-
-
-
-
-
-
-8748940
-
-
-
-
-
-
 
 
 
