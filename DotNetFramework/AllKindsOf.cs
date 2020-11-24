@@ -1,3 +1,309 @@
+/// <summary>
+/// 设备作业详细查询
+/// </summary>
+/// <param name="input"></param>
+/// <returns></returns>
+public async Task<OutputPageInfo<DeviceJobDetailOutput>> GetDeviceJobDetail(DeviceJobDetailInput input) {
+
+	IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList = null;
+	
+	#region 分页和缓存
+	int skipCount = (input.Page - 1) * input.Limit;
+	//字典缓存
+	var itemcodelist = _mdmItemCodeRepository.GetCacheList();
+	//标准工序名称枚举
+	var itemcode = (long)ItemCodeEunm.ItemCodeModule.BZGXMC;
+	#endregion
+
+	#region 得到选择的组织机构
+	long? ouid = null;
+	if (input.organizationUnitId != null)
+	{
+		//用户组织机构等级
+		var orglevel = await _abpSession.GetOrgLevel();
+		//当前用户组织机构
+		var userorg = await _abpSession.GetOuId();
+		//用户组织机构ID
+		ouid = orglevel == (int)OranizationEnum.OrgunitLevel.Machine ? userorg : input.organizationUnitId != null ? input.organizationUnitId : userorg;
+	}
+	#endregion
+
+	List<WorkOrderOnWork> mainList =   _workOrderOnWorkRepository.GetAll()
+					.WhereIf(ouid != null, w => w.OrgId == ouid)
+					.WhereIf(!string.IsNullOrEmpty(input.processName), w => w.ProcessName == input.processName)
+					.WhereIf(!string.IsNullOrEmpty(input.deviceId), w => w.MachineNum == input.deviceId)
+					.WhereIf(DateTime.TryParse(input.startDateStr, out DateTime startDate), w => startDate.Date <= w.CreationTime.Date)
+					.WhereIf(DateTime.TryParse(input.endDateStr, out DateTime endDate), w => w.CreationTime.Date <= endDate.Date)
+					.Select(w=> new WorkOrderOnWork
+					{
+						Id = w.Id,
+						OrgId = w.OrgId,
+						ProcessName = _mdmItemCodeBusiness.GetMdmItemCodeString(w.ProcessName, itemcode, itemcodelist).ToString(),
+						CreationTime = w.CreationTime, //.ToString("yyyy-MM-dd HH:mm:ss"),
+						MachineNum = w.MachineNum,
+						WorkOrder = w.WorkOrder,
+						Model = w.Model,
+						ProcessNum = w.ProcessNum,
+						WorkOrderCount = w.WorkOrderCount,
+						WorkOrderGroup = w.WorkOrderGroup,
+						ProcessNo = w.ProcessNo
+					}).OrderBy(w=>w.Id).ToList();
+
+	if (mainList.Count > 0) {
+		// IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList = null;
+		// List<DeviceJobDetailOutput> mainWithDisplayNameList
+		mainWithDisplayNameList =
+							(from w in mainList
+								join o in _myOrganizationRepository.GetAll().Select(o => o).ToList()
+								on w.OrgId equals o.Id into w_o
+								from w_oData in w_o
+								orderby w.WorkOrder, w.ProcessNum
+								select new DeviceJobDetailOutput
+								{
+									workOrderOnWorkId = w.Id,
+									displayName = w_oData == null ? "" : w_oData.DisplayName,
+									processName = w.ProcessName,
+									creationTime = w.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+									machineNum = w.MachineNum,
+									workOrder = w.WorkOrder,
+									model = w.Model,
+									processNum = w.ProcessNum,
+									workOrderCount = w.WorkOrderCount == null ? 0 : w.WorkOrderCount.Value,
+									workOrderGroup = w.WorkOrderGroup == null ? 0 : w.WorkOrderGroup.Value,
+									BeginTime = w.CreationTime,
+									processNo = w.ProcessNo == null? 0:w.ProcessNo.Value
+								}).OrderBy(a=>a.workOrderOnWorkId).ToList();
+
+		if (mainWithDisplayNameList.Count() > 0)
+		{
+			#region 生产实绩
+			// List<`a> amountList = 
+			// 匿名类型 `a 是 new { long workOrderOnWorkId, int workOrderGroup, int amountByManual, Datetime creationTime }
+			var amountList =
+					// (局部变量)IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList
+					(from w in mainWithDisplayNameList
+					// IQueryable<DeviceProcessReportLog> IRepository<DeviceProcessReportLog,long>.GetAll()
+					join r in _deviceProcessReportLogRepository.GetAll()
+					on w.workOrderOnWorkId equals r.WorkOrderOnWorkId into w_r
+					from w_rData in w_r
+					select new
+					{
+						workOrderOnWorkId = w.workOrderOnWorkId,
+						workOrderGroup = w.workOrderGroup,
+						amountByManual = w_rData == null ? 0 : w_rData.AmountByManual,
+						creationTime = w_rData == null ? new DateTime(1,1,1): w_rData.CreationTime
+					}).OrderBy(a=>a.workOrderOnWorkId).ToList();
+			#endregion
+
+			#region 标准机时
+			// (局部变量) List<MachineNumProcessNumModelDto> tempMPMDtoList
+			var tempMPMDtoList = mainWithDisplayNameList.Select(m => new MachineNumProcessNumModelDto { machineNum = m.machineNum, processNum = m.processNum, model = m.model }).ToList();
+			// (局部变量) List<T_Tech_ProcessChildDatas> tempProcessChild
+			var tempProcessChild = _t_Tech_ProcessChildDatasRepository.GetAll().Where(ttpcd => tempMPMDtoList.Contains(new MachineNumProcessNumModelDto{
+				machineNum = ttpcd.MachNo,
+				processNum = ttpcd.ProcessNum,
+				model = ttpcd.MaterialModel
+			})).ToList();
+			// var tempProcessChild = _t_Tech_ProcessChildDatasRepository.GetAll().ToList().Where(c => tempMPMDtoList.Contains(new MachineNumProcessNumModelDto { machineNum = c.MachNo, processNum = c.ProcessNum, model = c.MaterialModel })).ToList();
+
+			
+			// List<`a> cycletTimeList = 
+			// 匿名类型 `a 是 new { long workOrderOnWorkId, int workOrderGroup, string cycletTime }
+			var cycletTimeList =
+				(from w in mainWithDisplayNameList
+					join c in tempProcessChild
+					on new { x = w.machineNum, y = w.processNum, z = w.model } equals new { x = c.MachNo, y = c.ProcessNum, z = c.MaterialModel } into w_c
+					from w_cData in w_c
+					select new
+					{
+						workOrderOnWorkId = w.workOrderOnWorkId,
+						workOrderGroup = w.workOrderGroup,
+						cycletTime = w_cData == null ? "" : (w_cData.CycletTime == null ? "" : w_cData.CycletTime.Value.ToString("#0.00"))
+					}).OrderBy(a => a.workOrderOnWorkId).ToList();
+			#endregion
+
+			#region 停机时间
+			List<string> wIdListNoGroup = mainWithDisplayNameList.Where(w=>w.workOrderGroup==0).Select(w => w.workOrderOnWorkId.ToString()).Distinct().ToList(); //工单的wid
+			List<string> wIdListInGroup = mainWithDisplayNameList.Where(w => w.workOrderGroup != 0)
+														.GroupBy(w=>w.workOrderGroup) 
+														.Select(g => {
+															return string.Join(',', g.Select(w => w.workOrderOnWorkId).OrderBy(w => w).ToList());
+														}).Distinct().ToList(); //工单组的wid:1,2,3
+			List<string> wIdList = new List<string>();
+			wIdList.AddRange(wIdListNoGroup);
+			wIdList.AddRange(wIdListInGroup);
+
+			// List<SimpleDownTableDto> downTimeList
+			var downTimeList = _downTimeReportRepository.GetAll().Where(dn => wIdList.Contains(dn.WorkOrderOnWorkId))
+										.Select(dn => new SimpleDownTableDto
+										{
+											downId = dn.Id,
+											workOrderOnWorkIds = dn.WorkOrderOnWorkId,
+											beginTime = dn.BeginTime == null ? new DateTime(1,1,1): Convert.ToDateTime(dn.BeginTime),
+											endTime = dn.EndTime == null ? new DateTime(1, 1, 1) : Convert.ToDateTime(dn.EndTime),
+											duringTime = dn.DuringTime == null ? 0 : dn.DuringTime.Value,
+										}).OrderBy(a => a.workOrderOnWorkIds).ThenBy(a=>a.downId).ToList();
+			#endregion
+
+			#region 初回不良
+			// List<`a> defectiveList = 
+			// 匿名类型 `a 是 new { long workOrderOnWorkId, int workOrderGroup, int defectiveAmount }
+			var defectiveList =
+				// (局部变量)IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList
+				(from w in mainWithDisplayNameList
+					// IQueryable<DefectiveReport> IRepository<DefectiveReport,long>.GetAll()
+					join df in _defectiveReportRepository.GetAll()
+					on w.workOrderOnWorkId equals df.WorkOrderOnWorkId into w_df
+					from w_dfData in w_df
+					select new
+					{
+						workOrderOnWorkId = w.workOrderOnWorkId,
+						workOrderGroup = w.workOrderGroup,
+						defectiveAmount = w_dfData == null? 0: w_dfData.DefectiveAccount
+					}).OrderBy(a => a.workOrderOnWorkId).ToList();
+			#endregion
+
+			#region 在外面计算权重
+			// List<WIdGroupDto> wIdGroupList4Weight
+			var wIdGroupList4Weight = 
+									// (局部变量)IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList
+									(from m in mainWithDisplayNameList.Where(m => m.workOrderGroup != 0)
+									// IQueryable<WorkOrderOnWork> IRepository<WorkOrderOnWork,long>.GetAll()
+									join w in _workOrderOnWorkRepository.GetAll()
+									on new { a = m.workOrderGroup } equals new { a = w.WorkOrderGroup.Value } into m_w
+									from m_wData in m_w
+									select new WIdGroupDto
+									{
+										workOrderOnWorkId = m_wData.Id,
+										workOrderGroup = m.workOrderGroup
+									}).OrderBy(a => a.workOrderOnWorkId).Distinct().ToList(); 
+
+			// List<WIdAmountDto> groupAmountList
+			var groupAmountList = 
+						// (局部变量)IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList
+						(from m in mainWithDisplayNameList.Where(m=>m.workOrderGroup != 0)
+						// List<WorkOrderOnWork> IEnumerable<WorkOrderOnWork>.ToList<WorkOrderOnWork>()
+						join w in _workOrderOnWorkRepository.GetAll().ToList()
+						on new { a = m.workOrderGroup } equals new { a = w.WorkOrderGroup.Value } into m_w
+						from m_wData in m_w
+						// IQueryable<DeviceProcessReportLog> IRepository<DeviceProcessReportLog,long>.GetAll()
+						join d in _deviceProcessReportLogRepository.GetAll()
+						on m_wData.Id equals d.WorkOrderOnWorkId
+						select new WIdAmountDto
+						{
+							rId = d.Id, 
+							workOrderOnWorkId = m_wData==null?0: m_wData.Id,
+							amountByManual = d.AmountByManual
+						}).OrderBy(a => a.workOrderOnWorkId).Distinct().ToList();
+
+			// List<WIdDefective> groupDefectiveList
+			var groupDefectiveList =
+						// (局部变量)IEnumerable<DeviceJobDetailOutput> mainWithDisplayNameList
+						(from m in mainWithDisplayNameList.Where(m => m.workOrderGroup != 0)
+						// IQueryable<WorkOrderOnWork> IRepository<WorkOrderOnWork,long>.GetAll()
+						join w in _workOrderOnWorkRepository.GetAll()
+						on new { a = m.workOrderGroup } equals new { a = w.WorkOrderGroup.Value } into m_w
+						from m_wData in m_w
+						// IQueryable<DefectiveReport> IRepository<DefectiveReport,long>.GetAll()
+						join d in _defectiveReportRepository.GetAll()
+						on m_wData.Id equals d.WorkOrderOnWorkId
+						select new WIdDefective
+						{
+							dId = d.Id,
+							workOrderOnWorkId = m_wData==null? 0:m_wData.Id,
+							defectiveAmount = d.DefectiveAccount
+						}).OrderBy(a => a.workOrderOnWorkId).Distinct().ToList();
+
+			#region groupCycletTimeList 
+			// List<WIdCycletTimeDto> groupCycletTimeList
+			var groupCycletTimeList = cycletTimeList.Where(m => m.workOrderGroup != 0).Select(w3=> new WIdCycletTimeDto
+			{
+				workOrderOnWorkId = (long)w3.workOrderOnWorkId,
+				cycletTime = w3.cycletTime
+			}).OrderBy(a => a.workOrderOnWorkId).Distinct().ToList();
+
+			#endregion
+			#endregion
+
+			#region 汇总
+
+			mainWithDisplayNameList.ForEach(w=> {
+
+				w.amountByManual = amountList.Where(i => i.workOrderOnWorkId == w.workOrderOnWorkId).Select(i => i.amountByManual).Sum();
+				w.defectiveAccount = defectiveList.Where(i => i.workOrderOnWorkId == w.workOrderOnWorkId).Select(i => i.defectiveAmount).Sum();
+				w.cycletTime = cycletTimeList.Where(i => i.workOrderOnWorkId == w.workOrderOnWorkId).Select(i => i.cycletTime).FirstOrDefault() == null
+								? ""
+								: cycletTimeList.Where(i => i.workOrderOnWorkId == w.workOrderOnWorkId).Select(i => i.cycletTime).FirstOrDefault();
+				w.EndTime = amountList.Where(i => i.workOrderOnWorkId == w.workOrderOnWorkId).OrderByDescending(i => i.creationTime).Select(i => i.creationTime).FirstOrDefault() == null
+							? new DateTime(1, 1, 1)
+							: amountList.Where(i => i.workOrderOnWorkId == w.workOrderOnWorkId).OrderByDescending(i => i.creationTime).Select(i => i.creationTime).FirstOrDefault();
+
+
+				#region 权重
+				if (w.workOrderGroup == 0) 
+				{//如果是工单
+					w.weight = 1;
+				} else 
+				{//如果是工单组 
+					double totalTime = 0;
+					List<long> wIdList = wIdGroupList4Weight.Where(inner => inner.workOrderGroup == w.workOrderGroup).Select(inner => inner.workOrderOnWorkId).Distinct().ToList();
+
+					foreach (var wId in wIdList) { 
+						var tempAmount = groupAmountList.Where(i => i.workOrderOnWorkId == wId).Select(i => i.amountByManual).Sum();
+						var tempDefective = groupDefectiveList.Where(i => i.workOrderOnWorkId == wId).Select(i => i.defectiveAmount).Sum();
+						var tempCycletTimeStr = groupCycletTimeList.Where(i => i.workOrderOnWorkId == wId).Select(i => i.cycletTime).FirstOrDefault() == null
+								? ""
+								: groupCycletTimeList.Where(i => i.workOrderOnWorkId == wId).Select(i => i.cycletTime).FirstOrDefault();
+						var tempCycletTime = tempCycletTimeStr == "" ? 0 : Convert.ToDouble(tempCycletTimeStr);
+
+						totalTime += (tempAmount + tempDefective) * tempCycletTime;
+					}
+
+					if (totalTime != 0)
+					{
+						w.weight = (w.amountByManual + w.defectiveAccount) * 1.0 * Convert.ToDouble(w.cycletTime) / totalTime;
+					}
+					else {
+						w.weight = 0;
+						//throw new Exception($"机器:{w.machineNum},工序:{w.processNum},模型:{w.model}的标准机时{w.cycletTime}或者这个工单组每一个工单有生产实绩和不良没有找到");
+					}
+				}
+
+				#endregion
+
+				#region 机时
+				if (w.BeginTime != new DateTime(1, 1, 1) && w.EndTime != new DateTime(1, 1, 1))
+				{
+					w.duringTime = ((w.EndTime - w.BeginTime).TotalHours * w.weight).ToString("#0.00"); //这个时候要加权
+				}
+				else {
+					w.duringTime = "0.00";
+				}
+				#endregion
+
+				#region 停机时间
+				w.stopTime = (downTimeList.Where(i => i.workOrderOnWorkIds.ToLongList(",").Contains(w.workOrderOnWorkId)).Select(i => i.duringTime).Sum() * w.weight).ToString("#0.00"); //这个时候要加权
+				#endregion
+			});
+			#endregion
+
+			var res = mainWithDisplayNameList.Skip(skipCount).Take(input.Limit).ToList();
+			var result = new OutputPageInfo<DeviceJobDetailOutput>(mainWithDisplayNameList.Count(), res);
+			return result;
+		}
+		else {
+			return new OutputPageInfo<DeviceJobDetailOutput>(0, null);
+		}
+	} 
+	else {
+		return new OutputPageInfo<DeviceJobDetailOutput>(0, null);
+	}
+}
+
+
+
+
+
 
 
 
