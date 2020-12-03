@@ -1,3 +1,257 @@
+public async Task<OutputPageInfo<ClassDeviceEfficiencyOutput>> GetClassDeviceEfficiency(ClassDeviceEfficiencyInput input)
+{
+	List<ClassDeviceEfficiencyOutput> result = new List<ClassDeviceEfficiencyOutput>();
+	DateTime.TryParse(input.startDateStr, out DateTime startDate);
+	DateTime.TryParse(input.endDateStr, out DateTime endDate);
+	var userOrgList = await _v_User_Uo_OrgRepository.GetAll().ToListAsync();
+	#region 分页和缓存
+	int skipCount = (input.Page - 1) * input.Limit;
+	//字典缓存
+	var itemcodelist = _mdmItemCodeRepository.GetCacheList();
+	#endregion
+
+	#region 得到选择的组织机构以及他下面的机构
+	List<long?> newCodeList = new List<long?>();
+	List <long?> oldCodeList = new List<long?>();
+	List<long> orgIdList = new List<long>();
+	List<string> displayNameList = new List<string>();
+	List<GetObjectChildOutput> withFlatChildOrg = new List<GetObjectChildOutput>();
+
+	if (input.organizationUnitId != null)
+	{
+			withFlatChildOrg = await _abpSession.GetFlatOuByUserHoLon(input.organizationUnitId);
+	}
+	else {
+		MyOrganization loginUserOrg = await _abpSession.GetMyOuByLoginId();//得到机构的6-8位code
+			withFlatChildOrg = await _abpSession.GetFlatOuByUserHoLon(loginUserOrg.Id);
+	}
+	#endregion
+	
+	orgIdList = withFlatChildOrg.OrderBy(o=>o.Id).Select(o => o.Id).Distinct().ToList();
+
+	#region 设备报工时间&&设备生产实绩
+	List<DeviceReportDto> deviceReportTimeList = new List<DeviceReportDto>();
+	List<ClassDeviceEfficiencyOutput> workList = new List<ClassDeviceEfficiencyOutput>();
+	workList = _workOrderOnWorkRepository.GetAll()
+				.Where(w => orgIdList.Contains(w.OrgId==null?0:w.OrgId.Value))
+				.Where(w => w.CreationTime.Date >= startDate.Date)
+				.Where(w => w.CreationTime.Date <= endDate.Date)
+				.Select(w => new ClassDeviceEfficiencyOutput
+				{
+					workOrderOnWorkId = w.Id,
+					workOrder = w.WorkOrder,
+					orgId = w.OrgId,
+					machineNum = w.MachineNum,
+					processNum = w.ProcessNum,
+					beginTime = w.CreationTime,
+					productDataInputId = w.ProductDataInputId == null ? 0 : w.ProductDataInputId.Value
+				}).OrderBy(w => w.workOrderOnWorkId).ToList();
+
+	if (workList.Count() > 0)
+	{
+		#region 给组织添加oldCode和Code
+		var orgIdList2 = workList.Select(w => w.orgId).Distinct().ToList();
+		var tempMyOrg = await _myOrganizationRepository.GetAll().Where(o => orgIdList2.Contains(o.Id)).ToListAsync();
+		workList =
+		(from w in workList
+			join mo in tempMyOrg
+			on w.orgId.Value equals mo.Id into w_mo
+			from w_moData in w_mo
+			select new ClassDeviceEfficiencyOutput
+			{
+				workOrderOnWorkId = w.workOrderOnWorkId,
+				workOrder = w.workOrder,
+				orgId = w.orgId,
+				machineNum = w.machineNum,
+				processNum = w.processNum,
+				beginTime = w.beginTime,
+				productDataInputId = w.productDataInputId,
+				oldCode = w_moData == null ? "" : w_moData.OldCode,
+				code = w_moData == null ? "" : w_moData.Code,
+				orgDisplayName = userOrgList.Where(u => u.orgCode == (w_moData == null ? "" : w_moData.Code)).Count() > 0
+							? userOrgList.Where(u => u.orgCode == (w_moData == null ? "" : w_moData.Code)).Select(u => u.orgDisplayName).FirstOrDefault()
+							: ""
+			}).OrderBy(w => w.workOrderOnWorkId).ToList();
+		#endregion
+
+		var wIdJoinListIdList = workList.Select(w => new ClassDeviceEfficiencyOutput { workOrderOnWorkId = w.workOrderOnWorkId, productDataInputId = w.productDataInputId }).Distinct().OrderBy(w => w.workOrderOnWorkId).ToList();
+		var listIdList = workList.Select(w => w.productDataInputId).Distinct().OrderBy(w => w).ToList();
+		var tempJoinList = await _t_produceJoinTech_DatasRepository.GetAll().Where(j => listIdList.Contains(j.ListID.Value)).Select(j => j).OrderBy(j => j.ListID).ToListAsync();
+
+		var joinList =
+			(from w in wIdJoinListIdList
+			join j in tempJoinList
+			on w.productDataInputId equals j.ListID.Value into w_j
+			from w_jData in w_j
+			select new ClassDeviceEfficiencyOutput
+			{
+				workOrderOnWorkId = w.workOrderOnWorkId,
+				macNoGroup = w_jData == null ? "" : w_jData.MacNoGroup,
+				proNameGroup = w_jData == null ? "" : w_jData.ProNameGroup,
+				battleMachGroup = w_jData == null ? "" : w_jData.BattleMachGroup,
+				techProcessNum = w_jData == null ? "" : w_jData.TechProcessNum
+			}).OrderBy(w => w.workOrderOnWorkId).ToList();
+
+		if (joinList.Count() > 0)
+		{
+			workList =
+			(from w in workList
+			join j in joinList
+			on w.workOrderOnWorkId equals j.workOrderOnWorkId into w_j
+			from w_jData in w_j
+			select new ClassDeviceEfficiencyOutput
+			{
+				orgId = w.orgId,
+				oldCode = w.oldCode,
+				code = w.code,
+				orgDisplayName = w.orgDisplayName,
+
+				machineNum = w.machineNum, //主要就是判断machineNum是不是
+
+				workOrderOnWorkId = w.workOrderOnWorkId,
+				workOrder = w.workOrder,
+				processNum = w.processNum,
+				beginTime = w.beginTime,
+				productDataInputId = w.productDataInputId,
+
+				macNoGroup = w_jData == null ? "" : w_jData.macNoGroup,
+				proNameGroup = w_jData == null ? "" : w_jData.proNameGroup,
+				battleMachGroup = w_jData == null ? "" : w_jData.battleMachGroup,
+				techProcessNum = w_jData == null ? "" : w_jData.techProcessNum
+
+			}).OrderBy(w => w.workOrderOnWorkId).ToList();
+
+			#region 找关键设备的过程
+			workList.ForEach(w =>
+			{
+				var repalceMachList = w.battleMachGroup.Split(",").ToList();
+				if (!w.proNameGroup.Contains(_bottleKeyWork))
+				{//如果没有找到瓶颈两个字就认为没有关键设备
+					w.hasBottleMach = false;
+					w.realBottleMach = "";
+				}
+				else
+				{//开始找关键设备
+					var proNameArray = w.proNameGroup.Split(",").ToArray();
+					var MacNoArray = w.macNoGroup.Split(",").ToArray();
+					int bottleIndex = -1;
+					for (int i = 0; i < proNameArray.Length; i++)
+					{
+						if (proNameArray[i].Contains(_bottleKeyWork))
+						{
+							bottleIndex = i;
+							if (MacNoArray[i] == w.machineNum)
+							{
+								w.hasBottleMach = true;
+								w.realBottleMach = MacNoArray[i];
+							}
+							else
+							{
+								w.hasBottleMach = false;
+								w.realBottleMach = "";
+							}
+						}
+					}
+				}
+			});
+			workList = workList.Where(w => w.hasBottleMach == true).OrderBy(w => w.hasBottleMach).ThenBy(w => w.workOrderOnWorkId).ToList();
+			#endregion                   
+
+			if (workList.Count() > 0)
+			{
+				List<long> wIdList = workList.Select(w => w.workOrderOnWorkId).Distinct().ToList();
+				#region 设备报工时间
+				var tempDeviceReportTimeList = await _deviceProcessReportLogRepository.GetAll()
+													.Where(r => wIdList.Contains(r.WorkOrderOnWorkId))
+													.Select(r => new DeviceReportDto
+													{
+														workOrderOnWorkId = r.WorkOrderOnWorkId,
+
+
+														amount = r.AmountByManual,
+														endTime = r.CreationTime
+													}).ToListAsync();
+				tempDeviceReportTimeList.ForEach(r =>
+				{
+					r.beginTime = workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Count() > 0
+									? workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Select(w => w.beginTime).FirstOrDefault()
+									: new DateTime(1, 1, 1);
+
+					r.orgDisplayName = workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Count() > 0
+									? workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Select(w => w.orgDisplayName).FirstOrDefault()
+									: "";
+
+				});
+				var wIdList2 = tempDeviceReportTimeList.Select(w => w.workOrderOnWorkId).OrderBy(w => w).Distinct().ToList();
+				foreach (var wId in wIdList2)
+				{
+
+					DeviceReportDto tempDto = new DeviceReportDto();
+
+					if (tempDeviceReportTimeList.Where(r => r.workOrderOnWorkId == wId).Count() > 0)
+					{
+						double tempDeviceReportTime = 0;
+						foreach (var r in tempDeviceReportTimeList.Where(r => r.workOrderOnWorkId == wId).ToList())
+						{
+							if (r.endTime != new DateTime(1, 1, 1) && r.beginTime != new DateTime(1, 1, 1))
+							{
+								tempDeviceReportTime += (r.endTime - r.beginTime).TotalHours;
+							}
+						}
+						tempDto.workOrderOnWorkId = wId;
+						tempDto.orgDisplayName = workList.Where(r => r.workOrderOnWorkId == wId).Count() > 0
+												? workList.Where(r => r.workOrderOnWorkId == wId).FirstOrDefault().orgDisplayName
+												: "";
+						tempDto.beginTime = workList.Where(r => r.workOrderOnWorkId == wId).Count() > 0
+											? workList.Where(r => r.workOrderOnWorkId == wId).FirstOrDefault().beginTime
+											: new DateTime(1, 1, 1);
+						tempDto.deviceReportTime = tempDeviceReportTime;
+						tempDto.deviceReportAmount = tempDeviceReportTimeList.Where(r => r.workOrderOnWorkId == wId).Select(r => r.amount).Sum();
+						deviceReportTimeList.Add(tempDto);
+					}
+
+				}
+				#endregion
+			}
+		}
+	}
+
+	#endregion
+
+	#region 汇总
+	var orgDisplayNameList = withFlatChildOrg.OrderBy(w=>w.Id).Select(w => w.ShowName).Distinct().ToList();
+
+	foreach (var orgName in orgDisplayNameList)
+	{
+		for (var day = startDate; day <= endDate; day = day.AddDays(1))
+		{
+
+			var w = new ClassDeviceEfficiencyOutput
+			{
+				orgDisplayName = orgName,
+				beginTime = day.Date
+			};
+
+			#region 设备报工时间&设备生产实绩
+			if (deviceReportTimeList.Where(g => g.orgDisplayName == w.orgDisplayName && g.beginTime.Date == day.Date).Count() > 0)
+			{
+				w.deviceReportTime = deviceReportTimeList.Where(g => g.orgDisplayName == w.orgDisplayName && g.beginTime.Date == day.Date).Select(g=>g.deviceReportTime).Sum();
+				w.deviceReportAmount = deviceReportTimeList.Where(g => g.orgDisplayName == w.orgDisplayName && g.beginTime.Date == day.Date).Select(g => g.deviceReportAmount).Sum();
+			}
+			#endregion
+
+			result.Add(w);
+		}
+	}
+	#endregion
+
+	result = result.OrderBy(w => w.orgDisplayName).ThenBy(w => w.beginTime).ToList();
+	var resWork = result.Skip(skipCount).Take(input.Limit).ToList();
+	var resultWork = new OutputPageInfo<ClassDeviceEfficiencyOutput>(result.Count(), resWork);
+	return resultWork;
+}
+
+
 
 
 
