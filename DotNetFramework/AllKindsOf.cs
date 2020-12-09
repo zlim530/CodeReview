@@ -1,57 +1,6 @@
-#region 编辑图番信息(修改)
-/// <summary>
-/// 编辑图番信息(修改)
-/// </summary>
-/// <param name="input"></param>
-/// <returns></returns>
-public async Task<bool> EditDesignDraw(EditDesignDrawInput input)
-{
-	if (input == null)
-		throw new AbpException("数据不能为空！");
-	if (input.id <= 0)
-		throw new AbpException("未找到要修改的图番信息！");
-
-	//根据登录人得到MyOrganization
-	var loginUserOrg = await _abpSession.GetMyOuByLoginId();
-
-	// 获取当前登录人的组织机构Id
-	//var userOrganUnitId = await _abpSession.GetOuId();
-	var userOrganUnitId = loginUserOrg.Id;
-
-	// 获取当前登录人的六位组织机构代码
-	var code = loginUserOrg.Code;
-
-	var id = input.id;
-	// 图番
-	var draw = input.draw;
-	// 四位部门代码
-	var oldDeptCode = input.oldDeptCode;
-	// 六位部门代码
-	var deptCode = input.deptCode;
-	// 组织机构Id
-	//var organUnitId = input.organUnitId;
-
-	var oldData = await _designDrawRepository.FirstOrDefaultAsync(dd => dd.Id == id && dd.Draw == draw && dd.OldDeptCode == oldDeptCode);
-	if (oldData == null)
-		throw new AbpException("未找到更新对象！");
-	var check = await _designDrawRepository.GetAll().Where(dd => dd.Draw == draw && dd.OldDeptCode == oldDeptCode && )
-	return await Task.FromResult(true);
-}
-
-#endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
+The following errors were detected during validation.
+The input field is required.
+An undefined token is not a valid System.Nullable`1[System.Int64]. Path 'organUnitId', line 5, position 17.
 
 
 public async Task<OutputPageInfo<ClassDeviceEfficiencyOutput>> GetClassDeviceEfficiency(ClassDeviceEfficiencyInput input)
