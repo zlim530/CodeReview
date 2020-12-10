@@ -1,6 +1,199 @@
-The following errors were detected during validation.
-The input field is required.
-An undefined token is not a valid System.Nullable`1[System.Int64]. Path 'organUnitId', line 5, position 17.
+#region 获取符合条件的全部图番信息(暂定)
+/// <summary>
+/// 获取符合条件的全部图番信息
+/// </summary>
+/// <param name="input">图番筛选条件</param>
+/// <returns>分页的图番详细信息</returns>
+[HttpGet]
+[AbpAuthorize]
+public async Task<OutputPageInfo<DesignDrawOutput>> GetAllDesignDraw(DesignDrawInput input)
+{
+	//当前用户登录ID
+	var userId = AbpSession.UserId;
+	//用户组织机构对象
+	var myOrgData = await _ouManager.GetOuByUser((long)userId);
+	//组织机构4位编码
+	var oldDeptcode = myOrgData.OldCode;
+	var orgData = await _ouManager.GetOuByUserId((long)userId);
+	//组织机构6位编码
+	var newDeptcode = orgData.Code;
+
+
+	var org =await _organizationRepository.GetAll()
+				.Where(org => org.Id == input.organUnitId)
+				.WhereIf(!string.IsNullOrEmpty(input.deptCode), (org => org.DisplayName.Equals(input.deptCode)))
+				.FirstOrDefaultAsync();
+	if (org == null)
+		throw new AbpException("选择数据有误！");
+
+	// 图番
+	var draw = input.draw;
+	// 四位部门代码
+	var oldDeptCode = org.OldCode;
+	// 六位部门代码
+	var deptCode = org.Code;
+	// 组织机构Id
+	var organUnitId = input.organUnitId;
+
+	var query = _designDrawRepository.GetAll()
+				.WhereIf(!string.IsNullOrEmpty(draw), (dd => dd.Draw.Contains(draw)))
+				.WhereIf(, (dd => dd.OldDeptCode.Equals(oldDeptCode)))
+				.WhereIf(!string.IsNullOrEmpty(deptCode), (dd => dd.DeptCode.Equals(deptCode)))
+				.OrderBy(dd => dd.CreationTime)
+				.ThenBy(dd => dd.Draw);
+
+	// var query = _designDrawRepository.GetAll()
+	//            .WhereIf(!string.IsNullOrEmpty(draw), (dd => dd.Draw.Contains(draw)))
+	//            .WhereIf(!string.IsNullOrEmpty(oldDeptCode), (dd => dd.OldDeptCode.Equals(oldDeptCode)))
+	//            .WhereIf(!string.IsNullOrEmpty(deptCode), (dd => dd.DeptCode.Equals(deptCode)))
+	//            .OrderBy(dd => dd.CreationTime)
+	//            .ThenBy(dd => dd.Draw);
+
+	var count = query.Count();
+	var queryList = query.SkipTakeQueryble(input.Page,input.Limit);
+	var data = _autoMapper.Map<List<DesignDrawOutput>>(queryList);
+	
+	//默认的分页方式
+	return new OutputPageInfo<DesignDrawOutput>(count,data);
+}
+
+#endregion
+
+
+
+
+
+// 图番
+var draw = input.draw;
+// 四位部门代码
+var oldDeptCode = org.OldCode;
+// 六位部门代码
+var deptCode = org.Code;
+// 组织机构Id
+var organUnitId = input.organUnitId;
+
+var query = _designDrawRepository.GetAll()
+			.WhereIf(!string.IsNullOrEmpty(input.draw), (dd => dd.Draw.Contains(input.draw)))
+			.WhereIf(!string.IsNullOrEmpty(inputoldDeptCode), (dd => dd.OldDeptCode.Equals(oldDeptCode)))
+			.WhereIf(!string.IsNullOrEmpty(deptCode), (dd => dd.DeptCode.Equals(deptCode)))
+			.OrderByDescending(dd => dd.CreationTime)
+			.ThenBy(dd => dd.Draw);
+
+
+
+
+
+
+
+
+
+
+
+
+
+//数据权限在此控制
+if (input == null)
+{
+	var userId = _abpSession.UserId;
+	//var orgUnit = _userOrganizationUnitRepository.GetAll().Where(uru => uru.UserId == userId).Select();
+	var orgUnit = _userOrganizationUnitRepository.GetAsync(uru => uru.UserId == userId);
+	var oldDeptCode = _organizationRepository.GetAll()
+					.WhereIf(orgUnitId == null || orgUnitId == 0, (dd => dd.Draw.Contains(draw)))
+			
+}
+
+var myOrgUnit = _abpSession.UserId;
+var orgUnitId = _abpSession.GetOuId().ToString();
+var dat2a = await _organizationRepository.GetAll().Where(ou => orgUnitId.Equals(ou.Id))
+			.FirstOrDefaultAsync();
+if (dat2a == null)
+	throw new AbpException("选择数据有误！");
+var code = dat2a.OldCode;
+
+//数据权限在此控制
+if (input == null)
+{
+	var myOrgUnit = _abpSession.GetMyOuByLoginId();
+	var orgUnitId = _userOrganizationUnitRepository.GetAll()
+					.Where(uru => uru.UserId == userId)
+					.Select(uru => uru.OrganizationUnitId)
+					.FirstOrDefault();
+	var oldDept = _organizationRepository.GetAll()
+					.WhereIf(!(orgUnitId == 0), (org => org.Id == orgUnitId))
+					.Select(org => org.OldCode)
+					.FirstOrDefault();
+
+	var quer2y = _designDrawRepository.GetAll()
+			.WhereIf(!string.IsNullOrEmpty(oldDept), (dd => dd.OldDeptCode.Equals(oldDept)))
+			.WhereIf(!(orgUnitId == 0), (dd => dd.Id == orgUnitId))
+			.OrderBy(dd => dd.CreationTime)
+			.ThenBy(dd => dd.Draw);
+	var coun2t = quer2y.Count();
+	var queryLis2t = quer2y.SkipTakeQueryble(input.Page, input.Limit);
+	var dat2a = _autoMapper.Map<List<DesignDrawOutput>>(queryLis2t);
+
+	//默认的分页方式
+	return new OutputPageInfo<DesignDrawOutput>(coun2t, dat2a);
+}
+
+
+//数据权限在此控制
+if (input == null)
+{
+	var depts = await _knifeToolManage.getUserPermissionDepartsTree();
+	var list = AlgorithmCommon.GetAlgorithmAllChid<GetObjectChildOutput, string>(depts, "OldCode", "Children")
+				.Distinct()
+				.ToList();
+}
+
+
+
+
+#region 新增单个品番
+/// <summary>
+/// 新增单个品番
+/// </summary>
+/// <param name="input"></param>
+/// <returns></returns>
+[HttpPost]
+[AbpAuthorize]
+public async Task PostCreateNewProductModel(ProductModelInput input)
+{
+	var deptCode = input.deptCode;
+	var oldDeptCode = input.oldDeptCode;
+	var organUnitId = input.organUnitId;
+
+	//var designDraw = await _designDrawRepository.GetAsync(input.drawId);
+	var designDraw = _designDrawRepository.GetAll()
+							.Where(dd => dd.Id == input.drawId)
+							.Where(dd => dd.DeptCode.Equals(deptCode))
+							.Where(dd => dd.OldDeptCode.Equals(oldDeptCode))
+							.Where(dd => dd.OrganizationUnitId == organUnitId);
+							
+	if ( !designDraw.Any())
+		throw new AbpException("图番信息无效或选择部门有误！！");
+
+	//var deptCodeDraw = designDraw.DeptCode;
+	//var oldDeptCodeDraw = designDraw.OldDeptCode;
+	//var organUnitIdDraw = designDraw.OrganizationUnitId;
+
+	//if (deptCodeDraw != deptCode || oldDeptCodeDraw != oldDeptCode || organUnitIdDraw != organUnitId)
+	//    throw new AbpException("选择部门有误！");
+
+	var modelName = input.modelName;
+
+	var checkData = await _productModelRepository.GetAll().Where(pm => pm.ModelName == modelName && pm.OldDeptCode == oldDeptCode && pm.DeptCode == deptCode).ToListAsync();
+	if (checkData.Any())
+		throw new AbpException("对应部门下已存在此品番信息！");
+
+	throw new System.NotImplementedException();
+}
+#endregion
+
+
+
+
+
 
 
 public async Task<OutputPageInfo<ClassDeviceEfficiencyOutput>> GetClassDeviceEfficiency(ClassDeviceEfficiencyInput input)
