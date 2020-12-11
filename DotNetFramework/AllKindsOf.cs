@@ -5,6 +5,135 @@
 /// <param name="input">图番筛选条件</param>
 /// <returns>分页的图番详细信息</returns>
 [HttpGet]
+//[AbpAuthorize]
+public async Task<OutputPageInfo<DesignDrawOutput>> GetAllDesignDraw(DesignDrawInput input)
+{
+	//当前用户登录ID
+	var userId = AbpSession.UserId;
+	//用户组织机构对象
+	var myOrgData = await _ouManager.GetOuByUser((long)userId);
+	//当前用户组织机构Id
+	var orgUnitId = myOrgData.Id;
+	//当前用户4位部门代码
+	var oldDeptcode = myOrgData.OldCode;
+	//当前用户组织机构显示名称
+	var displayName = myOrgData.DisplayName;
+
+	if (input.organUnitId == null || input.organUnitId == 0)
+		input.organUnitId = orgUnitId;
+	// if (string.IsNullOrEmpty(input.oldDeptCode))
+	// 	input.oldDeptCode = oldDeptcode;
+	if (string.IsNullOrEmpty(input.deptCode))
+		input.deptCode = displayName;
+
+	var org =await _organizationRepository.GetAll()
+				.Where(org => org.Id == input.organUnitId)
+				.WhereIf(!string.IsNullOrEmpty(input.deptCode), (org => org.DisplayName.Equals(input.deptCode)))
+				.FirstOrDefaultAsync();
+	if (org == null)
+		throw new AbpException("选择数据有误！");
+
+	//var org = await _organizationRepository.GetAll()
+	//            .WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+	//            .FirstOrDefaultAsync();
+	//if (org == null)
+	//    throw new AbpException("选择数据有误！");
+	//var displayName = org.DisplayName;
+
+	// 四位部门代码
+	var oldDeptCode = org.OldCode;
+	// 六位部门代码
+	var deptCode = org.Code;
+
+	var query = _designDrawRepository.GetAll()
+				.WhereIf(!string.IsNullOrEmpty(input.draw), (dd => dd.Draw.Contains(input.draw)))
+				.WhereIf(!string.IsNullOrEmpty(oldDeptCode), (dd => dd.OldDeptCode.Equals(oldDeptCode)))
+				.WhereIf(!string.IsNullOrEmpty(deptCode), (dd => dd.DeptCode.Equals(deptCode)))
+				.OrderByDescending(dd => dd.CreationTime)
+				.ThenBy(dd => dd.Draw);
+
+	var count = query.Count();
+	int skipCount = (input.Page - 1) * input.Limit;
+	var data = await query.Skip(skipCount).Take(input.Limit).ToListAsync();
+
+	//默认的分页方式
+	return new OutputPageInfo<DesignDrawOutput>(count, _autoMapper.Map<List<DesignDrawOutput>>(data));
+}
+
+#endregion
+
+
+
+
+
+
+/*var query = from dd in _designDrawRepository.GetAll()
+			.WhereIf(!string.IsNullOrEmpty(input.draw), (dd => dd.Draw.Contains(input.draw)))
+			.WhereIf(!string.IsNullOrEmpty(input.oldDeptCode), (dd => dd.OldDeptCode == input.oldDeptCode))
+			.WhereIf(!string.IsNullOrEmpty(input.deptCode), (dd => dd.DeptCode == input.deptCode))
+			.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (dd => dd.OrganizationUnitId == input.organUnitId))
+			.OrderByDescending(dd => dd.CreationTime)
+			.ThenBy(dd => dd.Draw)
+join org in _organizationRepository.GetAll()
+			.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+on dd.OrganizationUnitId equals org.Id
+select new DesignDrawOutput
+{
+	id = dd.Id,
+	draw = dd.Draw,
+	oldDeptCode = dd.OldDeptCode,
+	deptCode = dd.DeptCode,
+	displayName = org.DisplayName
+};*/
+
+
+
+
+
+//var org =  _organizationRepository.GetAll()
+//            .WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+//            .Select(org => new OrganizationUnitsDto
+//            {
+//                id = org.Id,
+//                displayName = org.DisplayName
+//            });
+//if (org == null)
+//    throw new AbpException("选择数据有误！");
+
+/*var query = from dd in _designDrawRepository.GetAll()
+						.WhereIf(!string.IsNullOrEmpty(input.draw), (dd => dd.Draw.Contains(input.draw)))
+						.WhereIf(!string.IsNullOrEmpty(input.oldDeptCode), (dd => dd.OldDeptCode == input.oldDeptCode))
+						.WhereIf(!string.IsNullOrEmpty(input.deptCode), (dd => dd.DeptCode == input.deptCode))
+						.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (dd => dd.OrganizationUnitId == input.organUnitId))
+						.OrderByDescending(dd => dd.CreationTime)
+						.ThenBy(dd => dd.Draw)
+			join t2 in org
+			on dd.OrganizationUnitId equals t2.id
+			select new DesignDrawOutput
+			{
+				id = dd.Id,
+				draw = dd.Draw,
+				oldDeptCode = dd.OldDeptCode,
+				deptCode = dd.DeptCode,
+				displayName = t2.displayName
+			};*/
+
+
+
+
+
+
+
+
+
+
+#region 获取符合条件的全部图番信息(暂定)
+/// <summary>
+/// 获取符合条件的全部图番信息
+/// </summary>
+/// <param name="input">图番筛选条件</param>
+/// <returns>分页的图番详细信息</returns>
+[HttpGet]
 [AbpAuthorize]
 public async Task<OutputPageInfo<DesignDrawOutput>> GetAllDesignDraw(DesignDrawInput input)
 {
