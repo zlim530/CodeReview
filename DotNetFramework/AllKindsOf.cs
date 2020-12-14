@@ -1,4 +1,5 @@
 #region 图番品番表服务实现类接口swagger测试
+图番新增：
 {
   "draw": "12.14test",
   "oldDeptCode": "6211",
@@ -6,7 +7,8 @@
   "organUnitId": 502
 }
 
-
+图番编辑：
+test_draw11 15
 {
   "id": 13,
   "draw": "12.14test_update",
@@ -15,10 +17,29 @@
   "organUnitId": 502
 }
 
-
+图番删除：
 [
   8,9,10,11
 ]
+
+
+品番新增：
+{
+  "modelName": "REC32B-M1019-200",
+  "drawId": 19,
+  "deptCode": "6211",
+  "oldDeptCode": "11621001",
+  "organUnitId": 502
+}
+
+品番编辑：
+{
+  "id": 4,
+  "modelName": "REC32B-M1019-1214",
+  "oldDeptCode": "6211",
+  "deptCode": "11621001",
+  "organUnitId": 502
+}
 
 
 #endregion
@@ -27,6 +48,151 @@
 
 #region 图番品番表服务实现类之前代码
 
+#region 获取符合条件的全部品番信息
+/// <summary>
+/// 获取符合条件的全部品番信息
+/// </summary>
+/// <param name="input">品番筛选条件</param>
+/// <returns>分页的品番详细信息</returns>
+[HttpGet]
+[AbpAuthorize]
+public async Task<OutputPageInfo<ProductModelOutput>> GetAllProductModel(ProductModelInput input)
+{
+	//当前用户登录ID
+	var userId = AbpSession.UserId;
+	//用户组织机构对象
+	var myOrgData = await _ouManager.GetOuByUser((long)userId);
+	//当前用户组织机构Id
+	var orgUnitId = myOrgData.Id;
+	//当前用户4位部门代码
+	var oldDeptcode = myOrgData.OldCode;
+	//当前用户6位部门代码
+	var newDeptCode = myOrgData.Code;
+
+	if (input.organUnitId == null || input.organUnitId == 0)
+		input.organUnitId = orgUnitId;
+	if (string.IsNullOrEmpty(input.oldDeptCode))
+		input.oldDeptCode = oldDeptcode;
+	if (string.IsNullOrEmpty(input.deptCode))
+		input.deptCode = newDeptCode;
+
+	var designDraw = await _designDrawRepository.GetAll()
+						.WhereIf(!(input.drawId == null || input.drawId == 0), (dd => dd.Id == input.drawId))
+						.FirstOrDefaultAsync();
+	if (designDraw == null)
+		throw new AbpException("选择图番有误！");
+	var draw = designDraw.Draw;
+
+	var org = await _organizationRepository.GetAll()
+				.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+				.FirstOrDefaultAsync();
+	if (org == null)
+		throw new AbpException("选择部门有误！");
+	var orgId = org.Id;
+	var displayName = org.DisplayName;
+
+	var query = _productModelRepository.GetAll()
+					.WhereIf(!string.IsNullOrEmpty(input.modelName), (pm => pm.ModelName.Contains(input.modelName)))
+					.WhereIf(!(input.drawId == null || input.drawId <= 0), ( pm => pm.DrawId == input.drawId))
+					.WhereIf(!string.IsNullOrEmpty(input.oldDeptCode), (pm => pm.OldDeptCode == input.oldDeptCode))
+					.WhereIf(!string.IsNullOrEmpty(input.deptCode), (pm => pm.DeptCode == input.deptCode))
+					.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (pm => pm.OrganizationUnitId == input.organUnitId))
+					.Select( pm => new ProductModelOutput {
+						id = pm.Id,
+						modelName = pm.ModelName,
+						//drawId = pm.DrawId,
+						//draw = pm.Draw,
+						oldDeptCode = pm.OldDeptCode,
+						deptCode = pm.DeptCode,
+						organUnitId = pm.OrganizationUnitId
+					})
+					.OrderByDescending(pm => pm.id)
+					.ThenBy(pm => pm.modelName);
+
+	var count = query.Count();
+	if (count <= 0)
+		throw new AbpException("暂无相关数据！");
+	int skipCount = (input.Page - 1) * input.Limit;
+	var data = await query.Skip(skipCount).Take(input.Limit).ToListAsync();
+
+	// 组织机构显示名称属性赋值
+	data.ForEach(output =>
+	{
+		output.draw = draw;
+		output.displayName = displayName;
+	});
+
+	//默认的分页方式
+	return new OutputPageInfo<ProductModelOutput>(count, _autoMapper.Map<List<ProductModelOutput>>(data));
+}
+
+#endregion
+
+
+
+
+#region 新增单个品番
+/// <summary>
+/// 新增单个品番
+/// </summary>
+/// <param name="input">新增单个品番信息</param>
+/// <returns>新增品番是否成功</returns>
+[HttpPost]
+[AbpAuthorize]
+public async Task PostCreateNewProductModel(NewProductModelInput input)
+{
+	// 品番
+	var modelName = input.modelName;
+	// 六位部门代码
+	var deptCode = input.deptCode;
+	// 四位部门代码
+	var oldDeptCode = input.oldDeptCode;
+	// 组织机构表Id
+	var organUnitId = input.organUnitId;
+
+	var query = _designDrawRepository.GetAll()
+							.Where(dd => dd.Id == input.drawId);
+	if (!query.Any())
+		throw new AbpException("图番信息无效!");
+
+	//var org = await _organizationRepository.GetAll()
+	//            .WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+	//            .FirstOrDefaultAsync();
+	//if (org == null)
+	//    throw new AbpException("选择部门有误！");
+
+	//var or2g = await _organizationRepository.GetAll()
+	//            .Where(org => org.OldCode == oldDeptCode)
+	//            .Where(org => org.OrgLevel < 6)
+	//            .FirstOrDefaultAsync();
+	//var orgId = or2g.Id;
+
+	var datalist = await _abpSession.GetOuByUserHoLon(input.organUnitId);
+	var data = await _ouManager.GetMoMOrganizationTreeAsync(input.organUnitId);
+	// 组织机构显示名称
+	var displayName = data.FirstOrDefault().ShowName;
+
+	var master = _mesMasterRepository.GetAll()
+				.WhereIf(!string.IsNullOrEmpty(displayName), master => /*master.Holon == */displayName.Contains(master.Holon))
+				.WhereIf(!string.IsNullOrEmpty(modelName), master => master.Model == modelName)
+				.Where(master => master.Activity.Equals(1));
+	if (!master.Any())
+		throw new AbpException("当前部门下没有此品番，无法新增！");
+
+	var checkData = await _productModelRepository.GetAll()
+						.Where(pm => pm.ModelName == modelName 
+								&& pm.OldDeptCode == oldDeptCode 
+								&& pm.DeptCode == deptCode
+								&& pm.OrganizationUnitId == organUnitId)
+						.ToListAsync();
+	if (checkData.Any())
+		throw new AbpException("对应部门下已存在此品番信息！");
+
+	var entity = _autoMapper.Map<ProductModel>(input);
+
+	await _productModelRepository.InsertAsync(entity);
+}
+#endregion
 
 
 
