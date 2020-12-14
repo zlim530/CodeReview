@@ -1,3 +1,161 @@
+#region 图番品番表服务实现类接口swagger测试
+{
+  "draw": "12.14test",
+  "oldDeptCode": "6211",
+  "deptCode": "11621001",
+  "organUnitId": 502
+}
+
+
+{
+  "id": 13,
+  "draw": "12.14test_update",
+  "oldDeptCode": "6211",
+  "deptCode": "11621001",
+  "organUnitId": 502
+}
+
+
+[
+  8,9,10,11
+]
+
+
+#endregion
+
+
+
+#region 图番品番表服务实现类之前代码
+
+
+
+
+#region 新增单个品番
+/// <summary>
+/// 新增单个品番
+/// </summary>
+/// <param name="input">新增单个品番信息</param>
+/// <returns>新增品番是否成功</returns>
+[HttpPost]
+[AbpAuthorize]
+public async Task PostCreateNewProductModel(ProductModelInput input)
+{
+	// 品番
+	var modelName = input.modelName;
+	// 六位部门代码
+	var deptCode = input.deptCode;
+	// 四位部门代码
+	var oldDeptCode = input.oldDeptCode;
+	// 组织机构表Id
+	var organUnitId = input.organUnitId;
+
+	var query = _designDrawRepository.GetAll()
+							.Where(dd => dd.Id == input.drawId);
+	if (!query.Any())
+		throw new AbpException("图番信息无效!");
+
+	/*var designDraw =await query.Where(dd => dd.DeptCode.Equals(deptCode)
+									|| dd.OldDeptCode.Equals(oldDeptCode) 
+									|| dd.OrganizationUnitId == organUnitId)
+							.ToListAsync();
+	if ( !designDraw.Any())
+		throw new AbpException("选择部门有误！！");*/
+
+	var org = await _organizationRepository.GetAll()
+				.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+				.FirstOrDefaultAsync();
+	if (org == null)
+		throw new AbpException("选择部门有误！");
+	// 组织机构显示名称
+	var displayName = org.DisplayName;
+
+	var master = _mesMasterRepository.GetAll()
+				.WhereIf(!string.IsNullOrEmpty(displayName), master => master.Holon == displayName)
+				.WhereIf(!string.IsNullOrEmpty(modelName), master => master.Model == modelName)
+				.Where(master => master.Activity.Equals(1));
+	if (!master.Any())
+		throw new AbpException("当前部门下没有此品番，无法新增！");
+
+	var checkData = await _productModelRepository.GetAll()
+						.Where(pm => pm.ModelName == modelName 
+								&& pm.OldDeptCode == oldDeptCode 
+								&& pm.DeptCode == deptCode
+								&& pm.OrganizationUnitId == organUnitId)
+						.ToListAsync();
+	if (checkData.Any())
+		throw new AbpException("对应部门下已存在此品番信息！");
+
+	var entity = _autoMapper.Map<ProductModel>(input);
+
+	await _productModelRepository.InsertAsync(entity);
+}
+#endregion
+
+
+
+
+var org = await _organizationRepository.GetAll()
+				.WhereIf(!(input.organUnitId == null || input.organUnitId == 0), (org => org.Id == input.organUnitId))
+				.FirstOrDefaultAsync();
+if (org == null)
+	throw new AbpException("选择数据有误！");
+// 组织机构显示名称
+var displayName = org.DisplayName;
+
+var master = _mesMasterRepository.GetAll()
+			.WhereIf(!string.IsNullOrEmpty(displayName), master => master.Holon == displayName)
+			.Where(master => master.Activity.Equals(1));
+
+
+
+
+#region 更新图番信息(修改)
+/// <summary>
+/// 更新图番信息(修改)
+/// </summary>
+/// <param name="input">编辑后的图番信息</param>
+/// <returns>更新图番是否成功</returns>
+[HttpPost]
+[AbpAuthorize]
+public async Task<bool> EditDesignDraw(EditDesignDrawInput input)
+{
+	//var id = input.id;
+	var oldData = await _designDrawRepository.FirstOrDefaultAsync(dd => dd.Id == input.id);
+	if (oldData == null)
+		throw new AbpException("未找到更新对象！");
+
+	var data = await _organizationRepository.GetAll()
+				.Where(ou => ou.OldCode == oldData.OldDeptCode && ou.Id == oldData.OrganizationUnitId)
+				.FirstOrDefaultAsync();
+	if (data == null)
+		throw new AbpException("选择数据有误！");
+	// 六位部门代码
+	//var code = data.Code;
+	// 图番
+	//var draw = input.draw;
+	// 四位部门代码
+	//var oldDeptCode = input.oldDeptCode;
+
+	var checkData = await _designDrawRepository.GetAll()
+						.Where(dd => dd.Draw == draw 
+								&& dd.OldDeptCode == oldDeptCode 
+								&& dd.DeptCode == code
+								&& dd.OrganizationUnitId == input.organUnitId)
+						.ToListAsync();
+	if (checkData.Any())
+		throw new AbpException("对应部门下已存在此图番信息！");
+
+	var updateEntity = _autoMapper.Map(input,oldData);
+	await _designDrawRepository.UpdateAsync(updateEntity);
+	return await Task.FromResult(true);
+}
+
+#endregion
+
+
+
+
+
 #region 获取符合条件的全部图番信息(暂定)
 /// <summary>
 /// 获取符合条件的全部图番信息
@@ -215,69 +373,6 @@ var query = _designDrawRepository.GetAll()
 
 
 
-
-
-
-
-
-//数据权限在此控制
-if (input == null)
-{
-	var userId = _abpSession.UserId;
-	//var orgUnit = _userOrganizationUnitRepository.GetAll().Where(uru => uru.UserId == userId).Select();
-	var orgUnit = _userOrganizationUnitRepository.GetAsync(uru => uru.UserId == userId);
-	var oldDeptCode = _organizationRepository.GetAll()
-					.WhereIf(orgUnitId == null || orgUnitId == 0, (dd => dd.Draw.Contains(draw)))
-			
-}
-
-var myOrgUnit = _abpSession.UserId;
-var orgUnitId = _abpSession.GetOuId().ToString();
-var dat2a = await _organizationRepository.GetAll().Where(ou => orgUnitId.Equals(ou.Id))
-			.FirstOrDefaultAsync();
-if (dat2a == null)
-	throw new AbpException("选择数据有误！");
-var code = dat2a.OldCode;
-
-//数据权限在此控制
-if (input == null)
-{
-	var myOrgUnit = _abpSession.GetMyOuByLoginId();
-	var orgUnitId = _userOrganizationUnitRepository.GetAll()
-					.Where(uru => uru.UserId == userId)
-					.Select(uru => uru.OrganizationUnitId)
-					.FirstOrDefault();
-	var oldDept = _organizationRepository.GetAll()
-					.WhereIf(!(orgUnitId == 0), (org => org.Id == orgUnitId))
-					.Select(org => org.OldCode)
-					.FirstOrDefault();
-
-	var quer2y = _designDrawRepository.GetAll()
-			.WhereIf(!string.IsNullOrEmpty(oldDept), (dd => dd.OldDeptCode.Equals(oldDept)))
-			.WhereIf(!(orgUnitId == 0), (dd => dd.Id == orgUnitId))
-			.OrderBy(dd => dd.CreationTime)
-			.ThenBy(dd => dd.Draw);
-	var coun2t = quer2y.Count();
-	var queryLis2t = quer2y.SkipTakeQueryble(input.Page, input.Limit);
-	var dat2a = _autoMapper.Map<List<DesignDrawOutput>>(queryLis2t);
-
-	//默认的分页方式
-	return new OutputPageInfo<DesignDrawOutput>(coun2t, dat2a);
-}
-
-
-//数据权限在此控制
-if (input == null)
-{
-	var depts = await _knifeToolManage.getUserPermissionDepartsTree();
-	var list = AlgorithmCommon.GetAlgorithmAllChid<GetObjectChildOutput, string>(depts, "OldCode", "Children")
-				.Distinct()
-				.ToList();
-}
-
-
-
-
 #region 新增单个品番
 /// <summary>
 /// 新增单个品番
@@ -320,274 +415,8 @@ public async Task PostCreateNewProductModel(ProductModelInput input)
 #endregion
 
 
-
-
-
-
-
-public async Task<OutputPageInfo<ClassDeviceEfficiencyOutput>> GetClassDeviceEfficiency(ClassDeviceEfficiencyInput input)
-{
-	List<ClassDeviceEfficiencyOutput> result = new List<ClassDeviceEfficiencyOutput>();
-	DateTime.TryParse(input.startDateStr, out DateTime startDate);
-	DateTime.TryParse(input.endDateStr, out DateTime endDate);
-	var userOrgList = await _v_User_Uo_OrgRepository.GetAll().ToListAsync();
-	#region 分页和缓存
-	int skipCount = (input.Page - 1) * input.Limit;
-	//字典缓存
-	var itemcodelist = _mdmItemCodeRepository.GetCacheList();
-	#endregion
-
-	#region 得到选择的组织机构以及他下面的机构
-	List<long?> newCodeList = new List<long?>();
-	List <long?> oldCodeList = new List<long?>();
-	List<long> orgIdList = new List<long>();
-	List<string> displayNameList = new List<string>();
-	List<GetObjectChildOutput> withFlatChildOrg = new List<GetObjectChildOutput>();
-
-	if (input.organizationUnitId != null)
-	{
-			withFlatChildOrg = await _abpSession.GetFlatOuByUserHoLon(input.organizationUnitId);
-	}
-	else {
-		MyOrganization loginUserOrg = await _abpSession.GetMyOuByLoginId();//得到机构的6-8位code
-			withFlatChildOrg = await _abpSession.GetFlatOuByUserHoLon(loginUserOrg.Id);
-	}
-	#endregion
-	
-	orgIdList = withFlatChildOrg.OrderBy(o=>o.Id).Select(o => o.Id).Distinct().ToList();
-
-	#region 设备报工时间&&设备生产实绩
-	List<DeviceReportDto> deviceReportTimeList = new List<DeviceReportDto>();
-	List<ClassDeviceEfficiencyOutput> workList = new List<ClassDeviceEfficiencyOutput>();
-	workList = _workOrderOnWorkRepository.GetAll()
-				.Where(w => orgIdList.Contains(w.OrgId==null?0:w.OrgId.Value))
-				.Where(w => w.CreationTime.Date >= startDate.Date)
-				.Where(w => w.CreationTime.Date <= endDate.Date)
-				.Select(w => new ClassDeviceEfficiencyOutput
-				{
-					workOrderOnWorkId = w.Id,
-					workOrder = w.WorkOrder,
-					orgId = w.OrgId,
-					machineNum = w.MachineNum,
-					processNum = w.ProcessNum,
-					beginTime = w.CreationTime,
-					productDataInputId = w.ProductDataInputId == null ? 0 : w.ProductDataInputId.Value
-				}).OrderBy(w => w.workOrderOnWorkId).ToList();
-
-	if (workList.Count() > 0)
-	{
-		#region 给组织添加oldCode和Code
-		var orgIdList2 = workList.Select(w => w.orgId).Distinct().ToList();
-		var tempMyOrg = await _myOrganizationRepository.GetAll().Where(o => orgIdList2.Contains(o.Id)).ToListAsync();
-		workList =
-		(from w in workList
-			join mo in tempMyOrg
-			on w.orgId.Value equals mo.Id into w_mo
-			from w_moData in w_mo
-			select new ClassDeviceEfficiencyOutput
-			{
-				workOrderOnWorkId = w.workOrderOnWorkId,
-				workOrder = w.workOrder,
-				orgId = w.orgId,
-				machineNum = w.machineNum,
-				processNum = w.processNum,
-				beginTime = w.beginTime,
-				productDataInputId = w.productDataInputId,
-				oldCode = w_moData == null ? "" : w_moData.OldCode,
-				code = w_moData == null ? "" : w_moData.Code,
-				orgDisplayName = userOrgList.Where(u => u.orgCode == (w_moData == null ? "" : w_moData.Code)).Count() > 0
-							? userOrgList.Where(u => u.orgCode == (w_moData == null ? "" : w_moData.Code)).Select(u => u.orgDisplayName).FirstOrDefault()
-							: ""
-			}).OrderBy(w => w.workOrderOnWorkId).ToList();
-		#endregion
-
-		var wIdJoinListIdList = workList.Select(w => new ClassDeviceEfficiencyOutput { workOrderOnWorkId = w.workOrderOnWorkId, productDataInputId = w.productDataInputId }).Distinct().OrderBy(w => w.workOrderOnWorkId).ToList();
-		var listIdList = workList.Select(w => w.productDataInputId).Distinct().OrderBy(w => w).ToList();
-		var tempJoinList = await _t_produceJoinTech_DatasRepository.GetAll().Where(j => listIdList.Contains(j.ListID.Value)).Select(j => j).OrderBy(j => j.ListID).ToListAsync();
-
-		var joinList =
-			(from w in wIdJoinListIdList
-			join j in tempJoinList
-			on w.productDataInputId equals j.ListID.Value into w_j
-			from w_jData in w_j
-			select new ClassDeviceEfficiencyOutput
-			{
-				workOrderOnWorkId = w.workOrderOnWorkId,
-				macNoGroup = w_jData == null ? "" : w_jData.MacNoGroup,
-				proNameGroup = w_jData == null ? "" : w_jData.ProNameGroup,
-				battleMachGroup = w_jData == null ? "" : w_jData.BattleMachGroup,
-				techProcessNum = w_jData == null ? "" : w_jData.TechProcessNum
-			}).OrderBy(w => w.workOrderOnWorkId).ToList();
-
-		if (joinList.Count() > 0)
-		{
-			workList =
-			(from w in workList
-			join j in joinList
-			on w.workOrderOnWorkId equals j.workOrderOnWorkId into w_j
-			from w_jData in w_j
-			select new ClassDeviceEfficiencyOutput
-			{
-				orgId = w.orgId,
-				oldCode = w.oldCode,
-				code = w.code,
-				orgDisplayName = w.orgDisplayName,
-
-				machineNum = w.machineNum, //主要就是判断machineNum是不是
-
-				workOrderOnWorkId = w.workOrderOnWorkId,
-				workOrder = w.workOrder,
-				processNum = w.processNum,
-				beginTime = w.beginTime,
-				productDataInputId = w.productDataInputId,
-
-				macNoGroup = w_jData == null ? "" : w_jData.macNoGroup,
-				proNameGroup = w_jData == null ? "" : w_jData.proNameGroup,
-				battleMachGroup = w_jData == null ? "" : w_jData.battleMachGroup,
-				techProcessNum = w_jData == null ? "" : w_jData.techProcessNum
-
-			}).OrderBy(w => w.workOrderOnWorkId).ToList();
-
-			#region 找关键设备的过程
-			workList.ForEach(w =>
-			{
-				var repalceMachList = w.battleMachGroup.Split(",").ToList();
-				if (!w.proNameGroup.Contains(_bottleKeyWork))
-				{//如果没有找到瓶颈两个字就认为没有关键设备
-					w.hasBottleMach = false;
-					w.realBottleMach = "";
-				}
-				else
-				{//开始找关键设备
-					var proNameArray = w.proNameGroup.Split(",").ToArray();
-					var MacNoArray = w.macNoGroup.Split(",").ToArray();
-					int bottleIndex = -1;
-					for (int i = 0; i < proNameArray.Length; i++)
-					{
-						if (proNameArray[i].Contains(_bottleKeyWork))
-						{
-							bottleIndex = i;
-							if (MacNoArray[i] == w.machineNum)
-							{
-								w.hasBottleMach = true;
-								w.realBottleMach = MacNoArray[i];
-							}
-							else
-							{
-								w.hasBottleMach = false;
-								w.realBottleMach = "";
-							}
-						}
-					}
-				}
-			});
-			workList = workList.Where(w => w.hasBottleMach == true).OrderBy(w => w.hasBottleMach).ThenBy(w => w.workOrderOnWorkId).ToList();
-			#endregion                   
-
-			if (workList.Count() > 0)
-			{
-				List<long> wIdList = workList.Select(w => w.workOrderOnWorkId).Distinct().ToList();
-				#region 设备报工时间
-				var tempDeviceReportTimeList = await _deviceProcessReportLogRepository.GetAll()
-													.Where(r => wIdList.Contains(r.WorkOrderOnWorkId))
-													.Select(r => new DeviceReportDto
-													{
-														workOrderOnWorkId = r.WorkOrderOnWorkId,
-
-
-														amount = r.AmountByManual,
-														endTime = r.CreationTime
-													}).ToListAsync();
-				tempDeviceReportTimeList.ForEach(r =>
-				{
-					r.beginTime = workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Count() > 0
-									? workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Select(w => w.beginTime).FirstOrDefault()
-									: new DateTime(1, 1, 1);
-
-					r.orgDisplayName = workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Count() > 0
-									? workList.Where(w => w.workOrderOnWorkId == r.workOrderOnWorkId).Select(w => w.orgDisplayName).FirstOrDefault()
-									: "";
-
-				});
-				var wIdList2 = tempDeviceReportTimeList.Select(w => w.workOrderOnWorkId).OrderBy(w => w).Distinct().ToList();
-				foreach (var wId in wIdList2)
-				{
-
-					DeviceReportDto tempDto = new DeviceReportDto();
-
-					if (tempDeviceReportTimeList.Where(r => r.workOrderOnWorkId == wId).Count() > 0)
-					{
-						double tempDeviceReportTime = 0;
-						foreach (var r in tempDeviceReportTimeList.Where(r => r.workOrderOnWorkId == wId).ToList())
-						{
-							if (r.endTime != new DateTime(1, 1, 1) && r.beginTime != new DateTime(1, 1, 1))
-							{
-								tempDeviceReportTime += (r.endTime - r.beginTime).TotalHours;
-							}
-						}
-						tempDto.workOrderOnWorkId = wId;
-						tempDto.orgDisplayName = workList.Where(r => r.workOrderOnWorkId == wId).Count() > 0
-												? workList.Where(r => r.workOrderOnWorkId == wId).FirstOrDefault().orgDisplayName
-												: "";
-						tempDto.beginTime = workList.Where(r => r.workOrderOnWorkId == wId).Count() > 0
-											? workList.Where(r => r.workOrderOnWorkId == wId).FirstOrDefault().beginTime
-											: new DateTime(1, 1, 1);
-						tempDto.deviceReportTime = tempDeviceReportTime;
-						tempDto.deviceReportAmount = tempDeviceReportTimeList.Where(r => r.workOrderOnWorkId == wId).Select(r => r.amount).Sum();
-						deviceReportTimeList.Add(tempDto);
-					}
-
-				}
-				#endregion
-			}
-		}
-	}
-
-	#endregion
-
-	#region 汇总
-	var orgDisplayNameList = withFlatChildOrg.OrderBy(w=>w.Id).Select(w => w.ShowName).Distinct().ToList();
-
-	foreach (var orgName in orgDisplayNameList)
-	{
-		for (var day = startDate; day <= endDate; day = day.AddDays(1))
-		{
-
-			var w = new ClassDeviceEfficiencyOutput
-			{
-				orgDisplayName = orgName,
-				beginTime = day.Date
-			};
-
-			#region 设备报工时间&设备生产实绩
-			if (deviceReportTimeList.Where(g => g.orgDisplayName == w.orgDisplayName && g.beginTime.Date == day.Date).Count() > 0)
-			{
-				w.deviceReportTime = deviceReportTimeList.Where(g => g.orgDisplayName == w.orgDisplayName && g.beginTime.Date == day.Date).Select(g=>g.deviceReportTime).Sum();
-				w.deviceReportAmount = deviceReportTimeList.Where(g => g.orgDisplayName == w.orgDisplayName && g.beginTime.Date == day.Date).Select(g => g.deviceReportAmount).Sum();
-			}
-			#endregion
-
-			result.Add(w);
-		}
-	}
-	#endregion
-
-	result = result.OrderBy(w => w.orgDisplayName).ThenBy(w => w.beginTime).ToList();
-	var resWork = result.Skip(skipCount).Take(input.Limit).ToList();
-	var resultWork = new OutputPageInfo<ClassDeviceEfficiencyOutput>(result.Count(), resWork);
-	return resultWork;
-}
-
-
-
-
-
-#region 
-1.加工车间作业管理一期
-（1）参与项目各个模块的测试工作。在进行“作业管理-设备工序报工”的联调测试同时在“设备工序报工”模块下参与了随行票模板的制作与模板文件的编辑工作，并封装了“生成ZPL文件”方法供随行票打印时使用，此方法是加入团队参与项目编写的第一个方法，通过编写此方法让我对正在使用的ABP框架与在框架中进行后端代码的开发有了更深的了解与掌握；随后在同一模块下对“补打随行票”这一功能编写了“批量更新打印次数”这一方法；在进行“出库工序”的联调测试同时进行了现品票模板的制作与模板文件的编辑工作；
-（2）测过过程中的问题记录与反馈。将测试过程中所遇到的问题与优化点进行系统的记录与总结，并整理出一份详细的“已完成模块功能测试问题汇总”的文档文件，在此过程中快速熟悉项目中各个模块的业务逻辑与业务功能；
-（3）开发及培训文档编写。在此次项目中进行了两次正式版本的发布与培训工作，在每一次正式版本发布后均去现场进行了重要业务功能培训工作，并积极跟踪现场日常使用MES系统作业管理平台中的不便与问题点，在此过程中根据现场担当与员工的反馈编写了“MES系统现场测试问题汇总”文档文件，为后续“MES系统操作手册”文档的成功编写完成提供了重要的基础。
 #endregion
+
 
 
 
@@ -899,11 +728,6 @@ public async Task<OutputPageInfo<DeviceJobDetailOutput>> GetDeviceJobDetail(Devi
 
 
 
-
-
-
-
-
 //0~现品票票号
 public int goodsLableNo { get; set; }
 ////0~现品票票号
@@ -1031,27 +855,6 @@ namespace SMC.MES.DeviceProcessReport.Report.Dto
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
