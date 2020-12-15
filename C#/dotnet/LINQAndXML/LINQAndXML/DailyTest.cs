@@ -58,6 +58,67 @@ namespace LINQAndXML
              */
         }
 
+        static void Main3(string[] args)
+        {
+            // for (int i = 0; i < 5; i++)
+            // {
+            //     System.Console.WriteLine(i);
+            // }
+
+            int x = 0;
+            int y = 1;
+            int z = 0;
+            for (int i = 0; i < 2; i++)
+            {
+                z = x + y;
+                x = y;
+                y = z;
+            }
+            System.Console.WriteLine(x);
+            System.Console.WriteLine(y);
+            System.Console.WriteLine(z);
+
+            System.Console.WriteLine(Fibo(8));
+
+        }
+
+
+        static int Fibo(int n)
+        {
+            if (n<=1)
+            {
+                return n;
+            }
+            int first = 0;
+            int second = 1;
+            int sum = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                sum = first + second;
+                first = second;
+                second = sum;
+            }
+            return first;
+        }
+        
+        static void Main(string[] args)
+        {
+            // Create a list of strings.
+            var salmons = new List<string>();
+            salmons.Add("chinook");
+            salmons.Add("coho");
+            salmons.Add("pink");
+            salmons.Add("sockeye");
+
+            // Iterate through the list.
+            foreach (var salmon in salmons)
+            {
+                Console.Write(salmon + " ");
+            }
+            // Output: chinook coho pink sockeye
+        }
+
     }
 }
 

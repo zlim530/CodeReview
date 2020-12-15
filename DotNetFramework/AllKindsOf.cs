@@ -27,10 +27,28 @@ test_draw11 15
 {
   "modelName": "REC32B-M1019-200",
   "drawId": 19,
-  "deptCode": "6211",
-  "oldDeptCode": "11621001",
+  "deptCode": "11621001",
+  "oldDeptCode": "6211",
   "organUnitId": 502
 }
+
+{
+  "modelName": "REC32B-M1019-200",
+  "drawId": 19,
+  "deptCode": "11621001",
+  "oldDeptCode": "6221",
+  "organUnitId": 502
+}
+
+{
+  "modelName": "REC40B-M1020-530",
+  "drawId": 22,
+  "deptCode": "11621001",
+  "oldDeptCode": "6211",
+  "organUnitId": 502
+}
+
+
 
 品番编辑：
 {
