@@ -189,7 +189,7 @@ public async Task PostCreateNewProductModel(NewProductModelInput input)
 	var data = await _ouManager.GetMoMOrganizationTreeAsync(input.organUnitId);
 	// 组织机构显示名称
 	var displayName = data.FirstOrDefault().ShowName;
-
+		<=
 	var master = _mesMasterRepository.GetAll()
 				.WhereIf(!string.IsNullOrEmpty(displayName), master => /*master.Holon == */displayName.Contains(master.Holon))
 				.WhereIf(!string.IsNullOrEmpty(modelName), master => master.Model == modelName)
