@@ -806,3 +806,189 @@ order by m.Level
 --			select m.Id + m.Name + m.Age + m.Menpai + m.Kungfu + m.Level
 
 
+
+
+-----------------------------2020年12月21日-----------------------------
+declare @name nvarchar(50),@age int
+
+-- 为变量赋值
+set @name = 'Tim'
+
+select @age = 10
+
+-- 输出
+select 'name',@name
+select 'age',@age
+
+
+-- 错误！
+--print 'fs',@name
+
+--while循环
+declare @i int = 1-- 声明变量的同时赋值
+
+while @i <= 10
+begin
+	print 'Hello'
+	set @i = @i + 1
+end
+
+
+declare @i int = 1
+declare @sum int = 0
+while @i <= 100
+begin
+	set @sum = @sum + @i
+	set @i += 1
+end
+select 'sum',@sum
+
+
+declare @n int = 10
+if @n > 10
+	begin
+		print '@n > 10'
+	end
+else if @n > 5
+	begin
+		print '@n > 5'
+	end
+else
+	begin
+		print '@n <= 5'	
+	end
+
+
+declare @sum int = 0,@i int = 1
+while @i <= 100
+	begin
+		if @i % 2 = 0
+			begin
+				set @sum = @sum + @i
+			end
+		set @i += 1
+	end
+print @sum
+
+
+-- 两个@@符号开头的一般都是系统变量
+print @@version -- sqlserver版本信息
+/*
+Microsoft SQL Server 2019 (RTM) - 15.0.2000.5 (X64) 
+	Sep 24 2019 13:48:23 
+	Copyright (C) 2019 Microsoft Corporation
+	Developer Edition (64-bit) on Windows 10 Pro 10.0 <X64> (Build 18363: )
+*/
+
+print @@error -- 最后一个T-SQL语句错误的错误号
+
+print @@language -- 当前使用的语言的名称
+
+print @@max_connections -- 可以创建同时连接的最大数目
+
+print @@rowcount --受上一个SQL语句影响的行数
+
+print @@servername -- 本地服务器的名称
+
+
+
+create table bank
+(
+	cId int,
+	balance int check(balance > 0)
+)
+
+insert into bank values
+(
+	1,1000
+),
+(
+	2,90
+)
+
+select * from bank
+
+-- 怎么保证两条SQL语句同时执行成功或者同时执行失败呢？
+--使用事务来保证
+update bank set balance -= 10 where cId = 2
+update bank set balance += 10 where cId = 1
+
+
+--打开一个事务
+begin transaction
+declare @sum int = 0
+	update bank set balance -= 100 where cId = 1
+	set @sum += @@ERROR
+	
+	update bank set balance += 100 where cId = 2
+	set @sum += @@ERROR
+	--只要有任何一条SQL语句执行出错，那么最后@sum变量的值就不为0
+
+	if @sum != 0
+		begin
+			--表示程序执行出错了
+			rollback -- 回滚
+		end
+	else
+		begin
+			--如果没有出错,则提交事务
+			commit -- 提交
+		end
+
+
+/*
+什么是事务(Transaction)
+`事务:同生共死
+`指访问并可能更新数据库中各种数据项的一个程序执行单元(unit)--与就是由多个SQL语句组成,必须作为一个整体执行
+`这些SQL语句必须作为一个整体一起向系统提交,要么都执行,要么都不执行
+语法步骤:
+	1.开始事务:begin transaction
+	2.事务提交:commit transaction
+	3.事务回滚:rollback transaction
+判断某条语句执行是否出错:
+	`全局变量@@error
+	`@@error只能判断当前一条T-SQL语句执行是否有误,为了判断事务中所有T-SQL语句是否有错,我们需要对错误进行累计
+	例如:set @errorCount = @errorCount + @@error
+set implicit_transactions{ on | off} 隐式开启|关闭事务
+*/
+
+
+--自动提交事务
+--当执行一条sql语句时，数据库会自动帮我们打开一个事务，当语句执行成功，数据库自动提交事务，执行失败，数据库自动回滚事务
+
+--隐式事务
+--每次执行一条SQL语句时，数据库自动帮我们打开一个事务，但是需要我们手动提交或者回滚事务
+set implicit_transactions { on | off} -- 隐式事务
+set implicit_transactions on
+--如果设置为 on，将连接设置为隐式事务模式；如果设置为 off，则连接恢复为自动提交事务模式
+insert into bank values(3,1000000)
+commit 
+set implicit_transactions off
+select * from bank
+
+--显式事务:需要手动打开事务,手工提交或者回滚事务
+begin tran -- transaction 的缩写
+
+commit tran
+
+rollback tran
+
+
+/*
+事务ACID特性：
+事务是作为单个逻辑工作单元执行的一系列操作，一个逻辑工作单元必须有四个属性，称为原子性、一致性、隔离性和持久性（ACID）属性，只有这样才能成为一个事务。
+原子性 Actomicity:事务是一个完整的操作,事务的各步操作是不可分的,要么执行,要么不执行
+	事务必须是原子工作单元，对于其数据修改，要么全部执行，要么全部不执行
+
+一致性 Consistency:当数据完成时,数据必须处于一致状态
+	事务在完成时，必须使所有的数据都保持一致状态。在相关数据库中，所有规则都必须应用于事务的修改，以保持所有数据的完整性。
+	事务结束时，所有的内部数据结构（如B数索引或双向链表）都必须是正确的
+
+隔离性 Isolation:对数据进行修改的所有并发事务彼此隔离,这表明事务必须是独立的,它不应以任何方式依赖于或影响其他事务
+	由并发事务所作的修改必须与任何其他并发事务所作的修改隔离。事务识别数据时数据所处的状态，要么是另一并发事务修改它之前的
+	状态，要么是第二个修改它之后的状态，事务不会识别中间状态的数据。这称为可串行性，因为它能够重新装载起始数据，并且重播一
+	系列事务，以使数据结束时的状态与原始事务执行的状态相同。
+
+持久性 Durability:事务完成后,它对数据库的修改被永久保持,事务日志能够保持事务的永久性
+	事务完成之后，它对于系统的影响是永久性的。该修改即使出现系统故障也将一直保持。
+*/
