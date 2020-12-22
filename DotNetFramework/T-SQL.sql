@@ -992,3 +992,58 @@ rollback tran
 持久性 Durability:事务完成后,它对数据库的修改被永久保持,事务日志能够保持事务的永久性
 	事务完成之后，它对于系统的影响是永久性的。该修改即使出现系统故障也将一直保持。
 */
+
+
+
+
+-----------------------------2020年12月22日-----------------------------
+/*
+存储过程：
+	在数据库中保存的存储过程语句都是编译过的：执行速度更快
+系统存储过程：
+	由系统定义，存放在master数据库中
+	名称由“sp_”或者“xp_”开头，自定义的存储过程可以以 usp_ 开头
+系统存储过程：
+	sp_databases：列出服务器上的所有数据库
+	sp_helpdb：报告有关指定数据库或所有数据库的信息
+	sp_renamedb：更改数据库的名称
+	sp_tables：返回当前环境下可查询的对象的列表
+	sp_columns：返回某个表列的信息
+	sp_help：查看某个表的所有信息
+	sp_helpconstraint：查看某个表的约束
+	sp_helpindex：查看某个表的索引
+	sp_stored_procedures：列出当前环境中的所有存储过程
+	sp_password：添加或修改登录账户的密码
+*/
+
+
+exec sp_databases
+
+exec sp_tables
+
+exec sp_columns 'bank'
+
+--查看某个存储过程的源码
+exec sp_helptext 'sp_databases'
+
+  
+create procedure sys.sp_databases  
+as  
+    set nocount on  
+  
+    select  
+        DATABASE_NAME   = db_name(s_mf.database_id),  
+        DATABASE_SIZE   = convert(int,  
+                                    case -- more than 2TB(maxint) worth of pages (by 8K each) can not fit an int...  
+                                    when sum(convert(bigint,s_mf.size)) >= 268435456  
+                                    then null  
+                                    else sum(convert(bigint,s_mf.size))*8 -- Convert from 8192 byte pages to Kb  
+                                    end),  
+        REMARKS         = convert(varchar(254),null)  
+    from  
+        sys.master_files s_mf  
+    where  
+        s_mf.state = 0 and -- ONLINE  
+        has_dbaccess(db_name(s_mf.database_id)) = 1 -- Only look at databases to which we have access  
+    group by s_mf.database_id  
+    order by 1  
