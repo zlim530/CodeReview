@@ -13,6 +13,10 @@
 
 </div>
 
+<div id="app-2">
+    <button v-on:click="printTime">ClickToGetTime</button>
+</div>
+
 
 <!--1.导入 Vue.js -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
@@ -29,6 +33,20 @@
             }
         }
     });
+
+    new Vue({
+        el:"#app-2",
+        data:{
+            message:"Now Time is "
+        },
+        methods:{
+            printTime: function (event){
+                alter('页面加载于' + new Date().toLocaleString());
+            }
+        }
+    });
+
+
 
 
 </script>
