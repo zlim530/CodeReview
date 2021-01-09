@@ -8,3 +8,13 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01�
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.csproj.GenerateResource.cache
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.exe
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.pdb
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\bin\Debug\_01委托案例_窗体之间传值.exe.config
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\bin\Debug\_01委托案例_窗体之间传值.exe
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\bin\Debug\_01委托案例_窗体之间传值.pdb
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.Form1.resources
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.Form2.resources
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.Properties.Resources.resources
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.csproj.GenerateResource.cache
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.exe
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\_01委托案例_窗体之间传值\obj\Debug\_01委托案例_窗体之间传值.pdb

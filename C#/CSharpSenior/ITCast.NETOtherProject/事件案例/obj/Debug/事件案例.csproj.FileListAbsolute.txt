@@ -8,3 +8,13 @@ C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事�
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.csproj.GenerateResource.cache
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.exe
 C:\Users\Lim\Desktop\code\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.pdb
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\bin\Debug\事件案例.exe.config
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\bin\Debug\事件案例.exe
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\bin\Debug\事件案例.pdb
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.Form1.resources
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.Properties.Resources.resources
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.UCLogin.resources
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.csproj.GenerateResource.cache
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.exe
+C:\Users\Lim\Desktop\code\mostnewCodeReview\CodeReview\C#\CSharpSenior\ITCast.NETOtherProject\事件案例\obj\Debug\事件案例.pdb

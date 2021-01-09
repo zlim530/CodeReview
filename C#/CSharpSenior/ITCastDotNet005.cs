@@ -701,10 +701,6 @@ namespace 文件操作 {
 
 namespace MES{
     public class Program{
-        static void Main(string[] args){
-
-        }
-
         public void DownLoadTechnologyTemplate(){
             string filePath = $"{Environment.CurrentDirectory}/{DateTime.UtcNow}";
             FileInfo file = new FileInfo(filePath);
