@@ -141,16 +141,16 @@ namespace CSharpSenior {
         // 一个线程可以用 ThreadState 枚举来表示，
         // 下面是ThreadState的源码：
         public enum ThreadState { 
-            Running = 0,
-            StopRequested = 1,
-            SuspendRequested = 2,
-            Background = 4,
-            Unstarted = 8,
-            Stopped = 16,           // 0x0000_0010
-            WaitSleepJoin = 32,     // 0x0000_0020
-            Suspended = 64,         // 0x0000_0040
-            AbortRequested = 128,   // 0x0000_0080
-            Aborted = 256,          // 0x0000_0100
+            Running             = 0,
+            StopRequested       = 1,
+            SuspendRequested    = 2,
+            Background          = 4,
+            Unstarted           = 8,
+            Stopped             = 16,       // 0x0000_0010
+            WaitSleepJoin       = 32,       // 0x0000_0020
+            Suspended           = 64,       // 0x0000_0040
+            AbortRequested      = 128,      // 0x0000_0080
+            Aborted             = 256,      // 0x0000_0100
         }
 
         static void Main6(string[] args) {

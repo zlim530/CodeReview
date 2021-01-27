@@ -27,7 +27,7 @@ namespace CSharpSenior {
             Console.WriteLine(greet());// Hello,World!
 
             //创建委托，使用lambda表达式代替匿名方法
-            MyDel myDel = (arg1,arg2) => System.Console.WriteLine(string.Format("arg1:{0},arg2:{1}",arg1,arg2));;
+            MyDel myDel = (arg1,arg2) => System.Console.WriteLine(string.Format("arg1:{0},arg2:{1}",arg1,arg2));
 
         }
 
