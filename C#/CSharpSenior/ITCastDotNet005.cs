@@ -340,7 +340,7 @@ namespace 压缩流 {
         UCS-2/UTF-16等具体编码方案的统称而已，并不是具体的编码方案。
 
 拷贝文件的两种方式：
-    将源文件内容全部度到内存中，再写到目标文件中；
+    将源文件内容全部读到内存中，再写到目标文件中；
     读取源文件的1KB 内容，写到目标文件中，再读取源文件的1KB 内容，再写到目标文件中，直到将源文件的所有内容读取
     完毕。
 其中第二种方法其实就是一种流的操作。
@@ -421,7 +421,7 @@ namespace 文件流操作 {
                 第二个参数：表示从文件流中读取数据的偏移量；
                 第三个参数：表示最多读取的字节数。
                 */
-                string msg = System.Text.Encoding.UTF8.GetString(bytes);
+                string msg = Encoding.UTF8.GetString(bytes);
                 Console.WriteLine(msg);
             }
 

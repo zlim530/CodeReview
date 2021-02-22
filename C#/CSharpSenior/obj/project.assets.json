@@ -4468,19 +4468,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lim\\.nuget\\packages\\": {}
+    "C:\\Users\\c02082\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\CSharpSenior\\CSharpSenior.csproj",
+      "projectUniqueName": "E:\\localcode\\CodeReview\\C#\\CSharpSenior\\CSharpSenior.csproj",
       "projectName": "CSharpSenior",
-      "projectPath": "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\CSharpSenior\\CSharpSenior.csproj",
-      "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lim\\Desktop\\code\\mostnewCodeReview\\CodeReview\\C#\\CSharpSenior\\obj\\",
+      "projectPath": "E:\\localcode\\CodeReview\\C#\\CSharpSenior\\CSharpSenior.csproj",
+      "packagesPath": "C:\\Users\\c02082\\.nuget\\packages\\",
+      "outputPath": "E:\\localcode\\CodeReview\\C#\\CSharpSenior\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\c02082\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4527,12 +4527,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.0.3, 3.0.3]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
