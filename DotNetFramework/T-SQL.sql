@@ -730,6 +730,7 @@ select 'CPlusPlus'
 --select into 语句不能重复执行，因为每次执行都会创建一个newStudent表
 --TblStudent 表结构包括自动编号列都会在newStudent中创建，但是TblStudent表中的约束并不会出现在newStudent表中
 select * into newStudent from TblStudent 
+
 --(newStudent表在select 查询时同时自动建立)
 --把现有表的数据复制到一个已存在的表，通过这种方式复制，只能复制表结构，以及列的名字和数据类型，对于约束，不会复制过来
 --只拷贝表结构，不拷贝数据
