@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace _01委托案例_窗体之间传值 {
+namespace _01委托案例_窗体之间传值
+{
     static class Program {
         /// <summary>
         /// 应用程序的主入口点。
