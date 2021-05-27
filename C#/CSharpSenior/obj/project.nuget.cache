@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "GjUwW83P2wX8s1cRoID9UR4YYJVreftsOfJ7jPzp4Li2JuiOE4Pd1IkPI0/Urr9KsPFYpDZG6nrvqsgztmL1zg==",
+  "dgSpecHash": "LR+niMrXOjwPemS3M6d1z8APEIUzDL7sLvRUTAZqW/RhJfzle+4OB+3quE+LRk4Q/w9bBfXrlykbY8UijAVCuw==",
   "success": true,
   "projectFilePath": "E:\\localcode\\CodeReview\\C#\\CSharpSenior\\CSharpSenior.csproj",
   "expectedPackageFiles": [
@@ -85,10 +85,10 @@
     "C:\\Users\\c02082\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.0.1\\microsoft.aspnetcore.app.ref.3.0.1.nupkg.sha512",
-    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.netcore.app.ref\\3.0.0\\microsoft.netcore.app.ref.3.0.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.0.3\\microsoft.netcore.app.host.win-x64.3.0.3.nupkg.sha512",
-    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.0.0\\microsoft.windowsdesktop.app.ref.3.0.0.nupkg.sha512"
+    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.0.1\\microsoft.aspnetcore.app.ref.3.0.1.nupkg.sha512",
+    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.0.0\\microsoft.windowsdesktop.app.ref.3.0.0.nupkg.sha512",
+    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.netcore.app.ref\\3.0.0\\microsoft.netcore.app.ref.3.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -16,20 +16,20 @@ namespace AsyncProgram
             // 运行 WriteY()
             t.Start();
 
-            System.Console.WriteLine(Thread.CurrentThread.Name);
+            Console.WriteLine(Thread.CurrentThread.Name);
             // 同时在主线程也做一些工作
             for (int i = 0; i < 1000; i++)
             {
-                System.Console.Write("x");
+                Console.Write("x");
             }
         }
 
         static void WriteY()
         {
-            System.Console.WriteLine(Thread.CurrentThread.Name);
+            Console.WriteLine(Thread.CurrentThread.Name);
             for (int i = 0; i < 1000; i++)
             {
-                System.Console.Write("y");
+                Console.Write("y");
             }
         }
     }
@@ -41,14 +41,14 @@ namespace AsyncProgram
             Thread t = new Thread(Go);
             t.Start();
             t.Join();// 在主线程 Main 中使用 子线程.Join() 则主线程会等待子线程执行完毕再执行下面的语句
-            System.Console.WriteLine("Thread t has ended!");
+            Console.WriteLine("Thread t has ended!");
         }
 
         static void Go()
         {
             for (int i = 0; i < 1000; i++)
             {
-                System.Console.Write("y");
+                Console.Write("y");
             }
         }
         
@@ -71,21 +71,21 @@ namespace AsyncProgram
 
         public static void ThreadProc()
         {
-            System.Console.WriteLine("\nCurrent thread:{0}",Thread.CurrentThread.Name);
+            Console.WriteLine("\nCurrent thread:{0}",Thread.CurrentThread.Name);
             if (Thread.CurrentThread.Name == "Thread1" && thread2.ThreadState != ThreadState.Unstarted)
             {
                 if (thread2.Join(2000))
                 {
-                    System.Console.WriteLine("Thread2 has termminated.");
+                    Console.WriteLine("Thread2 has termminated.");
                 }else
                 {
-                    System.Console.WriteLine("The timeout has elapsed and Thread1 will resume.");
+                    Console.WriteLine("The timeout has elapsed and Thread1 will resume.");
                 }
             }
             Thread.Sleep(2000);
-            System.Console.WriteLine("\nCurrent thread:{0}",Thread.CurrentThread.Name);
-            System.Console.WriteLine("Thread1:{0}",thread1.ThreadState);
-            System.Console.WriteLine("Thread2:{0}\n",thread2.ThreadState);
+            Console.WriteLine("\nCurrent thread:{0}",Thread.CurrentThread.Name);
+            Console.WriteLine("Thread1:{0}",thread1.ThreadState);
+            Console.WriteLine("Thread2:{0}\n",thread2.ThreadState);
         }
     }
 
@@ -101,11 +101,11 @@ namespace AsyncProgram
 
             if (newThread.Join(waitTime + waitTime))
             {
-                System.Console.WriteLine("New Thread terminated.");
+                Console.WriteLine("New Thread terminated.");
             }
             else
             {
-                System.Console.WriteLine("Join timed out.");
+                Console.WriteLine("Join timed out.");
             }
         }
 
@@ -137,7 +137,7 @@ namespace AsyncProgram
         static void Main5()
         {
             var state = ThreadState.Unstarted | ThreadState.Stopped | ThreadState.WaitSleepJoin;
-            System.Console.WriteLine($"{Convert.ToString((int)state,2)}");
+            Console.WriteLine($"{Convert.ToString((int)state,2)}");
         }
     
         static void Main6(){
@@ -193,7 +193,7 @@ namespace AsyncProgram
             if (args.Length > 0)
             {
                 worker.IsBackground = true;
-                System.Console.WriteLine(worker.IsBackground);
+                Console.WriteLine(worker.IsBackground);
             }
             worker.Start();
         }
@@ -205,7 +205,7 @@ namespace AsyncProgram
             var signal = new ManualResetEvent(false);
 
             new Thread(() => {
-                System.Console.WriteLine("Waiting for signal ... ");
+                Console.WriteLine("Waiting for signal ... ");
                 signal.WaitOne();
                 signal.Dispose();
                 System.Console.WriteLine("Got signal!");
