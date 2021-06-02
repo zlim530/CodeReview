@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>attribute</title>
+</head>
+<body>
+
+    <!-- 一些指令能够接收一个“参数”，在指令名称之后以冒号表示。例如，v-bind 指令可以用于响应式地更新 HTML attribute： -->
+    <a v-bind:href="url">...</a>
+    <!-- 在这里 href 是参数，告知 v-bind 指令将该元素的 href attribute 与表达式的 url 的值绑定。 -->
+    <!-- <a v-bind:[attributeName]="url">...</a> -->
+
+    <!-- 另一个例子是 v-on 指令，它用于监听 DOM 事件 -->
+    <a v-on:click="doSomething">...</a>
+    <!-- 在这里参数是监听的事件名。 -->
+
+    <!-- 在 DOM 中使用模板时 (直接在一个 HTML 文件里撰写模板)，还需要避免使用大写字符来命名键名，因为浏览器会把 attribute 名全部强制转为小写： -->
+    <!-- 在 DOM 中使用模板时这段代码会被转换为 `v-bind:[someattr]`。除非在实例中有一个名为“someattr”的 property，否则代码不会工作。 -->
+    <a v-bind:[someAttr]="value">...</a>
+
+    <form v-on:submit.prevent="onSubmit">...</form>
+
+    <!-- v-bind 缩写 -->
+    <!-- 完整写法 -->
+    <a v-bind:href="url">...</a>
+    <!-- 缩写 -->
+    <a :href="url">...</a>
+    <!-- 动态参数的缩写（2.6.0+） -->
+    <a :[key]="url">...</a>
+
+    <!-- v-on 缩写 -->
+    <!-- 完整写法 -->
+    <a v-on:click="doSomething">...</a>
+    <!-- 缩写 -->
+    <a @click="doSomething">...</a>
+    <!-- 动态参数的缩写（2.6.0+） -->
+    <a @[event]="doSomething">...</a>
+
+    
+    <div id="example">
+        <p>Original message:" {{ message }}"</p>
+        <p>Computed reversed message:"{{ reversedMessage }}"</p>
+    </div>
+
+    <!-- 计算属性缓存 vs 方法 -->
+    <!-- 我们可以通过在表达式中调用方法来达到同样的效果： -->
+    <p>Reversed message: "{{ reversedMessage() }}"</p>
+
+    <!-- 导入 Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        var vueModel = new Vue({
+            el:'#example',
+            data:{
+                message:'hello'
+            },
+            computed:{
+                // 计算属性的 getter
+                reversedMessage:function(){
+                    // `this` 指向 vueModel 实例
+                    return this.message.split('').reverse().join('')
+                }
+            },
+            methohds:{
+                reversedMessage:function(){
+                    return this.message.split('').reverse('').join('')
+                }
+            }
+        });
+        /* 
+        这里我们声明了一个计算属性 reversedMessage 。我们提供的函数将用作 property vueModel.reversedMessage 的 getter 函数：
+            console.log(vueModel.reversedMessage) // => 'olleH'
+            vueModel.message = 'Goodbye'
+            console.log(vueModel.reversedMessage) // => 'eybdooG'
+        你可以打开浏览器的控制台，自行修改例子中的 vm。vm.reversedMessage 的值始终取决于 vm.message 的值。
+
+        你可以像绑定普通 property 一样在模板中绑定计算属性。Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。而且最妙的是我们已经以声明的方式创建了这种依赖关系：计算属性的 getter 函数是没有副作用 (side effect) 的，这使它更易于测试和理解。
+        */
+
+        /* var vm = new Vue({
+            el:'#example',
+            data:{
+                message:'hello'
+            },
+            methohds:{
+                reversedMessage:function(){
+                    return this.message.split('').reverse('').join('')
+                }
+            }
+        }) */
+
+    </script>
+
+</body>
+</html>

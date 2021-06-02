@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Class与Style绑定</title>
+</head>
+<body>
+    <div v-bind:class="{ active: isActive }"></div>
+
+    <div class="static"
+         v-bind:class="{ active: isActive, 'text-danger':hasError}">
+
+    </div>
+    <!--
+    如下data:
+        data:{
+            isActive:true,
+            hasError:false
+        }
+    结果渲染为：
+        <div class="static active"></div>
+    -->
+
+    <div v-bind:class="classObject"></div>
+
+    <!--我们可以把一个数组传给 v-bind:class，以应用一个 class 列表：-->
+    <div v-bind:class="[activeClass, errorClass]"></div>
+
+    <script>
+        data: {
+            isActive: true,
+                error: false
+        },
+        computed: {
+            classObject: function () {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type ===
+                        }
+            }
+        }
+        data: {
+            activeClass: 'active',
+                errorClass: 'text-danger'
+        }
+        //渲染为：
+        // <div class="active text-danger"></div>
+    </script>
+
+</body>
+</html>
