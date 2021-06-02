@@ -8553,11 +8553,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\SMCProject\\LOCALCODE\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
+      "projectUniqueName": "E:\\localcode\\CodeReview\\C#\\DailyWork\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
       "projectName": "DailyLocalCode",
-      "projectPath": "E:\\SMCProject\\LOCALCODE\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
+      "projectPath": "E:\\localcode\\CodeReview\\C#\\DailyWork\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
       "packagesPath": "C:\\Users\\c02082\\.nuget\\packages\\",
-      "outputPath": "E:\\SMCProject\\LOCALCODE\\DailyCode\\DailyLocalCode\\obj\\",
+      "outputPath": "E:\\localcode\\CodeReview\\C#\\DailyWork\\DailyCode\\DailyLocalCode\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\c02082\\AppData\\Roaming\\NuGet\\NuGet.Config",

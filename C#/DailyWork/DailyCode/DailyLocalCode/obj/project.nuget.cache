@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BxNnbbAPPr0SttcjSskeBKqclxb3FqgVhm/g2OZwykmkIfIOArW3LfYy+wpSNMdwOwVLfTHjGSA0WxfEh+v+Jg==",
+  "dgSpecHash": "lcLA6RmI/WJvWPmSQYieA4t12bVqIXTSBT3h2K+mTdJFOD7AFN7R2Ek4zrrAEnUIvYeDy1uYForT1qU88BwYUg==",
   "success": true,
-  "projectFilePath": "E:\\SMCProject\\LOCALCODE\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
+  "projectFilePath": "E:\\localcode\\CodeReview\\C#\\DailyWork\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\c02082\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\epplus\\5.6.4\\epplus.5.6.4.nupkg.sha512",

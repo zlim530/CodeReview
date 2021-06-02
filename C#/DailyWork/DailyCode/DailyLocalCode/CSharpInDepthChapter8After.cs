@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 
 namespace CSharpInDepthChapter8After
@@ -233,10 +235,88 @@ namespace CSharpInDepthChapter8After
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello,World!");
+            #region 使用工具类中的普通静态方法复制一个流
+            // 用 StreamUtil 将 Web 响应流复制到一个文件
+            WebRequest request = WebRequest.Create("http://manning.com");
+            using (WebResponse response = request.GetResponse())
+            using (Stream responseStream = response.GetResponseStream())
+            using (FileStream output = File.Create("response.dat"))
+            {
+                StreamUtil.Copy(responseStream, output);
+            }
+            #endregion
+
+            #region 使用 Stream 类的扩展方法复制一个流
+            WebRequest request2 = WebRequest.Create("http://manning.com");
+            using (WebResponse response2 = request2.GetResponse())
+            using (Stream responseStream2 = response2.GetResponseStream())
+            using (FileStream output = File.Create("response2.dat"))
+            {
+                /*
+                事实上，编译器已将 MyCopyTo 调用转换成对普通静态方法 StreamUtil.MyCopyTo 的调用。
+                调用时，会将 responseStream 的值作为第一个实参的值传递（然后是 output ，跟平常一样）。 
+                */
+                responseStream2.MyCopyTo(output);
+            }
+            #endregion
+
+
         }
         
         
+    }
+
+    /*
+    并不是任何方法都能作为扩展方法使用——它必须具有以下特征：
+    ·它必须在一个非嵌套的、非泛型的静态类中（所以必须是一个静态方法）；
+    ·它至少要有一个参数；
+    ·第一个参数必须附加 this 关键字作为前缀；
+    ·第一个参数不能有其他任何修饰符（比如 out 或 ref ）；
+    ·第一个参数的类型不能是指针类型。
+    */
+    public static class StreamUtil
+    {
+        const int BufferSize = 8192;
+
+        /// <summary>
+        /// 普通的静态方法
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
+        public static void Copy(Stream input, Stream output)
+        {
+            byte[] buffer = new byte[BufferSize];
+            int read;
+            while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, read);
+            }
+        }
+
+        /// <summary>
+        /// 将静态类中的“普通”静态方法转换成扩展方法具体需要做的事情——只需添加 this 关键字
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
+        public static void MyCopyTo(this Stream input, Stream output)
+        {
+            byte[] buffer = new byte[BufferSize];
+            int read;
+            while ((read = input.Read(buffer,0,buffer.Length)) > 0)
+            {
+                output.Write(buffer,0,read);
+            }
+        }
+
+        public static byte[] ReadFully(this Stream input)
+        {
+            using (MemoryStream tempStream = new MemoryStream())
+            {
+                //Copy(input, tempStream);
+                input.MyCopyTo(tempStream);
+                return tempStream.ToArray();
+            }
+        }
     }
 
     class Film
