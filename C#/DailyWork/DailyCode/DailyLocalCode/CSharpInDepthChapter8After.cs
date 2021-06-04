@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
+using Org.BouncyCastle.Asn1.Cms;
 
 namespace CSharpInDepthChapter8After
 {
@@ -292,9 +293,140 @@ namespace CSharpInDepthChapter8After
             {
                 Console.WriteLine(element);
             }
+        
+            Console.WriteLine("--------------ReverseCollection----------------");
+            // 用 Reverse 方法来反转一个集合
+            var reverseCollection = Enumerable.Range(0, 10).Reverse();
+            foreach (var element in reverseCollection)
+            {
+                Console.WriteLine(element);
+            }
+            
+            Console.WriteLine("--------------OddCollection----------------");
+            // 用 Lambda 表达式作为 Where 方法的参数，从而只保留奇数            
+            var oddCollection = Enumerable.Range(0, 10)
+                                                            .Where(x => x % 2 != 0)
+                                                            .Reverse();
+            foreach (var element in oddCollection)
+            {
+                Console.WriteLine(element);
+            }
+            
+            Console.WriteLine("--------------SquareRootCollection----------------");
+            // 用 Lambda 表达式和匿名类型进行投影：select
+            var squareRootCollection = Enumerable.Range(0, 10)
+                                                                                    .Where(x => x % 2 != 0)
+                                                                                    .Reverse()
+                                                                                    .Select(x => new {Original = x, SquareRoot = Math.Sqrt(x)});
+            foreach (var element in squareRootCollection)
+            {
+                Console.WriteLine($"sqrt({element.Original}) = {element.SquareRoot}");
+            }
+            
+            Console.WriteLine("--------------OrderByCollection----------------");
+            // 根据两个属性对序列进行排序
+            var orderedCollection = Enumerable.Range(-5, 11)
+                .Select(x => new {Original = x, Square = x * x})
+                .OrderBy(x => x.Square)
+                .ThenBy(x => x.Original);
+            foreach (var element in orderedCollection)
+            {
+                Console.WriteLine(element);
+            }
+            //“主”排序属性是 Square ，但对于平方值相同的两个值，负的原始值总是排在正的原始值前面
+            /*
+             需要注意的是，排序不会改变原有集合——它返回的是新的序列，所产生的数据与输入序列相同，当然除了顺序。
+            这与 List<T>.Sort 和 Array.Sort 不同，它们会改变列表或数组中元素的顺序。LINQ操作符是无副作用的：
+            它们不会影响输入，也不会改变环境。除非你迭代的是一个自然状态序列（如从网络流中读取数据）或使用含有副
+            作用的委托参数。这是函数式编程的方法，可以使代码更加可读、可测、可组合、可预测、健壮并且线程安全。
+             */
+
         }
 
+        /*
+         框架提供的扩展方法会尽量尝试对数据进行“流式”（stream）或者说“管道”（pipe）传输。
+     要求一个迭代器提供下一个元素时，它通常会从它链接的迭代器获取一个元素，处理那个元素，
+     再返回符合要求的结果，而不用占用自己更多的存储空间。执行简单的转换和过滤操作时，
+     这样做非常简单，可用的数据处理起来也非常高效。但是，对于某些操作来说，比如反转或排序，
+     就要求所有数据都处于可用状态，所以需要加载所有数据到内存来执行批处理。缓冲和管道传输方式，
+     这两者的差别很像是加载整个DataSet读取数据和用一个DataReader来每次处理一条记录的差别。
+     使用LINQ时务必想好真正需要的是什么，一个简单的方法调用可能会严重影响性能。
+        流式传输（streaming）也叫惰性求值（lazy evaluation），缓冲传输（bufferring）也叫热情
+     求值（eager evaluation）。例如， Reverse 方法使用了延迟执行（deferred execution），它在第一次调用
+     MoveNext 之前不做任何事情。但随后却热切地（eagerly）对数据源求值。
+         */
+        //Considering a function
+        int Computation(int index)
+        {
+            return index;
+        }
+        
+        //1.Immediate execution
+        IEnumerable<int> GetComputation(int maxIndex)
+        {
+            var result = new int[maxIndex];
+            for (int i = 0; i < maxIndex; i++)
+            {
+                result[i] = Computation(i);
+            }
+            return result;
+        }
+        /*
+         ·When the function is called is executed times Computation maxIndex
+         ·GetEnumerator returns a new instance of the enumerator doing nothing more.
+         ·Each call to put the the value stored in the next Array cell in the member of the and 
+            that's all.MoveNext Current IEnumerator
+         Cost: Big upfront, Small during enumeration (only a copy)
+         */
+        
+        //2.Deferred but eager execution
+        IEnumerable<int> GetComputation2(int maxIndex)
+        {
+            var result = new int[maxIndex];
+            for (int i = 0; i < maxIndex; i++)
+            {
+                result[i] = Computation(maxIndex);
+            }
 
+            foreach (var value in result)
+            {
+                yield return value;
+            }
+        }
+        /*
+         ·When the function is called an instance of an auto generated class(called "enumerable object" in the spec)
+            implementing is created and a copy of the argument () is stored in it.IEnumerable maxIndex
+         ·GetEnumerator returns a new instance of the enumerator doing nothing more.
+         ·The first call to executes maxIndex times the compute method, store the result in an array
+            and will return the first value.MoveNext Current
+         ·Each subsequent call to will put in a value stored in the array.MoveNext Current
+         Cost: nothing upfront, Big when the enumeration start, Small during enumeration (only a copy)
+         */
+        
+        //3.Deferred and lazy execution
+        IEnumerable<int> GetComputation3(int maxIndex)
+        {
+            for (int i = 0; i < maxIndex; i++)
+            {
+                yield return Computation(i);
+            }
+        }
+        /*
+         ·When the function is called the same thing as the lazy execution case happens.
+         ·GetEnumerator returns a new instance of the enumerator doing nothing more.
+         ·Each call to execute once to code, put the value in and let the caller immediately 
+            act on the result.MoveNext Computation Current
+        Most of linq use deferred and lazy execution but some functions can't be so like sorting.
+        Cost: nothing upfront, Moderate during enumeration (the computation is executed there)
+         */
+        /*
+         To summarize
+            ·Immediate mean that the computation/execution is done in the function and finished 
+                once the function return. (Fully eager evaluation as most C# code does)
+            ·Deferred/Eager mean that most of the work will be done on the first or when the 
+                instance is created (For it is when is called)MoveNext IEnumerator IEnumerable GetEnumerator
+            ·Deferred/Lazy mean that the work will be done each time is called but nothing before.MoveNext
+         */
     }
 
     public static class Test
