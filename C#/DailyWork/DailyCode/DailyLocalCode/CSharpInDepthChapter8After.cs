@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
@@ -230,40 +231,78 @@ namespace CSharpInDepthChapter8After
         }
 
         /// <summary>
-        /// 扩展方法
+        /// 扩展方法的语法
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main4(string[] args)
         {
             #region 使用工具类中的普通静态方法复制一个流
             // 用 StreamUtil 将 Web 响应流复制到一个文件
-            WebRequest request = WebRequest.Create("http://manning.com");
-            using (WebResponse response = request.GetResponse())
-            using (Stream responseStream = response.GetResponseStream())
-            using (FileStream output = File.Create("response.dat"))
-            {
-                StreamUtil.Copy(responseStream, output);
-            }
+            //WebRequest request = WebRequest.Create("http://manning.com");
+            //using (WebResponse response = request.GetResponse())
+            //using (Stream responseStream = response.GetResponseStream())
+            //using (FileStream output = File.Create("response.dat"))
+            //{
+            //    StreamUtil.Copy(responseStream, output);
+            //}
             #endregion
 
             #region 使用 Stream 类的扩展方法复制一个流
-            WebRequest request2 = WebRequest.Create("http://manning.com");
-            using (WebResponse response2 = request2.GetResponse())
-            using (Stream responseStream2 = response2.GetResponseStream())
-            using (FileStream output = File.Create("response2.dat"))
-            {
-                /*
-                事实上，编译器已将 MyCopyTo 调用转换成对普通静态方法 StreamUtil.MyCopyTo 的调用。
-                调用时，会将 responseStream 的值作为第一个实参的值传递（然后是 output ，跟平常一样）。 
-                */
-                responseStream2.MyCopyTo(output);
-            }
+            //WebRequest request2 = WebRequest.Create("http://manning.com");
+            //using (WebResponse response2 = request2.GetResponse())
+            //using (Stream responseStream2 = response2.GetResponseStream())
+            //using (FileStream output = File.Create("response2.dat"))
+            //{
+            //    /*
+            //    事实上，编译器已将 MyCopyTo 调用转换成对普通静态方法 StreamUtil.MyCopyTo 的调用。
+            //    调用时，会将 responseStream 的值作为第一个实参的值传递（然后是 output ，跟平常一样）。 
+            //    */
+            //    responseStream2.MyCopyTo(output);
+            //}
             #endregion
 
-
+            #region 在空引用上调用扩展方法
+            object y = null;
+            /*
+            如果 IsNull 是一个普通的实例方法， 这一行就会抛出一个异常。但是，这里的 null 是 IsNull 的实参。
+            在扩展方法问世前，y.Isnull()这样的写法虽然可读性更好，却不合法，只能采用 NullUtil.IsNull(y) 这样的写法。 
+            */
+            Console.WriteLine(y.IsNull());// True
+            y = new object();
+            Console.WriteLine(y.IsNull());// False
+            #endregion
         }
-        
-        
+
+        /// <summary>
+        /// .NET 3.5 中的扩展方法
+        /// </summary>
+        /// <param name="args"></param>
+        /*
+        在框架中，扩展方法最大的用途就是为LINQ服务。有的LINQ提供器包含了几个供辅助的扩展方法，但有两个类特别醒目， 
+        Enumerable 和 Queryable ，两者都在 System.Linq 命名空间中。
+        在这两个类中，含有许许多多的扩展方法： Enumerable 的大多数扩展的是 IEnumerable<T> ，
+        Queryable 的大多数扩展的是 IQueryable<T> 。 
+        IQueryable<T> 的作用将在第12章讲述，目前让我们将重点放在 Enumerable 上。
+        */
+        static void Main(string[] args)
+        {
+            // 用 Enumerable.Range 打印数字0~9
+            var collection = Enumerable.Range(0,10);
+            foreach (var element in collection)
+            {
+                Console.WriteLine(element);
+            }
+        }
+
+
+    }
+
+    public static class Test
+    {
+        public static bool IsNull(this object x)
+        {
+            return x == null;
+        }
     }
 
     /*
