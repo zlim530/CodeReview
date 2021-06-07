@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
-using Org.BouncyCastle.Asn1.Cms;
+using DailyLocalCode;
 
 namespace CSharpInDepthChapter8After
 {
@@ -285,7 +284,7 @@ namespace CSharpInDepthChapter8After
         Queryable 的大多数扩展的是 IQueryable<T> 。 
         IQueryable<T> 的作用将在第12章讲述，目前让我们将重点放在 Enumerable 上。
         */
-        static void Main(string[] args)
+        static void Main5(string[] args)
         {
             // 用 Enumerable.Range 打印数字0~9
             var collection = Enumerable.Range(0,10);
@@ -343,6 +342,7 @@ namespace CSharpInDepthChapter8After
 
         }
 
+        #region 立即求值、惰性求值与延迟执行
         /*
          框架提供的扩展方法会尽量尝试对数据进行“流式”（stream）或者说“管道”（pipe）传输。
      要求一个迭代器提供下一个元素时，它通常会从它链接的迭代器获取一个元素，处理那个元素，
@@ -427,6 +427,24 @@ namespace CSharpInDepthChapter8After
                 instance is created (For it is when is called)MoveNext IEnumerator IEnumerable GetEnumerator
             ·Deferred/Lazy mean that the work will be done each time is called but nothing before.MoveNext
          */
+        #endregion
+
+        /// <summary>
+        /// LINQ 简单的开始：选择元素
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello,World!");
+
+            var query = from user in SampleData.AllUsers
+                                            select user;
+            foreach (var user in query)
+            {
+                Console.WriteLine(user);
+            }
+        }
+        
     }
 
     public static class Test
