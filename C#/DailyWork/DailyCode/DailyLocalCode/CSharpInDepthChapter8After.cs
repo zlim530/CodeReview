@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -435,18 +436,87 @@ namespace CSharpInDepthChapter8After
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello,World!");
+            // 打印出所有用户的袖珍查询
+            //var query = from user in SampleData.AllUsers
+            //                                select user;
 
-            var query = from user in SampleData.AllUsers
-                                            select user;
-            foreach (var user in query)
+            // 将查询表达式转译为一个方法调用：编译器在执行真正的编译之前会将上述查询表达式转译为方法调用
+            //var quer2y = SampleData.AllUsers.Select(user => user);
+            //foreach (var user in query)
+            //{
+            //    Console.WriteLine(user);
+            //}
+
+            // 仅选择 user 对象名称的查询
+            //IEnumerable<string> quer4y = from user in SampleData.AllUsers
+            //                             select user.Name;
+            //// 即 SampleDate.AllUsers.Select(user => user.Name);
+            //foreach (var name in quer4y)
+            //{
+            //    Console.WriteLine(name);
+            //}
+
+            // 编译器转译调用伪 LINQ 实现中的方法
+            //var source = new Dummy<string>();// 3.创建用于查询的数据源
+            //var quer3y = from dummy in source   // 通过查询表达式来调用方法
+            //                            where dummy.ToString() == "Ignored"
+            //                            select "Anything";
+            // 首先会打印出 Where Called，接着打印 Select called,由于查询表达式已经被转译为如下代码:
+            // var quer3y = source.Where(dummp => dummp.ToString() == "Ignored").Select(dummy => "Anything");
+
+            // Cast 通过把每个元素都转换为目标类型（遇到不是正确类型的任何元素的时候，就会出错）来处理，
+            // 而 OfType 首先进行一个测试，以跳过任何具有错误类型的元素。
+            // 使用 Cast 和 OfType 来处理弱类型集合
+            ArrayList list = new ArrayList { "First","Second","Third"};
+            IEnumerable<string> strings = list.Cast<string>();
+            foreach (var item in strings)
             {
-                Console.WriteLine(user);
+                Console.WriteLine(item);
             }
+
+            list = new ArrayList { 1,"not an int",2,3};
+            IEnumerable<int> ints = list.OfType<int>();
+            foreach (var item in ints)
+            {
+                Console.WriteLine(item);
+            }
+            /*
+            第1个列表只包括字符串，所以可以放心地使用 Cast<string> 来获得一个字符串序列。
+            第2个列表包含混杂的内容，所以为了从中只获取整数，我们只能使用OfType<int>。
+            如果我们在第2个列表上面使用 Cast<int>，那么在尝试把"not an int"转换为 int 的时候，就会抛出一个异常。
+            注意：这个异常只会发生在打印出"1"之后————两个操作符都对数据进行流处理，在获取元素的时候才对其进行转换。
+            */
+
         }
-        
+
+
+
+
     }
 
+    #region 编译器转译调用伪 LINQ 实现中的方法
+    static class Extensions
+    {
+        // 1.声明 Where 扩展方法
+        public static Dummy<T> Where<T>(this Dummy<T> dummy, Func<T, bool> predicate)
+        {
+            Console.WriteLine("Where called");
+            return dummy;
+        }
+    }
+
+    class Dummy<T>
+    {
+        // 2.声明 Select 实例方法
+        public Dummy<U> Select<U>(Func<T, U> selector)
+        {
+            Console.WriteLine("Select called");
+            return new Dummy<U>();
+        }
+    }
+    #endregion
+    
+    
     public static class Test
     {
         public static bool IsNull(this object x)
@@ -547,4 +617,5 @@ namespace CSharpInDepthChapter8After
         public string Country { get; set; }
         public string Town { get; set; }
     }
+    
 }

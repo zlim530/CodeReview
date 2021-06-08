@@ -15,7 +15,7 @@ namespace DailyLocalCode
 
             public override string ToString()
             {
-                return base.ToString();
+                return Name.ToString();
             }
         }
 
