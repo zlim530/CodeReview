@@ -486,6 +486,17 @@ namespace CSharpInDepthChapter8After
             如果我们在第2个列表上面使用 Cast<int>，那么在尝试把"not an int"转换为 int 的时候，就会抛出一个异常。
             注意：这个异常只会发生在打印出"1"之后————两个操作符都对数据进行流处理，在获取元素的时候才对其进行转换。
             */
+            
+            // 使用显式类型的范围变量来自动调用 Cast
+            ArrayList lis2t = new ArrayList { "First","Second","Third"};
+            var string2s = from string entry in lis2t 
+                                                select entry.Substring(0, 3);
+            foreach (var start in string2s)
+            {
+                Console.WriteLine(start);
+            }
+            // 输出结果是Fir、Sec、Thi，不过更有意思的是转译过的查询表达式：list.Cast<string>().Select(entry => entry.Substring(0,3));
+
 
         }
 
