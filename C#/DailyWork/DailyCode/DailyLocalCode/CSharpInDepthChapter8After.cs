@@ -434,7 +434,7 @@ namespace CSharpInDepthChapter8After
         /// LINQ 简单的开始：选择元素
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main6(string[] args)
         {
             // 打印出所有用户的袖珍查询
             //var query = from user in SampleData.AllUsers
@@ -501,7 +501,14 @@ namespace CSharpInDepthChapter8After
         }
 
 
-
+        /// <summary>
+        /// 对序列进行过滤和排序
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            //var tim = SampleData.User
+        }
 
     }
 

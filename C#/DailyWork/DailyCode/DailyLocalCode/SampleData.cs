@@ -1,43 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
-using static DailyLocalCode.SampleData;
 
 namespace DailyLocalCode
 {
     public class SampleData
     {
-        public static IEnumerable<Defect> Defects { get; set; }
-        public static IEnumerable<User> AllUsers { get; set; }
-        public static IEnumerable<Project> AllProjects { get; set; }
-        public static IEnumerable<NotificationSubscription> AllSubscriptions { get; set; }
+        static List<Defect> defects;
+        static List<User> users;
+        static List<Project> projects;
+        static List<NotificationSubscription> subscriptions;
+
+        public static IEnumerable<Defect> Defects { get { return defects; } }
+        public static IEnumerable<User> AllUsers { get { return users; } }
+        public static IEnumerable<Project> AllProjects { get { return projects; } }
+        public static IEnumerable<NotificationSubscription> AllSubscriptions { get { return subscriptions; } }
 
         public static readonly DateTime Start = May(1);
 
         public static readonly DateTime End = May(31);
 
-        public class User  
-        {
-            public string Name { get; set; }
-
-            public override string ToString()
-            {
-                return Name.ToString();
-            }
-        }
-
-        public class Project
-        {
-            public string Name { get; set; }
-
-            public override string ToString()
-            {
-                return string.Format("Project:{0}",Name);
-            }
-        }
-
         public static DateTime May(int day)
         {
             return new DateTime(2013, 5, day);
+        }
+
+        public static class Projects
+        {
+            public static readonly Project SkeetyMediaPlayer = new Project { Name = "Skeety Media Player"};
+            public static readonly Project SkeetyTalk = new Project { Name = "Skeety Talk" };
+            public static readonly Project SkeetyOffice = new Project { Name = "Skeety Office" };
+        }
+
+        public static class Users
+        {
+            public static readonly User TesterTim = new User("Tim Trotter",UserType.Tester);
+            public static readonly User TeseterTara = new User("Tara Tutu",UserType.Tester);
+            public static readonly User DeveloperDeborah = new User("Darren Dahlia",UserType.Developer);
+            public static readonly User ManagerMary = new User("Mary Malcop",UserType.Manager);
+            public static readonly User CutomerColin = new User("Colin Carton",UserType.Customer);
+        }
+
+    }
+
+    public class User
+    {
+        public string Name { get; set; }
+        public UserType UserType { get; set; }
+
+        public User(string name, UserType userType)
+        {
+            Name = name;
+            UserType = userType;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("User:{0}({1})",Name, UserType);
+        }
+    }
+
+    public class Project
+    {
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("Project:{0}", Name);
         }
     }
 
@@ -81,7 +109,7 @@ namespace DailyLocalCode
         }
     }
 
-    public enum Status
+    public enum Status: byte
     {
         Created,
         Accepted,
@@ -90,7 +118,7 @@ namespace DailyLocalCode
         Closed
     }
 
-    public enum Seveity
+    public enum Seveity:byte
     {
         Trivial,
         Minor,
@@ -98,11 +126,13 @@ namespace DailyLocalCode
         Showstopper
     }
 
-    public enum UserType
+    public enum UserType:byte
     {
         Customer,
         Developer,
         Tester,
         Manager
     }
+
+
 }
