@@ -10,7 +10,7 @@ namespace DailyLocalCode
         static List<Project> projects;
         static List<NotificationSubscription> subscriptions;
 
-        public static IEnumerable<Defect> Defects { get { return defects; } }
+        public static IEnumerable<Defect> AllDefects { get { return defects; } }
         public static IEnumerable<User> AllUsers { get { return users; } }
         public static IEnumerable<Project> AllProjects { get { return projects; } }
         public static IEnumerable<NotificationSubscription> AllSubscriptions { get { return subscriptions; } }
@@ -34,10 +34,168 @@ namespace DailyLocalCode
         public static class Users
         {
             public static readonly User TesterTim = new User("Tim Trotter",UserType.Tester);
-            public static readonly User TeseterTara = new User("Tara Tutu",UserType.Tester);
+            public static readonly User TesterTara = new User("Tara Tutu",UserType.Tester);
             public static readonly User DeveloperDeborah = new User("Darren Dahlia",UserType.Developer);
+            public static readonly User DeveloperDarren = new User("Darren Dahlia",UserType.Developer);
             public static readonly User ManagerMary = new User("Mary Malcop",UserType.Manager);
-            public static readonly User CutomerColin = new User("Colin Carton",UserType.Customer);
+            public static readonly User CustomerColin = new User("Colin Carton",UserType.Customer);
+        }
+
+        static SampleData()
+        {
+            projects = new List<Project>
+            {
+                Projects.SkeetyMediaPlayer,
+                Projects.SkeetyTalk,
+                Projects.SkeetyOffice
+            };
+
+            users = new List<User>
+            {
+                Users.TesterTim,
+                Users.TesterTara,
+                Users.DeveloperDeborah,
+                Users.DeveloperDarren,
+                Users.ManagerMary,
+                Users.CustomerColin
+            };
+
+            subscriptions = new List<NotificationSubscription>
+            {
+                new NotificationSubscription{ Project = Projects.SkeetyMediaPlayer, EmailAddress = "media-bugs@skeetysoft.com"},
+                new NotificationSubscription{
+                    Project = Projects.SkeetyTalk,EmailAddress = "talk-bugs@skeetysoft.com"
+                },
+                new NotificationSubscription{
+                    Project = Projects.SkeetyOffice,EmailAddress = "office-bugs@skeetysoft.com"
+                },
+                new NotificationSubscription{ 
+                    Project = Projects.SkeetyMediaPlayer,EmailAddress = "theboss@skeetysoft.com"   
+                }
+            };
+
+            defects = new List<Defect>
+            {
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(1),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "MP3 files crash system",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Accepted,
+                    LastModified = May(23)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(3),
+                    CreatedBy = Users.DeveloperDeborah,
+                    Summary = "Text is too big",
+                    Severity = Severity.Trivial,
+                    AssignedTo = null,
+                    Status = Status.Closed,
+                    LastModified = May(9)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(3),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "Sky is wrong shade of blue",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.TesterTara,
+                    Status = Status.Fixed,
+                    LastModified = May(19)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(4),
+                    CreatedBy = Users.DeveloperDarren,
+                    Summary = "Can't play files more than 200 bytes long",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Reopened,
+                    LastModified = May(23)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(6),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Installation is slow",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.TesterTim,
+                    Status = Status.Fixed,
+                    LastModified = May(15)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(7),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "DivX is choppy on Pentium 100",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Accepted,
+                    LastModified = May(29)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(8),
+                    CreatedBy = Users.DeveloperDeborah,
+                    Summary = "Client acts as virus",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = null,
+                    Status = Status.Closed,
+                    LastModified = May(10)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(8),
+                    CreatedBy = Users.DeveloperDarren,
+                    Summary = "Subtitles only work in Welsh",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.TesterTim,
+                    Status = Status.Fixed,
+                    LastModified = May(23)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(9),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "Voice recognition is confused by background noise",
+                    Severity = Severity.Minor,
+                    AssignedTo = null,
+                    Status = Status.Closed,
+                    LastModified = May(15)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(9),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "User interface should be more caramelly",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(9)
+                }
+            };
         }
 
     }
@@ -80,7 +238,7 @@ namespace DailyLocalCode
         public Project Project { get; set; }
         public User AssignedTo { get; set; }
         public string Summary { get; set; }
-        public Seveity Severity { get; set; }
+        public Severity Severity { get; set; }
         public Status Status { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastModified { get; set; }
@@ -118,7 +276,7 @@ namespace DailyLocalCode
         Closed
     }
 
-    public enum Seveity:byte
+    public enum Severity : byte
     {
         Trivial,
         Minor,

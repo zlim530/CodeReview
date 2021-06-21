@@ -507,7 +507,21 @@ namespace CSharpInDepthChapter8After
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //var tim = SampleData.User
+            var tim = SampleData.Users.TesterTim;
+
+            var query = from defect in SampleData.AllDefects
+                        where defect.Status != Status.Closed
+                        where defect.AssignedTo == tim
+                        select defect.Summary;
+            // 上述查询表达式被转译为：
+            /*SampleData.AllDefects.Where(defect => defect.Status != Status.Closed)
+                                 .Where(defect => defect.AssignedTo == tim)
+                                 .Select(defect => defect.Summary);*/
+
+            foreach (var summary in query)
+            {
+                Console.WriteLine(summary);
+            }
         }
 
     }
