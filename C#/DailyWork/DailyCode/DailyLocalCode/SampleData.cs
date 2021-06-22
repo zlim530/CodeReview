@@ -194,6 +194,378 @@ namespace DailyLocalCode
                     AssignedTo = Users.DeveloperDarren,
                     Status = Status.Created,
                     LastModified = May(9)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(10),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "Burning a CD makes the printer catch fire",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = null,
+                    Status = Status.Closed,
+                    LastModified = May(29)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(10),
+                    CreatedBy = Users.TesterTara,
+                    Summary = "Peer to peer pairing passes parameters poorly",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Accepted,
+                    LastModified = May(12)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(11),
+                    CreatedBy = Users.DeveloperDarren,
+                    Summary = "Delay when sending message",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.TesterTara,
+                    Status = Status.Fixed,
+                    LastModified = May(20)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(11),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "Volume control needs to go to 11",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(11)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(11),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "Splash screen fades too quickly",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.TesterTara,
+                    Status = Status.Fixed,
+                    LastModified = May(15)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(12),
+                    CreatedBy = Users.DeveloperDeborah,
+                    Summary = "Text box doesn't keep up with fast typing",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(12)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(12),
+                    CreatedBy = Users.DeveloperDarren,
+                    Summary = "Password displayed in plain text",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = null,
+                    Status = Status.Closed,
+                    LastModified = May(13)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(12),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Play button points the wrong way",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.TesterTim,
+                    Status = Status.Fixed,
+                    LastModified = May(17)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(13),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "Wizard needed for CD burning",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.CustomerColin,
+                    Status = Status.Fixed,
+                    LastModified = May(20)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(13),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "Subtitles don't display during fast forward",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Accepted,
+                    LastModified = May(14)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(13),
+                    CreatedBy = Users.DeveloperDarren,
+                    Summary = "Memory leak when watching Memento",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Created,
+                    LastModified = May(13)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(13),
+                    CreatedBy = Users.DeveloperDeborah,
+                    Summary = "Profile screen shows login count of -1",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(20)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(13),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Server crashes under heavy load (3 users)",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(17)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(15),
+                    CreatedBy = Users.TesterTara,
+                    Summary = "Unable to connect to any media server",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Reopened,
+                    LastModified = May(18)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(15),
+                    CreatedBy = Users.DeveloperDeborah,
+                    Summary = "UI turns black and white when playing old films",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.TesterTara,
+                    Status = Status.Fixed,
+                    LastModified = May(25)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(16),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "Password reset changes passwords for all users",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = null,
+                    Status = Status.Closed,
+                    LastModified = May(18)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(17),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Modern music sounds rubbish",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(17)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(18),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Webcam makes me look bald",
+                    Severity = Severity.Showstopper,
+                    AssignedTo = Users.TesterTim,
+                    Status = Status.Fixed,
+                    LastModified = May(27)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(18),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "Sound is distorted when speakers are underwater",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(18)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(19),
+                    CreatedBy = Users.DeveloperDarren,
+                    Summary = "Japanese characters don't display properly",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(23)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(20),
+                    CreatedBy = Users.TesterTara,
+                    Summary = "Video takes 100% of CPU",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(22)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(22),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "DVD Easter eggs unavailable",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(22)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(23),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "Transparency is high for menus to be readable",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(25)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(24),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "About box is missing version number",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.CustomerColin,
+                    Status = Status.Fixed,
+                    LastModified = May(29)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(25),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Logs record confidential conversations",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Reopened,
+                    LastModified = May(30)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(27),
+                    CreatedBy = Users.DeveloperDeborah,
+                    Summary = "Profanity filter is too aggressive",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.TesterTara,
+                    Status = Status.Fixed,
+                    LastModified = May(29)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(27),
+                    CreatedBy = Users.TesterTara,
+                    Summary = "Full screen mode fails on dual monitors",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Created,
+                    LastModified = May(27)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(28),
+                    CreatedBy = Users.CustomerColin,
+                    Summary = "Visualization hypnotises pets",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.DeveloperDeborah,
+                    Status = Status.Accepted,
+                    LastModified = May(29)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyTalk,
+                    Created = May(29),
+                    CreatedBy = Users.ManagerMary,
+                    Summary = "Resizing while typing loses input",
+                    Severity = Severity.Trivial,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(29)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(30),
+                    CreatedBy = Users.TesterTim,
+                    Summary = "Network is saturated when playing WAV file",
+                    Severity = Severity.Minor,
+                    AssignedTo = Users.TesterTim,
+                    Status = Status.Fixed,
+                    LastModified = May(31)
+                },
+
+                new Defect
+                {
+                    Project = Projects.SkeetyMediaPlayer,
+                    Created = May(31),
+                    CreatedBy = Users.TesterTara,
+                    Summary = "Media library tells user to keep the noise down",
+                    Severity = Severity.Major,
+                    AssignedTo = Users.DeveloperDarren,
+                    Status = Status.Created,
+                    LastModified = May(31)
                 }
             };
         }

@@ -345,17 +345,17 @@ namespace CSharpInDepthChapter8After
 
         #region 立即求值、惰性求值与延迟执行
         /*
-         框架提供的扩展方法会尽量尝试对数据进行“流式”（stream）或者说“管道”（pipe）传输。
-     要求一个迭代器提供下一个元素时，它通常会从它链接的迭代器获取一个元素，处理那个元素，
-     再返回符合要求的结果，而不用占用自己更多的存储空间。执行简单的转换和过滤操作时，
-     这样做非常简单，可用的数据处理起来也非常高效。但是，对于某些操作来说，比如反转或排序，
-     就要求所有数据都处于可用状态，所以需要加载所有数据到内存来执行批处理。缓冲和管道传输方式，
-     这两者的差别很像是加载整个DataSet读取数据和用一个DataReader来每次处理一条记录的差别。
-     使用LINQ时务必想好真正需要的是什么，一个简单的方法调用可能会严重影响性能。
-        流式传输（streaming）也叫惰性求值（lazy evaluation），缓冲传输（bufferring）也叫热情
-     求值（eager evaluation）。例如， Reverse 方法使用了延迟执行（deferred execution），它在第一次调用
-     MoveNext 之前不做任何事情。但随后却热切地（eagerly）对数据源求值。
-         */
+            框架提供的扩展方法会尽量尝试对数据进行“流式”（stream）或者说“管道”（pipe）传输。
+        要求一个迭代器提供下一个元素时，它通常会从它链接的迭代器获取一个元素，处理那个元素，
+        再返回符合要求的结果，而不用占用自己更多的存储空间。执行简单的转换和过滤操作时，
+        这样做非常简单，可用的数据处理起来也非常高效。但是，对于某些操作来说，比如反转或排序，
+        就要求所有数据都处于可用状态，所以需要加载所有数据到内存来执行批处理。缓冲和管道传输方式，
+        这两者的差别很像是加载整个DataSet读取数据和用一个DataReader来每次处理一条记录的差别。
+        使用LINQ时务必想好真正需要的是什么，一个简单的方法调用可能会严重影响性能。
+            流式传输（streaming）也叫惰性求值（lazy evaluation），缓冲传输（bufferring）也叫热情
+        求值（eager evaluation）。例如， Reverse 方法使用了延迟执行（deferred execution），它在第一次调用
+        MoveNext 之前不做任何事情。但随后却热切地（eagerly）对数据源求值。
+        */
         //Considering a function
         int Computation(int index)
         {
@@ -505,8 +505,9 @@ namespace CSharpInDepthChapter8After
         /// 对序列进行过滤和排序
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main7(string[] args)
         {
+            #region 使用 where 子句进行过滤
             var tim = SampleData.Users.TesterTim;
 
             var query = from defect in SampleData.AllDefects
@@ -522,6 +523,141 @@ namespace CSharpInDepthChapter8After
             {
                 Console.WriteLine(summary);
             }
+            #endregion
+
+
+            #region 退化的查询表达式
+            /*
+            退化的查询表达式：
+                如果我们的 select 子句什么都不做，只是返回同给定的序列相同的序列，会发生什么？
+                答案是编译器会删除所有对 Select 的调用。当然，前提是在查询表达式中还有其他操作可执行时才这么做。
+            */
+            var quer2y = from defect in SampleData.AllDefects
+                        select defect;
+            // 上述就是退化查询表达式，编译器会故意生成一个对Select方法的调用，即使它上面都没有做：
+            SampleData.AllDefects.Select(defect => defect);
+            /*
+                然而，这个代码和以SampleData.AllDefects作为一个简单的表达式还是有很大不同。
+            两个序列返回的数据项是相同的，但是Select方法的结果只是数据项的序列，而不是数据源本身。
+            查询表达式的结果和源数据永远不会是同一个对象，除非LINQ提供器的代码有问题。从数据集成的
+            角度看，这是很重要的——提供器能返回一个易变的结果对象，并知道即使面对一个退化查询，对返回
+            数据集的改变也不会影响到“主”数据。
+                当有其他操作存在的时候，就不同为编译器保留一个“空操作”的select子句。例如：
+            */
+            var quer3y = from defect in SampleData.AllDefects
+                        where defect.Status != Status.Closed
+                        where defect.AssignedTo == SampleData.Users.TesterTim
+                        select defect;
+            // 现在我们不需要最后的Select调用，所以转换后的代码如下：
+            SampleData.AllDefects.Where(defect => defect.Status != Status.Closed)
+                                .Where(defect => defect.AssignedTo == tim);
+            #endregion
+
+
+            #region 使用 orderby 子句进行排序
+            Console.WriteLine();
+            var quer4y = from defect in SampleData.AllDefects
+                         where defect.Status != Status.Closed
+                         where defect.AssignedTo == tim
+                         orderby defect.Severity descending
+                         select defect;
+            foreach (var defect in quer4y)
+            {
+                Console.WriteLine($"{defect.Severity}:{defect.Summary}");
+            }
+            /*
+                改变一下查询，以便在按照严重性降序排序后，能按照“最后修改时间”来进行升序排序。
+            这意味着，Tim将先测试那些之前已经修正了很久的缺陷，然后再测试最近的修正的缺陷。这
+            只需要在orderby子句中加入额外的表达式，如下所示：
+            */
+            Console.WriteLine();
+            var quer5y = from defect in SampleData.AllDefects
+                        where defect.Status != Status.Closed
+                        where defect.AssignedTo == tim
+                        orderby defect.Severity descending, defect.LastModified
+                        select defect;
+            foreach (var defect in quer5y)
+            {
+                Console.WriteLine($"{defect.Severity}:{defect.Summary}({defect.LastModified})");
+            }
+            /*
+                编译器简单调用了OrderBy和ThenBy方法（或用于降序的OrderByDescending/ThenByDescending，默认规则是升序。）
+            查询表达式转译成了：
+            */
+            SampleData.AllDefects.Where(defect => defect.Status != Status.Closed)
+                                .Where(defect => defect.AssignedTo == tim)
+                                .OrderByDescending(defect => defect.Severity)
+                                .ThenBy(defect => defect.LastModified);
+
+            #endregion
+
+
+            #region let 子句和透明标识符
+            Console.WriteLine();
+            // 在不使用 let 子句的情况下，按用户名称的长度来排序
+            //var quer6y = from user in SampleData.AllUsers
+            //            orderby user.Name.Length
+            //            select user.Name;
+
+            // 使用let子句来消除冗余的计算
+            var quer6y = from user in SampleData.AllUsers
+                        let length = user.Name.Length
+                        orderby length
+                        select new { Name = user.Name, Length = length};
+            
+            foreach (var name in quer6y)
+            {
+                Console.WriteLine($"{name.Length}:{name.Name}");
+            }
+
+            /*
+                let子句为了实现目标，再一次调用了Select，并为结果序列创建匿名类型，最终创建了
+            一个新的范围变量（它的名称在源代码中从未看到或用到）。上述代码中的查询表达式被转换为
+            如下内容：
+            */
+            SampleData.AllUsers
+                        .Select(user => new { user, length = user.Name.Length })
+                        .OrderBy(z => z.length)
+                        .Select(z => new { Name = z.user.Name, Length = z.length });
+            /*
+                查询的每个部分都进行了适当的调整：对于原始的查询表达式直接饮用user或length的地方，
+            如果引用发生在let子句之后，就用z.user或z.length来替代。这里z这个名称是随机选择的——一切
+            都被编译器隐藏起来。
+            */
+            #endregion
+        }
+
+
+        /// <summary>
+        /// 连接
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            /*
+            [查询选择左边的序列]
+            join right-range-variable in right-sequence
+                on left-key-selector equals right-key-selector
+            */
+            #region 使用join子句的内连接
+            var query = from defect in SampleData.AllDefects
+                        join subscription in SampleData.AllSubscriptions
+                            on defect.Project equals subscription.Project
+                        select new { defect.Summary, subscription.EmailAddress};
+
+            foreach (var entry in query)
+            {
+                Console.WriteLine($"{entry.EmailAddress}:{entry.Summary}");
+            }
+            /*
+                在这个特别的例子中，我们很容易进行反转连接，调换左右序列的位置。结果包含的条目相同，
+            只是顺序不同。右边序列被缓冲处理，不过左边序列依然进行流处理——所以，如果你打算把一个巨大
+            的序列连接到一个极小的序列上，应尽可能把小序列作为右边序列。这种操作依然是延迟的：在访问
+            第1个数据对时，它才会开始执行，然后再从某个序列中读取数据。这时，它会读取整个右边序列，来
+            建立一个从键到生成这些键的值的映射。之后，它就不需要再次读取右边的序列了，这是你可以迭代左
+            边的序列，生成适当的数据对。
+            */
+            #endregion
         }
 
     }
