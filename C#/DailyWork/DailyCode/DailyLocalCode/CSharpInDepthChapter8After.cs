@@ -632,7 +632,7 @@ namespace CSharpInDepthChapter8After
         /// 连接
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main8(string[] args)
         {
             /*
             [查询选择左边的序列]
@@ -640,15 +640,15 @@ namespace CSharpInDepthChapter8After
                 on left-key-selector equals right-key-selector
             */
             #region 使用join子句的内连接
-            var query = from defect in SampleData.AllDefects
-                        join subscription in SampleData.AllSubscriptions
-                            on defect.Project equals subscription.Project
-                        select new { defect.Summary, subscription.EmailAddress};
+            //var query = from defect in SampleData.AllDefects
+            //            join subscription in SampleData.AllSubscriptions
+            //                on defect.Project equals subscription.Project
+            //            select new { defect.Summary, subscription.EmailAddress};
 
-            foreach (var entry in query)
-            {
-                Console.WriteLine($"{entry.EmailAddress}:{entry.Summary}");
-            }
+            //foreach (var entry in query)
+            //{
+            //    Console.WriteLine($"{entry.EmailAddress}:{entry.Summary}");
+            //}
             /*
                 在这个特别的例子中，我们很容易进行反转连接，调换左右序列的位置。结果包含的条目相同，
             只是顺序不同。右边序列被缓冲处理，不过左边序列依然进行流处理——所以，如果你打算把一个巨大
@@ -656,7 +656,38 @@ namespace CSharpInDepthChapter8After
             第1个数据对时，它才会开始执行，然后再从某个序列中读取数据。这时，它会读取整个右边序列，来
             建立一个从键到生成这些键的值的映射。之后，它就不需要再次读取右边的序列了，这是你可以迭代左
             边的序列，生成适当的数据对。
+                内联被编译转译为对Join方法的调用，如下所示：
+                leftSequence.Join(rightSequence, leftKeySelector, rightKeySelector, resultSelector)
+                用于LINQ to Objects的重载签名如下（这是真正的方法签名，包含真正的参数名称，因此使用了内饮用
+            和外引用）：
+                static IEnumerable<TResult> Join<TOuter, TInner, Tey, TResult>(
+                    this IEnumerable<TOuter> outer,
+                    IEnumerable<TInner> inner,
+                    Func<TOuter, TKey> outerkeySelector,
+                    Func<TInner, Tkey> innerKeySelector,
+                    Func<TOuter, TInner, TResult> resultSelector
+                )
             */
+            #endregion
+
+
+            #region 使用join...into子句进行分组连接
+            Console.WriteLine("---------------------------");
+            var quer2y = from defect in SampleData.AllDefects
+                        join subscription in SampleData.AllSubscriptions
+                            on defect.Project equals subscription.Project
+                            into groupedSubscriptions
+                        select new { Defect = defect, Subscriptions = groupedSubscriptions };
+
+            foreach (var entry in quer2y)
+            {
+                Console.WriteLine(entry.Defect.Summary);
+                Console.WriteLine();
+                foreach (var subscription in entry.Subscriptions)
+                {
+                    Console.WriteLine($"{subscription.EmailAddress}");
+                }
+            }
             #endregion
         }
 
