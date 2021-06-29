@@ -19,7 +19,7 @@ import java.io.*;
  *
  * 字节流              字符流
  * InputStream          Reader
- * OutputSream          Writer
+ * OutputStream          Writer
  *
  * @author zlim
  * @create 2020-03-02 20:38
@@ -130,7 +130,7 @@ public class FileReaderWriterTest {
 
 
             // 写出数据的操作
-            fw.write("I hava a dream.\n");
+            fw.write("I have a dream.\n");
             fw.write("You need to have a dream,too\n");
         } catch (IOException e) {
             e.printStackTrace();
