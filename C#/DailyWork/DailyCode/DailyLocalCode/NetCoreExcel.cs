@@ -66,12 +66,12 @@ namespace DailyLocalCode
         }
 
 
-        public async Task<string> Export()
+        public string Export()
         {
             using var package = new ExcelPackage();
             var worksheet = package.Workbook.Worksheets.Add("sheet1");
 
-            var headers = new string[] { "ProcessName","MachineNumber","ProcessNo","WorkOrder","Model","PrintDateTime","Remark"};
+            var headers = new string[] { "ProcessName", "MachineNumber", "ProcessNo", "WorkOrder", "Model", "PrintDateTime", "Remark" };
             for (int i = 0; i < headers.Length; i++)
             {
                 worksheet.Cells[1, i + 1].Value = headers[i];

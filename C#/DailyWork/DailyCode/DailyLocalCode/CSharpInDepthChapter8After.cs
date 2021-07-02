@@ -673,24 +673,155 @@ namespace CSharpInDepthChapter8After
 
             #region 使用join...into子句进行分组连接
             Console.WriteLine("---------------------------");
-            var quer2y = from defect in SampleData.AllDefects
-                        join subscription in SampleData.AllSubscriptions
-                            on defect.Project equals subscription.Project
-                            into groupedSubscriptions
-                        select new { Defect = defect, Subscriptions = groupedSubscriptions };
+            //var quer2y = from defect in SampleData.AllDefects
+            //            join subscription in SampleData.AllSubscriptions
+            //                on defect.Project equals subscription.Project
+            //                into groupedSubscriptions
+            //            select new { Defect = defect, Subscriptions = groupedSubscriptions };
 
-            foreach (var entry in quer2y)
+            //foreach (var entry in quer2y)
+            //{
+            //    Console.WriteLine(entry.Defect.Summary);
+            //    Console.WriteLine();
+            //    foreach (var subscription in entry.Subscriptions)
+            //    {
+            //        Console.WriteLine($"{subscription.EmailAddress}");
+            //    }
+            //}
+
+            var dates = new DateTimeRange(SampleData.Start, SampleData.End);
+            var quer3y = from date in dates
+                        join defect in SampleData.AllDefects
+                            on date equals defect.Created.Date
+                            into joined
+                        select new { Date = date, Count = joined.Count() };
+            foreach (var grouped in quer3y)
             {
-                Console.WriteLine(entry.Defect.Summary);
-                Console.WriteLine();
-                foreach (var subscription in entry.Subscriptions)
-                {
-                    Console.WriteLine($"{subscription.EmailAddress}");
-                }
+                Console.WriteLine("{0:d}:{1}",grouped.Date, grouped.Count);
+            }
+
+            #endregion
+
+
+            #region 使用多个from子句进行交叉连接和合并序列
+            Console.WriteLine("----------------------------");
+            var quer4y = from user in SampleData.AllUsers
+                         from project in SampleData.AllProjects
+                         select new { User = user, Project = project };
+            foreach (var pair in quer4y)
+            {
+                Console.WriteLine($"{pair.User.Name}/{pair.Project.Name}");
+            }
+
+            var quer5y = from left in Enumerable.Range(1, 4)
+                        from right in Enumerable.Range(11, left)
+                        select new { Left = left, Right = right };
+            // 上述查询表达式转译后的代码：
+            /*
+            Enumerable.Range(1, 4)
+                    .SelectMany(left => Enumerable.Range(11,left),(left,right) => new { Left = left, Right = right});
+                SelectMany 执行完全是流式的——一次只需处理每个序列的一个元素，因为它为左边序列的每个不同元素使用最新生成的右边序列。
+            把它与内连接和分组连接进行比较，可以看出：在开始返回任何结果之前，它们都要完全加载右边序列。
+                SelectMany的合并行为是非常有用的。例如：需要处理大量的日志文件，每次处理一行，伪代码如下：
+                var query = from file in Directory.GetFiles(logDirectory, "*.log")
+                            from line in ReadLine(file)
+                            let entry = new LogEntry(line)
+                            where entry.Type == EntryType.Error
+                            select enrty;
+                上述代码不会一次性向内存加载单个日志文件的全部内容，更不会一次性加载所有文件——所有的数据都采用流式处理。
+            */
+            foreach (var pair in quer5y)
+            {
+                Console.WriteLine($"Left = {pair.Left};Right = {pair.Right}");
             }
             #endregion
         }
 
+
+        /// <summary>
+        /// 分组和延续
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            #region 使用group...by子句进行分组
+            Console.WriteLine("------------");
+            var query = from defect in SampleData.AllDefects    // 1.过滤未分配的缺陷
+                        where defect.AssignedTo != null
+                        group defect by defect.AssignedTo;      // 2.用分配者来分组
+            // SampleData.AllDefects.Where(defect => defect.AssignedTo != null)
+            //                      .GroupBy(defect => defect.AssignedTo)
+            // 分组无法对结果进行流处理，它会对每个元素应用键选择和投影，并缓冲被投影元素的分组序列。
+            // 尽管它不是流式的，但执行仍让是延迟的，直到开始获取其结果。
+            foreach (var entry in query)
+            {
+                Console.WriteLine(entry.Key.Name);              // 3.使用每个条目的键：分配者
+                foreach (var defect in entry)                   // 4.遍历数据条目的子序列
+                {
+                    Console.WriteLine($"({defect.Severity}) {defect.Summary}");
+                }
+            }
+
+            Console.WriteLine("-------只保留概要信息:-------");
+            var quer2y = from defect in SampleData.AllDefects
+                         where defect.AssignedTo != null
+                         group defect.Summary by defect.AssignedTo;
+            //SampleData.AllDefects.Where(defect => defect.AssignedTo != null)
+            //                    .GroupBy(defect => defect.AssignedTo, defect => defect.Summary);
+
+            foreach (var entry in quer2y)
+            {
+                Console.WriteLine(entry.Key.Name);
+                foreach (var summary in entry)
+                {
+                    Console.WriteLine($"{summary}");
+                }
+                Console.WriteLine();
+            }
+            #endregion
+
+
+            #region 查询延续
+            var quer3y = from defect in SampleData.AllDefects
+                        where defect.AssignedTo != null
+                        group defect by defect.AssignedTo into grouped
+                        select new { Assignee = grouped.Key, Count = grouped.Count() };
+            /* 按照规范上述查询表达式被转译为如下形式：
+            from grouped in (from defect in SampleData.AllDefects
+                            where defect.AssignedTo != null
+                            group defect by defect.AssignedTo)
+            select new { Assignee = grouped.Key, Count = grouped.Count() }
+            接着又执行余下的转译，结果就是如下代码：
+            SampleData.AllDefects
+                        .Where(defect => defect.AssignedTo != null)
+                        .GroupBy(defect => defect.AssignedTo)
+                        .Select(grouped => new { Assignee = grouped.Key,
+                                                Count = grouped.Count() });
+            */
+
+            foreach (var entry in quer3y)
+            {
+                Console.WriteLine($"{entry.Assignee.Name}:{entry.Count}");
+            }
+
+            var quer4y = from defect in SampleData.AllDefects
+                        where defect.AssignedTo != null
+                        group defect by defect.AssignedTo into grouped
+                        select new
+                        {
+                            Assignee = grouped.Key,
+                            Count = grouped.Count()
+                        } into result
+                        orderby result.Count descending
+                        select result;
+            // 转译后的查询表达式如下：
+            //SampleData.AllDefects
+            //            .Where(defect => defect.AssignedTo != null)
+            //            .GroupBy(defect => defect.AssignedTo)
+            //            .Select(grouped => new { Assignee = grouped.Key, Count = grouped.Count() })
+            //            .OrderByDescending(result => result.Count);
+            #endregion
+        }
     }
 
     #region 编译器转译调用伪 LINQ 实现中的方法

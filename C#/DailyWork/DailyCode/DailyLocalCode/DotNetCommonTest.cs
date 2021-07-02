@@ -7,7 +7,7 @@ namespace DotNetCommonTest
 {
     public class DotNetCommonTest
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var departs = new List<Depart>
             {
