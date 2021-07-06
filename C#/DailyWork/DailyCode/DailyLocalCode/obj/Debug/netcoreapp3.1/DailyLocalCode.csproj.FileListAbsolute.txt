@@ -196,7 +196,6 @@ E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcorea
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\obj\Debug\netcoreapp3.1\DailyLocalCode.csprojAssemblyReference.cache
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\obj\Debug\netcoreapp3.1\DailyLocalCode.AssemblyInfoInputs.cache
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\obj\Debug\netcoreapp3.1\DailyLocalCode.AssemblyInfo.cs
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\obj\Debug\netcoreapp3.1\DailyLocalCode.csproj.CoreCompileInputs.cache
@@ -213,3 +212,4 @@ E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcorea
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\obj\Debug\netcoreapp3.1\DailyLocalCode.csproj.AssemblyReference.cache

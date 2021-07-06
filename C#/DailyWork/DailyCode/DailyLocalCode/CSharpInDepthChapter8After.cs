@@ -742,7 +742,7 @@ namespace CSharpInDepthChapter8After
         /// 分组和延续
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main9(string[] args)
         {
             #region 使用group...by子句进行分组
             Console.WriteLine("------------");
