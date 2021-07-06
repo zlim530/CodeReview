@@ -127,8 +127,8 @@ namespace DailyLocalCode.DataStructures
 
         public void Add(int index, T dataItem)
         {
-            CheckRangeForAdd(index);
             _ensureCapacity(_size + 1);
+            CheckRangeForAdd(index);
 
             for (int i = _size - 1; i > index; i--)
             {
@@ -227,7 +227,6 @@ namespace DailyLocalCode.DataStructures
             array.Add(4, "HelloWorld");
             Console.WriteLine(array);
             Console.WriteLine(array.RemoveAt(2));
-            array.Add(10, "ZLim");
             Console.WriteLine(array);
             Console.ReadLine();
 
