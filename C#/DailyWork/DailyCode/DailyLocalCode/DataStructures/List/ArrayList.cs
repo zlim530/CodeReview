@@ -127,8 +127,8 @@ namespace DailyLocalCode.DataStructures
 
         public void Add(int index, T dataItem)
         {
-            _ensureCapacity(_size + 1);
             CheckRangeForAdd(index);
+            _ensureCapacity(_size + 1);
 
             for (int i = _size - 1; i > index; i--)
             {
@@ -216,8 +216,11 @@ namespace DailyLocalCode.DataStructures
             Console.WriteLine();
         }
 
-
-        static void Main(string[] args)
+        /// <summary>
+        /// ArrayList<T> where T : class
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main1(string[] args)
         {
             var array = new ArrayList<string>(8);
             array.Add(0, "a");
@@ -239,6 +242,7 @@ namespace DailyLocalCode.DataStructures
             //Console.WriteLine(persons);
             //Console.ReadLine();
         }
+        
     }
 
 

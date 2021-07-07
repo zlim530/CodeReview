@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v3.1": {
       "DailyLocalCode/1.0.0": {
         "dependencies": {
+          "CSAS": "1.0.19",
           "DotNetCommon": "1.1.0",
           "EPPlus": "5.6.4",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
@@ -28,6 +29,14 @@
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
             "assemblyVersion": "1.8.2.0",
             "fileVersion": "1.8.18099.1"
+          }
+        }
+      },
+      "CSAS/1.0.19": {
+        "runtime": {
+          "lib/net45/CSAS.dll": {
+            "assemblyVersion": "1.0.19.0",
+            "fileVersion": "1.0.19.0"
           }
         }
       },
@@ -1920,6 +1929,13 @@
       "sha512": "sha512-jAy3uHN1U9DpoT/TgLqDTEhlccn/4doOVxhSmmNsnoSsGfHT9Lwr634ac9D0YFujAhNw61nWF4UIpHyzv0aQww==",
       "path": "bouncycastle.netcore/1.8.3",
       "hashPath": "bouncycastle.netcore.1.8.3.nupkg.sha512"
+    },
+    "CSAS/1.0.19": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QUv2oEuKUu9GQCpsmb6jQvCQsteHg+rsWr+wvtAvzYmatIqBgxW16mIboJPll68+ppkH9pKr5iXJz87JpgGN/g==",
+      "path": "csas/1.0.19",
+      "hashPath": "csas.1.0.19.nupkg.sha512"
     },
     "DotNetCommon/1.1.0": {
       "type": "package",

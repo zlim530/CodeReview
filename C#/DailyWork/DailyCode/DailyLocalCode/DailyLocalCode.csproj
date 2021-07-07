@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CSAS" Version="1.0.19" />
     <PackageReference Include="DotNetCommon" Version="1.1.0" />
     <PackageReference Include="EPPlus" Version="5.6.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
