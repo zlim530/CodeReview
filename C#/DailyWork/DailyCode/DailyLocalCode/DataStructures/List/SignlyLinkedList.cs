@@ -161,6 +161,8 @@ namespace DailyLocalCode.DataStructures.List
             Console.WriteLine(list);
             list.RemoveAt(4);
             Console.WriteLine(list);
+            list.RemoveAt(2);
+            Console.WriteLine(list);
             Console.ReadLine();
         }
     }

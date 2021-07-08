@@ -838,6 +838,7 @@ namespace DataStructures.Lists
             array.Add("HelloWorld");
             Console.WriteLine(array.Capacity);
             Console.WriteLine(array.Count);
+            Console.WriteLine(array.ToHumanReadable());
             Console.ReadLine();
         }
     }
