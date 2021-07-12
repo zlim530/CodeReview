@@ -148,7 +148,7 @@ namespace DailyLocalCode.DataStructures.List
 
     public class Test
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             SignlyLinkedList<string> list = new SignlyLinkedList<string>();
             list.Prepend("Sequence:");

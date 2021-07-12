@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DailyLocalCode.DataStructures.List
+namespace DailyLocalCode.DataStructures.Stack
 {
     public class Stack<T> where T : class
     {
@@ -26,5 +22,50 @@ namespace DailyLocalCode.DataStructures.List
 
         public bool IsEmpty { get => _collection.IsEmpty; }
 
+
+        public T Pop()
+        {
+            if (Count > 0)
+            {
+                var top = _collection[_collection.Count - 1];
+                _collection.RemoveAt(_collection.Count - 1);
+                return top;
+            }
+
+            throw new Exception("The Stack is Empty.");
+        }
+        
+
+        public void Push(T dataItem)
+        {
+            _collection.Add(dataItem);
+        }
+
+        public override string ToString()
+        {
+            return _collection.ToString();
+        }
+
     }
+
+
+    public class Test
+    {
+        static void Main(string[] args)
+        {
+            Stack<string> stack = new Stack<string>();
+            stack.Push("A");
+            stack.Push("B");
+            stack.Push("C");
+            stack.Push("D");
+            stack.Push("E");
+            Console.WriteLine(stack);
+            Console.WriteLine(stack.Pop());
+            Console.WriteLine(stack.Pop());
+            Console.WriteLine(stack.Pop());
+            Console.WriteLine(stack.Pop());
+            Console.WriteLine(stack.Pop());
+        }
+    }
+
 }
