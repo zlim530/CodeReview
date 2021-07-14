@@ -51,7 +51,7 @@ namespace DailyLocalCode.DataStructures.Stack
 
     public class Test
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             Stack<string> stack = new Stack<string>();
             stack.Push("A");

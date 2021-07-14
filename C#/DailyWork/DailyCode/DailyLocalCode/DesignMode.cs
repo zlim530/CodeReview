@@ -2,6 +2,7 @@ using System;
 
 namespace DesignMode
 {
+    #region 单例模式的实现
     /// <summary>
     /// 单列模式的实现
     /// </summary>
@@ -43,4 +44,64 @@ namespace DesignMode
         }
 
     }
+    #endregion
+
+
+    #region 简单工厂模式
+    /// <summary>
+    /// 简单工厂模式的实现
+    /// </summary>
+    public static class FoodSimpleFactory
+    {
+        public static Food CreateFood(string type)
+        {
+            Food food = null;
+            if ("shredded pork with potatoes".Equals(type))
+            {
+                food = new ShreddedPorkWithPotatoes();
+            }
+            else if ("tomato Scrambled eggs".Equals(type))
+            {
+                food = new TomatoScrambledEggs();
+            }
+            return food;
+        }
+    }
+
+    public static class SimpleFactoryClass
+    {
+        static void Main(string[] args)
+        {
+            var tomatoFood = FoodSimpleFactory.CreateFood("tomato Scrambled eggs");
+            tomatoFood.Print();
+
+            var potatoesFood = FoodSimpleFactory.CreateFood("shredded pork with potatoes");
+            potatoesFood.Print();
+        }
+
+    }
+
+    public abstract class Food
+    {
+        public abstract void Print();
+    }
+
+    public class TomatoScrambledEggs : Food
+    {
+        public override void Print()
+        {
+            Console.WriteLine("One tomato Scrambled eggs.");
+        }
+    }
+
+    public class ShreddedPorkWithPotatoes : Food
+    {
+        public override void Print()
+        {
+            Console.WriteLine("One shredded pork with potatoes.");
+        }
+    }
+    #endregion
+
+    
 }
