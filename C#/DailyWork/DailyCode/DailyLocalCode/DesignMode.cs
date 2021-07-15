@@ -70,7 +70,7 @@ namespace DesignMode
 
     public static class SimpleFactoryClass
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var tomatoFood = FoodSimpleFactory.CreateFood("tomato Scrambled eggs");
             tomatoFood.Print();

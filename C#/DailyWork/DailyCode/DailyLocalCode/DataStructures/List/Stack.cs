@@ -49,7 +49,7 @@ namespace DailyLocalCode.DataStructures.Stack
     }
 
 
-    public class Test
+    public static class Test
     {
         static void Main0(string[] args)
         {
