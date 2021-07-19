@@ -9,7 +9,7 @@ def server_run():
     listen_socket.listen(1)
     print('Sering HTTP on port %s ...' % PORT)
     while True:
-        client_connection,client_address = listen_sockect.accept()
+        client_connection,client_address = listen_socket.accept()
         handle_request(client_connection)
 
 def handle_request(client_connection):
