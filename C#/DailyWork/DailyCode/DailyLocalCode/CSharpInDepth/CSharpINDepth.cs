@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace DailyLocalCode
+namespace CSharpINDepth
 {
     public static class CSharpINDepth
     {

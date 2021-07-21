@@ -101,6 +101,27 @@ namespace DailyLocalCode
             }
         }
 
+        static void Main5(string[] args)
+        {
+            var personList = new List<Person> { 
+                new Person() { Name = "jack", Age = 20},
+                new Person() { Name = "elen", Age = 25},
+                new Person() { Name = "john", Age = 22}
+            };
+
+            var query = personList.Where(m => m.Age > 20).ToList();
+
+            Console.WriteLine($"query.Count = {query.Count}");
+
+            Console.ReadLine();
+        }
+
     }
 
+
+    class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
 }

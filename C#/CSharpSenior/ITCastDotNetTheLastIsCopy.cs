@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 
 /**
  * @author zlim
  * @create 2021/1/9 17:16:22
  */
-namespace 浅拷贝与深拷贝 {
+namespace 浅拷贝与深拷贝
+{
     public class ITCastDotNetTheLastIsCopy {
         /// <summary>
         /// 浅拷贝与深拷贝的定义
@@ -23,6 +22,7 @@ namespace 浅拷贝与深拷贝 {
             Console.WriteLine("下面的代码实现对象的\"浅拷贝\"");
             Person personOne = new Person() { Name = "XXXX", Age = 1111, Email = "XXXX@hub.com", Bike = new Bike() { Name = "XXXX" } };
             //此时 personOne 和 PersonTwo 是两个不同的对象，在内存堆空间中有两个 Person 对象，所以此时已经发生了对象的浅拷贝
+            //但对象 personOne 和 personTwo 均指向了同一个堆内存变量，这就是浅拷贝
             Person personTwo = new Person();
             personTwo.Name = personOne.Name;
             personTwo.Age = personOne.Age;
@@ -36,8 +36,8 @@ namespace 浅拷贝与深拷贝 {
             personFour.Name = personThree.Name;
             personFour.Age = personThree.Age;
             personFour.Email = personThree.Email;
-            //此时 personOne 和 PersonTwo 是两个不同的对象，在内存堆空间中有两个 Person 对象
-            //并且这两个 Person 对象中的引用类型成员 Bike 分别指向了两个不同的 Bike 对象
+            //此时 personThree 和 personFour 是两个不同的对象，在内存堆空间中有两个 Person 对象
+            //这两个 Person 对象中的引用类型成员 Bike 分别指向了两个不同的 Bike 对象
             //此时发生了对象的深拷贝
             personTwo.Bike = new Bike() { Name = "XXXXX"};
 
@@ -94,8 +94,10 @@ namespace 浅拷贝与深拷贝 {
         public Person DeepCopy() {
             BinaryFormatter bf = new BinaryFormatter();
             using (MemoryStream ms = new MemoryStream()) {
+                //序列化成流
                 bf.Serialize(ms,this);
                 ms.Position = 0;
+                //反序列化成对象再返回
                 return bf.Deserialize(ms) as Person;
             }
         }
