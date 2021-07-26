@@ -1,0 +1,7 @@
+# Visual Studio 2015 cache/options directory
+.vs/
+# User-specific files
+*.suo
+# Build results
+[Oo]bj/
+[Bb]in/
