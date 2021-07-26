@@ -9,6 +9,10 @@ namespace DailyLocalCode
 {
     class Program
     {
+        /// <summary>
+        /// ConcurrentExclusiveSchedulerPair
+        /// </summary>
+        /// <param name="args"></param>
         static void Main0(string[] args)
         {
             Console.WriteLine("Hello World!");
@@ -19,6 +23,11 @@ namespace DailyLocalCode
             },default,TaskCreationOptions.None,cesp.ExclusiveScheduler).Wait();
         }
 
+        /// <summary>
+        /// Delegate
+        /// </summary>
+        /// <param name="worker"></param>
+        /// <param name="completion"></param>
         public void DoWork(Action worker, Action completion)
         {
             SynchronizationContext sc = SynchronizationContext.Current;
@@ -35,6 +44,10 @@ namespace DailyLocalCode
             });
         }
 
+        /// <summary>
+        /// DateTime
+        /// </summary>
+        /// <param name="args"></param>
         static void Main2(string[] args)
         {
             DateTime tempFinishTime = new DateTime(1, 1, 1);
@@ -43,8 +56,16 @@ namespace DailyLocalCode
             Console.WriteLine(tempFinishTime);// 0001/1/1 0:00:00
             var duringTime = (DateTime.Now - tempFinishTime).TotalHours.ToString("#0.00");
             Console.WriteLine(duringTime);
+
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine((DateTime.Now - new DateTime(2020, 11, 16, 10, 57, 24)).TotalHours.ToString("#0.00"));
+            Console.WriteLine(DateTime.Now - new DateTime(2020, 12, 16, 10, 57, 24));
         }
 
+        /// <summary>
+        /// LINQ
+        /// </summary>
+        /// <param name="args"></param>
         static void Main3(string[] args)
         {
             IEnumerable<int> numbers = Enumerable.Range(1,10);
@@ -70,19 +91,21 @@ namespace DailyLocalCode
             Console.ReadKey();
         }
 
-        static void Main1(string[] args)
-        {
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine((DateTime.Now - new DateTime(2020, 11, 16, 10, 57, 24)).TotalHours.ToString("#0.00"));
-            Console.WriteLine(DateTime.Now - new DateTime(2020,12,16,10,57,24));
-        }
-
+        /// <summary>
+        /// Invoke SingleProducerSingleConsumer()
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         static async Task Main4(string[] args)
         {
             await SingleProducerSingleConsumer();
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Creates an unbounded channel usable by any number of readers and writers concurrently.
+        /// </summary>
+        /// <returns></returns>
         public static async Task SingleProducerSingleConsumer()
         {
             var channel = Channel.CreateUnbounded<int>();
@@ -101,6 +124,10 @@ namespace DailyLocalCode
             }
         }
 
+        /// <summary>
+        /// Test LINQ
+        /// </summary>
+        /// <param name="args"></param>
         static void Main5(string[] args)
         {
             var personList = new List<Person> { 

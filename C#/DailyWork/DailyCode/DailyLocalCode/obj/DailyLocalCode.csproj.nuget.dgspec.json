@@ -60,6 +60,10 @@
               "target": "Package",
               "version": "[5.0.4, )"
             },
+            "Senparc.CO2NET": {
+              "target": "Package",
+              "version": "[1.4.400, )"
+            },
             "SqlSugarCore": {
               "target": "Package",
               "version": "[5.0.2.9, )"

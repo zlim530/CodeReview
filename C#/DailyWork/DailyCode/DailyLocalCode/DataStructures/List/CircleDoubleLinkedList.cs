@@ -198,7 +198,7 @@ namespace DailyLocalCode.DataStructures.CircleDoubleLinkedList
 
     public static class Test
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var circleList = new CircleDoubleLinkedList<string>();
             Console.WriteLine($"circleList.IsEmpty => {circleList.IsEmpty()}");
