@@ -24,6 +24,7 @@ namespace DailyLocalCode.DataStructures.ArrayQueue
         {
             if (capacity < 0)
                 throw new ArgumentOutOfRangeException();
+
             _size = capacity;
             _headPointer = 0;
             _tailPointer = 0;
@@ -67,7 +68,7 @@ namespace DailyLocalCode.DataStructures.ArrayQueue
 
     public static class test
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var queue = new ArrayQueue<string>();
             queue.Enqueue("A");
