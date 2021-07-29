@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/7eTAKPRjJ5cMriq1SntKH6u8aQs7dkQ/mZtiKyTD/COoGxbbMDM4eaOQ/kJnGP6nYgVORC1f0kpWYrOWRiUOQ==",
+  "dgSpecHash": "GFSr+LJUrKdVpmSjWQVFijM9sEdD9/AiBxUfBBH9XpMtUdyTdGCVcylTXqzu7hp6S0MIskl8d0meimoZvUaQZw==",
   "success": true,
   "projectFilePath": "E:\\localcode\\CodeReview\\C#\\DailyWork\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\c02082\\.nuget\\packages\\csas\\1.0.19\\csas.1.0.19.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\dotnetcommon\\1.1.0\\dotnetcommon.1.1.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\epplus\\5.6.4\\epplus.5.6.4.nupkg.sha512",
+    "C:\\Users\\c02082\\.nuget\\packages\\fleck\\1.2.0\\fleck.1.2.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\google.protobuf\\3.6.1\\google.protobuf.3.6.1.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\k4os.compression.lz4\\1.1.11\\k4os.compression.lz4.1.1.11.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\k4os.compression.lz4.streams\\1.1.11\\k4os.compression.lz4.streams.1.1.11.nupkg.sha512",

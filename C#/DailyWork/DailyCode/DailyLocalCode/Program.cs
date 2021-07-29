@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fleck;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -141,6 +142,74 @@ namespace DailyLocalCode
             Console.WriteLine($"query.Count = {query.Count}");
 
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Fleck of WebSocket
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            // Official demo:
+            //var server = new WebSocketServer("ws://0.0.0.0:8181");
+            //server.Start(socket =>
+            //{
+            //    socket.OnOpen = () => Console.WriteLine("Open!");
+            //    socket.OnClose = () =>
+            //    Console.WriteLine("Close!");
+            //    socket.OnMessage = message => socket.Send(message);
+            //});
+
+            IDictionary<string, IWebSocketConnection> dic_Sockets = new Dictionary<string, IWebSocketConnection>();
+            WebSocketServer server = new WebSocketServer("ws://0.0.0.0:30000");
+            server.RestartAfterListenError = true;
+
+            server.Start(socket =>
+            {
+                socket.OnOpen = () =>
+                {
+                    string clientUrl = socket.ConnectionInfo.ClientIpAddress + ":" + socket.ConnectionInfo.ClientPort;
+                    dic_Sockets.Add(clientUrl, socket);
+                    Console.WriteLine($"{DateTime.Now.ToString()}+|服务器：客户端网页：{clientUrl}建立WebSocket连接！");
+                };
+
+                socket.OnClose = () => 
+                {
+                    string clientUrl = socket.ConnectionInfo.ClientIpAddress + ":" + socket.ConnectionInfo.ClientPort;
+                    if (dic_Sockets.ContainsKey(clientUrl))
+                    {
+                        dic_Sockets.Remove(clientUrl);
+                    }
+                    Console.WriteLine($"{DateTime.Now.ToString()}|服务器：【收到】来客户端网页：{clientUrl}断开WebSocket连接！");
+                };
+
+                socket.OnMessage = message =>
+                {
+                    string clientUrl = socket.ConnectionInfo.ClientIpAddress + ":" + socket.ConnectionInfo.ClientPort;
+                    Console.WriteLine(DateTime.Now.ToString() + "|服务器：【收到】来客户端网页："+ clientUrl+"的信息：\n"+ message);
+                };
+
+
+            });
+
+            Console.ReadKey();
+            foreach (var item in dic_Sockets.Values)
+            {
+                if (item.IsAvailable == true)
+                {
+                    item.Send($"服务器消息：{DateTime.Now.ToString()}");
+                }
+            }
+            Console.ReadKey();
+
+            foreach (var item in dic_Sockets.Values)
+            {
+                if (item != null)
+                {
+                    item.Close();
+                }
+            }
+            Console.ReadKey();
         }
 
     }
