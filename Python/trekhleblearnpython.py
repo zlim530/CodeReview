@@ -337,6 +337,85 @@ def test_number_operators():
     # mixed type operands convert the integer operand to floaing point
     assert 4 * 3.75 - 1 == 14.0
 
+import pytest
+
+def test_string_type():
+    # String with double quotes
+    name_1 = "John"
+    # String with single quotes
+    name_2 = 'John'
+    # String created with different kind of quotes are treated the same
+    assert name_1 == name_2
+    assert isinstance(name_1, str)
+    assert isinstance(name_2, str)
+
+    # \ can be used to escape quotes
+    # use \' to escape the single quote or use double quotes instead
+    single_quote_string = 'doesn\'t'
+    double_quote_string = "doesn't"
+    assert single_quote_string == double_quote_string
+
+    # \n means newline
+    multiline_string = 'First line.\nSecond line.'
+    # Without print(), \n is included in the output
+    # But with print(), \n produces a new line
+    assert multiline_string == 'First line.\nSecond line.'
+
+    # Strings can be indexted, with the first character having index 0
+    # There is no separate character type; a character is simply a string
+    # of size one. Note that since -0 is the same as 0, negative indices
+    # start from -1
+    word = 'Python'
+    assert word[0] == 'P'   # First character
+    assert word[5] == 'n'   # Fifth character
+    assert word[-1] == 'n'  # Last character
+    assert word[-2] == 'o'  # Second-last character
+    assert word[-6] == 'P'  # Sixth from the ene or zeroth from the begining
+    assert isinstance(word[0], str)
+
+    # In addition to indexing, slicing is also supported. While indexing is
+    # used to obtain individual characters, slicing allows you to obtain
+    # substring:
+    assert word[0:2] == 'Py' # Characters from position 0 (included) to 2(excluded)
+    assert word[2:5] == 'tho' # Characters from position 2 (included) to 5(excluded)
+
+    # Note how the start is always included, and the end always excluded
+    # This makes sure that s[:i] + s[i:] is always equal to s:
+    assert word[:2] + word[2:] == 'Python'
+    assert word[:4] + word[4:] == 'Python'
+
+    # Slice indices have useful defaults; an omitted first index defaults to
+    # zero, an omitted second index defaults to the size of the string being
+    # sliced
+    assert word[:2] == 'Py'
+    assert word[4:] == 'on'
+    assert word[-2:] == 'on'
+    # One way to remember how slices work is to think of the indices as
+    # pointing between characters, with the left edge of the first character
+    # number 0. Then the right edge of the last character of a string of n
+    # characters has index n, for example:
+    # +---+---+---+---+---+---+
+    # | P | y | t | h | o | n |
+    # +---+---+---+---+---+---+
+    # 0   1   2   3   4   5   6
+    #-6  -5  -4  -3  -2  -1  -0
+
+    # Attemping to use an index that is too large will result in an error
+    with pytest.raises(Exception):
+        not_existing_character = word[42]
+        assert not not_existing_character
+
+    # However, out of range slice indexes are handled gracefully when used
+    # for slicing:
+    assert word[4:42] == 'on'
+    assert word[42:] == ''
+
+    # Python strings cannot be changed - they are immutable. Therefore,
+    # assigning to an indexed position in the string
+    # result in an error:
+    with pytest.raises(Exception):
+        # pylint: disable=unsupported-assignment-operation
+        word[0] = 'J'
 
 
 
@@ -345,8 +424,6 @@ def test_number_operators():
 
 
 
-
-                
 
 if __name__ == "__main__":
     # test_arithmetic_operators()
