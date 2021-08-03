@@ -417,6 +417,50 @@ def test_string_type():
         # pylint: disable=unsupported-assignment-operation
         word[0] = 'J'
 
+    # If you need a different string, you should create a new one:
+    assert 'J' + word[1:] == 'Jython'
+    assert word[:2] + 'py' == 'Pypy'
+
+    # The built-in function len() returns the lenght of a string:
+    characters = 'supercalifragilisticexpialidocious'
+    assert len(characters) == 34
+
+    # String literals can span multiple lines. One way is using triple-quotes: """..."""
+    # or '''...'''. End of lines are automaticallt included in the string, but it's possible 
+    # to prevent this by adding a \ at the end of the line. The following example:
+    multi_line_string = '''\
+        First line
+        Second line
+    '''
+    
+    assert multi_line_string == '''\
+        First line
+        Second line
+    '''
+
+def test_string_operators():
+    """Basic operations
+
+    Strings can be concatenated (glued together) with the + operator,
+    and repeated with *: 3 times 'un', followed by 'ium'
+    """
+
+    assert 3 * 'un' + 'ium' == 'unununium'
+
+    # 'Py' 'thon'
+    python = 'Py' 'thon'
+    assert python == 'Python'
+
+    # This features is particularly useful when you want to break long strings:
+    text = (
+        'Put several strings within parentheses '
+        'to have them joined together.'
+    )
+    assert text == 'Put several strings within parentheses to have them joined together.'
+
+    # If you want to concatenate variables or a variable and a literal, use +:
+    prefix = 'Py'
+    assert prefix + 'thon' == 'Python'
 
 
 
@@ -434,5 +478,45 @@ if __name__ == "__main__":
     # test_identity_operators()
     # test_membership_operators()
     # test_datatypes()
-    test_number_operators()
+    # test_number_operators()
+    test_string_operators()
     print("nothing wrong")
+
+
+
+
+
+
+
+
+
+# github.com/TheAlgorithms/Python
+from typing import List
+
+def bucket_sort(my_list: list) -> list:
+    if len(my_list) == 0:
+        return []
+    min_value, max_value = min(my_list), max(my_list)
+    bucket_count = int(max_value - min_value) + 1
+    buckets: List[list] = [[] for _ in range(bucket_count)]
+
+    for i in range(len(my_list)):
+        buckets[(int(my_list[i] - min_value) // bucket_count)].append(my_list[i])
+
+    return [v for bucket in buckets for v in sorted(bucket)]
+
+def double_sort(lst):
+    no_of_elements = len(lst)
+    for i in range(
+        0,int(((no_of_elements - 1) / 2) + 1)
+    ):
+        for j in range(0,no_of_elements - 1):
+            if( lst[j + 1] < lst[j]):
+                temp = lst[j + 1]
+                lst[j + 1] = lst[j]
+                lst[j] = temp
+            if( lst[no_of_elements - 1 - j] < lst[no_of_elements - 2 - j]):
+                temp = lst[no_of_elements - 1 - j]
+                lst[no_of_elements - 1 - j] = lst[no_of_elements - 2 - j]
+                lst[no_of_elements - 2 - j] = temp
+    return lst
