@@ -462,10 +462,110 @@ def test_string_operators():
     prefix = 'Py'
     assert prefix + 'thon' == 'Python'
 
+def test_string_methods():
+    hello_world_string = "Hello, World!"
 
+    # The strip() method removes any whitespace from the beginning or the end
+    string_with_whitespace = " Hello, World! "
+    assert string_with_whitespace.strip() == "Hello, World!"
 
+    # The len() method returns the length of a string
+    assert len(hello_world_string) == 13
 
+    # The lower() method returns the string in lower case
+    assert hello_world_string.lower() == 'hello, world!'
 
+    # The upper() method returns the string in upper case
+    assert hello_world_string.upper() == 'HELLO, WORLD!'
+
+    # The replace() method replaces a string with another string
+    assert hello_world_string.replace('H', 'J') == 'Jello, World!'
+
+    # The split() method splits the string into substrings if it finds instances of the separator
+    assert hello_world_string.split(',') == ['Hello',' World!']
+    
+    # Converts the first character to upper case
+    assert 'low letter at the beginning'.capitalize() == 'Low letter at the beginning'
+
+    # Returns the number of times a specified value occurns in a string
+    assert 'hello, welcome to my world'.find('welcome') == 7
+
+    # Converts the first character of each word to upper case
+    assert 'Welcome to my world'.title() == 'Welcome To My World'
+
+    # Returns a string where a specified value is replaced with a specified value
+    assert 'I like bananas'.replace('bananas', 'apples') == 'I like apples'
+    
+    # Join the elements of an iterable to the end of the string
+    my_tuple = ('John', 'Peter', 'Vicky')
+    assert ', '.join(my_tuple) == 'John, Peter, Vicky'
+
+    # Returns True if all characters in the string are upper case
+    assert 'ABC'.isupper()
+    assert not 'AbC'.isupper()
+
+    # Check if all the characters in the text are letters
+    assert 'CompanyX'.isalpha()
+    assert not 'Company '.isalpha() # the whitespace is not letter 
+
+    # Returns True if all characters in the string are decimals
+    assert '1234'.isdecimal()
+    assert not 'a1234'.isdecimal()
+
+def test_string_formatting():
+    year = 2018
+    event = 'conference'
+    assert f'Results of the {year} {event}' == 'Results of the 2018 conference'
+
+    yes_votes = 42_572_654
+    no_votes = 43_132_495
+    percentage = yes_votes / (yes_votes + no_votes)
+    assert '{:-9} YES votes  {:2.2%}'.format(yes_votes, percentage) == ' 42572654 YES votes  49.67%'
+
+    greeting = 'Hello, world.'
+    first_num = 10 * 3.25
+    second_num = 200 * 200
+    assert str(greeting) == 'Hello, world.'
+    assert repr(greeting) == "'Hello, world.'"
+    assert str(1/7) == '0.14285714285714285'
+
+    assert repr((first_num, second_num, ('spam','eggs'))) == "(32.5, 40000, ('spam', 'eggs'))"
+
+    pi_value = 3.14159
+    assert f'The value of pi is {pi_value:.3f}' == 'The value of pi is 3.142'
+
+    table_data = {'Sjoerd':4127, 'Jack': 4098, 'Dcab': 7678}
+    table_string = ''
+    for name, phone in table_data.items():
+        table_string += f'{name:7}==>{phone:7d}'
+    assert table_string == ('Sjoerd ==>   4127'
+                            'Jack   ==>   4098'
+                            'Dcab   ==>   7678')
+
+    assert 'We are {} who say "{}!"'.format('knights','Ni') == 'We are knights who say "Ni!"'
+
+    assert '{0} and {1}'.format('spam','eggs') == 'spam and eggs'
+    assert '{1} and {0}'.format('spam','eggs') == 'eggs and spam'
+
+    formatted_string = 'This {food} is {adjective}'.format(
+        food = 'spam',
+        adjective = 'absolutely horrible'
+    )
+    assert formatted_string == 'This spam is absolutely horrible'
+
+    formatted_string = 'The story of {0}, {1}, and {other}'.format(
+        'Bill',
+        'Manfred',
+        other = 'Georg'
+    )
+    assert formatted_string == 'The story of Bill, Manfred, and Georg'
+
+    table = {'Sjoerd': 4127, 'Jack':4098, 'Dcab': 8637678}
+    formatted_string = 'Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; Dcab: {0[Dcab]:d}'.format(table)
+    assert formatted_string == 'Jack: 4098; Sjoerd: 4127; Dcab: 8637678'
+
+    formatted_string = 'Jack: {Jack:d}; Sjoerd: {Sjoerd:d}; Dcab: {Dcab:d}'.format(**table)
+    assert formatted_string == 'Jack: 4098; Sjoerd: 4127; Dcab: 8637678'
 
 
 
@@ -479,7 +579,10 @@ if __name__ == "__main__":
     # test_membership_operators()
     # test_datatypes()
     # test_number_operators()
-    test_string_operators()
+    # test_string_type()
+    # test_string_operators()
+    # test_string_methods()
+    test_string_formatting()
     print("nothing wrong")
 
 
