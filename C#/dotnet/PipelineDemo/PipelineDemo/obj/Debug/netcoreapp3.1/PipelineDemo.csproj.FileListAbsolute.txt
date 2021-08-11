@@ -1,0 +1,17 @@
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\PipelineDemo.exe
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\PipelineDemo.deps.json
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\PipelineDemo.runtimeconfig.json
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\PipelineDemo.runtimeconfig.dev.json
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\PipelineDemo.dll
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\PipelineDemo.pdb
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.csproj.AssemblyReference.cache
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.AssemblyInfoInputs.cache
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.AssemblyInfo.cs
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.csproj.CoreCompileInputs.cache
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.dll
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.pdb
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.genruntimeconfig.cache
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+E:\SMCProject\LOCALCODE\PipelineDemo\PipelineDemo\obj\Debug\netcoreapp3.1\PipelineDemo.csproj.CopyComplete

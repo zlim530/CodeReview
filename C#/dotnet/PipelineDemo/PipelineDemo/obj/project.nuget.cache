@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "ltcwRBt6HmsaWJhil+ZytSa3SFG4OFePK0Hvxp0YLbTnil+BJnk0m5weHVjJcl1uugeCdtQNy1wxfK4dOYhQ/w==",
+  "success": true,
+  "projectFilePath": "E:\\SMCProject\\LOCALCODE\\PipelineDemo\\PipelineDemo\\PipelineDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.0-preview.6.21352.12\\microsoft.extensions.dependencyinjection.6.0.0-preview.6.21352.12.nupkg.sha512",
+    "C:\\Users\\c02082\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0-preview.6.21352.12\\microsoft.extensions.dependencyinjection.abstractions.6.0.0-preview.6.21352.12.nupkg.sha512",
+    "C:\\Users\\c02082\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0-preview.6.21352.12\\system.runtime.compilerservices.unsafe.6.0.0-preview.6.21352.12.nupkg.sha512"
+  ],
+  "logs": []
+}
