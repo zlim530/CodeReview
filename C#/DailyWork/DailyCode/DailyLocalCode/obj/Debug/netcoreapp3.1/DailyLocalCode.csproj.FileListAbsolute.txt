@@ -214,3 +214,13 @@ E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcorea
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\obj\Debug\netcoreapp3.1\DailyLocalCode.csproj.AssemblyReference.cache
 E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\CSAS.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Fleck.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Http.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Http.Polly.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Polly.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Polly.Extensions.Http.dll
+E:\localcode\CodeReview\C#\DailyWork\DailyCode\DailyLocalCode\bin\Debug\netcoreapp3.1\Senparc.CO2NET.dll

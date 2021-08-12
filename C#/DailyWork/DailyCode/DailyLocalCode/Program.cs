@@ -148,7 +148,7 @@ namespace DailyLocalCode
         /// Fleck of WebSocket
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main6(string[] args)
         {
             // Official demo:
             //var server = new WebSocketServer("ws://0.0.0.0:8181");
