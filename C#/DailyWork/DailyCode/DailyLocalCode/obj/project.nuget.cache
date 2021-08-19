@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "GFSr+LJUrKdVpmSjWQVFijM9sEdD9/AiBxUfBBH9XpMtUdyTdGCVcylTXqzu7hp6S0MIskl8d0meimoZvUaQZw==",
+  "dgSpecHash": "pxvXnFAyGKvLh1UrQlGAVjLm6SIEyWBv8XOccIEoC3ox2SD3DVJC737dt8CuSpKPl/OrWlIKl3HRvB6AJ8D7hw==",
   "success": true,
   "projectFilePath": "E:\\localcode\\CodeReview\\C#\\DailyWork\\DailyCode\\DailyLocalCode\\DailyLocalCode.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\c02082\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
-    "C:\\Users\\c02082\\.nuget\\packages\\csas\\1.0.19\\csas.1.0.19.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\dotnetcommon\\1.1.0\\dotnetcommon.1.1.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\epplus\\5.6.4\\epplus.5.6.4.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\fleck\\1.2.0\\fleck.1.2.0.nupkg.sha512",
@@ -186,16 +185,5 @@
     "C:\\Users\\c02082\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "已使用“.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8”而不是项目目标框架“.NETCoreApp,Version=v3.1”还原包“CSAS 1.0.19”。此包可能与项目不完全兼容。",
-      "libraryId": "CSAS",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    }
-  ]
+  "logs": []
 }

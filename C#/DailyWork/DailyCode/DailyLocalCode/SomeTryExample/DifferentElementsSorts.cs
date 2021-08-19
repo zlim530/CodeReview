@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DailyLocalCode.DifferentElementsSorts
+namespace DailyLocalCode.SomeTryExample.DifferentElementsSorts
 {
     public class DifferentElementsSorts
     {
@@ -15,7 +12,7 @@ namespace DailyLocalCode.DifferentElementsSorts
         /// </summary>
         class Program
         {
-            private static void Main(string[] args)
+            private static void Main0(string[] args)
             {
                 ArrayList arrayList = Product.GetArrayList();
                 List<Product> list = Product.GetList();

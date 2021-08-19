@@ -16,15 +16,6 @@
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {}
         }
       },
-      "CSAS/1.0.19": {
-        "type": "package",
-        "compile": {
-          "lib/net45/CSAS.dll": {}
-        },
-        "runtime": {
-          "lib/net45/CSAS.dll": {}
-        }
-      },
       "DotNetCommon/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -2802,18 +2793,6 @@
         "lib/netstandard2.0/BouncyCastle.Crypto.xml",
         "lib/xamarinios/BouncyCastle.Crypto.dll",
         "lib/xamarinios/BouncyCastle.Crypto.xml"
-      ]
-    },
-    "CSAS/1.0.19": {
-      "sha512": "QUv2oEuKUu9GQCpsmb6jQvCQsteHg+rsWr+wvtAvzYmatIqBgxW16mIboJPll68+ppkH9pKr5iXJz87JpgGN/g==",
-      "type": "package",
-      "path": "csas/1.0.19",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "csas.1.0.19.nupkg.sha512",
-        "csas.nuspec",
-        "lib/net45/CSAS.dll"
       ]
     },
     "DotNetCommon/1.1.0": {
@@ -8824,7 +8803,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "CSAS >= 1.0.19",
       "DotNetCommon >= 1.1.0",
       "EPPlus >= 5.6.4",
       "Fleck >= 1.2.0",
@@ -8873,10 +8851,6 @@
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
         "dependencies": {
-          "CSAS": {
-            "target": "Package",
-            "version": "[1.0.19, )"
-          },
           "DotNetCommon": {
             "target": "Package",
             "version": "[1.1.0, )"
@@ -8924,17 +8898,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "已使用“.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8”而不是项目目标框架“.NETCoreApp,Version=v3.1”还原包“CSAS 1.0.19”。此包可能与项目不完全兼容。",
-      "libraryId": "CSAS",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    }
-  ]
+  }
 }
