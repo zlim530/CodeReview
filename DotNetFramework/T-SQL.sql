@@ -119,6 +119,7 @@ values ('Tom','男',23,'1998-05-06','12345678987653212',1);
 select * from TblStudent
 
 -- 向自动编号列插入值
+-- set identity_insert tableName on
 -- 启动某个表的“自动编号列”手动插入值的功能
 set identity_insert Class on
 
@@ -1017,21 +1018,22 @@ rollback tran
 	sp_password：添加或修改登录账户的密码
 */
 
-
+-----------------------------系统存储过程-----------------------------
+--1.返回当前实例中的所有的数据库的基本信息
 exec sp_databases
-
+--2.返回当前数据库下的所有的表
 exec sp_tables
-
+--3.返回某张表下的所有的列
 exec sp_columns 'bank'
 
---查看某个存储过程的源码
+--4.查看某个存储过程的源码
 exec sp_helptext 'sp_databases'
 
-  
+
 create procedure sys.sp_databases  
 as  
     set nocount on  
-  
+
     select  
         DATABASE_NAME   = db_name(s_mf.database_id),  
         DATABASE_SIZE   = convert(int,  
@@ -1048,3 +1050,72 @@ as
         has_dbaccess(db_name(s_mf.database_id)) = 1 -- Only look at databases to which we have access  
     group by s_mf.database_id  
     order by 1  
+
+-----------------------------创建自己的存储过程
+create proc usp_say_hello
+as 
+begin 
+	print 'HELLO WORLD'
+end
+
+exec usp_say_hello
+
+drop proc usp_select_tblStudent
+
+alter proc usp_select_tblStudent
+as 
+begin
+	select * from TblStudent where tGender = '男'
+end
+
+--调用存储过程
+exec usp_select_tblStudent
+
+
+--创建一个带两个参数的存储过程
+create proc usp_add_number
+@n1 int,
+@n2 int
+as 
+begin
+	select @n1 + @n2
+end
+
+exec usp_add_number
+
+create proc usp_select_tblstudent_by_condition
+@gender char(2),
+@age int
+as
+begin
+	select * from TblStudent where tAge >= @age and tGender = @gender
+end 
+
+exec usp_select_tblstudent_by_condition @gender = '男',@age = 15
+
+/* 
+创建存储过程
+·定义存储过程的语法
+	CREATE PROC[EDURE] 存储过程名
+	@参数1 数据类型 = 默认值 OUTPUT,
+	@参数n 数据类型 = 默认值 OUTPUT
+	AS
+		SQL 语句
+·参数说明：
+	参数可选
+	参数分为输入参数、输出参数
+	输入参数云溪有默认值
+·EXEC 过程名称 [参数]
+
+*/
+
+drop proc usp_add_number
+create proc usp_add_number
+@n1 int,
+@n2 int = 50
+as
+begin
+	select @n1 + @n2
+end
+exec usp_add_number 80
+-- 设置存储过程的参数的默认值
