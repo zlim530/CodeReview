@@ -22,10 +22,11 @@ namespace Routine.Api {
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // 注册服务 This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllers();
 
+            // 配置服务的生命周期：AddScoped 针对每一次 HTTP 请求都会建立一个新的实例
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddDbContext<RoutineDbContext>(options => {
                 //options.UseSqlite("Data Source=routine.db");
@@ -35,14 +36,17 @@ namespace Routine.Api {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            // 添加中间件的顺序非常重要，如果你把授权中间件放在了 Controller 的后边，
+            // 那么即使需要授权，请求也会先到达 Controller 并执行里面的代码，这样的话授权就没有意义了
+
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
             /*
-             路由机制会把一个请求的URL映射到一个Controller上面的Action，所以当你发送一个HTTP请求的时候，MVC框架会解析这个请求的URL，并尝试这把它映射到一个Controller上面的Action
+            路由机制会把一个请求的URL映射到一个Controller上面的Action，所以当你发送一个HTTP请求的时候，MVC框架会解析这个请求的URL，并尝试这把它映射到一个Controller上面的Action
              */
-            app.UseRouting();// 用来标记路由决策在请求管道里发生的位置，也就是在这里会选择端点
+            app.UseRouting();// 用来标记路由决策在请求管道里发生的位置，也就是在这里会选择端点（起始点）
 
             // 授权中间件：是一个非常好的例子
             //如果授权成功，那么就继续执行到之前选定的端点，否则的话会跳转到其他短或者短路返回。
@@ -54,7 +58,7 @@ namespace Routine.Api {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
                 /*
-                 这里面仅仅映射了Controller，并没有使用任何约定，所有我们需要采用属性（Attribute）来进行设定。这里需要用到
+                这里面仅仅映射了Controller，并没有使用任何约定，所有我们需要采用属性（Attribute）来进行设定。这里需要用到
                 属性（attribute）和URL模板
                 ·属性（Attribute）：例如[Route]，[HttpGet]，[HttpPost]等等，可以把它们放在Controller级别，也可以放在Action级别上。
                 ·URL模板：将属性结合URL模板一起使用，就可以把请求映射到Controller的Action上面
