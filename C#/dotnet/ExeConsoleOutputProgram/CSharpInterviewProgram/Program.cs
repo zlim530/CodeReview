@@ -96,7 +96,7 @@ namespace CSharpInterviewProgram
         /// string与字符串操作
         /// </summary>
         /// <param name="args"></param>
-        static void Main3(string[] args)
+        static void Main(string[] args)
         {
             // var s1 = "123";
             // var s2 = s1 + "abc";
@@ -131,6 +131,9 @@ namespace CSharpInterviewProgram
             Console.WriteLine(s2.GetHashCode());
             Console.WriteLine(s3.GetHashCode());
             Console.WriteLine(Object.ReferenceEquals(s2, s3));
+            s2 = string.Intern(s2);// 手动将 s2 Intern 即手动将 s2 放入字符串常量池中；并且检查了字符串常量池发现 Key("123abc") 已经存在故返回了现有对象的堆内存地址
+            Console.WriteLine(Object.ReferenceEquals(s2, s3));
+            // 因此此时再判断 s2, s3 结果为 True：即两者指向堆内存字符串常量池的同一个对象
 
             Console.WriteLine(Reverse1("123456"));
             Console.WriteLine(Reverse2("123456"));
@@ -214,7 +217,7 @@ namespace CSharpInterviewProgram
         /// 类型、方法与继承
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main4(string[] args)
         {
             Console.WriteLine("Hello,World!");
         }
