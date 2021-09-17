@@ -1119,3 +1119,143 @@ begin
 end
 exec usp_add_number 80
 -- 设置存储过程的参数的默认值
+
+
+
+-----------------------------2021年9月17日-----------------------------
+/* 
+case查询
+*/
+--1.要求 then 后面的数据类型必须一致
+--下面这种写法相当于 C# 中的 if-else：
+select 
+	*
+	title = case
+				when [level] = 1 then '菜鸟'
+				when [level] = 2 then '老鸟'
+				when [level] = 3 then '大师'
+				else '骨灰级大师'
+			end
+from user
+
+--相当于 C# 中的 switch：
+select 
+	*
+	title = case [level]
+				when 1 then ''
+				when 2 then ''
+				when 3 then ''
+				else ''
+			end 
+from user
+
+--练习：
+select 
+	*,
+	title = case 
+				when tEnglish >= 95 then '优'
+				when tEnglish >= 80 then '良'
+				when tEnglish >= 70 then '中'
+				else '差'
+			end
+from TblScore
+
+select 
+	*,
+	isPass = case
+				when tEnglish >= 60 and tMath >= 60 then 'pass'
+				else 'not pass'
+			 end
+from TblScore
+
+select 
+	x = case 
+			when A > B then A
+			else B
+		end,
+	Y = case 
+			when B > C then B
+			else C
+		end
+from TestA
+
+--在订单表中，统计每个销售员的总销售金额，列出销售员名、总销售金额、称号（>6000金牌，>5500银牌，>4500铜牌，否则普通）
+select * from MyOrders
+select 
+	salesman,
+	total = sum(price * number),
+	title = case
+				when sum(price * number) > 6000 then 'gold'
+				when sum(price * number) > 5500 then 'silver'
+				when sum(price * number) > 4500 then 'copper'
+				else 'general'
+			end
+from MyOrders
+group by salesman
+
+--way one
+select
+	teamName,
+	win = sum(case 
+			when gameResult = 'win' then 1
+			else 0
+		  end),
+	loose = sum(case
+			  when gameResult = 'loose' then 1
+			  else 0
+			end)
+from TeamScore
+group by teamName
+
+--way two
+select
+	teamName,
+	win = count(case 
+			when gameResult = 'win' then 'win'
+			else null
+		  end),
+	loose = count(case
+			  when gameResult = 'loose' then 'loose'
+			  else null
+			end)
+from TeamScore
+group by teamName
+
+--create table NBAScore (
+--	[autoId] int null,
+--	[teamName] nvarchar(100) null,
+--	[seasonName] nvarchar(100) null,
+--	[Score] int null
+--)
+
+--insert into NBAScore(autoId,teamName,seasonName,Score) values
+--	(2,'森林狼','第2赛季',20),
+--	(3,'森林狼','第3赛季',15),
+--	(4,'快船','第1赛季',7),
+--	(5,'快船','第2赛季',12),
+--	(6,'快船','第3赛季',11),
+--	(7,'步行者','第1赛季',17),
+--	(8,'步行者','第2赛季',12),
+--	(9,'步行者','第3赛季',15),
+--	(10,'尼克斯','第1赛季',6),
+--	(11,'尼克斯','第2赛季',18),
+--	(12,'尼克斯','第3赛季',7);
+
+SELECT *
+FROM [Test].[dbo].[NBAScore]
+
+select 
+	teamName,
+	第1赛季 = max(case
+				when seasonName = '第1赛季' then score 
+				else null
+			end),
+	第2赛季 = max(case
+				when seasonName = '第2赛季' then score
+				else null
+			end),
+	第3赛季 = max(case
+				when seasonName = '第3赛季' then score
+			end)
+from [NBAScore]
+group by teamName
