@@ -40,10 +40,11 @@ namespace Routine.Api.Services {
                 throw new ArgumentNullException(nameof(employee));
             }
             employee.CompanyId = companyId;
-            _routineDbContext.Add(employee);
+            _routineDbContext.Employees.Add(employee);
         }
 
         public void UpdateEmployee(Employee employee) {
+            _routineDbContext.Employees.Update(employee);
         }
         public void DeleteEmployee(Employee employee) {
             _routineDbContext.Remove(employee);
@@ -95,6 +96,7 @@ namespace Routine.Api.Services {
         }
 
         public void UpdateCompany(Company company) {
+            _routineDbContext.Companies.Update(company);
         }
 
 

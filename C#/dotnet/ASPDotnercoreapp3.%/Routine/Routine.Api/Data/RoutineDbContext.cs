@@ -17,11 +17,15 @@ namespace Routine.Api.Data {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Employee>()
+                // 指明一对多关系（可省略）
                 .HasOne(x => x.Company)
                 .WithMany(x => x.Employees)
+                // 外键
                 .HasForeignKey(x => x.CompanyId)
+                // 禁止级联删除：删除 Company 时如果有 Employee，则无法删除
                 .OnDelete(DeleteBehavior.Restrict);// 即当要删除此表时如果另外一张表有数据则不允许删除
-
+                // 允许级联删除：删除 Company 时自动删除拥有的 Employee 
+                // .OnDelete(DeleteBehavior.Cascade);
 
             // 添加种子数据：这里只添加了Company数据
             modelBuilder.Entity<Company>().HasData(

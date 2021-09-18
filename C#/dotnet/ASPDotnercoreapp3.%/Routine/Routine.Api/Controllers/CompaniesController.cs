@@ -9,9 +9,15 @@ namespace Routine.Api.Controllers
 {
     /*
      2.这个属性是应用于Controller的，它其实并不是强制的，但是它提供了一些帮助，使得Web API的开发体验更好。
+     * 它会启动以下行为：
+     * 要求使用属性路由（Attribute Routing）
+     * 自动HTTP 400响应
+     * 推断参数的绑定源
+     * Multipart/form-data 请求推断
+     * 错误状态代码的问题详细信息
      */
     [ApiController]
-    [Route("api/companies")]
+    [Route("api/companies")] // 还可用 [Route("api/[controller]")]
     public class CompaniesController:ControllerBase
     /*
      1.RESTful API 或者其它Web API的Controller都应该继承于 ControllerBase 这个类，而不是Controller这个类。 
