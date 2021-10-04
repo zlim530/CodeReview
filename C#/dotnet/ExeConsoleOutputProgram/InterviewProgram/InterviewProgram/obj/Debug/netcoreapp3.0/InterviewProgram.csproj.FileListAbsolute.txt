@@ -1,0 +1,11 @@
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\bin\Debug\netcoreapp3.0\InterviewProgram.exe
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\bin\Debug\netcoreapp3.0\InterviewProgram.deps.json
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\bin\Debug\netcoreapp3.0\InterviewProgram.runtimeconfig.json
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\bin\Debug\netcoreapp3.0\InterviewProgram.runtimeconfig.dev.json
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\bin\Debug\netcoreapp3.0\InterviewProgram.dll
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\bin\Debug\netcoreapp3.0\InterviewProgram.pdb
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\obj\Debug\netcoreapp3.0\InterviewProgram.csprojAssemblyReference.cache
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\obj\Debug\netcoreapp3.0\InterviewProgram.AssemblyInfoInputs.cache
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\obj\Debug\netcoreapp3.0\InterviewProgram.AssemblyInfo.cs
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\obj\Debug\netcoreapp3.0\InterviewProgram.dll
+C:\Users\Lim\Desktop\code\InterviewProgram\InterviewProgram\obj\Debug\netcoreapp3.0\InterviewProgram.pdb
