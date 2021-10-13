@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using static System.Console;
+using static InterviewProgram.充分利用;
+using static InterviewProgram.类型转换;
 
 namespace InterviewProgram
 {
@@ -230,8 +232,8 @@ namespace InterviewProgram
             }
             WriteLine(str4);
 
-            var str5 = strList.Aggregate((a, b) => a + b);
-            WriteLine(str5);
+            var str5 = strList.Aggregate((a, b) => a + " " + b);
+            WriteLine(str5);// A1 A2 A3
             #endregion
 
         }
@@ -324,7 +326,7 @@ namespace InterviewProgram
 
     public class 充分利用
     {
-        public static void Main(string[] args)
+        public static void Main4(string[] args)
         {
             var up = new UPMaster() { Date = new Date() { Like = 2 } };
 
@@ -367,6 +369,123 @@ namespace InterviewProgram
 
     public class const和readonly
     {
+        static void Main5(string[] args)
+        {
+            var cr1 = new CR();
+            // cr1.readonlyAnimal = new Cat(); // Error:无法分配到只读字段（除非在定义了该字段的类型的构造函数或 init-only 资源库中，或者在变量初始值设定项中）
+            cr1.readonlyAnimal.Name = "Doggy"; // OK
+
+            var cr2 = new CR(new Dog());
+            var cr3 = new CR(new Cat());
+            WriteLine(cr2.readonlyAnimal.GetType()); // InterviewProgram.类型转换+Dog
+            WriteLine(cr3.readonlyAnimal.GetType()); // InterviewProgram.类型转换+Cat
+        }
+
+        class CR
+        {
+            // const 是一个编译期常量
+            const string constStr = "ZLim530";
+            
+            // readonly 是一个运行时常量
+            readonly string readonlyStr = "zlim530";
+
+            // const 只能修饰基元类型、枚举类型或字符串类型
+            // 代码中引用 const 常量的地方会在编译时用 const 常量所对应的实际值来替代
+            const int constInt = 100_000;
+            const DemoEnum constEnum = DemoEnum.E1;
+            // const Dog constDog = new Dog(); // Error:指派给 const 的表达式必须是常量
+
+            // readonly 没有限制
+            // 在运行时对它进行赋值，进行第一次赋值后值就不能改变
+            // 对于值类型变量，值本身就不可以改变
+            // 对应引用类型变量，引用本身（相当于指针）不可改变，类型内部的内容可以改变
+            readonly int readonlyInt = 100_00;
+            readonly DemoEnum readonlyEnum = DemoEnum.E1;
+            public readonly Animal readonlyAnimal = new Dog();
+
+            public CR() { }
+
+            // const 它天然是 static 的，所以只会存在一个实例
+            // readonly 在每一个类中是独立的，所以可以赋值成不同的值
+            public CR(Animal animal)
+            {
+                readonlyAnimal = animal;
+            }
+
+        }
+
+        enum DemoEnum
+        {
+            E1,
+            E2
+        }
 
     }
+
+
+    public class 使用Dynamic简化反射代码
+    {
+        static void Main6(string[] args)
+        {
+            object up = new UPMaster()
+            {
+                Date = new Date()
+                {
+                    Like = int.MaxValue
+                }
+            };
+
+            var dataValue1 = up.GetType().GetProperty("Date").GetValue(up);
+            var likeValue1 = dataValue1.GetType().GetProperty("Like").GetValue(dataValue1);
+
+            // dynamic 表示在运行时解析其操作的对象
+            var likeValue2 = ((dynamic)up).Date.Like;
+
+            // 性能对比
+            Random rand = new Random();
+            List<UPMaster> ups = Enumerable.Range(0,1000_0000).Select(x => new UPMaster()
+            {
+               Date = new Date()
+               {
+                   Like = rand.Next(10_0000)
+               }
+            }).ToList();
+            
+            Stopwatch stopwatch1 = Stopwatch.StartNew();
+            foreach (var item in ups)
+            {
+                var dataValue3 = up.GetType().GetProperty("Date").GetValue(up);
+                var likeValue3 = dataValue1.GetType().GetProperty("Like").GetValue(dataValue1);
+            }
+            WriteLine(stopwatch1.ElapsedMilliseconds + " ms"); // 3052
+
+            Stopwatch stopwatch2 = Stopwatch.StartNew();
+            foreach (var item in ups)
+            {
+                var likeValue4 = ((dynamic)up).Date.Like;
+            }
+            WriteLine(stopwatch2.ElapsedMilliseconds + " ms"); // 577
+        }
+    }
+
+
+    public class Switch表达式
+    {
+        static void Main7(string[] args)
+        {
+            /* 功能“and”模式在 C# 8.0 中不可用，请使用语言版本 9.0 或更高版本
+            string eval2 = like switch 
+            {
+                >= 0 and < 30 => "差",                
+                >= 30 and < 60 => "中",                
+                >= 60 and < 90 => "良",                
+                >= 90 => "优",                
+                _ => "异常",                
+            }; 
+            */
+        }
+    }
+
+
+    
 }
