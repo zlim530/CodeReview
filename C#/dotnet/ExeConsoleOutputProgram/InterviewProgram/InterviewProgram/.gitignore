@@ -9,6 +9,8 @@
 
 # user-defined
 *.csproj.FileListAbsolute.txt
+*.dll
+*.pdb
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
