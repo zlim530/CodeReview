@@ -909,6 +909,18 @@ public async Task<OutputPageInfo<DeviceJobDetailOutput>> GetDeviceJobDetail(Devi
 
 
 
+#region Self-Introduction
+/* 
+1.个人基本情况：
+	古紫佳，2020年6月毕业于天津城建大学，所学专业为电子信息工程，1998.04.28生，籍贯为湖南株洲醴陵市，应聘岗位为：.NET软件开发开工程。
+2.就职情况：
+	2020年8月至今就职于 SMC（中国）有限公司，在制造本部下的IT小组面向公司制造工厂开发 MES Web 系统。具体工作内容为：根据项目需求设计数据库表结构模型，后端技术栈使用 ABP Web 应用程序框架，开发 Web 后端接口，前端框架为 LayUI 框架，
+	AOP、IOC、DI、Catch拦截、DTO、Mapping Task 工作单元WorkUnit ORM
+*/
+#endregion
+
+
+
 
 
 
