@@ -1,8 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -19,18 +17,21 @@ namespace My.IdentityServer
         {
             services.AddMvc();
 
-            var builder = services.AddIdentityServer(options =>
+            var builder = services.AddIdentityServer(/*options =>
             {
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-            })
+            }*/)
+            .AddInMemoryIdentityResources(InMemoryConfig.Ids)
             // in-memory, code config
             .AddTestUsers(InMemoryConfig.Users().ToList())
-            .AddInMemoryApiResources(InMemoryConfig.GetApiResources())
+            //.AddInMemoryApiResources(InMemoryConfig.GetApiResources())
+            .AddInMemoryApiScopes(InMemoryConfig.GetApiScopes())
             .AddInMemoryClients(InMemoryConfig.GetClients());
 
+            // 本地开发添加证书
             builder.AddDeveloperSigningCredential();
 
             /*if (environment.IsDevelopment())
