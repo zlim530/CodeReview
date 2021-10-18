@@ -6,6 +6,13 @@ namespace My.IdentityServer
 {
     public static class InMemoryConfig
     {
+        public static IEnumerable<IdentityResource> Ids =>
+            new IdentityResource[]
+            { 
+                new IdentityResources.OpenId()
+            };
+
+
         // 这个 Authorization Server 保护了哪些 API （资源）
         public static IEnumerable<ApiResource> GetApiResources()
         {
@@ -14,6 +21,13 @@ namespace My.IdentityServer
                     new ApiResource("blog.core.api", "Blog.Core API")
                 };
         }
+
+        public static IEnumerable<ApiScope> GetApiScopes() =>
+            new[]
+            {
+                new ApiScope("blog.core.api", "Blog.Core API")
+            };
+
         // 哪些客户端 Client（应用） 可以使用这个 Authorization Server
         public static IEnumerable<Client> GetClients()
         {
