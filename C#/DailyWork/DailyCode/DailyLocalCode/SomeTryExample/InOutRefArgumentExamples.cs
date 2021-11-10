@@ -125,7 +125,7 @@ namespace DailyLocalCode.SomeTryExample
         /// ref 参数，即能把外部的数据传入，也能把方法里的参数变化值传出，这里更多的是把参数转成一个引用，穿透方法内外共享
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void MainRef(string[] args)
         {
             // RefMethod01(ref 10);    // 错误，只能传入一个变量，不能是具体的数据：ref 或 out 值必须是可以赋值的变量
             

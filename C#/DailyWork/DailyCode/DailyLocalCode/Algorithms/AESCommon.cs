@@ -10,7 +10,7 @@ namespace DailyLocalCode.Algorithms
 {
     public class AESCommon
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var AESKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef";
             var str = AESEncrypt("Aa60996349", AESKey);
