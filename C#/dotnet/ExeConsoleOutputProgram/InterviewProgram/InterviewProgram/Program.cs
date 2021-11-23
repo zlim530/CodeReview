@@ -1,15 +1,19 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using InterviewProgram.YieldReturnDemo;
 using static System.Console;
 using static InterviewProgram.充分利用;
 using static InterviewProgram.类型转换;
 
 namespace InterviewProgram
 {
+    #region 中软国际三道面试题
+
     class Program
     {
         static void Main0(string[] args)
@@ -130,6 +134,10 @@ namespace InterviewProgram
 
     }
 
+    #endregion
+
+
+    #region 学习C#路线 集合
 
     public class ArrayListExample
     {
@@ -199,6 +207,180 @@ namespace InterviewProgram
 
     }
 
+    namespace YieldReturnDemo
+    {
+        public class YieldReturnDemo
+        {
+            static void Main12(string[] args)
+            {
+                MyEnumerable enu = new MyEnumerable();
+                foreach (Person p in enu)
+                {
+                    Console.WriteLine(p.Name + " " + p.Age + " 岁");
+                }
+            }
+        }
+
+        public class Person
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+
+        public class MyEnumerable : IEnumerable<Person>
+        {
+            public IEnumerator<Person> GetEnumerator()
+            {
+                //return new MyPersonEnumerator();  // yield return 的作用就是编译器自动帮你生成了 MyPersonEnumerator
+                yield return new Person { Name = "Tim", Age = 6 };
+                yield return new Person { Name = "Tom", Age = 7 };
+                yield return new Person { Name = "Tam", Age = 8 };
+                yield return new Person { Name = "Tbm", Age = 9 };
+                yield return new Person { Name = "Tcm", Age = 10 };
+                yield return new Person { Name = "Tdm", Age = 11 };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        public class MyPersonEnumerator : IEnumerator<Person>
+        {
+            private int _index = -1;
+            private Person[] _people = new Person[]
+                {
+                    new Person{ Name = "Tim",Age = 6},
+                    new Person{ Name = "Tom",Age = 7},
+                    new Person{ Name = "Tam",Age = 8},
+                    new Person{ Name = "Tbm",Age = 9},
+                    new Person{ Name = "Tcm",Age = 10},
+                    new Person{ Name = "Tdm",Age = 11},
+                };
+            public Person Current => _people[_index];
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose()
+            {
+                _people = null;
+            }
+
+            public bool MoveNext()
+            {
+                if (++_index > _people.Length - 1)
+                    return false;   // 到了末尾返回 false
+                else
+                    return true;
+            }
+
+            public void Reset()
+            {
+                _index = -1;
+            }
+        }
+    }
+
+    namespace ICollectionDemo
+    {
+        /*
+        * ICollection 类型
+        * 本质上是 IEnumerable 类加上一些特殊的功能
+        * 新加入的功能：
+        * Count => 获得元素数量
+        * IsReadOnly => 是否为只读
+        * Add => 添加一个新元素
+        * Clear => 清空所有元素
+        * Contains => 是否含有某个元素
+        * Remove => 移除一个元素
+        * CopyTo => 将元素的值复制到另外一个 Array 对象
+        */
+        public class MyICollection : ICollection<Person>
+        {
+            public int Count => throw new NotImplementedException();
+
+            public bool IsReadOnly => throw new NotImplementedException();
+
+            public void Add(Person item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Clear()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Contains(Person item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void CopyTo(Person[] array, int arrayIndex)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerator<Person> GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Remove(Person item)
+            {
+                throw new NotImplementedException();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /*
+        * IList 类型：ICollection+
+        * 在 ICollection 的基础上添加了新功能：
+        * 可以使用 IList[index] 获取任意位置的元素
+        * IndexOf => 获得某元素在集合中的位置
+        * Insert => 在某位置插入一个元素
+        * RemoveAt => 在某位置移除一个元素
+        * 
+        * IDictionary 类型：也是一种 ICollection+
+        * 很多其他语言也叫 HashTable, Map 等
+        * 由一系列的【键】和【值】的配对组成，其中【键】是唯一的
+        * 向字典中加入一个已经存在的【键】会报错，或者使用 TryAdd 方法，不报错，但是无法加入，而是返回 false、
+        * 可以很快速的判断【键】是否存在
+        * 可以快速地改变、读取某一个【键】对应的值
+        * 
+        * 其他的集合数据类型：
+        * HashSet<T>、SortedSet<T> => 只接受独一无二的值
+        * Queue<T> => 排队，队列，先进先出
+        * Stack<T> => 叠盘子，栈，先进后出
+        * LinkedList<T> => 可以在末尾、开头、某元素之前后进行元素操作，以 node 为单位进行操作，链表，使用 next 指针
+        */
+        public class ICollectionDemo
+        {
+            static void Main(string[] args)
+            {
+                HashSet<int> set = new HashSet<int>
+                { 
+                    1,3,5,7,9
+                };
+                set.Add(3);
+                foreach (var i in set)
+                {
+                    Console.WriteLine(i);
+                }
+            }
+        }
+
+    }
+
+    #endregion
+
+
+    #region C#语言-一些提高代码质量的小方法
 
     public class MyDelagate
     {
@@ -486,6 +668,6 @@ namespace InterviewProgram
         }
     }
 
+    #endregion
 
-    
 }
