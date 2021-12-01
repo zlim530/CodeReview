@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 /**
  * @author zlim
@@ -9,7 +7,7 @@ using System.Text;
  */
 namespace InterviewProgram
 {
-    public class MicrosoftBingAdsInterview
+    public static class MicrosoftBingAdsInterview
     {
         static void Main(string[] args)
         {
@@ -21,9 +19,18 @@ namespace InterviewProgram
                 Console.WriteLine(array[i]);
             }
             //array.OrderBy(d => d.Score).Skip(10).Take(10);
+            Console.WriteLine(CountOneNumbers(7));
         }
 
-
+        /// <summary>
+        /// 将字符串转换为整数：考察边界条件的处理
+        /// 1. 当字符串中有非法字符时如何处理？
+        /// 2. 当字符串超过 int 整型最大值如何处理？
+        /// 3. 当字符串为负数如何处理？
+        /// ...
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static int ConvertToIntByString(string str)
         {
             if (string.IsNullOrEmpty(str))
@@ -45,7 +52,11 @@ namespace InterviewProgram
             return result;
         }
 
-
+        /// <summary>
+        /// 使用 LINQ 将数组中的偶数取出来并从大到小进行排序
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
         public static int[] SortedByEvenNumbers(int[] array)
         {
             if (array.Length == 0)
@@ -60,7 +71,11 @@ namespace InterviewProgram
             return result;
         }
 
-
+        /// <summary>
+        /// 判断一个整数的二进制数中有几个1
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static int CountOneNumbers(int a)
         {
             if (a < 0)
@@ -68,40 +83,72 @@ namespace InterviewProgram
                 return -1;
             }
 
-            /*
-                 1 1 1 
-                |0 0 0
-                -------
-                 1 1 1 
-            */
-            var result = a | 0;
+            var result = Convert.ToString(a,2);
+            var count = 0;
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (result[i] == '1')
+                {
+                    count++;
+                }
+            }
+            return count;
 
-            return -1;
+
+            /*
+            *   1 => 001
+            *   2 => 010
+            *   3 => 011
+            *   4 => 100 
+            *   4 & 3 =   100
+            *           & 011
+            *           ------
+            *             000
+            *   3 & 2 =   011
+            *           & 010
+            *           ------
+            *             010
+            */
+            //var count = 0;
+            //while (a != 0)
+            //{
+            //    a &= (a - 1);
+            //    count++;
+            //}
+
+            //return count;
         }
     }
 
-
-    public class SingleClass
+    #region 单列模式的实现
+    public class SingletonClass
     {
-        private static readonly object _lock = new object();
+        private static readonly object _locker = new object();
 
-        private static SingleClass instance;
-        private SingleClass()
+        private static volatile SingletonClass instance;
+        private SingletonClass()
         {
 
         }
 
-        public static SingleClass GetSingleInstance()
+
+        public static SingletonClass GetSingleInstance()
         {
             if (instance == null)
             {
-                lock (_lock)
+                lock (_locker)
                 {
-                    instance = new SingleClass();
+                    if (instance == null)
+                    {
+                        instance = new SingletonClass();
+                    }
                 }
             }
 
             return instance;
         }
+
     }
+    #endregion
+
 }

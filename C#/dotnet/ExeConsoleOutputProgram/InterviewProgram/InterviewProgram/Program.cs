@@ -12,7 +12,7 @@ using static InterviewProgram.类型转换;
 
 namespace InterviewProgram
 {
-    #region 中软国际三道面试题
+    #region 中软国际微软外包三道面试题
 
     class Program
     {
@@ -361,7 +361,7 @@ namespace InterviewProgram
         */
         public class ICollectionDemo
         {
-            static void Main(string[] args)
+            static void Main8(string[] args)
             {
                 HashSet<int> set = new HashSet<int>
                 { 
