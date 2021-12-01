@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8KmJL5EiTFrdjwk2KmVm3PgdeE8BgKUpjp2vp8khrSg6jgjBtPpOVxrM8eMiQbUwTcMV94lv9rTbJouk7Azmlg==",
+  "dgSpecHash": "Jd//hujR8eMQzBT1rg8W8tRT+MdHjSj4FNI7C2WCJ0/5Q/hoPeKsSmzPrdFfiinNnWC3qRzEu/qFf/e2Yj+8rw==",
   "success": true,
-  "projectFilePath": "E:\\localcode\\CodeReview\\C#\\dotnet\\CoreDemo\\CoreDemo.csproj",
+  "projectFilePath": "E:\\localcode\\CodeReview\\C#\\dotnet\\ASPDotnetcoreapp2.1\\CoreDemo\\CoreDemo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\c02082\\.nuget\\packages\\buildbundlerminifier\\2.8.391\\buildbundlerminifier.2.8.391.nupkg.sha512",
     "C:\\Users\\c02082\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",

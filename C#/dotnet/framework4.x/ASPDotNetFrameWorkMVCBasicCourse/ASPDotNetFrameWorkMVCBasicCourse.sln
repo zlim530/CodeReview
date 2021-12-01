@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPDotNetFrameWorkMVCBasicCourse", "ASPDotNetFrameWorkMVCBasicCourse\ASPDotNetFrameWorkMVCBasicCourse.csproj", "{ADC75D40-1052-48E9-B78B-1D64110797E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADC75D40-1052-48E9-B78B-1D64110797E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC75D40-1052-48E9-B78B-1D64110797E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC75D40-1052-48E9-B78B-1D64110797E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC75D40-1052-48E9-B78B-1D64110797E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {237483DB-5AB3-452C-8053-8F16444ABD82}
+	EndGlobalSection
+EndGlobal
