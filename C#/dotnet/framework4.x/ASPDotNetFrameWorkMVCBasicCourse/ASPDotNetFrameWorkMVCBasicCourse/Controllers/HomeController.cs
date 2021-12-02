@@ -33,9 +33,94 @@ namespace ASPDotNetFrameWorkMVCBasicCourse.Controllers
         public ActionResult FileData()
         {
             // SaveAs 方法需要物理路径
-            Request.Files["file"].SaveAs(Request.MapPath("~/uploads" + Request.Files["file"].FileName));
+            Request.Files["file"].SaveAs(Request.MapPath("~/uploads/" + Request.Files["file"].FileName));
             return Content("Ok");
         }
+
+        public ActionResult ResponseData()
+        {
+            // Response.Write: 向客户端输出内容
+            // Response.Write("Hello,World!");
+            // Response.Redirect: 重定向
+            // Response.Redirect("https://www.baidu.com");
+            return Content("");
+        }
+
+        public ActionResult RequestHeader()
+        {
+            Response.Headers["Hello"] = "World";
+            return Content(Request.Headers["token"]);
+        }
+
+        public ActionResult SessionData()
+        {
+            /*
+            * Session 会话：数据保存在服务器中，存储少量且重要的数据比如账户
+            * Session 是一个键值对
+            * Session 的存活时间 20min
+            * Session 销毁：Abandon/Clear
+            */
+            Session["user"] = Request.Form["user"];
+            return Content($"会话中的数据是：{Session["user"]}");
+        }
+
+        public ActionResult GetSession()
+        {
+            return Content($"会话中的数据是：{Session["user"]}");
+        }
+
+        public ActionResult ClearSession()
+        {
+            Session.Abandon();
+            return Content("Cleared.");
+        }
+
+        public ActionResult CookieSave()
+        {
+            // 时效性设置
+            Response.Cookies.Add(new HttpCookie("token")
+            { 
+                Value = "zlim530",
+                Expires = DateTime.Now.AddDays(1)
+            });
+            return Content("OK!");
+        }
+
+        public ActionResult CookieGet()
+        {
+            return Content(Request.Cookies["token"].Value);
+        }
+
+        public ActionResult CookieClear()
+        {
+            Response.Cookies.Add(new HttpCookie("token")
+            { 
+                Expires = DateTime.Now.AddDays(-1)
+            });
+            return Content("OK.");
+        }
+
+        public ActionResult ApplicationData()
+        {
+            HttpContext.Application["user"] = "123";
+            return Content("");
+        }
+
+        public ActionResult ApplicationGet()
+        {
+            return Content(HttpContext.Application["user"].ToString());
+        }
+
+        public ActionResult ServerDemo()
+        {
+            return Content("");
+        }
+
+        public ActionResult ShowDemo()
+        {
+            return Content("This is content.");
+        }
+
 
         public ActionResult About()
         {
