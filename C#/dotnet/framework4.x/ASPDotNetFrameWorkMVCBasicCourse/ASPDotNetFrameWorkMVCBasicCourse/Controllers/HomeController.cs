@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASPDotNetFrameWorkMVCBasicCourse.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -135,5 +136,28 @@ namespace ASPDotNetFrameWorkMVCBasicCourse.Controllers
 
             return View();
         }
+
+
+        public ActionResult Demo()
+        {
+            // 一般存放一些不主要的数据
+            ViewBag.Content = "This is Data of DemoController Index Action.";
+            ViewBag.ZName = "Tim";
+            ViewBag.ZAge = 20;
+            ViewData["Age"] = 111;
+            return View();
+        }
+
+        public ActionResult ShowData()
+        {
+
+            return View("ShowData2", new Student()
+            { 
+                Id = 1,
+                Name = "Tom",
+                Age = 20
+            });
+        }
+
     }
 }

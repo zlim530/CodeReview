@@ -1,0 +1,11 @@
+﻿@model ASPDotNetFrameWorkMVCBasicCourse.Models.Student
+@* model 里的数据类型一定要和 View 方法参数里的 model 类型一致*@
+@{
+    ViewBag.Title = "ShowData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ShowData</h2>
+@Model.Id
+@Model.Name
+@Model.Age
