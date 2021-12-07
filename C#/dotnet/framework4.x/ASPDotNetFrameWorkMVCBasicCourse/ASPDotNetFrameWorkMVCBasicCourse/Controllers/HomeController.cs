@@ -22,8 +22,8 @@ namespace ASPDotNetFrameWorkMVCBasicCourse.Controllers
             *   Request.MapPath()：将虚拟路径转换为物理路径
             *   Request.Files：post 请求的文件（文件上传）
             */
-            return Content($"{Request.QueryString["name"]} - {Request.QueryString["age"]}");
-            //return View();
+            //return Content($"{Request.QueryString["name"]} - {Request.QueryString["age"]}");
+            return View();
         }
 
         public ActionResult PostData()
@@ -158,6 +158,45 @@ namespace ASPDotNetFrameWorkMVCBasicCourse.Controllers
                 Age = 20
             });
         }
+
+        /*
+        * Action 方法返回的不同类型：
+        * ViewResult 返回相应的视图
+        * ContentResult 返回字符串
+        * RedirectResult 重定向
+        * RedirectToRouteResult 根据路由进行重定向
+        * FileResult 向客户端输出文件
+        * JsonResult 向客户端返回对象的 json 序列化后的结果
+        * HttpStatusCodeResult 显示不同的状态码信息
+        * PartialViewResult 返回部分页面：可以分模板输出
+        */
+        public ActionResult RedirectDemo()
+        {
+            return Redirect("https://www.baidu.com");
+        }
+
+        // 跳转到当前 Controller 中的指定 Action 中
+        public ActionResult RedirectToActionDemo()
+        {
+            return RedirectToAction("Index");
+        }
+
+        // 跳转到指定 Controller 中的指定 Action 中
+        public ActionResult RedirectToActionDemo2()
+        {
+            return RedirectToAction("Index","Demo");
+        }
+
+        public ActionResult GetStudents()
+        {
+            return View(new List<Student>{ 
+                new Student{ Name = "Tim",Age = 13, Id = 1},
+                new Student{ Name = "Tom",Age = 14, Id = 2},
+                new Student{ Name = "Tam",Age = 15, Id = 3},
+                new Student{ Name = "Tbm",Age = 16, Id = 4},
+            });
+        }
+
 
     }
 }

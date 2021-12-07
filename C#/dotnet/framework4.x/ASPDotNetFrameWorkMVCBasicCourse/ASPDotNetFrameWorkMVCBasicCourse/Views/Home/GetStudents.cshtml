@@ -1,0 +1,12 @@
+﻿@model List<ASPDotNetFrameWorkMVCBasicCourse.Models.Student>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<ul>
+    @foreach (var stu in Model)
+    {
+        <li>@stu.Name</li>
+    }
+</ul>
