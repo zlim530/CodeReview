@@ -101,7 +101,7 @@ namespace YSR.MES.Common.CustomFilter
                     context.Result = new ObjectResult(new AjaxResponse(errorInfo, unAuthorizedRequest: true))
                     {
                         //默认状态
-                        StatusCode = 200
+                        StatusCode = (int)System.Net.HttpStatusCode.OK
                     };
                 }
                 else
@@ -128,7 +128,7 @@ namespace YSR.MES.Common.CustomFilter
                     errorInfo.Code = (int)System.Net.HttpStatusCode.InternalServerError;
                     context.Result = new ObjectResult(new AjaxResponse(errorInfo))
                     {
-                        StatusCode = 200
+                        StatusCode = (int)System.Net.HttpStatusCode.OK
                     };
                 }
                 else

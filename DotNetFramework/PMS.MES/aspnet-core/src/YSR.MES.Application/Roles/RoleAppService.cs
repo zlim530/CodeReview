@@ -15,6 +15,8 @@ using YSR.MES.Roles.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Abp;
+using YSR.MES.Routine;
+using System;
 
 namespace YSR.MES.Roles
 {
@@ -24,19 +26,32 @@ namespace YSR.MES.Roles
         private readonly RoleManager _roleManager;
         private readonly UserManager _userManager;
         private readonly IRepository<Permission, long> _sysPermissionRepository;
+        private readonly IRepository<Companies, Guid> _companiesRepository;
         private readonly IPermissionManager _permissionManager;
 
         public RoleAppService(IRepository<Role> repository
             , RoleManager roleManager
             , UserManager userManager
             , IRepository<Permission, long> sysPermissionRepository
+            , IRepository<Companies, Guid> companiesRepository
             , PermissionManager permissionManager)
             : base(repository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _sysPermissionRepository = sysPermissionRepository;
+            _companiesRepository = companiesRepository;
             _permissionManager = permissionManager;
+        }
+
+        /// <summary>
+        /// 获取所有公司
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Companies>> GetAllCompaniesAsync()
+        {
+            var temp = await _companiesRepository.GetAllListAsync();
+            return temp;
         }
 
         /// <summary>

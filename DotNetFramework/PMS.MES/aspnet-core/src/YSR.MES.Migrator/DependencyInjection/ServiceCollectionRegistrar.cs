@@ -9,11 +9,11 @@ namespace YSR.MES.Migrator.DependencyInjection
     {
         public static void Register(IIocManager iocManager)
         {
-            var services = new ServiceCollection();
+            //var services = new ServiceCollection();
 
-            IdentityRegistrar.Register(services);
+            //IdentityRegistrar.Register(services);
 
-            WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
+            //WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
         }
     }
 }

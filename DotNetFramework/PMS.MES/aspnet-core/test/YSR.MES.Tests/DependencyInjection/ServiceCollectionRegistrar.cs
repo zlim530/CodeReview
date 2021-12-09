@@ -13,23 +13,23 @@ namespace YSR.MES.Tests.DependencyInjection
     {
         public static void Register(IIocManager iocManager)
         {
-            var services = new ServiceCollection();
+            //var services = new ServiceCollection();
 
-            IdentityRegistrar.Register(services);
+            //IdentityRegistrar.Register(services);
 
-            services.AddEntityFrameworkInMemoryDatabase();
+            //services.AddEntityFrameworkInMemoryDatabase();
 
-            var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
+            //var serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(iocManager.IocContainer, services);
 
-            var builder = new DbContextOptionsBuilder<MESDbContext>();
-            builder.UseInMemoryDatabase(Guid.NewGuid().ToString()).UseInternalServiceProvider(serviceProvider);
+            //var builder = new DbContextOptionsBuilder<MESDbContext>();
+            //builder.UseInMemoryDatabase(Guid.NewGuid().ToString()).UseInternalServiceProvider(serviceProvider);
 
-            iocManager.IocContainer.Register(
-                Component
-                    .For<DbContextOptions<MESDbContext>>()
-                    .Instance(builder.Options)
-                    .LifestyleSingleton()
-            );
+            //iocManager.IocContainer.Register(
+            //    Component
+            //        .For<DbContextOptions<MESDbContext>>()
+            //        .Instance(builder.Options)
+            //        .LifestyleSingleton()
+            //);
         }
     }
 }

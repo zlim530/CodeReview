@@ -61,10 +61,6 @@ namespace YSR.MES.Common.CustomFilter
                 return;
             }
 
-            //var wrapResultAttribute = context.ActionDescriptor.GetMethodInfo().GetCustomAttributes(true).OfType<WrapResultAttribute>().FirstOrDefault()
-            //       ?? context.ActionDescriptor.GetMethodInfo().ReflectedType?.GetTypeInfo().GetCustomAttributes(true).OfType<WrapResultAttribute>().FirstOrDefault()
-            //       ?? new WrapResultAttribute();
-
             var wrapResultAttribute = ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault(
                 context.ActionDescriptor.GetMethodInfo(),
                 _configuration.DefaultWrapResultAttribute

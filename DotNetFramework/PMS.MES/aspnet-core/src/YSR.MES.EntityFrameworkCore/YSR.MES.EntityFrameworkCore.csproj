@@ -24,6 +24,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YSR.MES.Common\YSR.MES.Common.csproj" />
     <ProjectReference Include="..\YSR.MES.Core\YSR.MES.Core.csproj" />
   </ItemGroup>
 </Project>
