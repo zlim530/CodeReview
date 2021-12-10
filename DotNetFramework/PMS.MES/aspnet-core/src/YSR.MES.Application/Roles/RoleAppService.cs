@@ -17,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 using Abp;
 using YSR.MES.Routine;
 using System;
+using Abp.Organizations;
+using Abp.Runtime.Caching;
+using Abp.Authorization.Roles;
 
 namespace YSR.MES.Roles
 {
@@ -27,21 +30,82 @@ namespace YSR.MES.Roles
         private readonly UserManager _userManager;
         private readonly IRepository<Permission, long> _sysPermissionRepository;
         private readonly IRepository<Companies, Guid> _companiesRepository;
+        private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IPermissionManager _permissionManager;
+        private readonly ICacheManager _cacheManager;
 
         public RoleAppService(IRepository<Role> repository
             , RoleManager roleManager
             , UserManager userManager
             , IRepository<Permission, long> sysPermissionRepository
             , IRepository<Companies, Guid> companiesRepository
-            , PermissionManager permissionManager)
+            , IRepository<OrganizationUnit, long> organizationUnitRepository
+            , PermissionManager permissionManager
+            , ICacheManager cacheManager)
             : base(repository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _sysPermissionRepository = sysPermissionRepository;
             _companiesRepository = companiesRepository;
+            _organizationUnitRepository = organizationUnitRepository;
             _permissionManager = permissionManager;
+            _cacheManager = cacheManager;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        //public async Task<RolePermissionCacheItem> GetRolePermissionCacheItemAsync()
+        //{
+        //    var cacheKey = 1 + "@" + 0;
+        //    var list = _permissionManager.GetAllPermissions();
+        //    return await _cacheManager.GetRolePermissionCache().GetAsync(cacheKey, () =>
+        //    {
+        //        var newCacheItem = new RolePermissionCacheItem();
+        //        newCacheItem.GrantedPermissions = list.Select(p => p.Name).ToHashSet();
+        //        return newCacheItem;
+        //    });
+        //}
+
+        /// <summary>
+        /// 获取所有组织机构
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<OrganizationUnit>> GetAllOrganizationListAsync()
+        {
+            var orgList = _cacheManager.GetCache("Organization").Get("AllOrganization", _ => _organizationUnitRepository.GetAllList());
+            return (List<OrganizationUnit>)orgList;
+        }
+
+        /// <summary>
+        /// 创建组织机构
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> CreateOrganizationUnitAsync()
+        {
+            var entity = new OrganizationUnit();
+            entity.DisplayName = "YSR";
+            entity.Code = "001";
+
+            await _organizationUnitRepository.InsertAsync(entity);
+
+            return await Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// 写 Redis 缓存并获取
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> GetRedisCacheStringAsync()
+        {
+            _cacheManager.GetCache("Test").Set("1", "YSR");
+
+            var sessionKey = _cacheManager.GetCache("Organization").Get("1", (val) => val) as string;
+
+            return await Task.FromResult(sessionKey);
         }
 
         /// <summary>

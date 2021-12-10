@@ -6,6 +6,9 @@ namespace YSR.MES.EntityFrameworkCore.Routine
 {
     public class RoutineDbContext : AbpDbContext
     {
+        /// <summary>
+        /// 公司信息表
+        /// </summary>
         public DbSet<Companies> Companies { get; set; }
 
         public RoutineDbContext(DbContextOptions<RoutineDbContext> options) : base(options)
