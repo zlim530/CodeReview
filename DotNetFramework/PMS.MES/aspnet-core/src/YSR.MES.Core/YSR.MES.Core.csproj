@@ -19,4 +19,7 @@
     <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="6.5.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YSR.MES.Common\YSR.MES.Common.csproj" />
+  </ItemGroup>
 </Project>

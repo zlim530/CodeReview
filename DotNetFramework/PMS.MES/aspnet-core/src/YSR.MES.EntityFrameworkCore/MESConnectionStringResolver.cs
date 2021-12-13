@@ -5,6 +5,7 @@ using System;
 using YSR.MES.Common.DBPlatFormConsts;
 using YSR.MES.Configuration;
 using YSR.MES.EntityFrameworkCore;
+using YSR.MES.EntityFrameworkCore.Movie;
 using YSR.MES.EntityFrameworkCore.Routine;
 using YSR.MES.Web;
 
@@ -40,6 +41,10 @@ namespace YSR.MES
             else if (type == typeof(RoutineDbContext))
             {
                 return MESDBContextPlatFormConst.RouTineTestConnectionStringName;
+            }
+            else if (type == typeof(MovieDbContext))
+            {
+                return MESDBContextPlatFormConst.MovieDBConnectionStringName;
             }
 
             //采用默认数据库

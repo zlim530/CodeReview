@@ -7,9 +7,9 @@
         /// </summary>
         public const string DefaultConnectionStringName = "Default";
 
-        //public const string SunLightConnectionStringName = "YSR_SunLightConnection";
-
         public const string RouTineTestConnectionStringName = "RoutineConnectionString";
+
+        public const string MovieDBConnectionStringName = "MovieConnectionString";
 
     }
 }

@@ -53,28 +53,11 @@ namespace YSR.MES.Roles
             _cacheManager = cacheManager;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        //public async Task<RolePermissionCacheItem> GetRolePermissionCacheItemAsync()
-        //{
-        //    var cacheKey = 1 + "@" + 0;
-        //    var list = _permissionManager.GetAllPermissions();
-        //    return await _cacheManager.GetRolePermissionCache().GetAsync(cacheKey, () =>
-        //    {
-        //        var newCacheItem = new RolePermissionCacheItem();
-        //        newCacheItem.GrantedPermissions = list.Select(p => p.Name).ToHashSet();
-        //        return newCacheItem;
-        //    });
-        //}
-
         /// <summary>
         /// 获取所有组织机构
         /// </summary>
         /// <returns></returns>
-        public async Task<List<OrganizationUnit>> GetAllOrganizationListAsync()
+        public List<OrganizationUnit> GetAllOrganizationList()
         {
             var orgList = _cacheManager.GetCache("Organization").Get("AllOrganization", _ => _organizationUnitRepository.GetAllList());
             return (List<OrganizationUnit>)orgList;
@@ -103,10 +86,26 @@ namespace YSR.MES.Roles
         {
             _cacheManager.GetCache("Test").Set("1", "YSR");
 
-            var sessionKey = _cacheManager.GetCache("Organization").Get("1", (val) => val) as string;
+            var sessionKey = _cacheManager.GetCache("Test").Get("1", (val) => val) as string;
 
             return await Task.FromResult(sessionKey);
         }
+
+        /// <summary>
+        /// test
+        /// </summary>
+        /// <returns></returns>
+        //public async Task<RolePermissionCacheItem> GetRolePermissionCacheItemAsync()
+        //{
+        //    var cacheKey = 1 + "@" + 0;
+        //    var list = _permissionManager.GetAllPermissions();
+        //    return await _cacheManager.GetRolePermissionCache().GetAsync(cacheKey, () =>
+        //    {
+        //        var newCacheItem = new RolePermissionCacheItem();
+        //        newCacheItem.GrantedPermissions = list.Select(p => p.Name).ToHashSet();
+        //        return newCacheItem;
+        //    });
+        //}
 
         /// <summary>
         /// 获取所有公司

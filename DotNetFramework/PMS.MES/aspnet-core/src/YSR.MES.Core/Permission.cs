@@ -2,10 +2,13 @@
 using Abp.Domain.Entities.Auditing;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using YSR.MES.Common.Attributes;
+using YSR.MES.Common.CommonEnum;
 
 namespace YSR.MES
 {
     [Table("SysPermission")]
+    [TableName("系统权限表", "SysPermission", ContextTypeEnum.SYSDbContext)]
     public class Permission : Entity<long>, IFullAudited
     {
         /// <summary>
