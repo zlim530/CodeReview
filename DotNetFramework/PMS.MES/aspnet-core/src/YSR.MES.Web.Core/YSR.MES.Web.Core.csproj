@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\YSR.MES.Application\YSR.MES.Application.csproj" />
     <ProjectReference Include="..\YSR.MES.EntityFrameworkCore\YSR.MES.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\YSR.MES.Movie\YSR.MES.Movie.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />

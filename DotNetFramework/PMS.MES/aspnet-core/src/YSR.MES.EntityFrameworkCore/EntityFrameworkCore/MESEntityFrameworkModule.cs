@@ -6,6 +6,7 @@ using Abp.MultiTenancy;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
 using Castle.MicroKernel.Registration;
+using YSR.MES.EntityFrameworkCore.Movie;
 using YSR.MES.EntityFrameworkCore.Routine;
 using YSR.MES.EntityFrameworkCore.Seed;
 
@@ -31,6 +32,7 @@ namespace YSR.MES.EntityFrameworkCore
             {
                 AddDbContext<MESDbContext>();
                 AddDbContext<RoutineDbContext>();
+                AddDbContext<MovieDbContext>();
                 //AddDbContext<SunLightDbContext>();
                 //Configuration.Modules.AbpEfCore().AddDbContext<MESDbContext>(options =>
                 //{

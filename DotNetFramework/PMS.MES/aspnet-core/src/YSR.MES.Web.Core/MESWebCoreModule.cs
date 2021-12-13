@@ -13,15 +13,17 @@ using YSR.MES.Authentication.JwtBearer;
 using YSR.MES.Configuration;
 using YSR.MES.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using YSR.MES.Movie;
 
 namespace YSR.MES
 {
     [DependsOn(
-         typeof(MESApplicationModule),
-         typeof(MESEntityFrameworkModule),
-         typeof(AbpAspNetCoreModule)
-        ,typeof(AbpAspNetCoreSignalRModule)
-     )]
+        typeof(MESApplicationModule)
+        , typeof(MESEntityFrameworkModule)
+        , typeof(AbpAspNetCoreModule)
+        , typeof(AbpAspNetCoreSignalRModule)
+        , typeof(MovieModule)
+    )]
     public class MESWebCoreModule : AbpModule
     {
         private readonly IWebHostEnvironment _env;
@@ -45,6 +47,11 @@ namespace YSR.MES
             Configuration.Modules.AbpAspNetCore()
                  .CreateControllersForAppServices(
                      typeof(MESApplicationModule).GetAssembly()
+                 );
+
+            Configuration.Modules.AbpAspNetCore()
+                 .CreateControllersForAppServices(
+                     typeof(MovieModule).GetAssembly()
                  );
 
             ConfigureTokenAuth();
