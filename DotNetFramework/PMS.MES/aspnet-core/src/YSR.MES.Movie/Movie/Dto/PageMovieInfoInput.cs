@@ -2,6 +2,9 @@
 
 namespace YSR.MES.Movie.Movie.Dto
 {
+    /// <summary>
+    /// 获取电影信息输入 Dto
+    /// </summary>
     public class PageMovieInfoInput : InputPageBase
     {
         /// <summary>
