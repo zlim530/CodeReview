@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\netcoreapp3.1\</OutputPath>
-    <DocumentationFile>bin\Debug\netcoreapp3.1\YSR.MES.Movie.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+    <DocumentationFile>obj\Debug\net5.0\YSR.MES.Movie.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

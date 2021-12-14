@@ -36,7 +36,8 @@ namespace YSR.MES
 
             Configuration.Settings.Providers.Add<AppSettingProvider>();
             
-            Configuration.Localization.Languages.Add(new LanguageInfo("fa", "فارسی", "famfamfam-flags ir"));
+            //Configuration.Localization.Languages.Add(new LanguageInfo("fa", "فارسی", "famfamfam-flags ir"));
+            Configuration.Localization.Languages.Add(new LanguageInfo("zh","中文", "famfamfam-flags cn"));
             
             Configuration.Settings.SettingEncryptionConfiguration.DefaultPassPhrase = MESConsts.DefaultPassPhrase;
             SimpleStringCipher.DefaultPassPhrase = MESConsts.DefaultPassPhrase;

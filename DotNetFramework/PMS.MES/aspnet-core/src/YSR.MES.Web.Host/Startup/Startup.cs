@@ -170,25 +170,39 @@ namespace YSR.MES.Web.Host.Startup
                         "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.ApiKey,
+                });
+
+                // 为 Swagger JSON and UI设置xml文档注释路径
+                var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+
+                var files = Directory.GetFiles(basePath, "*.xml");
+
+                files.ToList().ForEach(e =>
+                {
+                    options.IncludeXmlComments(e);
                 });
 
                 //add summaries to swagger
-                bool canShowSummaries = _appConfiguration.GetValue<bool>("Swagger:ShowSummaries");
-                if (canShowSummaries)
-                {
-                    var hostXmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    var hostXmlPath = Path.Combine(AppContext.BaseDirectory, hostXmlFile);
-                    options.IncludeXmlComments(hostXmlPath);
+                //bool canShowSummaries = _appConfiguration.GetValue<bool>("Swagger:ShowSummaries");
+                //if (canShowSummaries)
+                //{
+                //    var hostXmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //    var hostXmlPath = Path.Combine(AppContext.BaseDirectory, hostXmlFile);
+                //    options.IncludeXmlComments(hostXmlPath);
 
-                    var applicationXml = $"YSR.MES.Application.xml";
-                    var applicationXmlPath = Path.Combine(AppContext.BaseDirectory, applicationXml);
-                    options.IncludeXmlComments(applicationXmlPath);
+                //    var applicationXml = $"YSR.MES.Application.xml";
+                //    var applicationXmlPath = Path.Combine(AppContext.BaseDirectory, applicationXml);
+                //    options.IncludeXmlComments(applicationXmlPath);
 
-                    var webCoreXmlFile = $"YSR.MES.Web.Core.xml";
-                    var webCoreXmlPath = Path.Combine(AppContext.BaseDirectory, webCoreXmlFile);
-                    options.IncludeXmlComments(webCoreXmlPath);
-                }
+                //    var webCoreXmlFile = $"YSR.MES.Web.Core.xml";
+                //    var webCoreXmlPath = Path.Combine(AppContext.BaseDirectory, webCoreXmlFile);
+                //    options.IncludeXmlComments(webCoreXmlPath);
+
+                //    var movieXml = $"YSR.MES.Movie.xml";
+                //    var movieXmlPath = Path.Combine(AppContext.BaseDirectory, movieXml);
+                //    options.IncludeXmlComments(movieXmlPath);
+                //}
             });
         }
     }
