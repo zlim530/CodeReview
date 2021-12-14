@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using YSR.MES.Common.CommonModel;
 using YSR.MES.Movie.Movie.Dto;
 
 namespace YSR.MES.Movie.Movie
@@ -15,5 +13,12 @@ namespace YSR.MES.Movie.Movie
         /// <param name="input"></param>
         /// <returns></returns>
         Task<Guid> CreateMovieInfoAsync(CreateMovieInfoInput input);
+
+        /// <summary>
+        /// 获取电影信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<OutputPageInfo<PageMovieInfoOutput>> GetMovieInfosAsync(PageMovieInfoInput input);
     }
 }
