@@ -20,5 +20,12 @@ namespace YSR.MES.Movie.Movie
         /// <param name="input"></param>
         /// <returns></returns>
         Task<OutputPageInfo<PageMovieInfoOutput>> GetMovieInfosAsync(PageMovieInfoInput input);
+
+        /// <summary>
+        /// 删除电影信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<bool> DeleteMovieInfosAsync(DeleteMovieInfoInput input);
     }
 }

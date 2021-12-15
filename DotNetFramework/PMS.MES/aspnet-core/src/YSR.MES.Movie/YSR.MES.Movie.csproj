@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Abp" Version="7.0.0" />
     <PackageReference Include="Abp.AutoMapper" Version="7.0.0" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="5.4.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,9 @@
-﻿using Abp.Collections.Extensions;
+﻿using Abp;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using AutoMapper;
+using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -53,6 +55,30 @@ namespace YSR.MES.Movie.Movie
             var result = _autoMapper.Map<List<PageMovieInfoOutput>>(list);
 
             return new OutputPageInfo<PageMovieInfoOutput>(count, result);
+        }
+
+        /// <summary>
+        /// 删除电影信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteMovieInfosAsync(DeleteMovieInfoInput input)
+        {
+            var deletedIds = await _movieInfoRepository.GetAll()
+                                    .Where(m => input.IdList.Contains(m.Id))
+                                    .Select(m => m.Id)
+                                    .ToListAsync();
+
+            var checkedData = input.IdList.Where(i => !deletedIds.Contains(i));
+            if (checkedData.Any())
+                throw new AbpException($"删除失败！Id为'{string.Join(",",checkedData)}'的数据不存在！");
+            await _movieInfoRepository.GetAll().Where(m => input.IdList.Contains(m.Id))
+                                    .BatchUpdateAsync(_ => new MovieInfo
+                                                            {
+                                                                IsDeleted = true
+                                                            });
+
+            return await Task.FromResult(true);
         }
     }
 }
