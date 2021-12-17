@@ -25,6 +25,15 @@ namespace YSR.MES.Movie.Movie
                 .ForMember(s => s.G,    map => map.MapFrom(d => d.Genre))
                 .ForMember(s => s.Pc,   map => map.MapFrom(d => d.ProducingCountry))
                 .ForMember(s => s.F,    map => map.MapFrom(d => d.Footage));
+
+            CreateMap<EditMovieInfoInput, MovieInfo>()
+                .ForMember(s => s.Director,         map => map.MapFrom(d => d.D))
+                .ForMember(s => s.Language,         map => map.MapFrom(d => d.Lan))
+                .ForMember(s => s.Title,            map => map.MapFrom(d => d.T))
+                .ForMember(s => s.RelaseDate,       map => map.MapFrom(d => d.RD))
+                .ForMember(s => s.Genre,            map => map.MapFrom(d => d.G))
+                .ForMember(s => s.Footage,          map => map.MapFrom(d => d.F))
+                .ForMember(s => s.ProducingCountry, map => map.MapFrom(d => d.PC));
         }
     }
 }
