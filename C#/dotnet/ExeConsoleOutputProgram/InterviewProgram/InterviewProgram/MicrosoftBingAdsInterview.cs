@@ -9,7 +9,7 @@ namespace InterviewProgram
 {
     public static class MicrosoftBingAdsInterview
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             Console.WriteLine("Hello World!");
             Console.WriteLine(ConvertToIntByString("123"));
