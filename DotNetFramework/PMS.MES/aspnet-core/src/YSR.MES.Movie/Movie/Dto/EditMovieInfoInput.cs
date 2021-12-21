@@ -30,7 +30,7 @@ namespace YSR.MES.Movie.Movie.Dto
         /// <summary>
         /// 发行日期
         /// </summary>
-        public string RD { get; set; }
+        public DateTime? RD { get; set; }
 
         /// <summary>
         /// 流派

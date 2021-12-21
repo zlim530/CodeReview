@@ -27,5 +27,12 @@ namespace YSR.MES.Movie.Movie
         /// <param name="input"></param>
         /// <returns></returns>
         Task<bool> DeleteMovieInfosAsync(DeleteMovieInfoInput input);
+
+        /// <summary>
+        /// 编辑电影信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PageMovieInfoOutput> EditMovieInfoAsync(EditMovieInfoInput input);
     }
 }
