@@ -1,0 +1,21 @@
+[
+    //"ConnectionStrings": {
+    //  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=_CHANGE_ME;Trusted_Connection=True;MultipleActiveResultSets=true"
+    //}
+    {
+        "outputFileName": "wwwroot/css/all.min.css",
+        "inputFiles": [
+            "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+            "wwwroot/css/site.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/css/bootstrap.css",
+        "inputFiles": [
+            "wwwroot/lib/bootstrap/dist/css/bootstrap.css"
+        ],
+        "minify": {
+            "enabled": true
+        }
+    }
+]
