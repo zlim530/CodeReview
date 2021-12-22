@@ -1,4 +1,5 @@
 ﻿using Abp;
+using Abp.Authorization;
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
@@ -22,17 +23,27 @@ namespace YSR.MES.Movie.Movie
     {
         private readonly IRepository<MovieInfo, Guid> _movieInfoRepository;
         private readonly IMapper _autoMapper;
+        private readonly IPermissionManager _permissionManager;
 
         /// <summary>
         /// DI 构造函数依赖注入
         /// </summary>
         /// <param name="movieInfoReposiyory"></param>
         /// <param name="autoMapper"></param>
+        /// <param name="permissionManager"></param>
         public MovieInfoAppService(IRepository<MovieInfo, Guid> movieInfoReposiyory
-            , IMapper autoMapper)
+            , IMapper autoMapper
+            , PermissionManager permissionManager
+            )
         {
             _movieInfoRepository = movieInfoReposiyory;
             _autoMapper = autoMapper;
+            _permissionManager = permissionManager;
+        }
+
+        public void Test()
+        { 
+            var list = _permissionManager.GetAllPermissions();
         }
 
         /// <summary>
