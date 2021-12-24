@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Entities;
+﻿using Abp.AutoMapper;
+using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,6 +8,7 @@ using YSR.MES.Common.CommonEnum;
 
 namespace YSR.MES
 {
+    //[AutoMap(typeof(PermissionDto))]
     [Table("SysPermission")]
     [TableName("系统权限表", "SysPermission", ContextTypeEnum.SYSDbContext)]
     public class Permission : Entity<long>, IFullAudited

@@ -1,6 +1,7 @@
 ﻿using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Localization;
-using Abp.MultiTenancy;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,18 +9,30 @@ namespace YSR.MES.Authorization
 {
     public class MESAuthorizationProvider : AuthorizationProvider
     {
+        private readonly IRepository<Permission, long> _sysPermissionRepository;
         private readonly List<Permission> _permissions;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         public MESAuthorizationProvider()
         {
 
         }
 
-        public MESAuthorizationProvider(List<Permission> permissions)
+        public MESAuthorizationProvider(
+            IRepository<Permission, long> sysPermissionRepository
+            , IUnitOfWorkManager unitOfWorkManager
+            )
         {
-            _permissions = permissions;
+            _sysPermissionRepository = sysPermissionRepository;
+            _unitOfWorkManager = unitOfWorkManager;
+            using (var unitOfWork = _unitOfWorkManager.Begin())
+            {
+                _permissions = _sysPermissionRepository.GetAllList();
+                unitOfWork.Complete();
+            }
         }
 
+        //[UnitOfWork]
         public override void SetPermissions(IPermissionDefinitionContext context)
         {
             /*context.CreatePermission(PermissionNames.Pages_Users, L("Users"));

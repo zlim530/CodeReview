@@ -23,7 +23,9 @@ namespace YSR.MES.Movie.Movie
     {
         private readonly IRepository<MovieInfo, Guid> _movieInfoRepository;
         private readonly IMapper _autoMapper;
-        private readonly IPermissionManager _permissionManager;
+        private readonly PermissionManager _permissionManager;
+        private readonly IRepository<Permission, long> _sysPermissionRepository;
+
 
         /// <summary>
         /// DI 构造函数依赖注入
@@ -31,20 +33,39 @@ namespace YSR.MES.Movie.Movie
         /// <param name="movieInfoReposiyory"></param>
         /// <param name="autoMapper"></param>
         /// <param name="permissionManager"></param>
+        /// <param name="sysPermissionRepository"></param>
         public MovieInfoAppService(IRepository<MovieInfo, Guid> movieInfoReposiyory
             , IMapper autoMapper
             , PermissionManager permissionManager
+            , IRepository<Permission, long> sysPermissionRepository
             )
         {
             _movieInfoRepository = movieInfoReposiyory;
             _autoMapper = autoMapper;
             _permissionManager = permissionManager;
+            _sysPermissionRepository = sysPermissionRepository;
         }
 
-        public void Test()
+        [HttpGet]
+        [AbpAuthorize("PMS")]
+        public List<Permission> Test()
         { 
             var list = _permissionManager.GetAllPermissions();
+            var data = _sysPermissionRepository.GetAllList();
+            return data;
         }
+
+        #region 重新设置单例权限
+        private void SetAllPermission()
+        {
+            foreach (var item in _permissionManager.GetAllPermissions().Select(x => x.Name))
+            {
+                _permissionManager.RemovePermission(item);
+            }
+            _permissionManager.Initialize();
+        }
+
+        #endregion
 
         /// <summary>
         /// 创建电影信息

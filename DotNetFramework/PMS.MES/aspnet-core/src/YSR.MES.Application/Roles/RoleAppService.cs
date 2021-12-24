@@ -20,15 +20,17 @@ using System;
 using Abp.Organizations;
 using Abp.Runtime.Caching;
 using Abp.Authorization.Roles;
+using Microsoft.AspNetCore.Mvc;
 
 namespace YSR.MES.Roles
 {
-    [AbpAuthorize(PermissionNames.Pages_Roles)]
+    //[AbpAuthorize(PermissionNames.Pages_Roles)]
     public class RoleAppService : AsyncCrudAppService<Role, RoleDto, int, PagedRoleResultRequestDto, CreateRoleDto, RoleDto>, IRoleAppService
     {
         private readonly RoleManager _roleManager;
         private readonly UserManager _userManager;
         private readonly IRepository<Permission, long> _sysPermissionRepository;
+        private readonly IRepository<Role> _roleRepository;
         private readonly IRepository<Companies, Guid> _companiesRepository;
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IPermissionManager _permissionManager;
@@ -44,6 +46,7 @@ namespace YSR.MES.Roles
             , ICacheManager cacheManager)
             : base(repository)
         {
+            _roleRepository = repository;
             _roleManager = roleManager;
             _userManager = userManager;
             _sysPermissionRepository = sysPermissionRepository;
@@ -121,8 +124,10 @@ namespace YSR.MES.Roles
         /// 获取所有权限
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<List<Permission>> GetAllPermissionAsync()
         {
+            var permissions = await _roleManager.GetGrantedPermissionsAsync(_roleRepository.GetAll().FirstOrDefault());
             var list = _permissionManager.GetAllPermissions();
             var data = await _sysPermissionRepository.GetAll().ToListAsync();
             if (list.Count() != data.Count())

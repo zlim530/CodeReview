@@ -28,7 +28,7 @@ namespace YSR.MES
         {
             Configuration.Authorization.Providers.Add<MESAuthorizationProvider>();
 
-            
+
             #region using redisCache
             // 配置使用 Redis 缓存
             Configuration.Caching.UseRedis(option =>
@@ -52,6 +52,9 @@ namespace YSR.MES
 
             #endregion
 
+            // 使用权限管理类
+            //Configuration.Authorization.Providers.Add<MESAuthorizationProvider>();
+            //Configuration.Authorization.Providers.Add<SYSAuthorizationProvider>();
         }
 
         public override void Initialize()
