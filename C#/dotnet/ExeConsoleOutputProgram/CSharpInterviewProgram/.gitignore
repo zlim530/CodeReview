@@ -7,6 +7,20 @@
 *.userosscache
 *.sln.docstates
 
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/bin/Debug/netcoreapp3.1/CSharpInterviewProgram.dll
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/bin/Debug/netcoreapp3.1/CSharpInterviewProgram.exe
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/bin/Debug/netcoreapp3.1/CSharpInterviewProgram.pdb
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/CSharpInterviewProgram.csproj.nuget.dgspec.json
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/CSharpInterviewProgram.csproj.nuget.g.props
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/Debug/netcoreapp3.1/CSharpInterviewProgram.assets.cache
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/Debug/netcoreapp3.1/CSharpInterviewProgram.csproj.FileListAbsolute.txt
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/Debug/netcoreapp3.1/CSharpInterviewProgram.dll
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/Debug/netcoreapp3.1/CSharpInterviewProgram.genruntimeconfig.cache
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/Debug/netcoreapp3.1/CSharpInterviewProgram.pdb
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/Debug/netcoreapp3.1/apphost.exe
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/project.assets.json
+C#/dotnet/ExeConsoleOutputProgram/CSharpInterviewProgram/obj/project.nuget.cache
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
