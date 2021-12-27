@@ -96,7 +96,7 @@ namespace CSharpInterviewProgram
         /// string与字符串操作
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main3(string[] args)
         {
             // var s1 = "123";
             // var s2 = s1 + "abc";
@@ -217,16 +217,92 @@ namespace CSharpInterviewProgram
         /// 类型、方法与继承
         /// </summary>
         /// <param name="args"></param>
-        static void Main4(string[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Hello,World!");
+            var a = new A();
+            a.Print();  // 输出 A
+            var b1 = new B1();
+            b1.Print(); // 输出 B1 
+            var b2 = new B2();
+            b2.Print(); // 输出 B2
+            Console.WriteLine();
+
+            A ab1 = new B1();
+            ab1.Print(); // 输出 B1 
+            // 只要子类对父类中的虚方法进行了重写，那么不管引用类型变量是父类还是子类，只要实例为子类的实例，那么我们调用 Print 方法永远都只会是跟子类实例类型相关的那个版本而且是最新的那个版本（如果存在祖父、父类、孙子类的情况，那么祖父变量引用孙子类的实例对象，那么也只会调用孙子类的 Print 方法）
+            A ab2 = new B2(); // 输出 A
+            // 由于子类 B2 中并没有对父类 A 中的虚方法进行 override 重写而是选择的 new 也即隐藏，这会导致 B2 类中有两个 Print 方法，一个是从 A 继承的 base.Print()，一个是自己申明的 this.Print()
+            // 可以理解Wie ab2 作为 A 类型的变量引用了 B2 的实例对象，当调用 Print 方法时本应该顺着继承链往下（一直到 B2）找到 Print 方法的具体实现，但是由于 B2 没有 override，所以它找不下去，只能调用 A 类里面的 Print 方法
+            ab2.Print();
+            Console.WriteLine();
+
+            A abb = new BB1();
+            abb.Print(); // 输出 BB1
+            B1 bbb1 = new BB1();
+            bbb1.Print(); // 输出 BB1
+            var bb1 = new BB1();
+            bb1.Print(); // 输出 BB1
+            Console.WriteLine();
+
+            A abb2 = new BB2();
+            abb2.Print(); // 输出 B1
+            B1 bbb2 = new BB2();
+            bbb2.Print(); // 输出 B1
+            var bb2 = new BB2();
+            Console.WriteLine();
+            bb2.Print(); // 输出 BB2
+            Console.WriteLine();
+
+            A ab22 = new B22();
+            ab22.Print(); // 输出 A
+            B2 bb22 = new B22();
+            bb22.Print(); // 输出 B2
+            var b22 = new B22();
+            b22.Print(); // 输出 B22
+
         }
         #endregion
 
     }
 
+    #region 讲解值类型与引用类型-创建的相关类
     class User
     {
         public int Age { get; set; }
     }
+    #endregion
+
+    #region 讲解类型、方法与继承-创建的相关类
+         
+    public class A 
+    {
+        public virtual void Print() => Console.WriteLine("A");
+    }
+
+    public class B1 : A
+    {
+        public override void Print() => Console.WriteLine("B1");
+    }
+
+    public class BB1 : B1
+    {
+        public override void Print() => Console.WriteLine("BB1");
+    }
+
+    public class BB2 : B1
+    {
+        public new void Print() => Console.WriteLine("BB2");
+    }
+
+    public class B2 : A
+    {
+        public new void Print() => Console.WriteLine("B2");
+    }
+
+    public class B22 : B2
+    {
+        public new void Print() => Console.WriteLine("B22");
+    }
+    #endregion
+
 }
