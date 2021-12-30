@@ -5,6 +5,8 @@ using YSR.MES.Authorization;
 using Abp.Runtime.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using System;
+using Abp.AspNetCore.Mvc.ExceptionHandling;
+using Abp.Configuration.Startup;
 
 namespace YSR.MES
 {
@@ -26,6 +28,7 @@ namespace YSR.MES
         /// </summary>
         public override void PreInitialize()
         {
+            // 使用权限管理类
             Configuration.Authorization.Providers.Add<MESAuthorizationProvider>();
 
 
@@ -52,9 +55,11 @@ namespace YSR.MES
 
             #endregion
 
-            // 使用权限管理类
-            //Configuration.Authorization.Providers.Add<MESAuthorizationProvider>();
-            //Configuration.Authorization.Providers.Add<SYSAuthorizationProvider>();
+
+            Configuration.ReplaceService(typeof(AbpExceptionFilter), () =>
+            {
+                IocManager.Register<AbpExceptionFilter>(Abp.Dependency.DependencyLifeStyle.Transient);
+            });
         }
 
         public override void Initialize()
@@ -62,6 +67,8 @@ namespace YSR.MES
             var thisAssembly = typeof(MESApplicationModule).GetAssembly();
 
             IocManager.RegisterAssemblyByConvention(thisAssembly);
+
+            Configuration.Modules.AbpWebCommon().SendAllExceptionsToClients = false;
 
             Configuration.Modules.AbpAutoMapper().Configurators.Add(
                 // Scan the assembly for classes which inherit from AutoMapper.Profile
