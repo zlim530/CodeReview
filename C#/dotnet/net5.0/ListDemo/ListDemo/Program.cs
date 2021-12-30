@@ -2,20 +2,76 @@
 using System.Collections.Generic;
 using ListDemo;
 
-List<double> list1 = new List<double> { 100.0, 200.0, 300.0, 400.0, 100.0, 200.0, 300.0/*, 400.0*/ };
-Book book1 = new Book { Id = 1, Name = "Book-1", Price = 10 }, book6 = book1;
+List<double> list1 = new List<double> { 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0 };
+Book book1 = new Book { Id = 1, Name = "Book-1", Price = 10 };
 Book book2 = new Book { Id = 2, Name = "Book-2", Price = 20 };
 Book book3 = new Book { Id = 3, Name = "Book-3", Price = 30 };
 Book book4 = new Book { Id = 4, Name = "Book-4", Price = 40 };
 Book book5 = new Book { Id = 1, Name = "Book-1", Price = 10 };
 List<Book> list2 = new List<Book> { book1, book2, book3, book4 };
 
-int res = list1.LastIndexOf(300);
-Console.WriteLine(res); // 6
-int re2s = list1.LastIndexOf(300, 5);
-Console.WriteLine(re2s); // 2
-int re3s = list1.LastIndexOf(300, 4, 2);
-Console.WriteLine(re3s); // -1
+
+//使用二分查找之间必须对集合进行排序也即二分查找只能对有序集合进行查找才能找到正确的结果
+//list1.Sort();
+//Console.WriteLine(string.Join(",",list1));
+//var res = list1.BinarySearch(30);
+//Console.WriteLine(res);
+
+// 当我们调用集合的 Sort 方法，集合就会去调用元素的 CompareTo 方法，让元素之间进行互相比较，最后得出一个顺序来
+// double 类型的值 DotNet 已经为我们实现好了 CompareTo 方法，可以 Book 类型是没有 CompareTo 这个方法的，因此
+// 对 list2 调用 Sort 方法会报错，因此我们需要为 Book 类添加 CompareTo 方法，但是不能直接添加此方法，而是需要通过
+// 实现 IComparable<T> 泛型接口的方式去添加此方法
+list2.Sort();
+var res = list2.BinarySearch(book5);
+Console.WriteLine(res);// 0
+
+
+
+//var res = list1.FindIndex(e => e % 3 == 0);
+//Console.WriteLine(res);
+//var re2s = list1.FindIndex(3, e => e % 3 == 0);
+//Console.WriteLine(re2s);
+//var re3s = list1.FindIndex(3,2, e => e % 3 == 0);
+//Console.WriteLine(re3s);
+
+
+//var re4s = list2.FindLastIndex(e => e.Price % 4 == 0);
+//Console.WriteLine(re4s);
+//var re5s = list2.FindLastIndex(2, e => e.Price % 4 == 0);
+//Console.WriteLine(re5s);
+//var re6s = list2.FindLastIndex(2,2, e => e.Price % 4 == 0);
+//Console.WriteLine(re6s);
+
+
+//var res = list1.Find(e => e % 3 == 0);
+//Console.WriteLine(res); // 60
+//var re2s = list2.Find(e => e.Price % 4 == 0);
+//Console.WriteLine(re2s); // {"Id":2,"Name":"Book-2","Price":20}
+//var re3s = list1.FindLast(e => e % 3 == 0);
+//Console.WriteLine(re3s); // 30
+//var re4s = list2.FindAll(book => book.Price % 4 == 0);
+//Console.WriteLine(string.Join(",",re4s)); // {"Id":2,"Name":"Book-2","Price":20},{"Id":4,"Name":"Book-4","Price":40}
+
+
+
+
+
+#region 泛型List类（Part-3）
+
+//List<double> list1 = new List<double> { 100.0, 200.0, 300.0, 400.0, 100.0, 200.0, 300.0/*, 400.0*/ };
+//Book book1 = new Book { Id = 1, Name = "Book-1", Price = 10 }, book6 = book1;
+//Book book2 = new Book { Id = 2, Name = "Book-2", Price = 20 };
+//Book book3 = new Book { Id = 3, Name = "Book-3", Price = 30 };
+//Book book4 = new Book { Id = 4, Name = "Book-4", Price = 40 };
+//Book book5 = new Book { Id = 1, Name = "Book-1", Price = 10 };
+//List<Book> list2 = new List<Book> { book1, book2, book3, book4 };
+
+//int res = list1.LastIndexOf(300);
+//Console.WriteLine(res); // 6
+//int re2s = list1.LastIndexOf(300, 5);
+//Console.WriteLine(re2s); // 2
+//int re3s = list1.LastIndexOf(300, 4, 2);
+//Console.WriteLine(re3s); // -1
 
 
 //int res = list1.IndexOf(300, 3, 4);
@@ -69,12 +125,7 @@ Console.WriteLine(re3s); // -1
 //bool a = 400 == 400.0;
 //Console.WriteLine(a);
 
-
-
-
-
-
-
+#endregion
 
 
 #region 泛型List类（Part-2）
