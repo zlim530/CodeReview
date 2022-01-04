@@ -1,0 +1,16 @@
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ZipTwoLists.exe
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ZipTwoLists.deps.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ZipTwoLists.runtimeconfig.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ZipTwoLists.runtimeconfig.dev.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ZipTwoLists.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ref\ZipTwoLists.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\bin\Debug\net5.0\ZipTwoLists.pdb
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.csproj.AssemblyReference.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.GeneratedMSBuildEditorConfig.editorconfig
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.AssemblyInfoInputs.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.AssemblyInfo.cs
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.csproj.CoreCompileInputs.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ref\ZipTwoLists.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.pdb
+E:\localcode\CodeReview\C#\dotnet\net5.0\ZipTwoLists\ZipTwoLists\obj\Debug\net5.0\ZipTwoLists.genruntimeconfig.cache
