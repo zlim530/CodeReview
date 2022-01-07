@@ -1,0 +1,16 @@
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\CountNumberPairs.exe
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\CountNumberPairs.deps.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\CountNumberPairs.runtimeconfig.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\CountNumberPairs.runtimeconfig.dev.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\CountNumberPairs.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\ref\CountNumberPairs.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\bin\Debug\net5.0\CountNumberPairs.pdb
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.csproj.AssemblyReference.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.GeneratedMSBuildEditorConfig.editorconfig
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.AssemblyInfoInputs.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.AssemblyInfo.cs
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.csproj.CoreCompileInputs.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\ref\CountNumberPairs.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.pdb
+E:\localcode\CodeReview\C#\dotnet\net5.0\CountNumberPairs\CountNumberPairs\obj\Debug\net5.0\CountNumberPairs.genruntimeconfig.cache
