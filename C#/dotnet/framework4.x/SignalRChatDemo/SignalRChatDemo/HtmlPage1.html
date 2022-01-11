@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.2.js"></script>
+    <script scr="/signalr/hubs"></script>
+    <script type="text/javascript">
+        // 1.注册服务器连接
+        var msgHub = $.connection.msgHub;
+        // 2.给客户端注册方法
+        msgHub.client.getMsg = function (txt) {
+            alert(txt);
+        }
+
+        // 3.启动连接并绑定处理事件
+        $.connection.hub.start().done(function() {
+            $('#sendBtn').click(function() {
+                msgHub.server.sendMsg("i send a msg");
+            })
+        }).fail(function () {
+
+        })
+
+    </script>
+</head>
+<body>
+    <button id="sendBtn">SendMessage</button> 
+</body>
+</html>
