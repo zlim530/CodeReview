@@ -8,16 +8,17 @@
     <script scr="/signalr/hubs"></script>
     <script type="text/javascript">
         // 1.注册服务器连接
-        var msgHub = $.connection.msgHub;
+        var chat = $.connection.msgHub;
         // 2.给客户端注册方法
-        msgHub.client.getMsg = function (txt) {
-            alert(txt);
+        chat.client.getMsg = function (txt) {
+            // alert(txt);
+            console(txt);
         }
 
         // 3.启动连接并绑定处理事件
         $.connection.hub.start().done(function() {
             $('#sendBtn').click(function() {
-                msgHub.server.sendMsg("i send a msg");
+                chat.server.sendMsg("i send a msg");
             })
         }).fail(function () {
 
