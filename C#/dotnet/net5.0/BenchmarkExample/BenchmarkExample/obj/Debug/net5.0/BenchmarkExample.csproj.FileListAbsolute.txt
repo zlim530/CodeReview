@@ -1,0 +1,16 @@
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\BenchmarkExample.exe
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\BenchmarkExample.deps.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\BenchmarkExample.runtimeconfig.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\BenchmarkExample.runtimeconfig.dev.json
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\BenchmarkExample.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\ref\BenchmarkExample.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\bin\Debug\net5.0\BenchmarkExample.pdb
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.csproj.AssemblyReference.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.GeneratedMSBuildEditorConfig.editorconfig
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.AssemblyInfoInputs.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.AssemblyInfo.cs
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.csproj.CoreCompileInputs.cache
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\ref\BenchmarkExample.dll
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.pdb
+E:\localcode\CodeReview\C#\dotnet\net5.0\BenchmarkExample\BenchmarkExample\obj\Debug\net5.0\BenchmarkExample.genruntimeconfig.cache
