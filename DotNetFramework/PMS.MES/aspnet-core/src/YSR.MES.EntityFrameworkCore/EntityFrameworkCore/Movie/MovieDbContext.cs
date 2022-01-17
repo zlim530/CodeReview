@@ -1,5 +1,7 @@
 ﻿using Abp.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using YSR.MES.Movie;
 
 namespace YSR.MES.EntityFrameworkCore.Movie
@@ -15,5 +17,9 @@ namespace YSR.MES.EntityFrameworkCore.Movie
         {
 
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+        
+
     }
 }
