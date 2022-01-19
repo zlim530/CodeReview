@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentData" Version="3.0.1" />
+    <PackageReference Include="MailKit" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="Topshelf" Version="4.3.0" />
     <PackageReference Include="Topshelf.Log4Net" Version="4.3.0" />
   </ItemGroup>

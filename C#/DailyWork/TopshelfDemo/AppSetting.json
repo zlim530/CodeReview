@@ -1,0 +1,9 @@
+{
+	"account": "datareceptxxx31@xxx.com.cn",
+	"passWord": "D3e8u6t2",
+	//"DeliveredAfterDate": "2021-4-27",
+	"DeliveredAfterDate": "2022-1-3",
+	// 本地测试设置时间间隔为10分钟:600_000  1分钟=60,000  
+	// 之后上线服务器时间间隔设置为3小时:108_000_00
+	"timeSpan": "3600000"
+}
