@@ -1,0 +1,27 @@
+.swiper {
+    position: relative;
+    width: 640px;
+    height: 320px;
+    /* 超出的内容隐藏 */
+    overflow: hidden;
+  }
+  
+  .imgContainer {
+    /* 横向显示 */
+    display: flex;
+    width: 1920px;
+    height: 320px;
+    /* 过度 */
+    transition: transform 0.3s;
+  }
+  
+  .imgContainer img {
+    width: 640px;
+    height: 320px;
+  }
+  
+  .numberList {
+    /* 固定按钮 */
+    position: absolute;
+    bottom: 0;
+  }

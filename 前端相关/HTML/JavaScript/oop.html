@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero veritatis rerum praesentium iure commodi aliquam fuga debitis expedita cupiditate cumque. Pariatur cum nulla consequuntur repudiandae dolores sint ea reiciendis animi.
+    </h1>
+
+    <!-- es2015前通过构造函数与原型链的方式实现面向对象 -->
+   <!--  <script>
+        // es5 是没有类的概念的，通过构造函数来实现类
+        function Dog(n,a) {
+            this.name = n;
+            this.age = a;
+        }
+
+        Dog.prototype.sayName = function () {
+            console.log(`my name is ${this.name}.`);
+        }
+
+        var dog = new Dog("Miao",3);
+        console.log(dog.name);
+        dog.sayName();
+
+        // var arr = new Array(1,2,3); // 可以通过new进行对象的创建，说明 Array 是一个构造函数，因此可以通过 prototype 原型对象的方式给所有 Array 的实例对象创建属性与方法
+        var arr = [1,2,3,4,5,6];
+        Array.prototype.sayHello = function () {
+            console.log(`i'm a array, my length is ${this.length}.`);
+        }
+        arr.sayHello();
+    </script> -->
+
+    <!-- es2015 即 es6 面向对象的语法 -->
+    <!-- <script>
+        /* class Dog {
+            constructor(name,age){
+                this.name = name;
+                this.age = age;
+            }
+
+            sayName() {
+                console.log(`${this.name}lalalal`);
+            }
+        }
+
+        let dog = new Dog("MIaoAmiao",24);
+        dog.sayName(); */
+
+        class Animal{
+            constructor(name){
+                this.name = name;
+            }
+            sayName() {
+                console.log(`${this.name}lalalal`);
+            }
+        }
+
+        class Dog extends Animal {
+            constructor(name,age){
+                super(name);
+                this.age = age;
+            }
+        }
+
+        let dog = new Dog("MIaoAmiao");
+        dog.sayName();
+
+        let dog2 = new Dog("MIaoAmiao2",22);
+        dog2.sayName();
+    </script> -->
+
+
+</body>
+</html>
