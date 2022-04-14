@@ -56,6 +56,27 @@
                        class="input-control">
                 <div id="intro-input-error" class="input-error">自我介绍格式有误</div>
             </div>
+            <div class="input-wrap">
+                <label>是否毕业</label>
+                <select id="isGraduated">
+                    <option>已毕业</option>
+                    <option>未毕业</option>
+                </select>
+            </div>
+            <div class="input-wrap" id="graduatedTime" >
+                <label>毕业时间</label>
+                <input data-rule='maxlength:1024|required:false'
+                       type="text"
+                       name="intro"
+                       class="input-control">
+            </div>
+            <div class="input-wrap" id="commenceTime" style="display: none;">
+                <label>入学时间</label>
+                <input data-rule='maxlength:1024|required:false'
+                       type="text"
+                       name="intro"
+                       class="input-control">
+            </div>
             <button class="button-control" type="submit">注册</button>
         </form>
     </div>

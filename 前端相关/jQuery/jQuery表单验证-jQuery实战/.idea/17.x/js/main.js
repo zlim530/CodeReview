@@ -28,4 +28,14 @@ $(function () {
         alert('注册成功');
     });
 
+    $('#isGraduated').on('change', function () {
+        if ($('#isGraduated').val() == '已毕业') {
+            $('#graduatedTime').show();
+            $('#commenceTime').hide();
+        }else{
+            $('#commenceTime').show();
+            $('#graduatedTime').hide();
+        }
+    });
+
 });
