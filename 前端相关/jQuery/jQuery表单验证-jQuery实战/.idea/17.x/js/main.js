@@ -38,4 +38,12 @@ $(function () {
         }
     });
 
+    
+    jQuery(document).ready(function () {
+        // 找到 span 标签中 data-fieldid 属性值为 '4da6ba0a-00d0-4032-9996-f1b2bfbb869b' 的元素并解除其绑定的 click 事件
+        jQuery("span[data-fieldid=4da6ba0a-00d0-4032-9996-f1b2bfbb869b]").unbind('click');
+        // 添加 readonly 属性
+        $('#input1-ProjectName').attr("readonly","readonly")
+    });
+
 });
