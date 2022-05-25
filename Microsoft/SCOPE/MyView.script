@@ -1,0 +1,17 @@
+CREATE VIEW myView
+SCHEMA
+(
+    a:int,
+    b:DateTime,
+    c:string
+)
+PARAMS
+(
+    arg string,
+    start DateTime DEFAULT = DateTime.Parse("12-25-1967")
+);
+AS BEGIN
+    REFERENCE "MyAssembly.dll";
+
+    EXTRACT a,b,c FROM "stream" USING MyExtractor(@arg) HAVING b > @start;
+END;

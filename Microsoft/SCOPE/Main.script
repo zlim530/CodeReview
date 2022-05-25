@@ -1,0 +1,17 @@
+// 1st approach
+relvar = VIEW "MyView.script"
+PARAMS (arg="myExtractorArg", start=DateTime.Parse("05-24-2022"));
+
+SELECT a,b,c FROM relvar WHERE a < 3;
+
+// 2nd approach
+SELECT a,b,c FROM
+(VIEW "MyView.script" PARAMS (arg="myExtractorArg", start=DateTime.Parse("05-24-2022")))
+WHERE a > 3;
+
+// 3rd approach
+myView = 
+    VIEW "MyView.script" PARAMS (arg="myExtractorArg", start=DateTime.Parse("05-24-2-2022"));
+
+Report = 
+    SELECT a,b,c FROM myView;
