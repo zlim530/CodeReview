@@ -1,6 +1,6 @@
 ﻿namespace DailyTest
 {
-    internal class Program
+    internal class AsyncProgramming
     {
         /// <summary>
         /// async 和 awiat 基本使用
@@ -68,12 +68,16 @@
         /// 异步其他问题：yield return
         /// </summary>
         /// <param name="args"></param>
-        static async Task Main(string[] args)
+        static async Task Main00(string[] args)
         {
             await foreach (var item in Test3())
             {
                 Console.WriteLine(item);
             }
+            /*
+            ASP .NET Core 和控制台项目中没有 SynchronizationContext,ConfigureAwait(false) 等。
+            因此不用管，不要同步、异步混用。
+            */
         }
 
         static async Task<int> ReadCharsCount(string fileName)
