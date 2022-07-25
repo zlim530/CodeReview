@@ -49,6 +49,10 @@ namespace DailyTest
             }
         }
 
+        /// <summary>
+        /// LINQ 常用扩展方法：Single、First、OrderBy、GroupBy
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             List<Employee> list = new List<Employee>();
@@ -65,6 +69,8 @@ namespace DailyTest
             bool b1 = list.Any(e => e.Salary > 8000);
             bool b2 = list.Where(e => e.Salary > 8000).Any();
 
+            #region Single & First
+
             // 获取一条数据（是否带参数的两种写法）
             // Single：有且只有一条满足要求的数据：大于一条会报错，没有也会报错
             //list.Single();//System.InvalidOperationException:“Sequence contains more than one element”
@@ -79,6 +85,51 @@ namespace DailyTest
             // FirstOrDefalut：返回第一条数据，如果没有数据则返回默认值
             list.FirstOrDefault(f => f.Id == 90);
             // 选择合适的方法，“防御性编程”：不要害怕报错、抛出异常，因为这样可以让我们清楚知道程序在哪一步发生了问题，越早期发现问题越好，这样可以避免错误的数据在后续的程序中继续运行
+            #endregion
+
+
+            #region OrderBy & ThenBy
+
+            Random rand = new Random();
+            //var items = list.OrderByDescending(e => rand.Next());// 根据随机数排序，每次排序结果都是随机的
+            //var items = list.OrderByDescending(e => Guid.NewGuid());
+            //var items = list.OrderByDescending(e => e.Name[e.Name.Length - 1]);// 也可以自定义排序规则：根据名字的最后一个字母进行排序
+            //var items = list.OrderBy(i => i.Age).ThenBy(s => s.Salary);
+            // 先根据年龄进行排序（正序：从小到大），年龄相同的再根据工资进行排序（正序：从小到大）
+            var items = list.OrderBy(a => a.Name).OrderBy(i => i.Age);
+            // 联系两个 OrderBy 排序：先按照后面的进行排序，如果后面的排序一样再按照前面的排序规则进行排序，和 ThenBy 的逻辑顺序正好相反
+            //foreach (var item in items)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+
+
+            #region GroupBy 
+
+            /*
+            分组：
+            GroupBy() 方法参数是分组条件表达式，返回值为 IGrouping<TKey, TSource> 类型的泛型 IEnumerable，也就是
+            每一组以一个 IGrouping 对象的形式返回。IGrouping 是一个继承自 IEnumerable 的接口，IGrouping 中 Key 
+            属性表示这一组的分组数据的值（即根据什么规则进行的分组）。
+            */
+            // SQL 语句 be like => select Age, max(Salary) from t group by Age
+            /*IEnumerable<IGrouping<int, Employee>>*/
+            var groups = list.GroupBy(e => e.Age);
+            foreach (/*IGrouping<int, Employee>*/var g in groups)
+            {
+                // 根据年龄分组，获取每组人数、最大工资、平均工资
+                Console.WriteLine(g.Key);
+                Console.WriteLine("根据年龄进行分组，每一个年龄相同的组中，最大工资的是：" + g.Max(s => s.Salary));
+                Console.WriteLine("根据年龄进行分组，每组人数是：" + g.Count());
+                Console.WriteLine("根据年龄进行分组，每组平均工资是：" + g.Average(s => s.Salary));
+                foreach (Employee e in g)
+                {
+                    Console.WriteLine(e);
+                }
+                Console.WriteLine("************************");
+            }
+            #endregion
 
         }
 
