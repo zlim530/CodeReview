@@ -50,10 +50,10 @@ namespace DailyTest
         }
 
         /// <summary>
-        /// LINQ 常用扩展方法：Single、First、OrderBy、GroupBy
+        /// LINQ 常用扩展方法：Single、First、OrderBy、GroupBy、Select
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main00(string[] args)
         {
             List<Employee> list = new List<Employee>();
             list.Add(new Employee { Id = 1, Name = "jerry", Age = 28, Gender = false, Salary = 5000});
@@ -116,20 +116,66 @@ namespace DailyTest
             // SQL 语句 be like => select Age, max(Salary) from t group by Age
             /*IEnumerable<IGrouping<int, Employee>>*/
             var groups = list.GroupBy(e => e.Age);
-            foreach (/*IGrouping<int, Employee>*/var g in groups)
-            {
-                // 根据年龄分组，获取每组人数、最大工资、平均工资
-                Console.WriteLine(g.Key);
-                Console.WriteLine("根据年龄进行分组，每一个年龄相同的组中，最大工资的是：" + g.Max(s => s.Salary));
-                Console.WriteLine("根据年龄进行分组，每组人数是：" + g.Count());
-                Console.WriteLine("根据年龄进行分组，每组平均工资是：" + g.Average(s => s.Salary));
-                foreach (Employee e in g)
-                {
-                    Console.WriteLine(e);
-                }
-                Console.WriteLine("************************");
-            }
+            //foreach (/*IGrouping<int, Employee>*/var g in groups)
+            //{
+            //    // 根据年龄分组，获取每组人数、最大工资、平均工资
+            //    Console.WriteLine(g.Key);
+            //    Console.WriteLine("根据年龄进行分组，每一个年龄相同的组中，最大工资的是：" + g.Max(s => s.Salary));
+            //    Console.WriteLine("根据年龄进行分组，每组人数是：" + g.Count());
+            //    Console.WriteLine("根据年龄进行分组，每组平均工资是：" + g.Average(s => s.Salary));
+            //    foreach (Employee e in g)
+            //    {
+            //        Console.WriteLine(e);
+            //    }
+            //    Console.WriteLine("************************");
+            //}
             #endregion
+
+
+            #region Select 投影
+            var items1 = list.GroupBy(a => a.Age).Select(s => new
+            {
+                Age = s.Key,
+                MaxSalary = s.Max(s => s.Salary),
+                MinSalary = s.Min(s => s.Salary),
+                Count = s.Count()
+            });
+            //foreach (var item in items1)
+            //{
+            //    Console.WriteLine(item.Age + ", " + item.MaxSalary + ", " + item.MinSalary + ", " + item.Count);
+            //}
+            #endregion
+
+
+            #region 链式调用
+            /*
+            Where、Select、OrderBy、GroupBy、Take、Skip 等返回值都是 IEnumerable<T> 类型，所以可以链式调用。
+            例子：获取 Id>2 的数据，然后按照 Age 分组，并且吧分组后的数据按照 Age 排序取前3条，最后再投影取得每组的年龄、人数、平均工资
+            */
+            list.Where(i => i.Id > 2).GroupBy(a => a.Age).OrderBy(g => g.Key).Take(3).Select(s => new 
+            { 
+                Age = s.Key,
+                Count = s.Count(),
+                Avg = s.Average(s => s.Salary),
+            });
+            #endregion
+
+
+            string s = "Hello, World!H123123ahahahHeiheihei";
+            var items2 = s.Where(c => char.IsLetter(c)).Select(c => char.ToLower(c))
+                        .GroupBy(c => c)
+                        .Select(s => new
+                        {
+                            Character = s.Key,
+                            Count = s.Count()
+                        })
+                        .Where(c => c.Count > 2)
+                        .OrderByDescending(o => o.Count);
+            foreach (var item in items2)
+            {
+                //Console.WriteLine(item.Character.ToString() + item.Count);
+                Console.WriteLine(item);
+            }
 
         }
 
