@@ -46,3 +46,60 @@ SELECT 语句必须出现的元素：最简单形式：
 
 --SELECT FirstName FROM
 --(SELECT FirstName, LastName FROM Person.Person ) AS FullName
+
+
+/*
+FROM 子句的语法：
+
+-- Syntax for SQL Server and Azure SQL Database  
+  
+[ FROM { <table_source> } [ ,...n ] ]   
+<table_source> ::=   
+{  
+    table_or_view_name [ FOR SYSTEM_TIME <system_time> ] [ [ AS ] table_alias ]   
+        [ <tablesample_clause> ]   
+        [ WITH ( < table_hint > [ [ , ]...n ] ) ]   
+    | rowset_function [ [ AS ] table_alias ]   
+        [ ( bulk_column_alias [ ,...n ] ) ]   
+    | user_defined_function [ [ AS ] table_alias ]  
+    | OPENXML <openxml_clause>   
+    | derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]   
+    | <joined_table>   
+    | <pivoted_table>   
+    | <unpivoted_table>  
+    | @variable [ [ AS ] table_alias ]  
+    | @variable.function_call ( expression [ ,...n ] )   
+        [ [ AS ] table_alias ] [ (column_alias [ ,...n ] ) ]     
+}  
+
+·大数据为什么“大”？
+	-Velocity（高速）
+	-Volume（大量）
+	-Variety（多样化）
+·最重要的 <table_source>
+	-table_or_view_name
+	-derived_table
+	-<joined_table>
+	-<pivoted_table>
+·<table_source> 可以有多个正交组合
+·alias（别名）很重要
+
+几个重要的概念
+·What is a table?
+	-Table are database objects that contain all the data in a database.
+	 In tables, data is logically organized in a row-and-column format.
+	-Each row represents a unique record.
+	-Each column represents a field in the record.
+		行的“唯一性”由主键（primary key）来保证
+
+·What is a view?
+	-A view is a virtual table whose contents are defined by a query.
+	-A view acts as a filter on the underlying tables.
+
+·table_or_view_name
+	-Is the name of a table or view.
+
+·derived_table（派生表）
+	-Is a subquery that retrieves rows from the database.
+	-derived_table is used as input to the other query.
+*/
