@@ -103,3 +103,31 @@ FROM 子句的语法：
 	-Is a subquery that retrieves rows from the database.
 	-derived_table is used as input to the other query.
 */
+
+--select P.FirstName + ' ' + P.LastName AS FullName
+--from Person.Person AS P
+
+--select FirstName + ' ' + LastName AS FullName,
+--SUBSTRING(FirstName, 1, 1 ) + SUBSTRING(LastName, 1, 1) AS Iniital
+--from Person.Person
+/*
+·其中，SUBSTRING(LastName,1,1)的意思是：抽取LastName列中的字符，规则为：从第一个字母开始，抽取一个字符
+*/
+
+SELECT FirstName FROM Person.Person				-- 19972
+SELECT DISTINCT FirstName FROM Person.Person	-- 1018
+SELECT DISTINCT FirstName, LastName FROM Person.Person	-- 19516
+-- 去除所有FirstName和LastName的重复行，只留下1行 
+
+
+--选择数据中排列靠前的行，可通过表达式等操作选择保留靠前具体多少行。排行是默认的，但也可用ORDER语句来调整控制排序.
+SELECT TOP (7) FirstName, LastName
+FROM Person.Person
+--ORDER BY FirstName
+--从Person.Person中选择FirstName和LastName两列，并且只选择前7个，改用FirstName的字母排列。
+
+--可加上可选的百分比： 
+SELECT TOP(7) PERCENT FirstName, LastName
+FROM Person.Person
+ORDER BY FirstName
+--从Person.Person中选择FirstName和LastName两列，并且选择列的前7%.
