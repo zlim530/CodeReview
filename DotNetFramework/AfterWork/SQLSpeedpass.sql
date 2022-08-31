@@ -114,6 +114,9 @@ FROM 子句的语法：
 ·其中，SUBSTRING(LastName,1,1)的意思是：抽取LastName列中的字符，规则为：从第一个字母开始，抽取一个字符
 */
 
+
+
+-- 006-给数据做个按摩
 SELECT FirstName FROM Person.Person				-- 19972
 SELECT DISTINCT FirstName FROM Person.Person	-- 1018
 SELECT DISTINCT FirstName, LastName FROM Person.Person	-- 19516
@@ -131,3 +134,44 @@ SELECT TOP(7) PERCENT FirstName, LastName
 FROM Person.Person
 ORDER BY FirstName
 --从Person.Person中选择FirstName和LastName两列，并且选择列的前7%.
+
+
+
+--007-源数据的筛选及CTE:
+SELECT * FROM Person.Person
+WHERE FirstName = 'Timothy'
+
+--运用WHERE子句，查询所有Initial为TL的人，显示出他们的全名（首名和尾名）和由首名和尾名拼接起来的Initial
+SELECT FirstName + ' ' + LastName AS FullName,
+SUBSTRING(FirstName, 1, 1) + SUBSTRING(LastName, 1, 1) AS Initial
+FROM Person.Person
+
+--使用 CONCAT 函数对上述写法进行升级：
+SELECT CONCAT(FirstName , ' ' , LastName) AS FullName,
+CONCAT(SUBSTRING(FirstName, 1, 1) , SUBSTRING(LastName, 1, 1)) AS Initial
+FROM Person.Person 
+--WHERE Initial = 'TL'-- 列名 'Initial' 无效。
+--但这种写法不合法。因为WHERE语句只能够筛选数据源中的数据。由FROM引入的数据源Person.Person当中并没有Initial这一列.
+WHERE CONCAT(SUBSTRING(FirstName, 1, 1) , SUBSTRING(LastName, 1, 1)) = 'TL' -- 可以这么写
+
+--也可以将上述查询结果作为一个数据源，此时 Initial 列就存在于数据源中
+SELECT * FROM
+(SELECT CONCAT(FirstName , ' ' , LastName) AS FullName,
+CONCAT(SUBSTRING(FirstName, 1, 1) , SUBSTRING(LastName, 1, 1)) AS Initial
+FROM Person.Person) AS PersonName
+WHERE Initial = 'TL'
+-- 但是这种写法容易犯错，需要一旦更改，容易形成 SELECT 一层层嵌套 SELECT 的情况
+
+-- 终极写法：Common Table Expression(CTE)，将被SELECT嵌套的SELECT查询语句提前表达出来，当要使用到WHERE子句对其查询时就可以直接方便地使用声明出来的表了：
+WITH PersonName AS
+(SELECT CONCAT(FirstName , ' ' , LastName) AS FullName,
+CONCAT(SUBSTRING(FirstName, 1, 1) , SUBSTRING(LastName, 1, 1)) AS Initial
+FROM Person.Person) 
+
+SELECT * 
+FROM PersonName
+WHERE Initial = 'TL'
+
+
+
+-- 007.001-神隐的布尔类型
