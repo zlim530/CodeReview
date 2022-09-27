@@ -174,4 +174,77 @@ WHERE Initial = 'TL'
 
 
 
--- 007.001-神隐的布尔类型
+--007.002-数据的比较
+/*
+数据类型
+Data Type Group				Big Group	Data Types
+Exact numeric				数值			bigint,numeric,bit,smallint,decimal,smallmoney,int,tinyint,money
+Approximate numeric			数值			float,real
+Date and time				日期/时间	date,datetimeoffset,datetime2,smalldatetime,datetime,time
+Character strings			字符串		char,varchar,text
+Unicode character strings	字符串		nchar,varchar,ntext  
+										只要需要存储非英语之外的字符就需要用 Unicode 字符，否则会乱码
+Binary strings				其他			binary,varbinary,image
+Other data types			其他			cursor,rowversion,hierarchyid,uniqueidentifier,sql_variant,xml,table...
+
+比较操作符
+Operator						Meaning
+=(Equals)						Equal to
+>(Greater Than)					Greater than
+<(Less Than)					Less than
+>=(Greater Than or Equal To)	Greater than or equal to
+<=(Less Than or Equal To)		Less than or equal to
+<>(Not Equal To)				Not equal to
+!=(Not Equal to)				Not equal to(not ISO standard)：
+								表示不是 SQL 通用的，而是为了兼容 C-like language programmer 的编程习惯
+!<(Not Less Than) = >=			Not less than(not ISO standard)
+!>(Not Greater Than) = <=		Not greater than(not ISO standard)
+
+同类比较（即同种数据类型的数据进行比较）
+--CAST Syntax:
+CAST(expression AS data_type[(length)])
+
+--CONVERT Syntax:
+CONVERT(data_type[(length)], expression[, style])
+*/
+--当我们尝试比较不同的数据类型时，SQL Server 会获取等号左边的数据类型，而后获取等号右边的数据类型，当它发现两边的数据类型不一致时，则尝试将右边的数据隐式的转换为左边的数据类型，在这里失败的原因时100.1无法转换为 int 类型，但是可以通过显式转换为 float 类型而后再与 int 类型的100进行比较
+--if 100 = '100.1'--在将 varchar 值 '100.1' 转换成数据类型 int 时失败。因为 SQL Server 隐式类型转换是这样的：100 = CAST('100.1' AS int) 所以肯定失败了，因为100.1有小数点，所以无法转换为整数
+if 100 = CAST('100.1' AS float)-- correct
+	-- 当我们尝试比较 100 = '100' 时之所以能成功，其实 SQL Server 为我们做的操作就是 100 = CAST('100' AS int) 
+	select 'True'
+else 
+	select 'False'
+
+--科学计数法：e-1 表示10的负一次方，国际上是可以使用科学计数法记录浮点数的，因此也支持两者的比较 => 数值类型的比较
+--if 100.1 = 1001e-1
+	--select 'True'
+--if 100.1 = '1001e-1'-- 从数据类型 varchar 转换为 numeric 时出错。当给出比较复杂的科学计数法组成的字符串时，智能的隐式转换会出错，此时则需要手写显式的类型转换
+	--select 'True'
+if 100.1 = CAST('1001e-1' AS float)
+	select 'True'
+else
+	select 'False'
+
+------------------字符串的比较------------------
+if 'tim' = 'TIm' -- 注意：SQL Server 中的字符串比较是忽略大小写的
+	select 'True'
+else
+	select 'False'
+
+
+------------------实操演练------------------
+select * from Sales.SalesOrderHeader
+where OrderDate < '2012-01-01'
+-- 这里的 OrderDate 是 datetime 类型的，由于创造一个 datetime 类型的数据比较麻烦，所以我们这里使用字符串，让 SQL Server 智能的隐式转换为 datetime 类型 => OrderDate < CAST('2012-01-01' AS datetime)
+
+declare @a as real = 1.0, @b as real = 3.0
+declare @x as float = 1.0, @y as float = 3.0
+
+--为什么说浮点数的运行不准确，因为在计算机中存储数据的内存是有限的，在这里由于 float 的精度比 real 类型的精度高，所以导致同是 1.0/3.0 却会算出不一样的结果，如果此时需要对这两个结果进行数值比较，我们以为它们应该相同，但结果其实是不同的
+select @a/@b, -- 0.3333333
+		@x/@y -- 0.333333333333333
+
+if @a/@b = @x/@y
+	select 'Yes'
+else
+	select 'No'
