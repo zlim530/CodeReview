@@ -248,3 +248,57 @@ if @a/@b = @x/@y
 	select 'Yes'
 else
 	select 'No'
+
+
+
+
+--007.003-字符串的筛选
+select firstName, LastName from person.Person
+where FirstName = 'timothy' -- 执行此查询语句发现 SQL Server 是大小写不敏感的 
+
+select name, collation_name from sys.databases
+/*
+查询当前不同数据库的 collation 勘验集，发现 Person.Person 所在的 AdventureWork2019 数据库是 
+SQL_Latin1_General_CP1_CI_AS，而这个校正集是不区分大小写的，所以上述 SQL 语句可以搜索到名字为
+'Timothy'或'timothy'
+*/
+
+select FirstName, LastName
+from Person.Person
+where FirstName = 'timothy' collate Latin1_General_CS_AS 
+							-- 如果此时在 SQL 语句的后面加上 collate 的约束
+							-- 则可以发现查询结果为0条，因为指定的这个 collation 的约束是大小写敏感的
+
+-- LIKE 关键字与 pattern（模式匹配）通配符的使用：注意 LIKE 并不是一个字句不像 WHERE 或者 FROM 子句，而是一个逻辑运算符，与 <、> 等运算符一样
+--1.%：匹配“0到任意多个字符”
+select FirstName,LastName 
+from Person.Person
+--where FirstName LIKE 'T%' -- %：0或者任意多个字符：可以为0，也即 T 或者 t 也是匹配的
+where FirstName LIKE '%T%T%'-- 查看出现2次 T/t 的名字，T/t 可以出现在任意位置，只要有两个就行
+
+--2._：匹配“一个字符”
+select distinct FirstName 
+from Person.Person
+--where FirstName LIKE '_im' -- _：代表任意一个字符：必须有一个，不能多也不能少，有且只有一个
+where FirstName LIKE '___' -- 查找名字长度为3的所有名字
+
+--3.[]：匹配方括号“其中任意一个字符”，[^]：不匹配方括号中的“任何字符”
+select FirstName, LastName 
+from Person.Person
+--where FirstName LIKE '[abc]%'-- 查找所有由 a/A、b/B、c/C 这三个字符开头的任意名字
+							 -- 其中 a/A、b/B、c/C 这三个字母不管大小写也匹配，因为 % 可以匹配0个字符
+--where FirstName LIKE '[a-e]%'-- a-e：指 abcde
+where FirstName LIKE '[^xyz]%' -- 除了 x、y、z 以外的任何字符
+
+--4.转义符：
+--select * from Drink
+--where Description LIKE '%5%%' -- 想要查询包含 5% 的数据，但是发现只要有5的数据就查询到了
+							  -- 这是因为 % 是模式匹配通配符，当查询数据源中存在 %，又需要
+							  -- 准确匹配 % 这个字符时，可以将 % 放 [] 中
+--where Description LIKE '%5[%]%' -- 查询所有包含 5% 这个字符串的数据
+--where Description LIKE '%5/%%' ESCAPE '/' -- 或者可以使用 ESCAPE 关键字指定转义符
+										  -- 这里需要先确认数据源表中绝对不会出现的
+										  -- 字符是什么，这里假设是 /，表示如果遇到
+										  -- /，则 / 后面的字符将不再是通配符，而是
+										  -- 普通的字符
+
