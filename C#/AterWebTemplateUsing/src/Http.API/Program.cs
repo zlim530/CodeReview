@@ -38,29 +38,29 @@ services.AddHttpContextAccessor();
 string? connectionString = configuration.GetConnectionString("Default");
 services.AddDbContextPool<QueryDbContext>(option =>
 {
-    _ = option.UseSqlServer(connectionString, sql =>
-    {
-        _ = sql.MigrationsAssembly("Http.API");
-        _ = sql.CommandTimeout(10);
-    });
-    //_ = option.UseNpgsql(connectionString, sql =>
+    //_ = option.UseSqlServer(connectionString, sql =>
     //{
     //    _ = sql.MigrationsAssembly("Http.API");
     //    _ = sql.CommandTimeout(10);
     //});
+    _ = option.UseNpgsql(connectionString, sql =>
+    {
+        _ = sql.MigrationsAssembly("Http.API");
+        _ = sql.CommandTimeout(10);
+    });
 });
 services.AddDbContextPool<CommandDbContext>(option =>
 {
-    _ = option.UseSqlServer(connectionString, sql =>
-    {
-        _ = sql.MigrationsAssembly("Http.API");
-        _ = sql.CommandTimeout(10);
-    });
-    //_ = option.UseNpgsql(connectionString, sql =>
+    //_ = option.UseSqlServer(connectionString, sql =>
     //{
     //    _ = sql.MigrationsAssembly("Http.API");
     //    _ = sql.CommandTimeout(10);
     //});
+    _ = option.UseNpgsql(connectionString, sql =>
+    {
+        _ = sql.MigrationsAssembly("Http.API");
+        _ = sql.CommandTimeout(10);
+    });
 });
 
 services.AddDataStore();

@@ -4,8 +4,10 @@ public class DataStoreContext
     public QueryDbContext QueryContext { get; init; }
     public CommandDbContext CommandContext { get; init; }
 
+    public QuerySet<Blog> BlogQuery { get; init; }
     public QuerySet<SystemRole> SystemRoleQuery { get; init; }
     public QuerySet<SystemUser> SystemUserQuery { get; init; }
+    public CommandSet<Blog> BlogCommand { get; init; }
     public CommandSet<SystemRole> SystemRoleCommand { get; init; }
     public CommandSet<SystemUser> SystemUserCommand { get; init; }
 
@@ -16,8 +18,10 @@ public class DataStoreContext
     private readonly Dictionary<string, object> SetCache = new();
 
     public DataStoreContext(
+        BlogQueryStore blogQuery,
         SystemRoleQueryStore systemRoleQuery,
         SystemUserQueryStore systemUserQuery,
+        BlogCommandStore blogCommand,
         SystemRoleCommandStore systemRoleCommand,
         SystemUserCommandStore systemUserCommand,
 
@@ -27,10 +31,14 @@ public class DataStoreContext
     {
         QueryContext = queryDbContext;
         CommandContext = commandDbContext;
+        BlogQuery = blogQuery;
+        AddCache(BlogQuery);
         SystemRoleQuery = systemRoleQuery;
         AddCache(SystemRoleQuery);
         SystemUserQuery = systemUserQuery;
         AddCache(SystemUserQuery);
+        BlogCommand = blogCommand;
+        AddCache(BlogCommand);
         SystemRoleCommand = systemRoleCommand;
         AddCache(SystemRoleCommand);
         SystemUserCommand = systemUserCommand;
@@ -45,20 +53,22 @@ public class DataStoreContext
 
     public QuerySet<TEntity> QuerySet<TEntity>() where TEntity : EntityBase
     {
-        string typename = typeof(TEntity).Name + "QueryStore";
-        object set = GetSet(typename);
-        return set == null ? throw new ArgumentNullException($"{typename} class object not found") : (QuerySet<TEntity>)set;
+        var typename = typeof(TEntity).Name + "QueryStore";
+        var set = GetSet(typename);
+        if (set == null) throw new ArgumentNullException($"{typename} class object not found");
+        return (QuerySet<TEntity>)set;
     }
     public CommandSet<TEntity> CommandSet<TEntity>() where TEntity : EntityBase
     {
-        string typename = typeof(TEntity).Name + "CommandStore";
-        object set = GetSet(typename);
-        return set == null ? throw new ArgumentNullException($"{typename} class object not found") : (CommandSet<TEntity>)set;
+        var typename = typeof(TEntity).Name + "CommandStore";
+        var set = GetSet(typename);
+        if (set == null) throw new ArgumentNullException($"{typename} class object not found");
+        return (CommandSet<TEntity>)set;
     }
 
     private void AddCache(object set)
     {
-        string typeName = set.GetType().Name;
+        var typeName = set.GetType().Name;
         if (!SetCache.ContainsKey(typeName))
         {
             SetCache.Add(typeName, set);

@@ -1,4 +1,5 @@
 using Core.Entities;
+using Core.Entities.BlogEntities;
 using Core.Models;
 
 namespace EntityFramework;
@@ -6,6 +7,8 @@ public class ContextBase : DbContext
 {
     public DbSet<SystemUser> SystemUsers { get; set; }
     public DbSet<SystemRole> SystemRoles { get; set; }
+
+    public DbSet<Blog> Blogs { get; set; }
 
     public ContextBase(DbContextOptions options) : base(options)
     {

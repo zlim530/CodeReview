@@ -99,6 +99,253 @@
         }
       }
     },
+    "/api/Blog/filter": {
+      "post": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "筛选",
+        "operationId": "Blog_Filter",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogFilterDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogFilterDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogItemDtoPageList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogItemDtoPageList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogItemDtoPageList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Blog": {
+      "post": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "新增",
+        "operationId": "Blog_Add",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogAddDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogAddDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogAddDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Blog/{id}": {
+      "put": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "更新",
+        "operationId": "Blog_Update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlogUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "详情",
+        "operationId": "Blog_GetDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Blog"
+        ],
+        "summary": "⚠删除",
+        "operationId": "Blog_Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SystemRole/filter": {
       "post": {
         "tags": [
@@ -667,6 +914,206 @@
             "type": "string",
             "description": "token",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Blog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "description": "软删除"
+          },
+          "title": {
+            "maxLength": 30,
+            "type": "string",
+            "description": "标题",
+            "nullable": true
+          },
+          "summary": {
+            "maxLength": 300,
+            "type": "string",
+            "description": "概要",
+            "nullable": true
+          },
+          "content": {
+            "maxLength": 5000,
+            "type": "string",
+            "description": "内容",
+            "nullable": true
+          },
+          "systemUser": {
+            "$ref": "#/components/schemas/SystemUser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlogAddDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 30,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "summary": {
+            "maxLength": 300,
+            "type": "string",
+            "description": "��Ҫ",
+            "nullable": true
+          },
+          "content": {
+            "maxLength": 5000,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "systemUserId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlogFilterDto": {
+        "type": "object",
+        "properties": {
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderBy": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "description": "排序",
+            "nullable": true
+          },
+          "title": {
+            "maxLength": 30,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "summary": {
+            "maxLength": 300,
+            "type": "string",
+            "description": "��Ҫ",
+            "nullable": true
+          },
+          "content": {
+            "maxLength": 5000,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "systemUserId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlogItemDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 30,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "summary": {
+            "maxLength": 300,
+            "type": "string",
+            "description": "��Ҫ",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "description": "软删除"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlogItemDtoPageList": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlogItemDto"
+            },
+            "nullable": true
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlogUpdateDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 30,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "summary": {
+            "maxLength": 300,
+            "type": "string",
+            "description": "��Ҫ",
+            "nullable": true
+          },
+          "content": {
+            "maxLength": 5000,
+            "type": "string",
+            "description": "����",
+            "nullable": true
+          },
+          "systemUserId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
