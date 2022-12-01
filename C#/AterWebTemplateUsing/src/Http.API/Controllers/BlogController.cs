@@ -56,7 +56,16 @@ public class BlogController : RestControllerBase<IBlogManager>
     public async Task<ActionResult<Blog?>> UpdateAsync([FromRoute] Guid id, BlogUpdateDto form)
     {
         var current = await manager.GetCurrent(id);
-        if (current == null) return NotFound();
+        if (current == null) return NotFound("博客不存在！");
+        var user = await _userManager.GetCurrent(form.SystemUserId);
+        if (user == null)
+        {
+            return NotFound("用户不存在！");
+        }
+        if (current.SystemUser.Id != form.SystemUserId)
+        {
+            return Problem("无法更改博客创建人！");
+        }
         return await manager.UpdateAsync(current, form);
     }
 
