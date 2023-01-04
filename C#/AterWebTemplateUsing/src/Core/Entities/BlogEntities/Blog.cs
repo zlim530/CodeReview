@@ -1,7 +1,7 @@
 using Core.Models;
 
 namespace Core.Entities.BlogEntities;
-
+[NgPage("system","blog")]
 public class Blog : EntityBase
 {
     /// <summary>
