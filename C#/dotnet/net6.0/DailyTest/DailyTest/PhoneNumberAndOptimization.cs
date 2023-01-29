@@ -8,7 +8,7 @@ namespace DailyTest
 {
     public class PhoneNumberAndOptimization
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var phoneNumber = "56";
             //var result = Combinations(phoneNumber);

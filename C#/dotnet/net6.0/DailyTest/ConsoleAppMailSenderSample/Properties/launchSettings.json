@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConsoleAppMailSenderSample": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SmtpServer": "zijiagu.com"
+      }
+    }
+  }
+}
