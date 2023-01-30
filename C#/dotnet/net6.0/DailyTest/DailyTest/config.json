@@ -1,0 +1,9 @@
+{
+  "name": "yzk",
+  "age": "22",
+  "proxy": {
+    "address": "yzk.com",
+    "port": "80",
+    "Ids": [3,5,8]
+  }
+}

@@ -5,7 +5,11 @@ namespace DailyTest
 {
 	public class DI
 	{
-        static void Main(string[] args)
+        /// <summary>
+        /// “¿¿µ◊¢»Î
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main0(string[] args)
         {
             var services = new ServiceCollection();
             services.AddScoped<Controller>();
