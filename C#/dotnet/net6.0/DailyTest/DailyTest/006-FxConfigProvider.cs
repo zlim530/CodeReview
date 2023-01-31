@@ -119,10 +119,17 @@ namespace DailyTest
 
         public void Test()
         {
-            var wc = optWC.Value;
+            WebConfig wc = optWC.Value;
+            wc = optWC.Value;
             Console.WriteLine(wc.Conn1.ConnectionString);
             Console.WriteLine(wc.Server.Age);
             Console.WriteLine(wc.Server.Proxy.Address);
+        }
+
+        public void TestProxy()
+        {
+            WebConfig wc = optWC.Value;
+            Console.WriteLine(string.Join(',', wc.Server.Proxy.Ids));
         }
     }
 

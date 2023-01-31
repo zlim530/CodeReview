@@ -2,10 +2,9 @@
   "profiles": {
     "DailyTest": {
       "commandName": "Project",
-      "commandLineArgs": "name=yzk\r\nage=25\r\nproxy:address=yzk.com\r\nproxy:port=8080\r\nproxy:ids:0=3\r\nproxy:ids:1=5\r\nproxy:ids:2=8",
+      "commandLineArgs": "name=yzk\r\nage=25\r\nproxy:address=yzk.com\r\nproxy:port=8080\r\nproxy:ids:0=3\r\nproxy:ids:1=5\r\nproxy:ids:2=9",
       "environmentVariables": {
         "C1_name": "yzk",
-        "C1_age": "22",
         "C1_proxy:address": "yzk.com",
         "C1_proxy:port": "9091",
         "C1_proxy:ids:0": "3",

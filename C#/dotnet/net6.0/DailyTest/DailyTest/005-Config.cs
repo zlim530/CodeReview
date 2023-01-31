@@ -81,24 +81,26 @@ namespace DailyTest
         }
 
 		/// <summary>
-		/// 其他配置提供者
+		/// 其他配置提供者：控制台、环境变量、文件等
 		/// </summary>
 		/// <param name="args"></param>
-		static void Main(string[] args)
+		static void Main2(string[] args)
 		{
             var services = new ServiceCollection();
             services.AddScoped<TestController>();
+			services.AddScoped<TestWebConfig>();
 
             ConfigurationBuilder configBuilder = new ConfigurationBuilder();
 
 			// 读取命令行参数配置信息
-			//configBuilder.AddCommandLine(args);
+			configBuilder.AddCommandLine(args);
 			// 读取环境变量配置信息
-			//configBuilder.AddEnvironmentVariables("C1_");// 建议加上自定义的前缀，以避免冲突
-			var conn = "Server=127.0.0.1;Database=MiniKitchen;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
-			configBuilder.AddDbConfiguration(() => new SqlConnection(conn), reloadOnChange: true, reloadInterval: TimeSpan.FromSeconds(2));
+            configBuilder.AddFxConfig();
+			configBuilder.AddEnvironmentVariables("C1_");// 建议加上自定义的前缀，以避免冲突
+            //var conn = "Server=127.0.0.1;Database=MiniKitchen;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
+            //configBuilder.AddDbConfiguration(() => new SqlConnection(conn), reloadOnChange: true, reloadInterval: TimeSpan.FromSeconds(2));
 
-			IConfigurationRoot configRoot = configBuilder.Build();
+            IConfigurationRoot configRoot = configBuilder.Build();
 
             services.AddOptions()
                     .Configure<Server>(e => configRoot.Bind(e))
@@ -135,7 +137,7 @@ namespace DailyTest
             Console.WriteLine("**********");
             Console.WriteLine(proxy.Port);
 			//Console.WriteLine(string.Join(',',proxy.Ids));
-        }
+		}
 
         public void Test()
 		{
