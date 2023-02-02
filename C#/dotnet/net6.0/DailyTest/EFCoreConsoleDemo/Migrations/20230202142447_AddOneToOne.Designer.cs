@@ -4,6 +4,7 @@ using EFCoreConsoleDemo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreConsoleDemo.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230202142447_AddOneToOne")]
+    partial class AddOneToOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,6 +171,8 @@ namespace EFCoreConsoleDemo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -227,43 +232,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.ToTable("T_Persons", (string)null);
                 });
 
-            modelBuilder.Entity("EFCoreConsoleDemo.Student", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_Students", (string)null);
-                });
-
-            modelBuilder.Entity("EFCoreConsoleDemo.Teacher", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_Teachers");
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.User", b =>
                 {
                     b.Property<long>("Id")
@@ -280,21 +248,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("T_Users");
-                });
-
-            modelBuilder.Entity("StudentTeacher", b =>
-                {
-                    b.Property<long>("StudentsId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TeachersId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("StudentsId", "TeachersId");
-
-                    b.HasIndex("TeachersId");
-
-                    b.ToTable("T_Students_Teachers", (string)null);
                 });
 
             modelBuilder.Entity("EFCoreConsoleDemo.Comment", b =>
@@ -345,21 +298,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("StudentTeacher", b =>
-                {
-                    b.HasOne("EFCoreConsoleDemo.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EFCoreConsoleDemo.Teacher", null)
-                        .WithMany()
-                        .HasForeignKey("TeachersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.Article", b =>
                 {
                     b.Navigation("Comments");
@@ -367,7 +305,8 @@ namespace EFCoreConsoleDemo.Migrations
 
             modelBuilder.Entity("EFCoreConsoleDemo.Order", b =>
                 {
-                    b.Navigation("Delivery");
+                    b.Navigation("Delivery")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EFCoreConsoleDemo.OrgUnit", b =>

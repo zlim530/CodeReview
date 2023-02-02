@@ -4,6 +4,7 @@ using EFCoreConsoleDemo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreConsoleDemo.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230202083825_AddSingleRelation")]
+    partial class AddSingleRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,37 +103,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.ToTable("T_Comments", (string)null);
                 });
 
-            modelBuilder.Entity("EFCoreConsoleDemo.Delivery", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("T_Deliverys", (string)null);
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.Leave", b =>
                 {
                     b.Property<long>("Id")
@@ -139,7 +111,7 @@ namespace EFCoreConsoleDemo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("ApproverId")
+                    b.Property<long>("ApproverId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Remarks")
@@ -157,51 +129,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.HasIndex("RequesterId");
 
                     b.ToTable("T_Leaves", (string)null);
-                });
-
-            modelBuilder.Entity("EFCoreConsoleDemo.Order", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_Orders");
-                });
-
-            modelBuilder.Entity("EFCoreConsoleDemo.OrgUnit", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<long?>("ParentId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("T_OrgUnits", (string)null);
                 });
 
             modelBuilder.Entity("EFCoreConsoleDemo.Person", b =>
@@ -227,43 +154,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.ToTable("T_Persons", (string)null);
                 });
 
-            modelBuilder.Entity("EFCoreConsoleDemo.Student", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_Students", (string)null);
-                });
-
-            modelBuilder.Entity("EFCoreConsoleDemo.Teacher", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_Teachers");
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.User", b =>
                 {
                     b.Property<long>("Id")
@@ -282,21 +172,6 @@ namespace EFCoreConsoleDemo.Migrations
                     b.ToTable("T_Users");
                 });
 
-            modelBuilder.Entity("StudentTeacher", b =>
-                {
-                    b.Property<long>("StudentsId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TeachersId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("StudentsId", "TeachersId");
-
-                    b.HasIndex("TeachersId");
-
-                    b.ToTable("T_Students_Teachers", (string)null);
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.Comment", b =>
                 {
                     b.HasOne("EFCoreConsoleDemo.Article", "Article")
@@ -308,22 +183,13 @@ namespace EFCoreConsoleDemo.Migrations
                     b.Navigation("Article");
                 });
 
-            modelBuilder.Entity("EFCoreConsoleDemo.Delivery", b =>
-                {
-                    b.HasOne("EFCoreConsoleDemo.Order", "Order")
-                        .WithOne("Delivery")
-                        .HasForeignKey("EFCoreConsoleDemo.Delivery", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.Leave", b =>
                 {
                     b.HasOne("EFCoreConsoleDemo.User", "Approver")
                         .WithMany()
-                        .HasForeignKey("ApproverId");
+                        .HasForeignKey("ApproverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EFCoreConsoleDemo.User", "Requester")
                         .WithMany()
@@ -336,43 +202,9 @@ namespace EFCoreConsoleDemo.Migrations
                     b.Navigation("Requester");
                 });
 
-            modelBuilder.Entity("EFCoreConsoleDemo.OrgUnit", b =>
-                {
-                    b.HasOne("EFCoreConsoleDemo.OrgUnit", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("StudentTeacher", b =>
-                {
-                    b.HasOne("EFCoreConsoleDemo.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EFCoreConsoleDemo.Teacher", null)
-                        .WithMany()
-                        .HasForeignKey("TeachersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EFCoreConsoleDemo.Article", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("EFCoreConsoleDemo.Order", b =>
-                {
-                    b.Navigation("Delivery");
-                });
-
-            modelBuilder.Entity("EFCoreConsoleDemo.OrgUnit", b =>
-                {
-                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

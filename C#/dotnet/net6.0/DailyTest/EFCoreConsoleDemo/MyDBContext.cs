@@ -11,9 +11,27 @@ namespace EFCoreConsoleDemo
 
         public DbSet<Person> Persons { get; set; }
 
+        public DbSet<Article> Articles { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Leave> Leaves { get; set; }
+
+        public DbSet<OrgUnit> OrgUnits { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Delivery> Deliveries { get; set; }
+
+        public DbSet<Student> Students { get; set; }
+
+        public DbSet<Teacher> Teachers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connStr = "Server=127.0.0.1;Database=MiniKitchen;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;";
+            string connStr = "";
             optionsBuilder.
                             UseSqlServer(connStr)
                             //UseNpgsql("Server=localhost;Port=5432;Database=MyProjectName;User Id=postgres;Password=root;")
@@ -24,7 +42,6 @@ namespace EFCoreConsoleDemo
                             //    Console.WriteLine(log);
                             //})
                             ;
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
