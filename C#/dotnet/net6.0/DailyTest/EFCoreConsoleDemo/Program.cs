@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using System.Data.Common;
 
 namespace EFCoreConsoleDemo
 {
@@ -150,9 +152,7 @@ namespace EFCoreConsoleDemo
                 
                 #endregion
 
-
                 //await dbContext.SaveChangesAsync();
-
                 Console.WriteLine("Done.");
             }
         }
@@ -161,7 +161,7 @@ namespace EFCoreConsoleDemo
         /// EFCore 一对一与多对多关系
         /// </summary>
         /// <param name="args"></param>
-        static async Task Main(string[] args)
+        static async Task Main2(string[] args)
         {
             using (var ctx = new MyDBContext())
             {
@@ -203,6 +203,374 @@ namespace EFCoreConsoleDemo
                 }
 
                 //await ctx.SaveChangesAsync(); 
+            }
+        }
+
+        /// <summary>
+        /// EFCore 基于关系的复杂查询
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main3(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                var item = new Article { Title = "Microsoft Thought for the day!" , Content = "Looking forward to ... " };
+                var item2 = new Article { Title = "Microsoft Update!", Content = "After recent windows update  ... " };
+
+                var comment1 = new Comment { Message = "Yes!"};
+                var comment2 = new Comment { Message = "Really?!"};
+                var comment3 = new Comment { Message = "Good to know!"};
+                var comment4 = new Comment { Message = "Me too!"};
+
+                item.Comments.Add(comment1);
+                item.Comments.Add(comment3);
+                item2.Comments.Add(comment4);
+                item2.Comments.Add(comment2);
+
+                //ctx.Articles.Add(item);
+                //ctx.Articles.Add(item2);
+
+                var items = ctx.Articles.Where(a => a.Comments.Any(c => c.Message.Contains("Microsoft")));
+                foreach (var i in items)
+                {
+                    Console.WriteLine(i.Title);
+                }
+
+                // 用 Include 就会把关系数据自动添加上，如果不需要关联数据的全部数据就不需要 Include，仅作为筛选条件也不需要 Include
+                var items2 = ctx.Comments.Where(c => c.Message.Contains("?!")).Select(c => c.Article).Distinct();
+                foreach (var i2 in items2)
+                {
+                    Console.WriteLine(i2.Title);
+                }
+
+                var order = ctx.Orders.Where(o => o.Delivery.Number == "BB001").SingleOrDefault();
+                Console.WriteLine(order.Name);
+
+                await ctx.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// IQueryable And IEnumerabl
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main4(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                #region IQueryable 与 IEnumerable 的区别
+                //：都采用延迟加载机制，区别是 IEnumerable 的数据处理过滤过程在程序项目所在的客户端上，而不是在数据库端
+                IQueryable<Article> query = ctx.Articles;// 延迟加载：将查询操作翻译成 SQL 语句在数据库服务器中进行评估操作：也即服务器端评估
+                /*
+                IQueryable 数据源生成的 SQL 语句：
+                SELECT [t].[Id], [t].[Content], [t].[Title]
+                FROM [T_Articles] AS [t]
+                WHERE [t].[Title] LIKE N'%Microsoft%' 
+                */
+                //IEnumerable<Article> query = ctx.Articles;// 在内存中获取 Article 表的所有数据，并在程序内部进行过滤操作：也即客户端评估
+                /*
+                IEnumerable 数据源生成的 SQL 语句：
+                SELECT [t].[Id], [t].[Content], [t].[Title]
+                FROM [T_Articles] AS [t] 
+                */
+                // 通常来说一般都是使用服务器端评估效率更高
+                //IEnumerable<Article> list = query.Where(a => a.Title.Contains("Microsoft"));
+
+                //IEnumerable<Article> list = query.Where(a => IsOk(a.Title));
+                //The LINQ expression 'DbSet<Article>().Where(a => Program.IsOk(a.Title))' could not be translated. => 当遇到比较复杂的操作逻辑导致 LINQ 无法翻译为 SQL 语句时，就只能用 IEnumerable 来执行
+
+                #endregion
+
+                //foreach (var a in list)
+                //{
+                //    Console.WriteLine(a.Title);
+                //}
+
+                #region 关于延迟查询
+
+                IEnumerable<Article> list = ctx.Articles;
+                //list = list.Where(a => a.Title.Contains("Microsoft"));// IEnumerable 也是延迟加载的，在调用终结方法前不会生成执行 SQL 语句，不会将所有的数据加载到内存中
+                //Console.WriteLine(list.Count());// 此时才生成了 SQL 语句：SELECT [t].[Id], [t].[Content], [t].[Title] FROM[T_Articles] AS[t]
+
+                // IQueryable 最重要的作用是拼接表达式树，所谓的非终结方法其实是这棵树上的一个个分支，等终结方法执行时，会将拼接好的 SQL 语句真正执行
+                query = query.Where(a => a.Title.Contains("Microsoft"));// IQueryable 构建了一个可以被执行的查询，它是一个待查询的逻辑，因此 IQueryable 是可以被重复使用（复用）的
+
+                // 每一次终结操作都会生成一条新的 SQL 语句
+                /*SELECT[t].[Id], [t].[Content], [t].[Title]
+                FROM[T_Articles] AS[t]
+                WHERE[t].[Title] LIKE N'%Microsoft%'*/
+                //query.ToArray();
+
+                /*SELECT COUNT(*)
+                FROM[T_Articles] AS[t]
+                WHERE[t].[Title] LIKE N'%Microsoft%'*/
+                //Console.WriteLine(query.Count());
+
+                /*SELECT MAX([t].[Id])
+                FROM[T_Articles] AS[t]
+                WHERE[t].[Title] LIKE N'%Microsoft%'*/
+                //Console.WriteLine(query.Max(a => a.Id));
+
+                #endregion
+
+                //QueryArticles("Microsoft",false,false,2);
+                //PrintPage(1,2);
+
+                #region IQueryable 的“缺点”
+                /*
+                1、DataReader：分批从数据库服务器读取数据。内存占用小、 DB连接占用时间长；
+                2、DataTable：把所有数据都一次性从数据库服务器都加载到客户端内存中。内存占用大，节省DB连接。
+                验证 IQueryable 底层是使用 DataReader 的方式：
+                1、用insert into select多插入一些数据，然后加上Delay/Sleep的遍历IQueryable。在遍历执行的过程中，停止SQLServer服务器。
+                IQueryable内部就是在调用DataReader。
+                2、优点：节省客户端内存。（因为过滤处理过程在数据库端）
+                缺点：如果处理的慢，会长时间占用连接
+                */
+
+                // 1. 当 dbContext 对象被消除后就不可以在 IQueryable 对象上调用终结方法
+                //var queryable = Test();
+                //// System.ObjectDisposedException: Cannot access a disposed context instance.
+                //foreach (var item in queryable)
+                //{
+                //    Console.WriteLine(item.Title);
+                //}
+
+                // 2. 当多个 IQueryable 对象遍历嵌套时，很多数据库都不支持多个 DataReader 同时执行
+                // System.InvalidOperationException: There is already an open DataReader associated with this Connection which must be closed first.
+                // 解决方法1：对于 SQLServer，可以在数据库连接字符串上加上"MultipleActiveResultSets=True;"，但其他数据库不支持；解决方法2：使用 IEnumerable 将所有数据加载到客户端内存中处理
+                //foreach (var a in query.ToArray()) 
+                //{
+                //      Console.WriteLine(a.Title);
+                //    foreach (var c in ctx.Comments)
+                //    {
+                //        Console.WriteLine(c.Message);
+                //    }
+                //}
+
+                #endregion
+
+            }
+        }
+
+        /// <summary>
+        /// 异步方法是对于那些耗时(如IO等)操作，能够避免长时间占用线程导致线程阻塞
+        /// 注意：非终结方法是不消耗 IO 
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main5(string[] args)
+        {
+            // 异步遍历 IQueryable : 一般没必要这么做
+            using (var ctx = new MyDBContext())
+            {
+                // 1.将终结方法异步化
+                foreach (var a in await ctx.Articles.ToListAsync())
+                {
+                    Console.WriteLine(a.Title);
+                }
+
+                // 2.使用 IAsyncEnumerable 对象
+                await foreach (var a in ctx.Articles.Where(a => a.Title.Contains("a")).AsAsyncEnumerable())
+                {
+                    Console.WriteLine(a.Title);
+                }
+
+                // 3.使用 ForEachAsync 方法
+                ctx.Articles.Where(a => a.Title.Contains("a")).ForEachAsync(a => Console.WriteLine(a.Title));
+            }
+        }
+
+        /// <summary>
+        /// EF Core 执行原生 SQL 语句
+        /// 一般Linq操作就够了，尽量不用写原生SQL；
+        /// 1、非查询SQL用ExecuteSqlInterpolated() ；
+        /// 2、针对实体的SQL查询用FromSqlInterpolated()。
+        /// 3、复杂SQL查询用ADO.NET的方式或者Dapper等。
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main6(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                #region 非查询的原生 SQL 语句
+                string name = "Tim NiuBee!!!";
+                int id = 18;
+                name = ";delete from T_Articles;";
+
+                //string sql = @$"insert into T_Articles
+                //    (Title,Content)
+                //    select Title,{name} 
+                //    from T_Articles
+                //    where id <= {id}";
+                //Console.WriteLine(sql);
+
+                FormattableString sql = @$"insert into T_Articles
+                    (Title,Content)
+                    select Title,{name} 
+                    from T_Articles
+                    where id <= {id}";
+                Console.WriteLine($"Format: {sql.Format}");
+                Console.WriteLine($"parameters: {string.Join(",",sql.GetArguments())}");
+
+                // 使用 ExecuteSqlInterpolated 方法可以防止 SQL 注入，因为 ExecuteSqlInterpolated 方法会将传入的字符串转为 FormattableString 对象，将原始字符串参数化
+                //await ctx.Database.ExecuteSqlInterpolatedAsync(@$"insert into T_Articles
+                //    (Title,Content)
+                //    select Title,{name} 
+                //    from T_Articles
+                //    where id <= {id}
+                //    ");
+
+                #endregion
+
+
+                #region 实体相关的查询原生 SQL 语句
+                var pattern = "%the%";
+
+                // FromSqlInterpolated 方法返回的是 IQueryable 对象，因此这个方法是非终结方法，也是延迟执行的
+                // 但是 FromSqlInterpolated 只能单表查询，不能使用Join语句进行关联查询。但是可以在查询后面使用Include()来进行关联数据的获取。
+                var queryable = ctx.Articles.FromSqlInterpolated($"select * from T_Articles where Title like {pattern} ");// 除非另外还指定了 TOP、OFFSET 或 FOR XML，否则，ORDER BY 子句在视图、内联函数、派生表、子查询和公用表表达式中无效：由于 EF Core 自动生成的 SQL 语句中使用了子句查询语法，而在查询子句中不可以使用 order by 关键字
+                                                                                                                          //foreach (var item in queryable.Include(a => a.Comments).OrderBy(g => Guid.NewGuid()).Skip(1).Take(3))
+                                                                                                                          //{
+                                                                                                                          //    Console.WriteLine(item.Id + item.Title);
+                                                                                                                          //    foreach (var c in item.Comments)
+                                                                                                                          //    {
+                                                                                                                          //        Console.WriteLine(c.Message);
+                                                                                                                          //    }
+                                                                                                                          //}
+                #endregion
+
+
+                #region 任意原生 SQL 查询语句
+
+                //1. 使用 ADO .NET 的方式实现
+                //DbConnection conn = ctx.Database.GetDbConnection();// 拿到 context 对象对应的底层的 Connection 数据库连接对象
+                //if (conn.State != System.Data.ConnectionState.Open)
+                //{
+                //    await conn.OpenAsync();
+                //}
+
+                //using (var cmd = conn.CreateCommand())
+                //{
+                //    cmd.CommandText = "select Id, Count(*) from T_Articles group by Id";
+                //    using (var reader = await cmd.ExecuteReaderAsync())
+                //    {
+                //        while (await reader.ReadAsync())
+                //        {
+                //            long i = reader.GetInt64(0);
+                //            int count = reader.GetInt32(1);
+                //            Console.WriteLine($"id:{i}, count:{count}");
+                //        }
+                //    }
+                //}
+
+                // 2.使用 Dapper 来实现
+                var g = ctx.Database.GetDbConnection().Query<GroupArticlesId>("select Id, Count(*) Count from T_Articles group by Id");
+                //foreach (var item in g)
+                //{
+                //    Console.WriteLine(item.Id + ":" +  item.Count);
+                //}
+
+                #endregion
+            }
+        }
+
+        /// <summary>
+        /// EF Core 实体跟踪相关
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                // 只要一个实体对象和 DBContext 对象发生任何关系（包括但不限于查询、Add、以及与 DbContext 有关系的其他对象产生关系）都会默认被 DbContext 跟踪
+                var a = await ctx.Articles.FirstOrDefaultAsync();
+                a.Content = "dasjkldj";
+                a.Title = "Breaking News!!!" + a.Title;
+                await ctx.SaveChangesAsync();
+            }
+        }
+
+        class GroupArticlesId
+        {
+            public long Id { get; set; }
+
+            public int Count { get; set; }
+        }
+
+        /// <summary>
+        /// 如果方法需要返回查询结果，并且在方法里销毁DbContext的话，是不能返回IQueryable的。必须一次性加载返回。
+        /// </summary>
+        /// <returns></returns>
+        static IQueryable<Article> Test()
+        {
+            using (var ctx = new MyDBContext())
+            {
+                return ctx.Articles.Where(a => a.Title.Contains("Microsoft"));
+            }
+        }
+
+        /// <summary>
+        /// 打印文章表的某一页数据与总页数
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        static void PrintPage(int pageIndex, int pageSize)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                var query = ctx.Articles.Where(a => a.Title.Contains("Microsoft"));
+                query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+                foreach (var item in query)
+                {
+                    Console.WriteLine(item.Title);
+                }
+
+                long count = query.LongCount();
+                var pageCount = (long)Math.Ceiling(count * 1.0 / pageSize);
+                Console.WriteLine($"Total Page:{pageCount}");
+            }
+        }
+
+        /// <summary>
+        /// IQueryable 对象动态拼接 SQL 
+        /// </summary>
+        /// <param name="searchWord"></param>
+        /// <param name="searchAll"></param>
+        /// <param name="orderPrice"></param>
+        /// <param name="maxId"></param>
+        static void QueryArticles(string searchWord, bool searchAll, bool orderPrice, int maxId)
+        {
+            using (MyDBContext ctx = new MyDBContext())
+            {
+                var querys = ctx.Articles.Where(a => a.Id <= maxId);
+                if (searchAll)
+                {
+                    querys = querys.Where(a => a.Title.Contains(searchWord) || a.Content.Contains(searchWord));
+                }
+                else
+                {
+                    querys = querys.Where(a => a.Title.Contains(searchWord));
+                }
+                if (orderPrice)
+                {
+                    querys = querys.OrderBy(a => a.Id);
+                }
+
+                foreach (var q in querys)
+                {
+                    Console.WriteLine(q.Title);
+                }
+            }
+        }
+
+        static bool IsOk(string s)
+        {
+            if (s.StartsWith("M"))
+            {
+                return s.Length > 5;
+            }
+            else
+            {
+                return s.Length < 3;
             }
         }
 
