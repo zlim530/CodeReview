@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.VisualBasic;
 using System.Data.Common;
 
@@ -474,7 +475,7 @@ namespace EFCoreConsoleDemo
         }
 
         /// <summary>
-        /// EF Core 实体跟踪相关
+        /// EF Core 实体跟踪相关：保存快照 -> 标记对象的状态 -> 根据实体状态的不同生成 SQL 语句而将实体的变更生成到数据库中
         /// </summary>
         /// <param name="args"></param>
         static async Task Main(string[] args)
@@ -482,9 +483,61 @@ namespace EFCoreConsoleDemo
             using (var ctx = new MyDBContext())
             {
                 // 只要一个实体对象和 DBContext 对象发生任何关系（包括但不限于查询、Add、以及与 DbContext 有关系的其他对象产生关系）都会默认被 DbContext 跟踪
-                var a = await ctx.Articles.FirstOrDefaultAsync();
-                a.Content = "dasjkldj";
-                a.Title = "Breaking News!!!" + a.Title;
+                //var a = await ctx.Articles.FirstOrDefaultAsync();
+                //a.Content = "dasjkldj";
+                //a.Title = "Breaking News!!!" + a.Title;
+
+                var items = ctx.Articles.Skip(6).Take(3).ToArray();
+                var a1 = items[0];
+                var a2 = items[1];
+                var a3 = items[2];
+
+                var a4 = new Article { Title = "AddEntryStatusTest", Content = "EntityEntryState"};
+                var a5 = new Article { Title = "NoTachTest", Content = "NoStateTest" };
+
+                a1.Title = "UpdateTest";
+                ctx.Remove(a2);
+                ctx.Articles.Add(a4);
+
+                EntityEntry e1 = ctx.Entry(a1);
+                EntityEntry e2 = ctx.Entry(a2);
+                EntityEntry e3 = ctx.Entry(a3);
+                EntityEntry e4 = ctx.Entry(a4);
+                EntityEntry e5 = ctx.Entry(a5);
+
+                /*
+                DbContext会根据跟踪的实体的状态，在SaveChanges()的时候，根据实体状态的不同，生成Update、Delete、Insert等SQL语句，来把内存中实体的变化更新到数据库中。
+                */
+                Console.WriteLine(e1.State);// Modified
+                Console.WriteLine(e2.State);// Deleted
+                Console.WriteLine(e3.State);// Unchanged
+                Console.WriteLine(e4.State);// Added
+                Console.WriteLine(e5.State);// Detached
+
+                /*
+                如果通过DbContext查询出来的对象只是用来展示，不会发生状态改变，则可以使用AsNoTracking()来 “禁用跟踪”。
+                如果查询出来的对象不会被修改、删除等，那么查询时可以AsNoTracking()，就能降低内存占用。
+                */
+                var items2 = ctx.Articles.AsNoTracking().Take(3).ToArray();
+                foreach (var item in items2)
+                {
+                    Console.WriteLine(item.Title + ":" + item.Id);
+                    Console.WriteLine(ctx.Entry(item).State);// Detached:未跟踪的
+                }
+
+                var a = new Article { Id = 18, Title = "UpdateTest"};
+                var entrya = ctx.Entry(a);
+                //entrya.Property("Title").IsModified = true;// 使用这种写法可以让 update 操作只执行一条 SQL 语句，而不是像往常那样先查询再进行修改或者删除操作：但是这种写法不推荐，知道即可
+                Console.WriteLine(entrya.DebugView.LongView);
+                /*
+                    Article {Id: 18} Modified
+                    Id: 18 PK
+                    Content: <null>
+                    Title: 'UpdateTest' Modified
+                    Comments: [] 
+                */
+                entrya.State = EntityState.Deleted;
+
                 await ctx.SaveChangesAsync();
             }
         }
