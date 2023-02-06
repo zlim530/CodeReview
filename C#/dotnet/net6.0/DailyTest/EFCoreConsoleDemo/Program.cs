@@ -478,7 +478,7 @@ namespace EFCoreConsoleDemo
         /// EF Core 实体跟踪相关：保存快照 -> 标记对象的状态 -> 根据实体状态的不同生成 SQL 语句而将实体的变更生成到数据库中
         /// </summary>
         /// <param name="args"></param>
-        static async Task Main(string[] args)
+        static async Task Main7(string[] args)
         {
             using (var ctx = new MyDBContext())
             {
@@ -539,6 +539,150 @@ namespace EFCoreConsoleDemo
                 entrya.State = EntityState.Deleted;
 
                 await ctx.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// EFCore 批量删除、更新数据
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main8(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                #region EFCore 7.0 特性新增的官方支持
+
+                // EFCore 7.0 官方支持批量删除数据
+                //await ctx.Articles.Where(a => a.Id >= 24).ExecuteDeleteAsync();
+                /*
+                一条 SQL 语句搞定：不过其无法保证数据库和内存数据的一致性，因此建议批量操作后重新建立新的 DbContext
+                DELETE FROM [t]
+                FROM [T_Articles] AS [t]
+                WHERE [t].[Id] >= CAST(24 AS bigint) 
+                */
+
+                // 官方批量更新数据
+                //await ctx.Articles.Where(a => a.Content.Contains("delete") && a.Id > 20)
+                //                    .ExecuteUpdateAsync(a => 
+                //                        a.SetProperty(a => a.Content, a => "EFCore offical Batch Update Test")
+                //                        .SetProperty(a => a.Title, a => a.Title + DateTime.Now.Second));
+                /*
+                同样一条 SQL 语句搞定
+                UPDATE [t]
+                SET [t].[Title] = [t].[Title] + COALESCE(CAST(DATEPART(second, GETDATE()) AS nvarchar(255)), N''),
+                    [t].[Content] = N'EFCore offical Batch Update Test'
+                FROM [T_Articles] AS [t]
+                WHERE ([t].[Content] LIKE N'%delete%') AND [t].[Id] > CAST(20 AS bigint) 
+                */
+
+                #endregion
+
+                // 或者使用 Zack.EFCore.Batch 开源项目：EF Core 7 已经内置了对批量删除和批量更新的支持，因此本项目将不再.NET7中支持这两个功能（详情点击这里）。但是本项目仍然在.NET 7中支持数据的批量插入。
+                //await ctx.DeleteRangeAsync<Article>(a => a.Id >= 19 && a.Id <= 20);
+                //await ctx.BatchUpdate<Article>()
+                //            .Set(a => a.Title, a => a.Title + DateTime.Now.Millisecond)
+                //            .Set(a => a.Content, a => "Zack.EFCore.Batch Update Test")
+                //            .Where(a => a.Id >= 16 && a.Id <= 20)
+                //            .ExecuteAsync();
+
+            }
+        }
+
+        /// <summary>
+        /// EFCore 全局查询筛选器：软删除
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main9(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                foreach (var b in ctx.Books)
+                {
+                    Console.WriteLine(b.Title);
+                }
+
+                //await ctx.Articles.Where(a => a.Content.Contains("delete"))
+                //                .ExecuteUpdateAsync(a =>
+                //                    a.SetProperty(a => a.IsDeleted, a => true));
+                foreach (var a in ctx.Articles)
+                {
+                    Console.WriteLine(a.Id + ":" + a.Title + ":" + a.Content);
+                }
+
+                // 查询所有被软删除的数据
+                foreach (var item in ctx.Articles.IgnoreQueryFilters().Where(a => a.IsDeleted))
+                {
+                    Console.WriteLine("IsDelete = true:" + item.Id + ":" + item.Title + ":" + item.Content);
+                }
+            }
+        }
+
+        /// <summary>
+        /// EFCore 的悲观/乐观锁并发控制
+        /// </summary>
+        /// <param name="args"></param>
+        static async Task Main(string[] args)
+        {
+            Console.WriteLine("请输入您的名字：");
+            var name = Console.ReadLine();
+            using (var ctx = new MyDBContext())
+            {
+                //var house = new House { Name = "1-1-502"};
+                //ctx.Houses.Add(house);
+
+                #region 有并发问题的版本：同时访问到这条数据，使用乐观锁
+                var h = await ctx.Houses.FirstAsync();
+                #endregion
+
+                #region 使用悲观并发控制解决的版本：开启事务，并使用对应数据库的行锁
+                //using var tx = ctx.Database.BeginTransaction();
+                //Console.WriteLine(DateTime.Now + "准备 select for update");
+                //var h = await ctx.Houses.FromSqlInterpolated($"select * from T_Houses where Id=2 for update").SingleAsync();// MySQL 行锁语法 for update
+                //Console.WriteLine(DateTime.Now + "完成 select for update");
+                #endregion
+
+                if (!string.IsNullOrEmpty(h.Owner))
+                {
+                    if (h.Owner == name)
+                    {
+                        Console.WriteLine("房子已经被您抢到了");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"房子已经被【{h.Owner}】占了");
+                    }
+                    Console.ReadLine();
+                    return;
+                }
+
+                h.Owner = name;
+                Thread.Sleep(10000);
+                #region 乐观并发控制锁解决方式：给并发冲突列加上并发标志令牌，是 EFCore 中的处理与数据库无关
+                try
+                {
+                    await ctx.SaveChangesAsync();
+                    Console.WriteLine("恭喜您，抢到了");
+                    Console.ReadLine();
+
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    /*
+                    Update T_Houses set Owner=新值
+                    where Id=1 and Owner=旧值
+                    举例子。当Update的时候，如果数据库中的Owner值已经被其他操作者更新为其他值了，那么where语句的值就会为false，因此这个Update语句影响的行数就是0，EF Core就知道“发生并发冲突”了，因此SaveChanges()方法就会抛出DbUpdateConcurrencyException异常。
+                    */
+                    //Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s)
+                    var entry = e.Entries.First();
+                    var old = await entry.GetDatabaseValuesAsync();
+                    var newValue = old.GetValue<string>(nameof(House.Owner));
+                    Console.WriteLine($"并发更新冲突,被{newValue}提前抢走了");
+                    Console.ReadLine();
+                }
+                #endregion
+                //tx.Commit();// commit 事务提交后，sql 语句执行完成
+                //Console.WriteLine(DateTime.Now + "事务提交完毕，解除锁定");
+                Console.ReadLine();
             }
         }
 

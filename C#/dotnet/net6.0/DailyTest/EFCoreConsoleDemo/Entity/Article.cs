@@ -23,5 +23,11 @@ namespace EFCoreConsoleDemo
 		/// 一对多关系配置
 		/// </summary>
 		public List<Comment> Comments { get; set; } = new List<Comment>();
-	}
+
+		[Required]
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        public bool IsDeleted { get; set; }
+    }
 }

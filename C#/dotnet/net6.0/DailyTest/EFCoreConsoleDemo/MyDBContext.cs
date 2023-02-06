@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace EFCoreConsoleDemo
@@ -29,6 +30,8 @@ namespace EFCoreConsoleDemo
 
         public DbSet<Teacher> Teachers { get; set; }
 
+        public DbSet<House> Houses { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connStr = "";
@@ -36,6 +39,7 @@ namespace EFCoreConsoleDemo
                             UseSqlServer(connStr)
                             //UseNpgsql("Server=localhost;Port=5432;Database=MyProjectName;User Id=postgres;Password=root;")
                             .UseLoggerFactory(loggerFactory)
+                            //.UseBatchEF_MSSQL()
                             //.LogTo(log =>
                             //{
                             //    if (!log.Contains("CommandExecuting")) return;
@@ -48,7 +52,14 @@ namespace EFCoreConsoleDemo
         {
             base.OnModelCreating(modelBuilder);
             // 从当前程序集加载所有的 IEntityTypeConfiguration 
-            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly)
+                        .Entity<Article>().HasQueryFilter(a => a.IsDeleted == false)
+                        ;
+
+            // 乐观并发控制：并发令牌
+            //modelBuilder.Entity<House>().Property(h => h.Owner).IsConcurrencyToken();
+            // 乐观并发控制：RowVersion 方式
+            modelBuilder.Entity<House>().Property(h => h.RowVer).IsRowVersion();
         }
     }
 }

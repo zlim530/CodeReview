@@ -27,5 +27,10 @@ namespace EFCoreConsoleDemo
 		/// </summary>
 		public string AuthorName { get; set; }
 
+		/// <summary>
+		/// ÊÇ·ñÉ¾³ý
+		/// </summary>
+		public bool IsDeleted { get; set; }
+
 	}
 }

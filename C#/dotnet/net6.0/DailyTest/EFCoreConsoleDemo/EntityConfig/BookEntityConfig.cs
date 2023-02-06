@@ -11,6 +11,10 @@ namespace EFCoreConsoleDemo
                     .Property(b => b.Title).HasMaxLength(500).IsRequired();
 
             builder.Property(b => b.AuthorName).HasMaxLength(50).IsRequired();
+
+            builder.Property(b => b.IsDeleted).IsRequired();
+
+            builder.HasQueryFilter(b => !b.IsDeleted);
         }
     }
 }
