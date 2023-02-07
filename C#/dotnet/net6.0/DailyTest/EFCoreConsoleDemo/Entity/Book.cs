@@ -32,5 +32,14 @@ namespace EFCoreConsoleDemo
 		/// </summary>
 		public bool IsDeleted { get; set; }
 
-	}
+		/// <summary>
+		/// ÖØÐ´ ToString ·½·¨
+		/// </summary>
+		/// <returns></returns>
+        public override string ToString()
+        {
+			return $"Id = {Id}, Title = {Title}, PubTime = {PubTime}, Price = {Price}, AuthorName = {AuthorName}";
+        }
+
+    }
 }

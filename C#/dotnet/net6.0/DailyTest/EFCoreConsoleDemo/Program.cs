@@ -1,8 +1,14 @@
 ﻿using Dapper;
+using ExpressionTreeToString;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.VisualBasic;
 using System.Data.Common;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
+using System.Reflection;
+using static System.Linq.Expressions.Expression;
 
 namespace EFCoreConsoleDemo
 {
@@ -621,7 +627,7 @@ namespace EFCoreConsoleDemo
         /// EFCore 的悲观/乐观锁并发控制
         /// </summary>
         /// <param name="args"></param>
-        static async Task Main(string[] args)
+        static async Task Main10(string[] args)
         {
             Console.WriteLine("请输入您的名字：");
             var name = Console.ReadLine();
@@ -683,6 +689,241 @@ namespace EFCoreConsoleDemo
                 //tx.Commit();// commit 事务提交后，sql 语句执行完成
                 //Console.WriteLine(DateTime.Now + "事务提交完毕，解除锁定");
                 Console.ReadLine();
+            }
+        }
+
+        /// <summary>
+        /// 表达式树 Expression Tree 相关
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main11(string[] args)
+        {
+            //Expression对象储存了运算逻辑，它把运算逻辑保存成抽象语法树（AST），可以在运行时动态获取运算逻辑。而普通委托则没有。
+            Expression<Func<Book, bool>> e1 = b => b.Price > 5;
+            //Expression<Func<Book, bool>> ee = b => { return b.Price > 5; };// Expression 表达式对象中不可以写语句，因为编译器不知道如何转换：无法将具有语句体的 lambda 表达式转换为表达式树
+            Expression<Func<Book, Book, bool>> e2 = (b1, b2) => b1.Price + b2.Price > 5;
+
+            //Func<Book, bool> f1 = b => { Console.WriteLine(); return b.Price > 5; };// 但是在委托中可以编写语句
+            //Func<Book, Book, bool> f2 = (b1, b2) => b1.Price + b2.Price > 5;
+
+            //Console.WriteLine(e1.ToString("Object notation","C#"));
+
+            Console.WriteLine("请输入筛选方法：1：大于。2：小于");
+            var s = Console.ReadLine();
+
+            #region 手动构造表达式树
+
+            ParameterExpression paramExpreB = Expression.Parameter(typeof(Book), "b");
+            ConstantExpression expressionRight = Expression.Constant(5.0);
+            MemberExpression expressionLeft = Expression.MakeMemberAccess(paramExpreB, typeof(Book).GetProperty("Price"));
+            BinaryExpression expressionNode;
+            if (s == "1")
+            {
+                expressionNode = Expression.GreaterThan(expressionLeft, expressionRight);
+            }
+            else
+            {
+                expressionNode = Expression.LessThan(expressionLeft, expressionRight);
+            }
+            Expression<Func<Book, bool>> expressionRoot = Expression.Lambda<Func<Book, bool>>(expressionNode, paramExpreB);
+
+            #endregion
+
+
+            Console.WriteLine(e1.ToString(BuiltinRenderer.FactoryMethods, "C#"));
+            #region 通过工厂方法来构造表达式树：更简单
+            /*
+            // using static System.Linq.Expressions.Expression
+            var b = Parameter(
+                typeof(Book),
+                "b"
+            );
+
+            Lambda(
+                GreaterThan(
+                    MakeMemberAccess(b,
+                        typeof(Book).GetProperty("Price")
+                    ),
+                    Constant(5)
+                ),
+                b
+            ) 
+            */
+            var b = Parameter(
+                typeof(Book),
+                "b"
+            );
+
+            var leftNode = MakeMemberAccess(b,
+                        typeof(Book).GetProperty("Price")
+                    );
+
+            var rightNode = Constant(5.0);
+
+            BinaryExpression rootNode;
+            if (s == "2")
+            {
+                rootNode = Expression.LessThan(leftNode, rightNode);
+            }
+            else
+            {
+                rootNode = Expression.GreaterThan(leftNode, rightNode);
+            }
+
+            var expr = Lambda<Func<Book,bool>>(rootNode,b);
+
+            #endregion
+
+            using (var ctx = new MyDBContext())
+            {
+                //var books = ctx.Books.Where(expressionRoot).ToArray();
+                //var books = ctx.Books.Where(expr).ToArray();
+
+                //var books = ctx.Books.Where(e1).ToArray();// 正式由于 IQueryable 接口中定义了 Expression 表达式树，这也是为什么它可以实现服务器端过滤的原因，不需要将所有数据加载到内存中进行过滤，而是在数据库端过滤完再将数据加载到内存中
+
+                //var books = ctx.Books.Where(f1).ToArray();// 如果直接传入 Func 委托类型对象，则会使用 IEnumerable 的 Where 方法，因为 IEnumerable.Where 参数为 Func，此时 ctx.Books 作为 IQueryable 类型会向上转换为 IEnumerable
+            }
+
+            //var books = QueryBooksEqual("Price", 69);
+            var books = QueryBooksEqual("AuthorName", "杨中科");
+            foreach (var book in books)
+            {
+                Console.WriteLine(book);
+            }
+        }
+
+        /// <summary>
+        /// 动态查询用户指定的列
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                //1. 使用 new 匿名对象实现
+                //var books = ctx.Books.Select(b => new { b.AuthorName, b.Price });
+
+                //2. 使用 new object[] 数组实现
+                //var books = ctx.Books.Select(b => new object[] { b.AuthorName, b.Price});
+
+                //3. 通过 Expression 数组实现 select 的动态化
+                //IEnumerable<object[]> books = QueryDynamicSelect<Book>( "Title", "PubTime", "Price", "AuthorName");
+                //foreach (var book in books)
+                //{
+                //Console.WriteLine(book);
+                //Console.WriteLine($"{book[0]}, {book[1]}, {book[2]}, {book[3]}");
+                //}
+
+                #region 事实上应该尽量避免使用表达式树
+                var books = UsingIQueryableSelect(null, null, 290, false);
+                foreach (var book in books)
+                {
+                    Console.WriteLine(book.Title);
+                }
+
+                // 使用 System.Linq.Dynamic.Core 第三方库
+                var query = ctx.Books.Where("Price >= @0 and Price <= @1", 20, 200)
+                                        .OrderBy("Price")
+                                        .Select("new (Title, Price)").ToDynamicArray();
+                foreach (var item in query)
+                {
+                    Console.WriteLine(item);
+                }
+                #endregion
+            }
+        }
+
+        /// <summary>
+        /// 通过 IQueryable 实现动态表达式拼接
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="lowerPrice">最低价格</param>
+        /// <param name="upperPrice">最高价格</param>
+        /// <param name="isAsc">是否按照价格正序排序</param>
+        /// <returns></returns>
+        static IEnumerable<Book> UsingIQueryableSelect(string title = null, double? lowerPrice = null, double? upperPrice = null, bool isAsc = true)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                IQueryable<Book> query = ctx.Books;
+                if (!string.IsNullOrEmpty(title))
+                {
+                    query = query.Where(b => b.Title.Contains(title));
+                }
+                if (lowerPrice != null)
+                {
+                    query = query.Where(b => b.Price > lowerPrice);
+                }
+                if (upperPrice != null)
+                {
+                    query = query.Where(b => b.Price < upperPrice);
+                }
+                if (isAsc)
+                {
+                    query = query.OrderBy(b => b.Price);
+                }
+                else
+                {
+                    query = query.OrderByDescending(b => b.Price);
+                }
+                return query.ToArray();
+            }
+        }
+        
+        /// <summary>
+        /// 不用 Emit 生成 IL 实现 Select 的动态化
+        /// </summary>
+        /// <typeparam name="T">实体类</typeparam>
+        /// <param name="propertyNames">需要的属性们</param>
+        /// <returns></returns>
+        static IEnumerable<object[]> QueryDynamicSelect<T>(params string[] propertyNames)
+            where T : class
+        {
+            var p = Parameter(typeof(T));
+            List<Expression> propExprList = new List<Expression>();
+            foreach (var propName in propertyNames)
+            {
+                Expression propExpr = Convert(MakeMemberAccess(p, typeof(T).GetProperty(propName)), typeof(object));
+                propExprList.Add(propExpr);
+            }
+            var newArrayExpr = NewArrayInit(typeof(object), propExprList.ToArray());
+            var selectExpr = Lambda<Func<T, object[]>>(newArrayExpr, p);
+            using (var ctx = new MyDBContext())
+            {
+                return ctx.Set<T>().Select(selectExpr).ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 查询属性为一定的值的数据
+        /// </summary>
+        /// <param name="propertyName">要查询的属性的名字</param>
+        /// <param name="value">待比较的值</param>
+        /// <returns></returns>
+        static IEnumerable<Book> QueryBooksEqual(string propertyName, object value)
+        {
+            using (var ctx = new MyDBContext())
+            {
+                Expression<Func<Book, bool>> expr;
+                var b = Parameter(typeof(Book), "b");
+                var memberAccess = MakeMemberAccess(b, typeof(Book).GetProperty(propertyName));
+                var valueType = typeof(Book).GetProperty(propertyName).PropertyType;
+                var constantExpr = Constant(System.Convert.ChangeType(value, valueType));
+                Expression body;
+                if (valueType.IsPrimitive)// 原始类型
+                {
+                    body = Equal(memberAccess, constantExpr);
+                }
+                else
+                {
+                    body = MakeBinary(ExpressionType.Equal,
+                                        memberAccess,
+                                        constantExpr,
+                                        false,
+                                        typeof(string).GetMethod("op_Equality"));
+                }
+                expr = Lambda<Func<Book, bool>>(body, b);
+                return ctx.Books.Where(expr).ToList();
             }
         }
 
