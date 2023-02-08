@@ -14,7 +14,7 @@ namespace DailyTest
 		/// Ê²Ã´ÊÇ Logging
 		/// </summary>
 		/// <param name="args"></param>
-		static void Main(string[] args)
+		static void Main0(string[] args)
 		{
 			var services = new ServiceCollection();
 
