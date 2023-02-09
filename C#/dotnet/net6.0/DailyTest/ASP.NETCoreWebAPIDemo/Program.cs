@@ -13,6 +13,14 @@ namespace ASP.NETCoreWebAPIDemo
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            string[] urls = new[] { "http://localhost:5173" };
+            builder.Services.AddCors(opt => 
+                    opt.AddDefaultPolicy(b => 
+                        b.WithOrigins(urls)
+                        .AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+                    )
+                );
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -21,6 +29,8 @@ namespace ASP.NETCoreWebAPIDemo
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
