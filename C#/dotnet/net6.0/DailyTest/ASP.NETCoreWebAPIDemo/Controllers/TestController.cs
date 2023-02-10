@@ -10,6 +10,33 @@ namespace ASP.NETCoreWebAPIDemo.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private readonly MyServices myServices;
+        //private readonly LongTimeServices longTimeServices;
+
+        public TestController(MyServices myServices/*, LongTimeServices longTimeServices*/)
+        {
+            this.myServices = myServices;
+            //this.longTimeServices = longTimeServices;
+        }
+
+        [HttpGet]
+        public int Minus(int i, int j)
+        {
+            return myServices.Minus(i, j);
+        }
+
+        /// <summary>
+        /// 如果有一个很耗时的操作需要用到自定义的服务，但不能在构造函数中注入因为会让其他没有调用此服务的方法也变慢
+        /// 那么可以使用 [FromServices] 特性将服务作为参数传入到需要使用的方法中，这样就不会影响当前控制器的其他方法
+        /// 同时其他参数也是正常的传入
+        /// </summary>
+        [HttpGet]
+        public void LongTimeAction([FromServices]LongTimeServices longTimeServices, int x)
+        {
+            Console.WriteLine(x);
+            longTimeServices.DelayAction();
+        }
+
 
         [HttpGet]
         public Person GetPerson()
