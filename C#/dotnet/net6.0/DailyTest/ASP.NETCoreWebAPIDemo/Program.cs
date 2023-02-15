@@ -14,6 +14,7 @@ namespace ASP.NETCoreWebAPIDemo
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddMemoryCache(); // 启用内存缓存
 
             // 注册自定义服务
             //builder.Services.AddScoped<MyServices>();
@@ -43,6 +44,8 @@ namespace ASP.NETCoreWebAPIDemo
             }
 
             app.UseCors();
+
+            //app.UseResponseCaching(); // 启用服务器端响应缓存：比较鸡肋，跟客户端缓存一样可以在请求头在加入禁用缓存来解除从缓存中读取数据
 
             app.UseHttpsRedirection();
 
