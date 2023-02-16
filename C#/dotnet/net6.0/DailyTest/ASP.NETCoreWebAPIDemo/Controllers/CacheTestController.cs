@@ -25,7 +25,11 @@ public class CacheTestController : ControllerBase
         Book? b = await memoryCache.GetOrCreateAsync("Book" + id, async (b) =>
         {
             logger.LogInformation($"缓存里没有扎到，去数据库查询id={id}的书");
-            return await MyDbContext.GetBookByIdAsync(id);
+            //b.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10);// 设置缓存绝对过期时间为10秒
+            //b.SlidingExpiration = TimeSpan.FromSeconds(5); // 设置滑动过期时间：只要在设定时间内访问即可重置过期时间
+            var book = await MyDbContext.GetBookByIdAsync(id);
+            logger.LogInformation($"从数据库中查询的结果是{book??null}"); // GetOrCreateAsync 方法会把 null 也做为一个合法的缓存值，存入对应的程序内存缓存中
+            return book;
         });
         logger.LogInformation($"GetOrCreateAsync 执行结果：{b}");
         if (b == null)
