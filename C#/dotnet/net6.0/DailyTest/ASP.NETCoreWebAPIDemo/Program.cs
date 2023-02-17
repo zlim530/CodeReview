@@ -1,3 +1,4 @@
+using Zack.ASPNETCore;
 using Zack.Commons;
 
 namespace ASP.NETCoreWebAPIDemo
@@ -15,6 +16,7 @@ namespace ASP.NETCoreWebAPIDemo
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddMemoryCache(); // 启用内存缓存
+            builder.Services.AddScoped<IMemoryCacheHelper, MemoryCacheHelper>();
 
             // 注册自定义服务
             //builder.Services.AddScoped<MyServices>();

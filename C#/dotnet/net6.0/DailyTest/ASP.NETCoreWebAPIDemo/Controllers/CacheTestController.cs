@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Zack.ASPNETCore;
 
 namespace ASP.NETCoreWebAPIDemo;
 
@@ -9,13 +10,36 @@ public class CacheTestController : ControllerBase
 {
     private readonly IMemoryCache memoryCache;
     private readonly ILogger<CacheTestController> logger;
+    private readonly IMemoryCacheHelper memoryCacheHelper;
 
-    public CacheTestController(IMemoryCache memoryCache, ILogger<CacheTestController> logger)
+    public CacheTestController(IMemoryCache memoryCache, ILogger<CacheTestController> logger, IMemoryCacheHelper memoryCacheHelper)
     {
         this.memoryCache = memoryCache;
         this.logger = logger;
+        this.memoryCacheHelper = memoryCacheHelper;
     }
 
+    /// <summary>
+    /// 限制了 IQueryable 和 IEnumerable 延迟加载类型作为缓存的值
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ActionResult<Book?>> GetBookByIdWithoutDelayLoadingAsync(long id)
+    {
+        var b = await memoryCacheHelper.GetOrCreateAsync<Book?>("Book" + id, async (b) => {
+            return await MyDbContext.GetBookByIdAsync(id);
+        });
+
+        if (b == null)
+        {
+            return NotFound($"找不到Id={id}的书");
+        }
+        else
+        {
+            return Ok(b);
+        }
+    }
 
     [HttpGet]
     public async Task<ActionResult<Book?>> GetBookByIdAsync(long id)
@@ -27,6 +51,7 @@ public class CacheTestController : ControllerBase
             logger.LogInformation($"缓存里没有扎到，去数据库查询id={id}的书");
             //b.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10);// 设置缓存绝对过期时间为10秒
             //b.SlidingExpiration = TimeSpan.FromSeconds(5); // 设置滑动过期时间：只要在设定时间内访问即可重置过期时间
+            b.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(Random.Shared.NextDouble(10,15));// 让过期时间随机
             var book = await MyDbContext.GetBookByIdAsync(id);
             logger.LogInformation($"从数据库中查询的结果是{book??null}"); // GetOrCreateAsync 方法会把 null 也做为一个合法的缓存值，存入对应的程序内存缓存中
             return book;
