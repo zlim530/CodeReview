@@ -17,6 +17,7 @@ namespace ASP.NETCoreWebAPIDemo
             builder.Services.AddSwaggerGen();
             builder.Services.AddMemoryCache(); // 启用内存缓存
             builder.Services.AddScoped<IMemoryCacheHelper, MemoryCacheHelper>();
+            builder.Services.AddScoped<IDistributedCacheHelper, DistributedCacheHelper>();
 
             // 注册自定义服务
             //builder.Services.AddScoped<MyServices>();
@@ -27,6 +28,10 @@ namespace ASP.NETCoreWebAPIDemo
             // 这样就不需要再服务调用程序中手动的注册服务，而是只需要在封装的 Initialize() 方法中注册即可
             var asms = ReflectionHelper.GetAllReferencedAssemblies();
             builder.Services.RunModuleInitializers(asms);
+            builder.Services.AddStackExchangeRedisCache(opt => {
+                opt.Configuration = "localhost";
+                opt.InstanceName = "cache1_";// 自定义一个实例名，避免与 redis 服务器中已存在的数据缓存冲突
+            });
 
             string[] urls = new[] { "http://localhost:5173" };
             builder.Services.AddCors(opt => 

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using System.Text.Json;
 using Zack.ASPNETCore;
 
 namespace ASP.NETCoreWebAPIDemo;
@@ -11,12 +13,70 @@ public class CacheTestController : ControllerBase
     private readonly IMemoryCache memoryCache;
     private readonly ILogger<CacheTestController> logger;
     private readonly IMemoryCacheHelper memoryCacheHelper;
+    private readonly IDistributedCache distributedCache;
+    private readonly IDistributedCacheHelper distributedCacheHelper;
 
-    public CacheTestController(IMemoryCache memoryCache, ILogger<CacheTestController> logger, IMemoryCacheHelper memoryCacheHelper)
+    public CacheTestController(IMemoryCache memoryCache, ILogger<CacheTestController> logger, IMemoryCacheHelper memoryCacheHelper, IDistributedCache distributedCache, IDistributedCacheHelper distributedCacheHelper)
     {
         this.memoryCache = memoryCache;
         this.logger = logger;
         this.memoryCacheHelper = memoryCacheHelper;
+        this.distributedCache = distributedCache;
+        this.distributedCacheHelper = distributedCacheHelper;
+    }
+
+    /// <summary>
+    /// 使用封装了 GetOrCreateAsync 方法的分布式缓存操作帮助类
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ActionResult<Book?>> GetBookByDistributedCacheHelper(long id)
+    {
+        var book = await distributedCacheHelper.GetOrCreateAsync("Book" + id, async (e) => {
+            e.SlidingExpiration = TimeSpan.FromSeconds(5);// 设置滑动过期时间
+            var book = await MyDbContext.GetBookByIdAsync(id);
+            return book;
+        }, 20);// 20:设置绝对过期时间
+
+        if (book == null)
+        {
+            return NotFound($"找不到Id={id}的书");
+        }
+        else
+        {
+            return Ok(book);
+        }
+    }
+
+    /// <summary>
+    /// 使用 Redis 分布式缓存
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ActionResult<Book?>> GetBookByDistributedCache(long id)
+    {
+        Book? book;
+        string? s = await distributedCache.GetStringAsync("Book" + id);
+        if (s == null)
+        {
+            book = await MyDbContext.GetBookByIdAsync(id);
+            await distributedCache.SetStringAsync("Book" + id, JsonSerializer.Serialize(book));
+        }
+        else
+        {
+            book = JsonSerializer.Deserialize<Book?>(s);
+        }
+
+        if (book == null)
+        {
+            return NotFound($"找不到Id={id}的书");
+        }
+        else
+        {
+            return Ok(book);
+        }
     }
 
     /// <summary>
