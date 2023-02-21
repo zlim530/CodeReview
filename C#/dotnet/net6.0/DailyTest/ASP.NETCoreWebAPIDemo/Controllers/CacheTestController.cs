@@ -16,7 +16,11 @@ public class CacheTestController : ControllerBase
     private readonly IDistributedCache distributedCache;
     private readonly IDistributedCacheHelper distributedCacheHelper;
 
-    public CacheTestController(IMemoryCache memoryCache, ILogger<CacheTestController> logger, IMemoryCacheHelper memoryCacheHelper, IDistributedCache distributedCache, IDistributedCacheHelper distributedCacheHelper)
+    public CacheTestController(IMemoryCache memoryCache,
+        ILogger<CacheTestController> logger,
+        IMemoryCacheHelper memoryCacheHelper,
+        IDistributedCache distributedCache,
+        IDistributedCacheHelper distributedCacheHelper)
     {
         this.memoryCache = memoryCache;
         this.logger = logger;

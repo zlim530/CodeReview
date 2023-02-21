@@ -1,3 +1,6 @@
+using ASP.NETCoreWebAPIDemo.Model;
+using StackExchange.Redis;
+using System.Data.SqlClient;
 using Zack.ASPNETCore;
 using Zack.Commons;
 
@@ -42,6 +45,27 @@ namespace ASP.NETCoreWebAPIDemo
                 );
 
             var app = builder.Build();
+
+            Console.WriteLine(app.Environment.EnvironmentName);// 读取 ASP .NET Core API 中的默认配置的环境变量
+            Console.WriteLine(app.Environment.IsDevelopment());// 扩展方式：实际上就是判断 EnvironmentName 的值
+            Console.WriteLine(app.Environment.IsProduction());
+            Console.WriteLine(app.Configuration.GetSection("connStr").Value);
+
+            var webBuilder = builder.Host;
+            webBuilder.ConfigureAppConfiguration((hostCtx, configBuilder) =>
+            {
+                //var configRoot = builder.Configuration;
+                //string connStr = configRoot.GetConnectionString("connStr");
+                var connStr = app.Configuration.GetSection("connStr").Value;
+                configBuilder.AddDbConfiguration(() => new SqlConnection(connStr), reloadOnChange: true, reloadInterval: TimeSpan.FromSeconds(2));
+            });
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(sp => {
+                // 在 Program.cs 中读取配置的一种方法：直接使用 builder.Configuration
+                var constr = builder.Configuration.GetSection("Redis").Value;
+                return ConnectionMultiplexer.Connect(constr);
+            });
+            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
