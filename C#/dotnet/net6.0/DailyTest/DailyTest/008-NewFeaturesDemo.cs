@@ -2,7 +2,7 @@ namespace NewFeatureDemo;
 
 public class Program
 {
-    static void Main(string[] args)
+    static void Main0(string[] args)
     {
         Student s1 = GetData();
         Console.WriteLine(s1.Name.ToLower());
@@ -34,6 +34,27 @@ public class Program
         //Student student = new("tim");
         //return student;
         return new("tim");
+    }
+
+    static void Main(string[] args)
+    {
+        var items = GetInts();
+        Console.WriteLine("GetInts() 但是没有执行终结方法");
+        foreach (var item in items)
+        {
+            Console.WriteLine("在 foreach 循环中遍历时才会加载");
+            Console.WriteLine(item);
+        }
+    }
+
+    static IEnumerable<int> GetInts()
+    {
+        yield return 1;
+        yield return 2;
+        yield return 3;
+        Console.WriteLine("当调用终结方法时才会加载.");
+        yield return 4;
+        yield return 5;
     }
 }
 

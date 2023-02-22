@@ -1,6 +1,10 @@
 using ASP.NETCoreWebAPIDemo.Model;
+using EntityFrameworkCoreModel;
+using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System.Data.SqlClient;
+using System.Reflection;
+using System.Reflection.Emit;
 using Zack.ASPNETCore;
 using Zack.Commons;
 
@@ -44,6 +48,32 @@ namespace ASP.NETCoreWebAPIDemo
                     )
                 );
 
+            builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                // 在 Program.cs 中读取配置的一种方法：直接使用 builder.Configuration
+                var constr = builder.Configuration.GetSection("Redis").Value;
+                return ConnectionMultiplexer.Connect(constr);
+            });
+            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+
+            // Scoped：仅在一次 HTTP(S) 请求中维持
+            //builder.Services.AddDbContext<MyMultiDBContext>(opt => {
+            //    var connStr = builder.Configuration.GetSection("connStr").Value;
+            //    opt.UseSqlServer(connStr);
+            //});
+            //// 因为默认是 Scope，每次 http 请求就要重新创建 DbContext，当 DbContext 中有很多个表时会影响性能，所以把多个 DbSet 分开设置到多个 DbContext 中
+            //builder.Services.AddDbContext<MyMovieDBContext>(opt => {
+            //    var connStr = builder.Configuration.GetSection("connStr").Value;
+            //    opt.UseSqlServer(connStr);
+            //});
+            // 优雅的注入多个 DbContext 对象：
+            //var arms = new Assembly[] { Assembly.Load("EntityFrameworkCoreModel") };
+            var arms = ReflectionHelper.GetAllReferencedAssemblies();
+            builder.Services.AddAllDbContexts(opt => {
+                var connStr = builder.Configuration.GetSection("connStr").Value;
+                opt.UseSqlServer(connStr);
+            }, asms);
+
             var app = builder.Build();
 
             Console.WriteLine(app.Environment.EnvironmentName);// 读取 ASP .NET Core API 中的默认配置的环境变量
@@ -51,21 +81,14 @@ namespace ASP.NETCoreWebAPIDemo
             Console.WriteLine(app.Environment.IsProduction());
             Console.WriteLine(app.Configuration.GetSection("connStr").Value);
 
-            var webBuilder = builder.Host;
-            webBuilder.ConfigureAppConfiguration((hostCtx, configBuilder) =>
-            {
-                //var configRoot = builder.Configuration;
-                //string connStr = configRoot.GetConnectionString("connStr");
-                var connStr = app.Configuration.GetSection("connStr").Value;
-                configBuilder.AddDbConfiguration(() => new SqlConnection(connStr), reloadOnChange: true, reloadInterval: TimeSpan.FromSeconds(2));
-            });
-
-            builder.Services.AddSingleton<IConnectionMultiplexer>(sp => {
-                // 在 Program.cs 中读取配置的一种方法：直接使用 builder.Configuration
-                var constr = builder.Configuration.GetSection("Redis").Value;
-                return ConnectionMultiplexer.Connect(constr);
-            });
-            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+            //var webBuilder = builder.Host;
+            //webBuilder.ConfigureAppConfiguration((hostCtx, configBuilder) =>
+            //{
+            //    //var configRoot = builder.Configuration;
+            //    //string connStr = configRoot.GetConnectionString("connStr");
+            //    var connStr = app.Configuration.GetSection("connStr").Value;
+            //    configBuilder.AddDbConfiguration(() => new SqlConnection(connStr), reloadOnChange: true, reloadInterval: TimeSpan.FromSeconds(2));
+            //});
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -10,7 +10,7 @@ namespace ASP.NETCoreWebAPIDemo;
 public class ConfigurationTestController : ControllerBase
 {
     private readonly IWebHostEnvironment _webHostConfiguration;
-	private readonly IOptionsSnapshot<SmtpSettings> _optionsSnapshot;
+	private readonly IOptions<SmtpSettings> _options;
 	private readonly IConnectionMultiplexer _connectionMultiplexer;
 
 	/// <summary>
@@ -18,11 +18,11 @@ public class ConfigurationTestController : ControllerBase
 	/// </summary>
 	/// <param name="webHostEnvironment"></param>
 	public ConfigurationTestController(IWebHostEnvironment webHostEnvironment,
-		IOptionsSnapshot<SmtpSettings> optionsSnapshot,
+		IOptions<SmtpSettings> options,
 		IConnectionMultiplexer connectionMultiplexer)
 	{
 		_webHostConfiguration= webHostEnvironment;
-		_optionsSnapshot= optionsSnapshot;
+		_options= options;
 		_connectionMultiplexer = connectionMultiplexer;
 	}
 
@@ -30,7 +30,7 @@ public class ConfigurationTestController : ControllerBase
 	public string GetRedisAndSmtp()
 	{
 		var ping = _connectionMultiplexer.GetDatabase(0).Ping();
-		return _optionsSnapshot.Value.ToString() + " " + ping;
+		return _options.Value.ToString() + " " + ping;
 	}
 
 	[HttpGet]
