@@ -1,5 +1,8 @@
+using ASP.NETCoreWebAPIDemo.Controllers;
+using ASP.NETCoreWebAPIDemo.Filter;
 using ASP.NETCoreWebAPIDemo.Model;
 using EntityFrameworkCoreModel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System.Data.SqlClient;
@@ -73,6 +76,16 @@ namespace ASP.NETCoreWebAPIDemo
                 var connStr = builder.Configuration.GetSection("connStr").Value;
                 opt.UseSqlServer(connStr);
             }, asms);
+
+            builder.Services.Configure<MvcOptions>(opt => {
+                // 异常服务类的注册顺序有关系，后注册的会先执行，如果最后注册的异常处理类中设置了 context.ExceptionHandled = true 那么将导致在它之前注册的异常实现类不会被执行
+                // 如果需要执行其他异常服务类，可以在其后面注册或者不再异常处理类中设置 context.ExceptionHandled = true
+                opt.Filters.Add<LogExceptionFilter>();
+                opt.Filters.Add<MyExceptionFilter>();
+                opt.Filters.Add<MyActionFilterTest1>();
+                opt.Filters.Add<MyActionFilterTest2>();
+                opt.Filters.Add<TransactionScopeFilter>();
+            });
 
             var app = builder.Build();
 
