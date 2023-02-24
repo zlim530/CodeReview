@@ -80,6 +80,7 @@ namespace ASP.NETCoreWebAPIDemo
             builder.Services.Configure<MvcOptions>(opt => {
                 // 异常服务类的注册顺序有关系，后注册的会先执行，如果最后注册的异常处理类中设置了 context.ExceptionHandled = true 那么将导致在它之前注册的异常实现类不会被执行
                 // 如果需要执行其他异常服务类，可以在其后面注册或者不再异常处理类中设置 context.ExceptionHandled = true
+                opt.Filters.Add<RateLimitFilter>();// 将 API 限流过滤器放在最前面，保证如果不符合要求的请求就不会再继续经过其他过滤器
                 opt.Filters.Add<LogExceptionFilter>();
                 opt.Filters.Add<MyExceptionFilter>();
                 opt.Filters.Add<MyActionFilterTest1>();
