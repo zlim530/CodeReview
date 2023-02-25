@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreConsoleDemo", "EFCore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.NETCoreWebAPIDemo", "ASP.NETCoreWebAPIDemo\ASP.NETCoreWebAPIDemo.csproj", "{F679D5C0-CAFF-4A8C-B26E-0F3591730642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCoreModel", "EntityFrameworkCoreModel\EntityFrameworkCoreModel.csproj", "{A766447E-FFF9-4706-A136-145DC7B5F381}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCoreModel", "EntityFrameworkCoreModel\EntityFrameworkCoreModel.csproj", "{A766447E-FFF9-4706-A136-145DC7B5F381}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiddleWareDemo", "MiddleWareDemo\MiddleWareDemo.csproj", "{953F2FBE-F9A9-459B-8299-E104139BA8EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A766447E-FFF9-4706-A136-145DC7B5F381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A766447E-FFF9-4706-A136-145DC7B5F381}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A766447E-FFF9-4706-A136-145DC7B5F381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{953F2FBE-F9A9-459B-8299-E104139BA8EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{953F2FBE-F9A9-459B-8299-E104139BA8EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{953F2FBE-F9A9-459B-8299-E104139BA8EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{953F2FBE-F9A9-459B-8299-E104139BA8EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
