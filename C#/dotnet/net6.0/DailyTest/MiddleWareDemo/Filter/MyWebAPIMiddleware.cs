@@ -39,6 +39,11 @@ public class MyWebAPIMilldeware
         object controllerInstance = sp.GetRequiredService(controllerType);
         var paraValues = BindingHelper.GetParameterValues(context, actionMethod);
         // 如果有过滤器，在执行 Action 前先执行 Filter
+        // 中间件与 Filter 的区别：中间件是 ASP.NETCore 框架提供的基础服务功能，而 Filter 则是中间件中内部的响应处理
+        // 也即中间件是包含 Filter 的，Filter 属于中间件中提供的功能
+        // 中间件可以处理所有的请求，而 Filter 只能处理针对控制器的请求：中间件运行在一个更底层、更抽象的级别，因此在中间件中无法处理 MCV 框架特有的概念
+        // 中间件和 Filter 可以完成很多相似的功能：“未处理异常中间件”和“未处理异常 Filter”；“请求限流中间件”和“请求限流 Filter”的区别
+        // 建议优先使用中间件：但是如果这个组件只针对 MVC 或者需要调用一些 MVC 相关的类时，就只能选择 Filter 了
         foreach (var filter in ActionFilters.Filters)
         {
             filter.Execute();

@@ -1,3 +1,5 @@
+using aspnetcoreCancellationToken.Filter;
+
 namespace aspnetcoreCancellationToken
 {
     public class Program
@@ -20,6 +22,8 @@ namespace aspnetcoreCancellationToken
             }
 
             app.UseHttpsRedirection();
+            app.UseMiddleware<MarkdownMiddleware>();
+            // 要将我们自定义的 Markdown 处理中间件在 StaticFiles 中间件前面注册，因为在后面注册则会直接被 UseStaticFiles 中间件处理，无法达到专门处理 Markdown 类型文件的效果 
             app.UseStaticFiles();
 
             app.UseRouting();
