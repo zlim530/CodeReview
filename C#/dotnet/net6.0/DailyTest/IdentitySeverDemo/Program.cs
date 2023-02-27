@@ -27,6 +27,9 @@ builder.Services.AddIdentityCore<MyUser>(options => {
     options.Password.RequireLowercase= false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase= false;
+    // 如果需要用户输入验证码，则配置为以下配置，这样生成的验证码是6位数字
+    // 如果不做设置，则生成的生成的重置密码 token 会非常非常长，这这种很长很复杂的验证码适合发送到用户邮箱，让ta点击包含验证码的链接
+    // CfDJ8B7DtV0qrQFGv8wHiQKh7EIS2g2aNQTHa7ryLJx2qKlil8JbPprl75nn8gLrCoUNdyH/wRGFE/Bg/qadRg8xKMWmEhE9WlTq1PQSJGYOooqvCBlSn4qGKCKU/vCWjLaOyB2YbsRWMWa0kobfKzrQAqFq/Z0s9gKs41hSRhkTnzx1dgE+BzHRS6VQOXcq/eTpcQ==
     options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
     options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
 });

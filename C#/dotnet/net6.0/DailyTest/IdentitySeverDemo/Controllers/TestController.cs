@@ -77,6 +77,42 @@ public class TestController : ControllerBase
             return BadRequest("用户名或密码错误");
         }
     }
+
+    [HttpPost]
+    public async Task<ActionResult<string>> SendResetPasswordToken(string userName)
+    {
+        var user = await userManager.FindByNameAsync(userName);
+        if (user == null)
+        {
+            return BadRequest("用户名错误！");
+        }
+        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+        Console.WriteLine($"Reset Password Token is {token}");
+        return Ok(token);
+    }
+
+
+    [HttpPut]
+    public async Task<ActionResult> ResetPassword(string userName, string token, string newPassword)
+    {
+        var user = await userManager.FindByNameAsync(userName);
+        if (user == null)
+        {
+            return BadRequest("用户名错误！");
+        }
+        var result = await userManager.ResetPasswordAsync(user, token, newPassword);
+        if (result.Succeeded)
+        {
+            await userManager.ResetAccessFailedCountAsync(user);
+            return Ok("重置密码成功！");
+        }
+        else
+        {
+            await userManager.AccessFailedAsync(user);
+            return BadRequest("密码重置失败！");
+        }
+    }
+
 }
 
 
