@@ -36,7 +36,7 @@ public class Program
         return new("tim");
     }
 
-    static void Main(string[] args)
+    static void Main1(string[] args)
     {
         var items = GetInts();
         Console.WriteLine("GetInts() 但是没有执行终结方法");
