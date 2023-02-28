@@ -1,7 +1,11 @@
 using IdentitySeverDemo.DbContext;
 using IdentitySeverDemo.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +14,45 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// 配置 OpenAPI ：让 Swagger 界面中带上 JWT 报文头请求接口
+builder.Services.AddSwaggerGen(c => {
+    var schema = new OpenApiSecurityScheme()
+    {
+        Description = "Authorization header. \r\nExample:'Bearer 123456abcdf'",
+        Reference = new OpenApiReference {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Authorization" },
+        Scheme = "oauth2",
+        Name = "Authorization",
+        In = ParameterLocation.Header, Type = SecuritySchemeType.ApiKey
+    };
+    c.AddSecurityDefinition("Authorization", schema);
+    var requirement = new OpenApiSecurityRequirement();
+    requirement[schema] = new List<string>();
+    c.AddSecurityRequirement(requirement);
+});
 builder.Services.AddDbContext<MyDbContext>(opt => {
     var connStr = builder.Configuration.GetSection("connStr").Value;
     opt.UseSqlServer(connStr);
 });
+
+// 配置 JWT
+builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt => {
+        var jwtSettings = builder.Configuration.GetSection("JWt").Get<JWTSettings>();
+        var bytes = Encoding.UTF8.GetBytes(jwtSettings.SecKey);
+        var secKey = new SymmetricSecurityKey(bytes);
+        opt.TokenValidationParameters = new()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = secKey
+        };
+    });
+
 builder.Services.AddDataProtection();
 builder.Services.AddIdentityCore<MyUser>(options => {
     /*
@@ -46,6 +84,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

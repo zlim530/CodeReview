@@ -1,11 +1,14 @@
 using IdentitySeverDemo.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace IdentitySeverDemo.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
+[Authorize]// 在需要登录才能访问的控制器或者 Action 方法上添加此特性
 public class TestController : ControllerBase
 {
     private readonly UserManager<MyUser> userManager;
@@ -18,6 +21,18 @@ public class TestController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles ="admin")]// 表示只有 admin 角色的用户才可以访问此接口
+    public ActionResult<string> Hello()
+    {
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var userName = this.User.FindFirst(ClaimTypes.Name)!.Value;
+        var roles = this.User.FindAll(ClaimTypes.Role);
+        var roleName = string.Join(",", roles.Select(r => r.Value));
+        return Ok($"Id = {userId}, UserName = {userName}, roleNames = {roleName}");
+    }
+
+    [HttpGet]
+    [AllowAnonymous]// 表示不登录也可以访问此接口方法
     public async Task<ActionResult<string>> InitTest()
     {
         bool isExists = await roleManager.RoleExistsAsync("admin");
@@ -53,6 +68,7 @@ public class TestController : ControllerBase
 
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<ActionResult> CheckPwd(CheckPwdRequest request)
     {
         var userName = request.UserName;
@@ -79,6 +95,7 @@ public class TestController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<ActionResult<string>> SendResetPasswordToken(string userName)
     {
         var user = await userManager.FindByNameAsync(userName);
@@ -93,6 +110,7 @@ public class TestController : ControllerBase
 
 
     [HttpPut]
+    [AllowAnonymous]
     public async Task<ActionResult> ResetPassword(string userName, string token, string newPassword)
     {
         var user = await userManager.FindByNameAsync(userName);
