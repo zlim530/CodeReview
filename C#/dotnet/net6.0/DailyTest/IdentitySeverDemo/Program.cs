@@ -1,7 +1,9 @@
 using IdentitySeverDemo.DbContext;
+using IdentitySeverDemo.Filter;
 using IdentitySeverDemo.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -31,6 +33,11 @@ builder.Services.AddSwaggerGen(c => {
     requirement[schema] = new List<string>();
     c.AddSecurityRequirement(requirement);
 });
+
+builder.Services.Configure<MvcOptions>(opt => {
+    opt.Filters.Add<JWTVersionCheckFilter>();
+});
+
 builder.Services.AddDbContext<MyDbContext>(opt => {
     var connStr = builder.Configuration.GetSection("connStr").Value;
     opt.UseSqlServer(connStr);

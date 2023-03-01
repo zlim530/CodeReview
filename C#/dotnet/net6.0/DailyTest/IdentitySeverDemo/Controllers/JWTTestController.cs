@@ -1,3 +1,4 @@
+using IdentitySeverDemo.Helper;
 using IdentitySeverDemo.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,18 +38,31 @@ public class JWTTestController : ControllerBase
         {
             return BadRequest("用户名或密码错误");
         }
-        var claims = new List<Claim>();
-        claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-        claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-        var roles = await userManager.GetRolesAsync(user);
-        foreach (var role in roles)
+        if (await userManager.CheckPasswordAsync(user, password))
         {
-            // 一个用户可以拥有多个角色，不同角色共同存储在 Role 这个角色数组中
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            // failed count 重置为0
+            await userManager.ResetAccessFailedCountAsync(user).CheckAsync();
+            user.JWTVersion++;// 用户的登录后就让 JWTVersion 字段自增1
+            await userManager.UpdateAsync(user);
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            claims.Add(new Claim("JWTVersion", user.JWTVersion.ToString()));
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                // 一个用户可以拥有多个角色，不同角色共同存储在 Role 这个角色数组中
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            string jwtTokens = BuildToken(claims, snapshot.Value);
+            return Ok(jwtTokens);
         }
-        
-        string jwtTokens = BuildToken(claims, snapshot.Value);
-        return Ok(jwtTokens);
+        else
+        {
+            await userManager.AccessFailedAsync(user).CheckAsync();
+            return BadRequest("用户名或密码错误");
+        }
     }
 
     /// <summary>
