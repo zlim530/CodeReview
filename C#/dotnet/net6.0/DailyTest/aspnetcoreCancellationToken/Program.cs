@@ -1,4 +1,5 @@
 using aspnetcoreCancellationToken.Filter;
+using aspnetcoreCancellationToken.Services;
 
 namespace aspnetcoreCancellationToken
 {
@@ -10,6 +11,8 @@ namespace aspnetcoreCancellationToken
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHostedService<HostServiceDemo>();
+            builder.Services.AddScoped<TestScopeService>();
 
             var app = builder.Build();
 
