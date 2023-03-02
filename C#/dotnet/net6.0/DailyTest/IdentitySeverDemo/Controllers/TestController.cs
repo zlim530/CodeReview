@@ -1,3 +1,5 @@
+using IdentitySeverDemo.DTO;
+using IdentitySeverDemo.Helper;
 using IdentitySeverDemo.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -129,6 +131,15 @@ public class TestController : ControllerBase
             await userManager.AccessFailedAsync(user);
             return BadRequest("密码重置失败！");
         }
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<ActionResult<string>> AddNewUser(AddNewUserRequest req)
+    {
+        MyUser user = new MyUser { UserName = req.UserName, Email = req.Email};
+        await userManager.CreateAsync(user, req.Password).CheckAsync();
+        return Ok("用户创建成功！");
     }
 
 }

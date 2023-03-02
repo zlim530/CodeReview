@@ -1,5 +1,7 @@
+using FluentValidation.AspNetCore;
 using IdentitySeverDemo.DbContext;
 using IdentitySeverDemo.Filter;
+using IdentitySeverDemo.HostService;
 using IdentitySeverDemo.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +39,12 @@ builder.Services.AddSwaggerGen(c => {
 
 builder.Services.Configure<MvcOptions>(opt => {
     opt.Filters.Add<JWTVersionCheckFilter>();
+});
+
+builder.Services.AddHostedService<ScheduledHostService>();
+
+builder.Services.AddFluentValidation(opt => {
+    opt.RegisterValidatorsFromAssembly(Assembly.GetEntryAssembly());// 加载当前程序集
 });
 
 builder.Services.AddDbContext<MyDbContext>(opt => {
