@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCoreModel", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiddleWareDemo", "MiddleWareDemo\MiddleWareDemo.csproj", "{953F2FBE-F9A9-459B-8299-E104139BA8EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySeverDemo", "IdentitySeverDemo\IdentitySeverDemo.csproj", "{C2F79653-7A16-4269-B27C-314234FBB0B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySeverDemo", "IdentitySeverDemo\IdentitySeverDemo.csproj", "{C2F79653-7A16-4269-B27C-314234FBB0B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRDemo", "SignalRDemo\SignalRDemo.csproj", "{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{C2F79653-7A16-4269-B27C-314234FBB0B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2F79653-7A16-4269-B27C-314234FBB0B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2F79653-7A16-4269-B27C-314234FBB0B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
