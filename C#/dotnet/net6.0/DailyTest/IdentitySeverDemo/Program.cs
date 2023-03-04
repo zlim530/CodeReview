@@ -67,6 +67,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = secKey
         };
+        // 在 JWT 中配置 SignalR 
+        opt.Events = new JwtBearerEvents { 
+            OnMessageReceived = context => {
+                // 因为 websocket 不支持自定义报文头，因此我们需要把 JWT 通过 url 中的 QueryString 传递
+                // 然后在服务器端的 OnMessageReceived 中，把 QueryString 中的 JWT 读出来赋值给 context.Token
+                var accessToken = context.Request.Query["acess_token"];
+                var path = context.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/Hubs/MyHub"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddDataProtection();

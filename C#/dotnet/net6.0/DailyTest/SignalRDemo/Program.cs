@@ -9,7 +9,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR().AddStackExchangeRedis("127.0.0.1",opt => { 
+    opt.Configuration.ChannelPrefix= "WebApp_SignalR_";// 使用 Redis 的消息队列来实现 SignalR 的分布式部署
+    // 这样不同的 SignalR 服务器端可以互相通信，这样群发消息时所有跟服务器端相连的客户端都可以接收到消息
+});
 
 // 启用 Cors 
 string[] urls = new[] { "http://localhost:5173" };

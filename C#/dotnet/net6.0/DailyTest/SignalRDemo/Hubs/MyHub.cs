@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace SignalRDemo.Hubs;
 
+// SignalR 的身份认证：借助 Identity 和 JWT
+//[Authorize]
 public class MyHub : Hub
 {
     /// <summary>
