@@ -1,9 +1,11 @@
 using IdentitySeverDemo.DTO;
 using IdentitySeverDemo.Helper;
+using IdentitySeverDemo.Hubs;
 using IdentitySeverDemo.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 
 namespace IdentitySeverDemo.Controllers;
@@ -15,11 +17,15 @@ public class TestController : ControllerBase
 {
     private readonly UserManager<MyUser> userManager;
     private readonly RoleManager<MyRole> roleManager;
+    private readonly IHubContext<MyHub> myhubContext;
 
-    public TestController(UserManager<MyUser> userManager, RoleManager<MyRole> roleManager)
+    public TestController(UserManager<MyUser> userManager, 
+        RoleManager<MyRole> roleManager,
+        IHubContext<MyHub> myhubContext)
     {
         this.userManager = userManager;
         this.roleManager = roleManager;
+        this.myhubContext = myhubContext;
     }
 
     [HttpGet]
@@ -139,6 +145,8 @@ public class TestController : ControllerBase
     {
         MyUser user = new MyUser { UserName = req.UserName, Email = req.Email};
         await userManager.CreateAsync(user, req.Password).CheckAsync();
+        // 在外部向 SignalR 的 Hub 发送消息
+        await myhubContext.Clients.All.SendAsync("PublicMsgReceived",$"欢迎新用户{req.UserName}加入我们！");
         return Ok("用户创建成功！");
     }
 

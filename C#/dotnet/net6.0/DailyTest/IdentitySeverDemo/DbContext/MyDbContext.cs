@@ -9,6 +9,8 @@ namespace IdentitySeverDemo.DbContext;
 /// </summary>
 public class MyDbContext : IdentityDbContext<MyUser, MyRole, long>
 {
+	public DbSet<WordItems> WordItems { get; set; }
+
 	public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
 	{
 

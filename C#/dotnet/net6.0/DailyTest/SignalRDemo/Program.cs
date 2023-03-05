@@ -1,3 +1,4 @@
+using SignalRDemo.Helpers;
 using SignalRDemo.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,8 @@ builder.Services.AddCors(opt =>
         )
     );
 
+builder.Services.AddSingleton<ImportExecutor>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,7 +42,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapHub<MyHub>("/Hubs/MyHub");
+app.MapHub<ImportHub>("/Hubs/MyHub");
 
 app.MapControllers();
 

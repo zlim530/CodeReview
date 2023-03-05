@@ -2,6 +2,7 @@ using FluentValidation.AspNetCore;
 using IdentitySeverDemo.DbContext;
 using IdentitySeverDemo.Filter;
 using IdentitySeverDemo.HostService;
+using IdentitySeverDemo.Hubs;
 using IdentitySeverDemo.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -97,12 +98,25 @@ builder.Services.AddIdentityCore<MyUser>(options => {
     options.Password.RequireUppercase= false;
     // 如果需要用户输入验证码，则配置为以下配置，这样生成的验证码是6位数字
     // 如果不做设置，则生成的生成的重置密码 token 会非常非常长，这这种很长很复杂的验证码适合发送到用户邮箱，让ta点击包含验证码的链接
-    // CfDJ8B7DtV0qrQFGv8wHiQKh7EIS2g2aNQTHa7ryLJx2qKlil8JbPprl75nn8gLrCoUNdyH/wRGFE/Bg/qadRg8xKMWmEhE9WlTq1PQSJGYOooqvCBlSn4qGKCKU/vCWjLaOyB2YbsRWMWa0kobfKzrQAqFq/Z0s9gKs41hSRhkTnzx1dgE+BzHRS6VQOXcq/eTpcQ==
     options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
     options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
 });
 IdentityBuilder identityBuilder = new IdentityBuilder(typeof(MyUser), typeof(MyRole), builder.Services);
 identityBuilder.AddEntityFrameworkStores<MyDbContext>().AddDefaultTokenProviders().AddUserManager<UserManager<MyUser>>().AddRoleManager<RoleManager<MyRole>>();
+
+// 启用 Cors 
+string[] urls = new[] { "http://localhost:5173" };
+builder.Services.AddCors(opt =>
+        opt.AddDefaultPolicy(b =>
+            b.WithOrigins(urls)
+            .AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+        )
+    );
+
+builder.Services.AddSignalR().AddStackExchangeRedis("127.0.0.1", opt => {
+    opt.Configuration.ChannelPrefix = "WebApp_SignalR_";// 使用 Redis 的消息队列来实现 SignalR 的分布式部署
+    // 这样不同的 SignalR 服务器端可以互相通信，这样群发消息时所有跟服务器端相连的客户端都可以接收到消息
+});
 
 var app = builder.Build();
 
@@ -113,11 +127,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// 启用 CORS：让前端可以访问后端 SignalR 服务器
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapHub<MyHub>("/Hubs/MyHub");
 
 app.MapControllers();
 
