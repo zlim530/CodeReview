@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.SignalR;
 using SignalRDemo.Hubs;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics.Metrics;
 
 namespace SignalRDemo.Helpers;
 
@@ -16,6 +15,19 @@ public class ImportExecutor
     }
 
     public async Task ExecuteAsync(string connectionId)
+    {
+        try
+        {
+            await DoExecuteAsync(connectionId);
+        }
+        catch (Exception ex)
+        {
+            await hubContext.Clients.Client(connectionId).SendAsync("ImportFailed");
+            Console.WriteLine(ex);
+        }
+    }
+
+    public async Task DoExecuteAsync(string connectionId)
     {
         string[] lines = await File.ReadAllLinesAsync($"dicLocalFilePath");
         int totalCount = lines.Length - 1;// 总行数，跳过表头
