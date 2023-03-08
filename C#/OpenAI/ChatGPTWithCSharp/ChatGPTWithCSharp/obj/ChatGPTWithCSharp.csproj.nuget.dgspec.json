@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\code\\CodeReview\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj": {}
+    "C:\\Code\\mostnewCodeReview\\CodeReview\\C#\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj": {}
   },
   "projects": {
-    "D:\\code\\CodeReview\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj": {
+    "C:\\Code\\mostnewCodeReview\\CodeReview\\C#\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\code\\CodeReview\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj",
+        "projectUniqueName": "C:\\Code\\mostnewCodeReview\\CodeReview\\C#\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj",
         "projectName": "ChatGPTWithCSharp",
-        "projectPath": "D:\\code\\CodeReview\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj",
-        "packagesPath": "D:\\Nuget\\.nuget\\packages",
-        "outputPath": "D:\\code\\CodeReview\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\obj\\",
+        "projectPath": "C:\\Code\\mostnewCodeReview\\CodeReview\\C#\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\ChatGPTWithCSharp.csproj",
+        "packagesPath": "C:\\Users\\Lim\\.nuget\\packages\\",
+        "outputPath": "C:\\Code\\mostnewCodeReview\\CodeReview\\C#\\OpenAI\\ChatGPTWithCSharp\\ChatGPTWithCSharp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\v-zijiagu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lim\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,13 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://msasg.pkgs.visualstudio.com/Bing_Ads/_packaging/AdsSelection/nuget/v3/index.json": {},
-          "https://msasg.pkgs.visualstudio.com/_packaging/Bing-Pacman/nuget/v3/index.json": {},
-          "https://msasg.pkgs.visualstudio.com/_packaging/Bing/nuget/v3/index.json": {},
-          "https://msazure.pkgs.visualstudio.com/_packaging/Official/nuget/v3/index.json": {},
-          "https://mscosmos.pkgs.visualstudio.com/_packaging/CosmosProd/nuget/v3/index.json": {},
-          "https://ossmsft.pkgs.visualstudio.com/_packaging/OSS_All/nuget/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
