@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiddleWareDemo", "MiddleWar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySeverDemo", "IdentitySeverDemo\IdentitySeverDemo.csproj", "{C2F79653-7A16-4269-B27C-314234FBB0B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRDemo", "SignalRDemo\SignalRDemo.csproj", "{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRDemo", "SignalRDemo\SignalRDemo.csproj", "{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDEFCoreOfRicherModel", "DDDEFCoreOfRicherModel\DDDEFCoreOfRicherModel.csproj", "{6F363A91-42CC-42D2-801F-7A599E572A30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AD17B45-ADC5-4751-B72A-2BF56017DDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F363A91-42CC-42D2-801F-7A599E572A30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F363A91-42CC-42D2-801F-7A599E572A30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F363A91-42CC-42D2-801F-7A599E572A30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F363A91-42CC-42D2-801F-7A599E572A30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
