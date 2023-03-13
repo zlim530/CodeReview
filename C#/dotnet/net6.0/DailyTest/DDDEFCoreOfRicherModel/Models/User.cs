@@ -22,13 +22,14 @@ public record User
     // 没有对应属性，但是这些成员变量需要映射为数据表中的列，也就是我们需要把私有成员变量映射到数据表中的列
     private string? passwordHash { get; set; }
 
-    //[Column("Remark")]
-    // 只读属性，也就是它的值是从数据库中读取出来的，但是我们不能修改属性值
-    private string? _remark { get; set; }
+    // [Column("Remark")]
+    // 字段
+    private string? remark;
     //[NotMapped]
-    public string? Remark 
+    // 只读属性，也就是它的值是从数据库中读取出来的，但是我们不能修改属性值
+    public string? Remark
     {
-        get { return _remark; } 
+        get { return remark; }
     }
 
     // 有的属性不需要映射到数据列，仅在运行时被使用。
