@@ -7,6 +7,8 @@ public class MyDbContext: DbContext
 {
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Region> Regions { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

@@ -4,6 +4,7 @@ using DDDEFCoreOfRicherModel.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDDEFCoreOfRicherModel.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230314090518_UpdateRegion")]
+    partial class UpdateRegion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,6 @@ namespace DDDEFCoreOfRicherModel.Migrations
 
                             b1.Property<double>("Value")
                                 .HasColumnType("float")
-                                .HasColumnName("AreaSize")
                                 .HasComment("区域大小");
 
                             b1.HasKey("RegionId");

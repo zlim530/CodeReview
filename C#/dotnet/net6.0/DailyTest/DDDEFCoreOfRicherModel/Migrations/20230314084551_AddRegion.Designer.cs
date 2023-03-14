@@ -4,6 +4,7 @@ using DDDEFCoreOfRicherModel.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDDEFCoreOfRicherModel.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230314084551_AddRegion")]
+    partial class AddRegion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,14 +83,11 @@ namespace DDDEFCoreOfRicherModel.Migrations
 
                             b1.Property<string>("Unit")
                                 .IsRequired()
-                                .HasMaxLength(20)
-                                .IsUnicode(false)
-                                .HasColumnType("varchar(20)");
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<double>("Value")
-                                .HasColumnType("float")
-                                .HasColumnName("AreaSize")
-                                .HasComment("区域大小");
+                                .HasColumnType("float");
 
                             b1.HasKey("RegionId");
 
@@ -124,11 +124,9 @@ namespace DDDEFCoreOfRicherModel.Migrations
                             b1.Property<string>("Chinese")
                                 .IsRequired()
                                 .HasMaxLength(255)
-                                .IsUnicode(true)
                                 .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("English")
-                                .IsUnicode(false)
                                 .HasColumnType("varchar(255)");
 
                             b1.HasKey("RegionId");
