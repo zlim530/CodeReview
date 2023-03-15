@@ -5,7 +5,7 @@ namespace DDDEFCoreOfRicherModel.Models;
 /// <summary>
 /// ÇøÓò
 /// </summary>
-public record Region 
+public record Region : BaseEntity
 {
     public long Id { get; init; }
     public MultilingualString Name { get; init; }

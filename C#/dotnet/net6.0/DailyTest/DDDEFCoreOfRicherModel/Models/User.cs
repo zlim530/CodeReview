@@ -1,3 +1,4 @@
+using DDDEFCoreOfRicherModel.Events;
 using System.ComponentModel.DataAnnotations.Schema;
 using Zack.Commons;
 
@@ -5,8 +6,15 @@ namespace DDDEFCoreOfRicherModel.Models;
 
 /// <summary>
 /// EFCore 中实现充血模型
+/// 实体中的逻辑代码：管理实体的创建、状态等非业务逻辑
+/// 领域服务：聚合内的业务逻辑
+/// 应用服务：聚合之间，以及和外部系统间的业务逻辑
+/// 聚合：高内聚，低耦合
+/// 把关系强的实体放在同一个聚合中，把其中一个实体做为“聚合根”，对于同一个聚合内的其他实体，都通过聚合根实体进行操作
+/// 划分聚合，是为了便于以后进行微服务的拆分
+/// 跨聚合进行实体引用，只能引用根实体（聚合根），并且只能引用实体的标识符，而不能引用实体根对象
 /// </summary>
-public record User
+public record User : BaseEntity
 {
     // 属性是只读的或者只能被内部的代码修改。
     // init 表示只能在对象初始化时进行赋值
@@ -47,6 +55,7 @@ public record User
         UserName = accountName;
         CreatedDateTime = DateTime.Now;
         Credit = 10;
+        AddDomainEvent(new NewUserInfoNotification(UserName, this.CreatedDateTime));// 注册事件
     }
 
     public void ChangeUserName(string newValue)
@@ -55,7 +64,9 @@ public record User
         {
             throw new ArgumentException("用户名长度不能大于5");
         }
+        string oldName = UserName;
         UserName = newValue;
+        AddDomainEvent(new UserNameChangeNotification(oldName, UserName));
     }
 
     public void ChangePassword(string newValue)

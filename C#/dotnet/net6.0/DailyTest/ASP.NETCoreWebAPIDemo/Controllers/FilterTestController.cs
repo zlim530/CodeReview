@@ -56,7 +56,7 @@ public class FilterTestController : ControllerBase
         //_movieDbContext.SaveChanges();// 一个事务
         #endregion
 
-        using (TransactionScope tx = new TransactionScope())// 只有有一个失败了，就会自动回滚
+        using (TransactionScope tx = new TransactionScope())// 只要有一个失败了，就会自动回滚
         {
             _myDbContext.Books.Add(new EntityFrameworkCoreModel.Book { Title = "数学之美", AuthorName = "Jun Wu", Price = 69, PubDate = DateTime.Now });
             _myDbContext.SaveChanges();// 一个事务

@@ -1,10 +1,43 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using DDDEFCoreOfRicherModel;
+using DDDEFCoreOfRicherModel.Controllers;
 using DDDEFCoreOfRicherModel.DbContexts;
 using DDDEFCoreOfRicherModel.Models;
 using DDDEFCoreOfRicherModel.ValueObject;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Zack.Infrastructure.EFCore;
 
-using var ctx = new MyDbContext();
+ServiceCollection services = new ServiceCollection();
+services.AddDbContext<MyDbContext>(opt =>
+{
+    string connStr = "Server=127.0.0.1;Database=demoone;User ID=sa;Pwd=q1w2e3R4;Trusted_Connection=False;Encrypt=True;TrustServerCertificate=True;";
+    opt.UseSqlServer(connStr);
+});
+
+// 进程内消息传递的开源库MediatR。事件的发布和事件的处理之间解耦。MediatR中支持“一个发布者对应一个处理者”和“一个发布者对应多个处理者”这两种模式
+services.AddMediatR(typeof(Program).Assembly);
+services.AddScoped<TestController>();
+
+var sp = services.BuildServiceProvider();
+var ctx = sp.GetRequiredService<MyDbContext>();
+var t = sp.GetRequiredService<TestController>();
+
+#region EFCore 领域事件发布的时机
+User u2 = new User("ZLim");
+u2.ChangePassword("q1w2e3r4");
+u2.ChangeUserName("Z");
+ctx.Users.Add(u2);
+await ctx.SaveChangesAsync();
+#endregion
+
+//t.TestAsync("Test ");
+
+
+#region EFCore of RicherModel And ValueObject
+/*
+//using var ctx = new MyDbContext();
 
 User user = new User("Zack");
 user.Tag = "MyTag";
@@ -35,3 +68,5 @@ Console.WriteLine(c1.Level);
 // ctx.Regions.First(r => r.Name.Chinese == "北京" && r.Name.English == "Beijing")
 var c = ctx.Regions.First(ExpressionHelper.MakeEqual((Region r) => r.Name, new MultilingualString("北京", "Beijing")));
 Console.WriteLine(c);
+*/
+#endregion
