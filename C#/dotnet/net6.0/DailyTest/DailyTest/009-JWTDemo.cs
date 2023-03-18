@@ -9,7 +9,7 @@ public class JWTDemo
 {
     private static string key = "abfaajdklasjd123189274839*((q1w2e3r4_";
 
-    static void Main(string[] args)
+    static void Main0(string[] args)
     {
         var token = CreateJWT();
         string[] segments = token.Split('.');

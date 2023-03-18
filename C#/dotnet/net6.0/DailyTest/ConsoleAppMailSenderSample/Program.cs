@@ -2,12 +2,15 @@
 using LogService;
 using MailService;
 using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace ConsoleAppMailSenderSample
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main0(string[] args)
         {
             var services = new ServiceCollection();
             services.AddScoped<ILogProvider, ConsoleLogProvider>();
@@ -21,6 +24,48 @@ namespace ConsoleAppMailSenderSample
             {
                 var mailService = sp.GetRequiredService<IMailProvider>();
                 mailService.Send("Hello","trump@usa.gov","Hello Trump");
+            }
+        }
+
+        /// <summary>
+        /// RabbitMQ 消费者控制台程序 Demo
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            var connFactory = new ConnectionFactory();
+            connFactory.HostName = "127.0.0.1";
+            connFactory.DispatchConsumersAsync = true;
+            using var connection = connFactory.CreateConnection();
+            string exchangeName = "exchange1";
+            string queueName = "queue1";
+            string routingkey = "myEventKey1";
+            using var channel = connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, "direct");
+            channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueBind(queueName, exchangeName, routingkey);
+
+            AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += Consumer_Received;
+            channel.BasicConsume(queueName, autoAck: false, consumer: consumer);
+            Console.WriteLine("按回车退出");// 因为是控制台程序，所以要在这里认为暂停，否则程序执行完就直接关闭了
+            Console.ReadLine();
+            async Task Consumer_Received(object sender, BasicDeliverEventArgs eventArgs)
+            {
+                try
+                {
+                    byte[] body = eventArgs.Body.ToArray();
+                    string text = Encoding.UTF8.GetString(body);
+                    Console.WriteLine($"Received msg: {text}");
+                    // DeliveryTag 就是消息的编号；BasicAck：人为告诉交换机消费者确认接收到指定的消息
+                    channel.BasicAck(eventArgs.DeliveryTag, multiple: false);
+                    await Task.Delay(800);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("处理收到的消息出错:" + ex);
+                    channel.BasicReject(eventArgs.DeliveryTag, true);
+                }
             }
         }
     }
