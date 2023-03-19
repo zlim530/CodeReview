@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Zack.ASPNETCore;
 using Zack.Commons;
+using Zack.EventBus;
 
 namespace ASP.NETCoreWebAPIDemo
 {
@@ -88,7 +89,16 @@ namespace ASP.NETCoreWebAPIDemo
                 opt.Filters.Add<TransactionScopeFilter>();
             });
 
+            var eventBusSec = builder.Configuration.GetSection("EventBus");
+            builder.Services.Configure<IntegrationEventRabbitMQOptions>(eventBusSec);
+            builder.Services.AddEventBus("EventBusApi2_Queue2", typeof(Program).Assembly);
+            // 两个项目(微服务)要使用两个队列，否则如果是同一个队列，一个项目接收到消息后就不会再给第二个项目
+            // 因为多个消息生产者(微服务)可以使用同一个交换机连接多个消息队列，并使用 routingKey 将对应的消息发送给对应的消息队列
+            // 但同一个消息队列与消费者是一对一的关系，也即不允许多个消息者同时访问同一个消息队列
+
             var app = builder.Build();
+
+            app.UseEventBus();
 
             Console.WriteLine(app.Environment.EnvironmentName);// 读取 ASP .NET Core API 中的默认配置的环境变量
             Console.WriteLine(app.Environment.IsDevelopment());// 扩展方式：实际上就是判断 EnvironmentName 的值

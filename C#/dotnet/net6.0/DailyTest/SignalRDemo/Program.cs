@@ -1,5 +1,6 @@
 using SignalRDemo.Helpers;
 using SignalRDemo.Hubs;
+using Zack.EventBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,15 @@ builder.Services.AddCors(opt =>
         )
     );
 
+var eventBusSec = builder.Configuration.GetSection("EventBus");
+builder.Services.Configure<IntegrationEventRabbitMQOptions>(eventBusSec);
+builder.Services.AddEventBus("EventBusApi1_Queue1", typeof(Program).Assembly);
+
 builder.Services.AddSingleton<ImportExecutor>();
 
 var app = builder.Build();
+
+app.UseEventBus();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
