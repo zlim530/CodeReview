@@ -13,6 +13,11 @@ public class MyDbContext: DbContext
 
     private readonly IMediator mediator;
 
+    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+    {
+        
+    }
+
     public MyDbContext(DbContextOptions<MyDbContext> options,
         IMediator mediator) : base(options)
     {
