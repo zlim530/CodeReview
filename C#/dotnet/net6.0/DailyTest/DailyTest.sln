@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDEFCoreOfRicherModel", "D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDDLastClassofUserMangementProgram", "DDDLastClassofUserMangementProgram", "{BA5B0021-38B6-47FF-8D77-77D08C9C91C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserMgr.Domain", "UserMgr.Domain\UserMgr.Domain.csproj", "{1F338A83-F62D-4412-AB55-C7C5D2849F5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMgr.Domain", "UserMgr.Domain\UserMgr.Domain.csproj", "{1F338A83-F62D-4412-AB55-C7C5D2849F5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserMgr.WebAPI", "UserMgr.WebAPI\UserMgr.WebAPI.csproj", "{3FC7DF2B-F2BC-4401-B5EF-8167FDB9C437}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,12 +79,17 @@ Global
 		{1F338A83-F62D-4412-AB55-C7C5D2849F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F338A83-F62D-4412-AB55-C7C5D2849F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F338A83-F62D-4412-AB55-C7C5D2849F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC7DF2B-F2BC-4401-B5EF-8167FDB9C437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC7DF2B-F2BC-4401-B5EF-8167FDB9C437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC7DF2B-F2BC-4401-B5EF-8167FDB9C437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC7DF2B-F2BC-4401-B5EF-8167FDB9C437}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1F338A83-F62D-4412-AB55-C7C5D2849F5C} = {BA5B0021-38B6-47FF-8D77-77D08C9C91C4}
+		{3FC7DF2B-F2BC-4401-B5EF-8167FDB9C437} = {BA5B0021-38B6-47FF-8D77-77D08C9C91C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D81D988-ECEF-439F-92F3-4F42FCC73DAE}
