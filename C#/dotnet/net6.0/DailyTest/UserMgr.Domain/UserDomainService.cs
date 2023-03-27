@@ -6,6 +6,10 @@ using UserMgr.Domain.ValueObjects;
 
 namespace UserMgr.Domain
 {
+    /// <summary>
+    /// Domain：包括实体类（聚合根）、事件（UserAccessResultEvent）、防腐层接口（ISmsCodeSender）、仓储接口（IUserDomainRepository）、领域服务（UserDomainService）
+    /// 领域服务
+    /// </summary>
     public class UserDomainService
     {
         private readonly IUserDomainRepository userDomainRepository;
@@ -46,11 +50,11 @@ namespace UserMgr.Domain
             {
                 if (result == UserAccessResult.OK)
                 {
-                    ResetAccessFail(user);
+                    ResetAccessFail(user); // 重置成功
                 }
                 else
                 {
-                    AccessFail(user);
+                    AccessFail(user); // 处理登录失败
                 }
             }
             UserAccessResultEvent resultEvent = new (phoneNumber, result);
@@ -58,6 +62,49 @@ namespace UserMgr.Domain
             return result;
         }
 
+        public async Task<UserAccessResult> SendCodeAsync(PhoneNumber phoneNumber)
+        {
+            var user = await userDomainRepository.FindOneAsync(phoneNumber);
+            if (user == null)
+            {
+                return UserAccessResult.PhoneNumberNotFound;
+            }
+            if (IsLockUser(user))
+            {
+                return UserAccessResult.Lockout;
+            }
+            string code = Random.Shared.Next(1000, 9999).ToString();
+            await userDomainRepository.SavePhoneNumberCodeAsync(phoneNumber, code);
+            await smsCodeSender.SendCodeAsync(phoneNumber, code);
+            return UserAccessResult.OK;
+        }
+
+        public async Task<CheckCodeResult> CheckCodeAsync(PhoneNumber phoneNumber, string code)
+        {
+            var user = await userDomainRepository.FindOneAsync(phoneNumber);
+            if (user == null)
+            {
+                return CheckCodeResult.PhoneNumberNotFound;
+            }
+            if (IsLockUser(user)) 
+            {
+                return CheckCodeResult.Lockout;
+            }
+            string? codeInServer = await userDomainRepository.RetrievePhoneCodeAsync(phoneNumber);
+            if (string.IsNullOrEmpty(codeInServer))
+            {
+                return CheckCodeResult.CodeError;
+            }
+            if (code == codeInServer)
+            {
+                return CheckCodeResult.OK;
+            }
+            else
+            {
+                AccessFail(user);
+                return CheckCodeResult.CodeError;
+            }
+        }
 
         public void ResetAccessFail(User user)
         {

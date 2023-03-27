@@ -24,8 +24,19 @@ namespace UserMgr.Domain.Interfaces
         /// <returns></returns>
         public Task AddNewLoginHistoryAsync(PhoneNumber phoneNumber, string message);
 
+        /// <summary>
+        /// 保存短信验证码
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         public Task SavePhoneNumberCodeAsync(PhoneNumber phoneNumber, string code);
 
+        /// <summary>
+        /// 获取短信验证
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
         public Task<string?> RetrievePhoneCodeAsync(PhoneNumber phoneNumber);
 
         /// <summary>
