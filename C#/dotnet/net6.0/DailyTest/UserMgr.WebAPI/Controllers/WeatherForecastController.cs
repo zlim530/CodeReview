@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using UserMgr.Infrastracture.DbContexts;
+using UserMgr.WebAPI.UnitOfWorks;
 
 namespace UserMgr.WebAPI.Controllers
 {
@@ -19,6 +21,7 @@ namespace UserMgr.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
+        [UnitOfWork(new Type[] { typeof(UserDbContext)})] // 使用工作单元
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
