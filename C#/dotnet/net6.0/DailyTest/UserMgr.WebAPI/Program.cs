@@ -1,5 +1,10 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using UserMgr.Domain;
+using UserMgr.Domain.Interfaces;
+using UserMgr.Infrastracture;
 using UserMgr.Infrastracture.DbContexts;
 using UserMgr.WebAPI.UnitOfWorks;
 
@@ -18,6 +23,22 @@ builder.Services.AddDbContext<UserDbContext>(opt => {
 builder.Services.Configure<MvcOptions>(opt => {
     opt.Filters.Add<UnitOfWorkActionFilter>();
 });
+// 配置 MediatR
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
+//builder.Services.AddMediatR(cfg =>
+//{
+//    cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+//});
+
+builder.Services.AddStackExchangeRedisCache(opt => {
+    opt.Configuration = "localhost";
+    opt.InstanceName = "UserMgrDemo_";// 自定义一个实例名，避免与 redis 服务器中已存在的数据缓存冲突
+});
+// 应用层进行服务的拼装：来决定需要用到什么服务
+builder.Services.AddScoped<UserDomainService>();
+builder.Services.AddScoped<IUserDomainRepository, UserDomainRepository>();
+builder.Services.AddScoped<ISmsCodeSender, MockSmsCodeSender>();
 
 var app = builder.Build();
 

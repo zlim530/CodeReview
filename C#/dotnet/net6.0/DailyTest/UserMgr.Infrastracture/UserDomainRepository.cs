@@ -41,12 +41,13 @@ namespace UserMgr.Infrastracture
 
         public async Task<User?> FindOneAsync(PhoneNumber phoneNumber)
         {
-            return await userDbContext.Users.SingleOrDefaultAsync(ExpressionHelper.MakeEqual((User u) => u.PhoneNumber, phoneNumber));
+            // AccessFail 是延迟加载的，需要联表查询关联出来
+            return await userDbContext.Users.Include(u => u.AccessFail).SingleOrDefaultAsync(ExpressionHelper.MakeEqual((User u) => u.PhoneNumber, phoneNumber));
         }
 
         public async Task<User?> FindOneAsync(Guid userId)
         {
-            return await userDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
+            return await userDbContext.Users.Include(u => u.AccessFail).SingleOrDefaultAsync(u => u.Id == userId);
         }
 
         public Task PublishEventAsync(UserAccessResultEvent _event)
