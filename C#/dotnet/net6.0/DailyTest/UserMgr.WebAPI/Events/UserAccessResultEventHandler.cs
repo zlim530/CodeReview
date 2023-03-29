@@ -22,6 +22,5 @@ public class UserAccessResultEventHandler : INotificationHandler<UserAccessResul
     public async Task Handle(UserAccessResultEvent notification, CancellationToken cancellationToken)
     {
         await userDomainRepository.AddNewLoginHistoryAsync(notification.PhoneNumber, $"登录结果是：{notification.Result}");
-        await userDbContext.SaveChangesAsync();// 因为这不是 Action 方法，所以需要手动调用 SaveChangeAsync() 方法保存更改
     }
 }

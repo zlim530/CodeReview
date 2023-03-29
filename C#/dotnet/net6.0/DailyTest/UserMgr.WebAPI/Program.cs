@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserDbContext>(opt => {
-    opt.UseSqlServer("Server=127.0.0.1;Database=DemoDDD;User ID=sa;Pwd=q1w2e3R4;Trusted_Connection=False;Encrypt=True;TrustServerCertificate=True;");
+    opt.UseSqlServer("Server=127.0.0.1;Database=DemoDDD;User ID=sa;Pwd=q1w2e3R4;Trusted_Connection=False;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
 });
 // 配置过滤器
 builder.Services.Configure<MvcOptions>(opt => {
@@ -25,12 +25,7 @@ builder.Services.Configure<MvcOptions>(opt => {
 });
 // 配置 MediatR
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-
-//builder.Services.AddMediatR(cfg =>
-//{
-//    cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
-//});
-
+// 配置 Redis
 builder.Services.AddStackExchangeRedisCache(opt => {
     opt.Configuration = "localhost";
     opt.InstanceName = "UserMgrDemo_";// 自定义一个实例名，避免与 redis 服务器中已存在的数据缓存冲突

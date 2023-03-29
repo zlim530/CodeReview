@@ -39,10 +39,10 @@ namespace UserMgr.Infrastracture
             // 没有 SaveChangesAsync() 也即这里不保存，只是对实体状态进行操作
         }
 
-        public async Task<User?> FindOneAsync(PhoneNumber phoneNumber)
+        public Task<User?> FindOneAsync(PhoneNumber phoneNumber)
         {
             // AccessFail 是延迟加载的，需要联表查询关联出来
-            return await userDbContext.Users.Include(u => u.AccessFail).SingleOrDefaultAsync(ExpressionHelper.MakeEqual((User u) => u.PhoneNumber, phoneNumber));
+            return userDbContext.Users.Include(u => u.AccessFail).SingleOrDefaultAsync(ExpressionHelper.MakeEqual((User u) => u.PhoneNumber, phoneNumber));
         }
 
         public async Task<User?> FindOneAsync(Guid userId)

@@ -12,19 +12,19 @@ namespace UserMgr.Domain
     /// </summary>
     public class UserDomainService
     {
-        private readonly IUserDomainRepository userDomainRepository;
-        private readonly ISmsCodeSender smsCodeSender;
+        private readonly IUserDomainRepository _userDomainRepository;
+        private readonly ISmsCodeSender _smsCodeSender;
 
         public UserDomainService(IUserDomainRepository userDomainRepository,
             ISmsCodeSender smsCodeSender)
         {
-            userDomainRepository = userDomainRepository;
-            smsCodeSender = smsCodeSender;
+            _userDomainRepository = userDomainRepository;
+            _smsCodeSender = smsCodeSender;
         }
 
         public async Task<UserAccessResult> CheckLoginAsync(PhoneNumber phoneNumber, string password)
         {
-            User? user = await userDomainRepository.FindOneAsync(phoneNumber);
+            User? user = await _userDomainRepository.FindOneAsync(phoneNumber);
             UserAccessResult result;
             if (user == null)
             {
@@ -58,13 +58,13 @@ namespace UserMgr.Domain
                 }
             }
             UserAccessResultEvent resultEvent = new (phoneNumber, result);
-            await userDomainRepository.PublishEventAsync(resultEvent);
+            await _userDomainRepository.PublishEventAsync(resultEvent);
             return result;
         }
 
         public async Task<UserAccessResult> SendCodeAsync(PhoneNumber phoneNumber)
         {
-            var user = await userDomainRepository.FindOneAsync(phoneNumber);
+            var user = await _userDomainRepository.FindOneAsync(phoneNumber);
             if (user == null)
             {
                 return UserAccessResult.PhoneNumberNotFound;
@@ -74,14 +74,14 @@ namespace UserMgr.Domain
                 return UserAccessResult.Lockout;
             }
             string code = Random.Shared.Next(1000, 9999).ToString();
-            await userDomainRepository.SavePhoneNumberCodeAsync(phoneNumber, code);
-            await smsCodeSender.SendCodeAsync(phoneNumber, code);
+            await _userDomainRepository.SavePhoneNumberCodeAsync(phoneNumber, code);
+            await _smsCodeSender.SendCodeAsync(phoneNumber, code);
             return UserAccessResult.OK;
         }
 
         public async Task<CheckCodeResult> CheckCodeAsync(PhoneNumber phoneNumber, string code)
         {
-            var user = await userDomainRepository.FindOneAsync(phoneNumber);
+            var user = await _userDomainRepository.FindOneAsync(phoneNumber);
             if (user == null)
             {
                 return CheckCodeResult.PhoneNumberNotFound;
@@ -90,7 +90,7 @@ namespace UserMgr.Domain
             {
                 return CheckCodeResult.Lockout;
             }
-            string? codeInServer = await userDomainRepository.RetrievePhoneCodeAsync(phoneNumber);
+            string? codeInServer = await _userDomainRepository.RetrievePhoneCodeAsync(phoneNumber);
             if (string.IsNullOrEmpty(codeInServer))
             {
                 return CheckCodeResult.CodeError;

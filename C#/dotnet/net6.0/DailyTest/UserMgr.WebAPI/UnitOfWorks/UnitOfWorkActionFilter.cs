@@ -13,11 +13,6 @@ namespace UserMgr.WebAPI.UnitOfWorks
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var result = await next();
-            if (result.Exception != null) // 只有 Action 方法执行成功，才自动调用 SaveChangeAsync 方法
-            {
-                return;
-            }
             var actionDesc = context.ActionDescriptor as ControllerActionDescriptor;
             if (actionDesc == null) 
             {
@@ -34,7 +29,11 @@ namespace UserMgr.WebAPI.UnitOfWorks
                 var dbCtx = context.HttpContext.RequestServices.GetService(dbCtxType) as DbContext;
                 if (dbCtx != null)
                 {
-                    await dbCtx.SaveChangesAsync();
+                    var result = await next();
+                    if (result.Exception == null)// 只有 Action 方法执行成功，才自动调用 SaveChangeAsync 方法
+                    {
+                        await dbCtx.SaveChangesAsync();
+                    }
                     Console.WriteLine("Done SaveChangesAsync(). ");
                 }
             }
