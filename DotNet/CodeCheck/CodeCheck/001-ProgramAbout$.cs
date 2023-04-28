@@ -82,7 +82,7 @@ namespace CodeCheck
         /// 读取和回显文件
         /// </summary>
         /// <param name="args"></param>
-        static async Task Main(string[] args)
+        static async Task Main02(string[] args)
         {
             //var lines = ReadFrom("sampleQuotes.txt");
             //foreach (var line in lines)

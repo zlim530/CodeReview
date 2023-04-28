@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CodeCheck": {
+      "commandName": "Project",
+      "commandLineArgs": "5"
+    }
+  }
+}
