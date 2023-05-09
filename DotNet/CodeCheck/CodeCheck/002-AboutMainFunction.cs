@@ -27,7 +27,7 @@ namespace CodeCheck
         }
 
 
-        static int Main(string[] args)
+        static int Main02(string[] args)
         {
             // Test if input arguments were supplied.
             if (args.Length == 0)
