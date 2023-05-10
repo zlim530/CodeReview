@@ -1,8 +1,0 @@
-1200,Unicode,utf-16
-1201,Unicode (Big-Endian),utf-16BE
-12000,Unicode (UTF-32),utf-32
-12001,Unicode (UTF-32 Big-Endian),utf-32BE
-20127,US-ASCII,us-ascii
-28591,Western European (ISO),iso-8859-1
-65000,Unicode (UTF-7),utf-7
-65001,Unicode (UTF-8),utf-8
