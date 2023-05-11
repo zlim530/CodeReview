@@ -3,7 +3,7 @@ using System;
 
 public class _003_ConcurrencyProgram
 {
-    public static void Main(string[] args)
+    public static void Main01(string[] args)
     {
         Console.WriteLine("Main-Begin");
 
