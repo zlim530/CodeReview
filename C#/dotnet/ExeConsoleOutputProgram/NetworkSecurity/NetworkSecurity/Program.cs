@@ -74,7 +74,7 @@ namespace NetworkSecurity
             return result;
         }
 
-        static void Main(string[] args)
+        static void Main01(string[] args)
         {
             //Console.WriteLine(NetworkIsolationSystemWeight);
             //var result = GetInfectionRates(SafetyProtectionEnum.FirewallSystem, new List<int>() { 10,20,30,40});
