@@ -12,6 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Haceau.Google.Translate">
+      <HintPath>..\packages\Haceau.Google.Translate.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic">
+      <HintPath>..\packages\Jurassic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
