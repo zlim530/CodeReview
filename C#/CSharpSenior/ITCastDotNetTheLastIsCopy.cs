@@ -14,16 +14,26 @@ namespace 浅拷贝与深拷贝
         /// </summary>
         /// <param name="args"></param>
         public static void Main00(string[] args) {
-            Person person = new Person() { Name = "XXXX",Age = 1111,Email = "XXXX@hub.com",Bike = new Bike() { Name = "XXXX"} };
-            // 需要注意的是，这里并没有复制 Person 对象本身，而是复制了对它的引用。如果你想要复制整个 Person 对象，需要使用相应的复制或克隆方法。这就是浅拷贝：浅拷贝是指只复制对象引用，而不复制对象本身的数据。
+            Console.WriteLine("下面的代码没有发生（堆内存变量）拷贝:");
+            #region 下面的代码没有发生（堆内存变量）拷贝
+            Person person = new Person() { Name = "XXXX",Age = 1111,Email = "XXXX@hub.com",Bike = new Bike() { Name = "XXXX", Price = 1399} };
+            // 需要注意的是，这里并没有复制 Person 对象本身，而是复制了对它的引用。如果你想要复制整个 Person 对象，需要使用相应的复制或克隆方法。
+            // 这句话没有发生任何对象的拷贝，因为堆内存中始终只有一个对象
             Person perso2n = person;
-            // 第二行代码将 person 变量的值赋给了 person2 变量。由于 person 变量持有的是一个引用，而不是实际的对象数据，因此赋值操作只是将 person2 变量也指向了同一个 Person 对象。
+            // 第二行代码将 person 变量的值赋给了 person2 变量。由于 person 变量持有的是一个堆变量的内存地址引用，而不是实际的对象数据，因此赋值操作只是将 person2 变量也指向了同一个 Person 对象。
             // 这意味着对 person2 的任何更改都会反映在 person 变量和对应的 Person 对象中。
-            //perso2n.Age = 25;
-            //Console.WriteLine(person);
+            // 包括对值类型属性变量的修改，person 和 perso2n 均会同步更改
+            perso2n.Age = 25;
+            Console.WriteLine(person.Age);// 25
+            perso2n.Bike.Name = "test";
+            Console.WriteLine(person.Bike.Name);// test
+            person.Name = "Whole WoW";
+            Console.WriteLine(perso2n.Name);// Whole WoW
+            #endregion
 
+            Console.WriteLine("下面的代码实现对象的\"浅拷贝\":");
+            #region 下面代码实现了对象的“浅拷贝”
             //下面的代码实现对象的"浅拷贝"
-            Console.WriteLine("下面的代码实现对象的\"浅拷贝\"");
             Person personOne = new Person() { Name = "Shallow copy", Age = 1111, Email = "shallowcopy@hub.com", Bike = new Bike() { Name = "shallow copy" } };
             Console.WriteLine($"浅拷贝之前的 personOne 对象：{personOne.ToString()}");
             //此时 personOne 和 PersonTwo 是两个不同的对象，在内存堆空间中有两个 Person 对象，所以此时已经发生了对象的浅拷贝
@@ -33,16 +43,20 @@ namespace 浅拷贝与深拷贝
             personTwo.Age = personOne.Age;
             personTwo.Email = personOne.Email;
             personTwo.Bike = personOne.Bike;
+            personTwo.Age = 25;
+            System.Console.WriteLine(personOne.Age);// 1111：personOne 对象的 Age 属性值没有改变，是因为 Age 属性是 int 值类型，对于值类型会直接存储值而不会存储引用
             Console.WriteLine($"浅拷贝产生的 personTwo 对象：{personTwo.ToString()}");
-            Console.WriteLine(object.ReferenceEquals(personOne, personTwo));// False：本质是上两个栈局部变量引用了同一个堆内存对象
-            Console.WriteLine("修改 personTwo 的 Bike 属性后，personOne 对象的值：");
-            personTwo.Bike.Name = "Speed 500";// 由于两个 Person 对象均指向了同一个堆内存变量，因此这里对 personTwo 对象修改 Bike 属性，发现 personOne 相应的属性也发生了改变
-            Console.WriteLine(personOne.ToString());
+            Console.WriteLine($"object.ReferenceEquals(personOne, personTwo)：{object.ReferenceEquals(personOne, personTwo)}");// False：本质是上两个栈局部变量引用了两个堆内存对象：但是这两个 Person 对象都指向了同一个 Bike 对象
+            Console.WriteLine("修改 personTwo Bike.Name 属性后，personOne 对象的值：");
+            personTwo.Bike.Name = "Speed 500";// 由于两个 Person 对象指向了同一个 Bike 堆内存变量，因此这里对 personTwo 对象修改 Bike 属性，发现 personOne 相应的属性也发生了改变
+            personTwo.Bike.Price = 1299;
+            Console.WriteLine(personOne);
+            #endregion
 
-
+            Console.WriteLine("下面的代码实现对象的\"深拷贝\":");
+            #region 下面的代码实现对象的"深拷贝"
             //下面的代码实现对象的"深拷贝"
-            Console.WriteLine("下面的代码实现对象的\"深拷贝\"");
-            Person personThree = new Person() { Name = "XXXX", Age = 1111, Email = "XXXX@hub.com", Bike = new Bike() { Name = "XXXX" } };
+            Person personThree = new Person() { Name = "DeepCopy", Age = 1111, Email = "DeepCopy@hub.com", Bike = new Bike() { Name = "DeepCopy" } };
             Person personFour = new Person();
             personFour.Name = personThree.Name;
             personFour.Age = personThree.Age;
@@ -51,11 +65,18 @@ namespace 浅拷贝与深拷贝
             //这两个 Person 对象中的引用类型成员 Bike 分别指向了两个不同的 Bike 对象
             //此时发生了对象的深拷贝
             Console.WriteLine(personThree);
-            //如果你需要在两个变量中保留独立的 Person 对象，你可以使用深拷贝来创建一个完全独立的副本。深拷贝会递归地复制对象及其所有子对象的数据。可以使用序列化和反序列化或手动复制字段来实现深拷贝
-            personFour.Bike = new Bike() { Name = "CT 100"};
-            personFour.Bike.Name = "Four 400";
+            Console.WriteLine(personFour);
             personFour.Age = 25;
+            Console.WriteLine(personThree.Age);// 1111
+
+            //如果你需要在两个变量中保留独立的 Person 对象，你可以使用深拷贝来创建一个完全独立的副本。
+            //深拷贝会递归地复制对象及其所有子对象的数据。可以使用序列化和反序列化或手动复制字段来实现深拷贝
+            personFour.Bike = new Bike() { Name = "RC 100", Price = 1799};
+            personThree.Bike.Name = "Three 300";
             Console.WriteLine(personThree);
+            Console.WriteLine(personFour);
+            #endregion
+
         }
 
 
@@ -80,6 +101,7 @@ namespace 浅拷贝与深拷贝
             // 无论是浅复制还是深复制，副本中的值类型都是全新的！
             // 因此就算我们修改了 perso2n 对象的 Age 属性，由于 Age 属性是 int 值类型，因此不会更改 person 对象中的 Age 属性，因此值类型没有引用，而是直接在栈内存空间中存储其值本身
             perso2n.Age = 24;
+            Console.WriteLine(person.Age);
             Console.WriteLine(perso2n.Age == person.Age);// False
 
             // 浅复制中原始对象和副本的引用类型指向同一内存地址，所以，修改了 perso2n 的 Bike 会同时影响 person 的 Bike
@@ -92,6 +114,9 @@ namespace 浅拷贝与深拷贝
             var perso3nBike = perso3n.Bike;
             perso3n.Bike.Name = "CT 100";
             Console.WriteLine(perso3n.Bike.Name == person.Bike.Name);// False
+            Console.WriteLine(person);
+            Console.WriteLine(perso2n);
+            Console.WriteLine(perso3n);
         }
     }
 
@@ -138,9 +163,11 @@ namespace 浅拷贝与深拷贝
     public class Bike {
         public string Name { get; set; }
 
+        public double Price { get; set; }
+
         public override string ToString()
         {
-            return $"Bike's Name is {this.Name}";
+            return $"Bike's Name is {this.Name}, the price is {Price}";
         }
     }
 }
