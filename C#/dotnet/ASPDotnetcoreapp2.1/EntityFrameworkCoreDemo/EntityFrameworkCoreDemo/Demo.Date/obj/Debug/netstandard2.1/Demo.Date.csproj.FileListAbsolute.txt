@@ -1,4 +1,0 @@
-C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\bin\Debug\netstandard2.1\Demo.Domian.dll
-C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Date.csprojAssemblyReference.cache
-C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Date.AssemblyInfoInputs.cache
-C:\Users\Lim\Desktop\code\CodeReview\C#\dotnet\EntityFrameworkCoreDemo\EntityFrameworkCoreDemo\Demo.Date\obj\Debug\netstandard2.1\Demo.Date.AssemblyInfo.cs

@@ -6,6 +6,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'src/app/custom-route-strategy';
 import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
+import { BlogModule } from './blog/blog.module';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import { UserModule } from './user/user.module';
     ShareModule,
     SystemRoutingModule,
     RoleModule,
-    UserModule
+    UserModule,
+    BlogModule
   ],
   providers: [{
     provide: RouteReuseStrategy,
