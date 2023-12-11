@@ -117,7 +117,7 @@
         #endregion
 
         #region 为什么有的异步方法没有 async
-        static async Task Main(string[] args)
+        static async Task Main010(string[] args)
         {
             string s1 = await ReadFileAsync(1);
             string s2 = await ReadFileWithoutAsync(2);

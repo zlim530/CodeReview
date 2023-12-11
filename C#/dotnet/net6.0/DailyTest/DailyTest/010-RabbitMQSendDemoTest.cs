@@ -9,7 +9,7 @@ namespace DailyTest;
 /// </summary>
 public class RabbitMQSendDemoTest
 {
-    static void Main(string[] args)
+    static void Main00(string[] args)
     {
         var connFactory = new ConnectionFactory();
         connFactory.HostName = "127.0.0.1"; // 本地 RabbitMQ 测试，所以直接使用本地名称，真实生产环境填写 RabbitMQ 所安装的服务器 IP 地址即可

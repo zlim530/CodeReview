@@ -13,7 +13,7 @@ namespace DailyTest
         /// 学习 LINQ：让数据处理变得简单：
         /// </summary>
         /// <param name="args"></param>
-        static async void Main0(string[] args)
+        static async Task Main(string[] args)
         {
             /*
             统计一个字符串中每个字母出现的频率（忽略大小写），然后按照从高到低的顺序输出出现频率高于2次的单词和其出现的频率（次数）
@@ -24,30 +24,32 @@ namespace DailyTest
                             .GroupBy(c => c)// 根据字母进行分组
                             .Where(g => g.Count() > 2)// 过滤掉出现次数 <=2
                             .OrderByDescending(g => g.Count())// 按照次数排序
-                            .Select(g => new { Char = g.Key, Count = g.Count()});
+                            .Select(g => new { Char = g.Key, Count = g.Count() });
             foreach (var item in items)
             {
                 Console.WriteLine("item.Char:" + item.Char + " item.Count:" + item.Count);
             }
 
-            var words = new string[] { "tom", "jerry", "spike", "tyke", "butch", "quacker"};
+            var words = new string[] { "tom", "jerry", "spike", "tyke", "butch", "quacker" };
 
             var sql = from w in words
-                                                              from c in w
-                                                              group c by c into g
-                                                              select new { g.Key, Count = g.Count() } into a
-                                                              orderby a.Count descending
-                                                              select a;
+                      from c in w
+                      group c by c into g
+                      select new { g.Key, Count = g.Count() } into a
+                      orderby a.Count descending
+                      select a;
 
             var query = words.SelectMany(c => c)
                                                                 .GroupBy(c => c)
-                                                                .Select(g => new { g.Key, Count = g.Count()})
+                                                                .Select(g => new { g.Key, Count = g.Count() })
                                                                 .OrderByDescending(g => g.Count)
                                                                 ;
 
+
             // 寻找派生类
             var types = Assembly
-                .GetAssembly(typeof(Exception))!
+                .GetAssembly(typeof(Exception))!// 没有 nullable 警告
+                // 这个 ! 运算符其实就是关闭了编译器的空检查，它就是在告诉编译器或者以后维护你代码的同事：“我”肯定不是 null ，你不用做 null 安全检查了。
                 .GetTypes()
                 ;
 
