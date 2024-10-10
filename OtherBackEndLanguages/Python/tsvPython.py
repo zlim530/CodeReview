@@ -10,7 +10,7 @@ import csv
 # print(nameList)
 
 countryList = [];
-csvName = r'C:\Users\v-zijiagu\Downloads\Main_edge_fromsearchtraffic_2022_07_31.ss_TOP_1000.csv'
+csvName = r'C:\Users\username\Downloads\Main_edge_fromsearchtraffic_2022_07_31.ss_TOP_1000.csv'
 with open(csvName, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:

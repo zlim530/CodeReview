@@ -8,7 +8,7 @@ test_input =
         USING DefaultTextExtractor();
 
 OUTPUT test_input
-    TO "/local/users/v-zijiagu/output.tsv"
+    TO "/local/users/yourAlias/output.tsv"
     // stick to the "/" separator. It works both locally and for remote execution unlike "\" which only works on local execution.
     // 使用 / 分隔符，因为不管是本地还是远程都有效，对于 \ 文件分隔符来说只对本地有效，远程无效
     USING DefaultTextOutputter();
