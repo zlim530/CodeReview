@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.8.4" />
+    <PackageReference Include="Betalgo.OpenAI" Version="8.7.1" />
   </ItemGroup>
 
 </Project>

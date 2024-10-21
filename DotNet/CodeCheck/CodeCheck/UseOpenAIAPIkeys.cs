@@ -1,13 +1,13 @@
-﻿using OpenAI.GPT3.Managers;
-using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3.ObjectModels;
-using OpenAI.GPT3;
+﻿using OpenAI.Managers;
+using OpenAI;
+using OpenAI.ObjectModels.RequestModels;
+using OpenAI.ObjectModels;
 
 namespace CodeCheck
 {
     internal class UseOpenAIAPIkeys
     {
-        static async Task Main(string[] args)
+        static async Task Main01(string[] args)
         {
             // TODO: 替换为你自己的 API 密钥
             var openaiApiKey = "sk-************************";
