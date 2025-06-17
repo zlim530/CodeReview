@@ -27,7 +27,7 @@ namespace CodeCheck
             PrintAsBinary(Encoding.UTF8.GetBytes("😄")); // 4 bytes
             //11110000,10011111,10011000,10000100,
             PrintAsBinary(Encoding.UTF32.GetBytes("😄")); // 1 byte
-
+            // Test
         }
     }
 }
